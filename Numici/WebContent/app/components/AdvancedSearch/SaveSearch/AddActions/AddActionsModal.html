@@ -1,0 +1,65 @@
+<form data-ng-submit="aac.ok()">
+	<div class="modal-header" >
+		<h3 class="modal-title">Add Actions</h3>
+	</div>
+	<div class="modal-body">
+		<div class='row'>
+			<div class="col-xs-12 ss-dd-ele-cate">
+				<label class="cs-lbl"> Action </label>
+				<data-ui-select data-ng-model="aac.selectedActions[0]" 
+					data-on-select="aac.onSelectAction()" 
+					data-ng-disabled="aac.disableAction" 
+					data-search-enabled="false">
+					<data-ui-select-match>{{$select.selected.label}}</data-ui-select-match>
+				    <data-ui-select-choices data-repeat="action in aac.actions | filter:$select.search track by $index">
+				       {{action.label}}
+				    </data-ui-select-choices>
+				</data-ui-select>
+			</div>
+			<div class="col-xs-12 ss-dd-ele-cate" 
+				data-ng-show="aac.showTaskspacesList">
+				<label class="cs-lbl"> Taskspace Name </label>
+				<data-ui-select id="add-action-taskspace-name" 
+					data-ng-model="aac.selectedTaskspaces[0]" 
+					data-search-enabled="false">
+					<data-ui-select-match>{{$select.selected.name}}</data-ui-select-match>
+				    <data-ui-select-choices data-repeat="taskspace in aac.taskspaces | filter:$select.search track by $index" 
+				    	ui-disable-choice="!taskspace.permissions.edit">
+				    	<div class="taskspace-choice">
+				       		<div class="taskspace-choice-name" 
+				       			data-tooltip-placement="auto" 
+						        data-uib-tooltip="{{ taskspace.name }}" 
+						        data-tooltip-append-to-body="true">
+						        <div data-ng-bind-html="taskspace.name"></div>
+				       		</div>
+				       		<div class="taskspace-choice-owner" 
+				       			data-tooltip-placement="auto" 
+						        data-uib-tooltip="{{ taskspace.owner }}" 
+						        data-tooltip-append-to-body="true">
+						        <div data-ng-bind-html="taskspace.owner | truncate: 20: '...'"></div>
+				       		</div>
+				       		<div class="taskspace-choice-perm"
+				       			data-tooltip-placement="auto" 
+						        data-uib-tooltip="{{ taskspace.permissions.edit ? 'Edit' : 'View' }}" 
+						        data-tooltip-append-to-body="true">
+						        <div data-ng-bind-html="taskspace.permissions.edit ? 'Edit' : 'View'"></div>
+				       		</div>
+				       </div>
+				    </data-ui-select-choices>
+				</data-ui-select>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" 
+			class='btn vdvc-form-btn vdvc-form-btn-muted' 
+			data-ng-click='aac.cancel()'>
+			CANCEL
+		</button>
+		<button type="submit" 
+			class='btn vdvc-form-btn' 
+			data-ng-disabled="aac.disableAddAction()">
+			ADD
+		</button>
+	</div>
+</form>

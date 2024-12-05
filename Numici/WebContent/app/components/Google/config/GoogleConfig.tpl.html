@@ -1,0 +1,53 @@
+<form>
+	<div class="modal-header" style="height: 50px;">
+		<h4>Gmail Integration</h4>
+	</div>
+	<div class="modal-body" style="max-height: 400px; overflow: auto;">
+		<div class="row" data-ng-if="gcc.isGoogleMailAuthorize">
+			<div class="row" style="height: 40px; line-height: 40px;">
+				<div class="col-xs-3">Google User Email:</div>
+				<div class="col-xs-3 header ellipsis"
+					data-tooltip-placement="auto top"
+					data-tooltip-append-to-body='true'
+					data-uib-tooltip="{{::gcc.config.authedMail}}">{{::gcc.config.authedMail}}</div>
+				<div class="col-xs-3">Google User Name:</div>
+				<div class="col-xs-3 header ellipsis"
+					data-tooltip-placement="auto top"
+					data-tooltip-append-to-body='true'
+					data-uib-tooltip="{{::gcc.config.name}}">{{::gcc.config.name}}</div>
+			</div>
+			<div class="row" style="height: 40px; line-height: 40px;">
+				<div class="col-xs-3">Numici User Id:</div>
+				<div class="col-xs-3 header ellipsis"
+					data-tooltip-placement="auto top"
+					data-tooltip-append-to-body='true'
+					data-uib-tooltip="{{::gcc.config.loginId}}">{{::gcc.config.loginId}}</div>
+				<div class="col-xs-3">Numici User Name:</div>
+				<div class="col-xs-3 header ellipsis"
+					data-tooltip-placement="auto top"
+					data-tooltip-append-to-body='true'
+					data-uib-tooltip="{{::gcc.userinfo['FirstName']+' '+gcc.userinfo['LastName']}}">{{::gcc.userinfo["FirstName"]+"
+					"+gcc.userinfo["LastName"]}}</div>
+			</div>
+		</div>
+		<div class="row" data-ng-show="gcc.isOneDriveOutlookAuthorize">
+			<div class="row" style="margin: 10px; color: #a94442;">
+				<i class="fa fa-exclamation-circle" style="margin-right: 5px;"></i>
+				You have already Authorized to Send Mail using Microsoft Outlook
+				Email. <br> If you would like to use Gmail, you need to Revoke
+				the Authorization of Microsoft Outlook.
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button"
+			data-ng-click="gcc.cancel()">CLOSE</button>
+		<button class="btn vdvc-form-btn"
+			data-ng-if="gcc.isGoogleMailAuthorize" type="button"
+			data-ng-click="gcc.revoke('SendMail')">REVOKE</button>
+		<button class="btn vdvc-form-btn"
+			data-ng-if="!gcc.isGoogleMailAuthorize"
+			data-ng-disabled="gcc.isOneDriveOutlookAuthorize" type="button"
+			data-ng-click="gcc.authorizeApp('SendMail')">AUTHORIZE</button>
+	</div>
+</form>

@@ -1,0 +1,16 @@
+<div class="row full" style="overflow: hidden;">
+	<div class='nf-header'>
+		<div style="max-height:50px;overflow:hidden;">{{newsFeed.title}}</div>
+		<div style="height:20px;font-size: 10px;" class="text-muted">
+			<span>{{newsFeed.newsSource}} - </span>
+			<span data-am-time-ago='newsFeed.pubDate'></span>
+		</div>
+	</div>
+	<div class='nf-content text-muted full' data-ng-bind-html="newsFeed.description | to_trusted"></div>
+	<div class='nf-footer'>
+		<div class="col-xs-12">
+			<a data-ng-href="{{newsFeed.link}}" target="_blank" style="background: #fff;display: block;padding: 15px;">VIEW COMPLETE NEWS</a>
+		</div>
+	</div>
+
+</div>

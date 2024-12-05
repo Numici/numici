@@ -1,0 +1,30 @@
+<div class="modal-header"><h3 class="modal-title">Slack Sign up</h3></div>
+<div class="modal-body col-xs-12">
+	<div class="row" style="padding: 0px;margin: 3px 0px;">
+		<div class="col-xs-12" style="margin-bottom: 10px;">
+			In order to use Numici with Slack, you need an account on Numici using an email address. 
+			We detected that the email address you are using with Slack is 
+			{{ssc.slackUserMail}}. Please select one of the following: 
+		</div>
+		<div class="col-xs-12">
+			<div class="radio radio-primary radio-inline" style="width: 100%;margin: 5px 0px;">
+				<input type="radio" 
+					name="signUpType" 
+					data-ng-model="ssc.signUpType.type"
+					value="signUp">
+				<label class="cs-lbl">Sign up with {{ssc.slackUserMail}}</label>
+			</div>
+			<div class="radio radio-primary radio-inline" style="width: 100%;margin: 5px 0px;">
+				<input type="radio" 
+					name="signUpType" 
+					data-ng-model="ssc.signUpType.type"
+					value="signIn">
+				<label class="cs-lbl">Sign in to existing account</label>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary vdvc-form-btn-muted" data-ng-click="ssc.cancel()">CANCEL</button>
+    <button class="btn btn-primary" data-ng-click="ssc.ok()" data-ng-disabled="ssc.signUpType.type.length == 0">CONTINUE</button>
+</div>

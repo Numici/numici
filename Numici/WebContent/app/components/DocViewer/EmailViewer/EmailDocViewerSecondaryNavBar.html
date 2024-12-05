@@ -1,0 +1,152 @@
+<div class="col-xs-12 email-doc-viewer-second-navbar">
+	<div class="col-xs-12" style="padding: 5px;background: #fff;text-align: right;">
+		<span data-ng-show="!EmailDocViewer.document.deleted">
+			<span class="btn btn-xs open-doc-in-taskspace-btn" 
+			  	  data-ng-if="showOpenInTaskspaceBtn()" 
+			  	  data-ng-click='openDocumentInTaskspace()' 
+			  	  data-uib-tooltip="Open document in taskspace" 
+			  	  data-tooltip-placement="bottom">
+			  	  <i class="fa fa-long-arrow-up fa-fw"></i>
+			</span>
+			<span> 
+				<span data-ng-repeat="tag in tags | limitTo:tagLimit"
+					class="vdvc-tag"
+					data-ng-class= "{ 'highlight': tag.isHighlighted }"> 
+						<span class="tag-cls" data-ng-show="!doc.perms.readonly"> <i
+							class="fa fa-times-circle" data-ng-click='unTag(tag)'></i>
+						</span> 
+						<span class="ellipsis" 
+							data-tooltip-placement="auto"
+					  		data-uib-tooltip="{{showTagName(tag)}}"
+					  		data-tooltip-append-to-body='true'
+			 				style="display: block;">
+			 				{{showTagName(tag)}}
+			 			</span>
+				</span> 
+				<span class="dropdown" 
+					data-uib-dropdown
+					data-auto-close="outsideClick"
+					data-ng-show="tags.length > tagLimit" style="margin-right: 10px;margin-left: -12px;">
+		        	<span data-uib-dropdown-toggle 
+		        		  data-ng-disabled="disabled"
+		        		  style="vertical-align: middle;">
+						<i class="fa fa-ellipsis-h fa-fw"></i>
+					</span>
+			      	<ul class="dropdown-menu dropdown-menu-right vdvc-tag-list-drop-down" data-uib-dropdown-menu role="menu" style="top: 25px;">
+				        <li class="vdvc-drop-down-item" 
+				        	role="menuitem">
+				        	<span class="vdvc-tag"
+				        		data-ng-repeat='tag in tags | after:tagLimit'  
+								style="margin-top: 4px;">
+								<span style='width: 100%;display: inline-block;'>
+									<span class="tag-cls" data-ng-show="!doc.perms.readonly">
+										<i class="fa fa-times-circle"  role="button" tabindex="0" data-ng-click='unTag(tag)'></i>
+									</span>
+									<span class="ellipsis" 
+										data-tooltip-placement="auto"
+								  		data-uib-tooltip="{{showTagName(tag)}}"
+								  		data-tooltip-append-to-body='true'
+						 				style="display: block;">
+						 				{{showTagName(tag)}}
+						 			</span>
+								</span>
+							</span>
+				        </li>
+				    </ul>
+				</span>
+				
+				<span class="dropdown" 
+						data-uib-dropdown
+						data-auto-close="outsideClick"
+						data-ng-show="!doc.deleted && !doc.perms.readonly"
+						data-is-open="status.isopen">
+						<button type="button" 
+			        		class="btn vdvc-nav-btn dropdown-toggle" 
+			        		data-uib-dropdown-toggle 
+			        		data-ng-click="!doc.perms.readonly && toggleAddTag($event)" 
+			        		data-ng-disabled="doc.perms.readonly" 
+			        		style="font-size: 12px;line-height: 1.5;" 
+			        		data-uib-tooltip="Tag" 
+							data-tooltip-append-to-body="true" 
+							data-tooltip-placement="bottom">
+				        	<!-- TAG -->
+				        	<i class="fa fa-tag fa-flip-horizontal fa-fw" style="font-size: 1.5em;padding: 0px;vertical-align: top;"></i>
+				      	</button>
+						<ul class="dropdown-menu dropdown-menu-right vdvc-ts-cust-dd-menu" data-uib-dropdown-menu role="menu" style="top:25px;">
+				        	<li class="vdvc-drop-down-item" role="menuitem">
+					        	<span class="vdvc-drop-down-item">
+					        		<div data-ng-include-replace data-ng-include="'app/components/common/Tags/AddAndEditTags.temp.html'"></div>
+									<!-- <div class="col-xs-12" style="margin-bottom: 10px;">
+											
+										<data-ui-select multiple data-ng-model="selectedTags.tags" data-tagging-label="(New Tag)" data-ng-disabled="disabled"
+										data-tagging="tagTransform" data-on-remove = "onRemoveTag($item)" data-on-select="onSelectTag($item)" >
+								
+										    <data-ui-select-match >{{$item.TagName}}</data-ui-select-match>
+										    
+										    <data-ui-select-choices data-repeat="tag in Alltags | filter:$select.search "
+										    data-refresh="refreshTagInfo($select.search)" data-refresh-delay="500">
+										      <div data-ng-if="tag.isTag" data-ng-bind-html="(tag.TagName | highlight: $select.search) +' (new)'"></div>
+				     			   			  <div data-ng-if="!tag.isTag" data-ng-bind-html="tag.TagName | highlight: $select.search"></div>
+										    </data-ui-select-choices>
+										    
+										</data-ui-select>
+									</div>
+									<div class="col-xs-12 " style="text-align: right;">
+										<button class='btn vdvc-form-btn vdvc-form-btn-muted'
+											data-ng-click='cancelAddTagToggle($event)'>CANCEL</button>
+										<button class='btn vdvc-form-btn' data-ng-click='saveTag($event)'>SAVE</button>
+									</div> -->
+								</span>
+							</li>
+						</ul>
+					</span>
+			</span>
+			<span>
+				<button class='btn btn-xs vdvc-nav-btn' 
+					data-ng-if="!EmailDocViewer.isInTaskspace" 
+					data-ng-class="{'disabled': !EmailDocViewer.document.global && !EmailDocViewer.document.perms.share}" 
+					data-ng-click='(EmailDocViewer.document.global || EmailDocViewer.document.perms.share) && EmailDocViewer.addToTaskSpace()' 
+					data-uib-tooltip="Add To Taskspace" 
+					data-tooltip-append-to-body="true" 
+					data-tooltip-placement="bottom">
+					<!-- ADD TO TASKSPACE -->
+					<i class="fa fa-tasks fa-fw" style="font-size: 14px;margin-top: 1px;margin-left: -2px;margin-right: 2px;vertical-align: text-top;"></i>
+					<i class="fa fa-plus fa-fw" 
+						style="position: absolute;top: 0;font-size: 12px;margin-left: -11px;margin-top: 8px;">
+					</i>
+				</button> 
+			</span>
+			<span class="btn btn-xs vdvc-nav-btn"
+			 	data-ng-click='EmailDocViewer.addedTaskspaces()' 
+				data-uib-tooltip="Associated Taskspaces" 
+				data-tooltip-append-to-body="true" 
+				data-tooltip-placement="bottom">
+				<i class="fa fa-tasks fa-fw" style="font-size: 14px;margin-top: 1px;margin-left: -2px;margin-right: 2px;vertical-align: bottom;">
+				</i>
+				<i class="fa fa-list-ul fa-fw" style="position: absolute;top: 5px;font-size: 12px;margin-left: -12px;margin-top: 4px;background: #069;color: #fff;">
+				</i>
+			</span>
+			<span class="btn btn-xs vdvc-nav-btn fa fa-comment-o" 
+				  data-ng-if="!EmailDocViewer.isInInbox" 
+				  data-ng-click="EmailDocViewer.toggleComments()" 
+				  data-uib-tooltip="Show comments" 
+				  data-tooltip-placement="bottom"
+				  style="font-size: 1.3em;" 
+				  data-ng-style="showComments && {'background-color':'#069','color':'#fff'}">
+			</span>
+			<span class="btn btn-xs vdvc-nav-btn fa fa-compress cls" 
+				  data-ng-click="compressDoc()" 
+				  data-uib-tooltip="Compress" 
+				  data-tooltip-placement="bottom" 
+				  style="padding: 3.5px 5px;vertical-align: top;font-size: 1.5em;">
+			</span>
+			<span class="btn btn-xs vdvc-nav-btn fa fa-expand exp" 
+				  data-ng-show="EmailDocViewer.isInTaskspace || EmailDocViewer.isInSearch" 
+				  data-ng-click="expandDoc()" 
+				  data-uib-tooltip="Expand" 
+				  data-tooltip-placement="bottom" 
+				  style="padding: 3.5px 5px;vertical-align: top;font-size: 1.5em;">
+			</span>
+		</span>
+	</div>
+</div>

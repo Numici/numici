@@ -1,0 +1,81 @@
+<div >
+	<div class="modal-header" style="padding: 15px;">
+		<h4 class="modal-title">ANNOTATION DIGEST</h4>
+	</div>
+	
+	<div class="modal-body" style="height: 460px; padding: 0px 15px;overflow: hidden;">
+		<div class="full row" style="width:300px;float: left;border: 1px solid #eee;border-right:none;overflow:auto;">
+			<div style="padding: 0px 10px;margin: 10px 0px;" 
+				data-ng-repeat="digest in adv.digestData track by $index">
+				<div>
+					<h4>
+						<a data-ng-click="adv.onSelectDocument($event,digest)" 
+							target="_blank" 
+							data-tooltip-append-to-body="true" 
+							data-uib-tooltip="{{digest.displayName}}" 
+							role="button">
+							{{digest.displayName}}
+					    </a>
+					</h4>
+				</div>
+				<div data-ng-repeat="annotation in digest.annotations track by $index" 
+					style="padding: 5px;border-bottom: 1px solid #eee;font-size: 12px;">
+					<div>
+						<span data-ng-bind-html="annotation.annotatedText | to_trusted"></span>
+						<a data-ng-click="adv.onSelectComment($event,digest,annotation)" 
+							target="_blank" 
+							data-tooltip-append-to-body="true" 
+							data-uib-tooltip="open annotation in context" 
+							role="button">
+							<i class="fa fa-long-arrow-up fa-fw" style="transform: rotate(45deg);"></i>
+					    </a>
+					</div>
+					<div><span style="color: #666;font-size: 11px;">Created On: {{annotation.annotationCreatedTime | date:'medium'}}</span></div>
+					<div><span style="color: #666;font-size: 11px;">Updated On: {{annotation.annotationUpdatedTime | date:'medium'}}</span></div>
+					<div style="padding-left: 10px;">
+						<div data-ng-repeat="conv in annotation.conversation track by $index"
+							 style="cursor: pointer;">
+							<div style="margin: 10px 0px;">
+								<div class="comment-conv-txt" data-ng-bind-html="conv.comment | markdown" ></div>
+								<div style="color: #666;font-size: 11px;">
+									<div>Created On: {{conv.createdTime | date:'medium'}}</div>
+									<div>Updated On: {{conv.updatedTime | date:'medium'}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="full" style="width:calc(100% - 300px);float: left;border: 1px solid #eee;position: relative;">
+			<div class="col-xs-12 vdvc-ldr-spin-wrap" data-ng-show="adv.loader" data-ng-class="{'full': adv.loader}">
+       			<div class="vdvc-loader-spin vdvc-v-align">
+       			</div>
+        	</div>
+			<div class="full digest-content"></div>
+		</div>
+	</div>
+		
+	<div class="modal-footer" style="padding: 15px;">
+		<div class="dropup" 
+			 data-uib-dropdown
+			 style="display: inline-block;">
+			<button type="button" 
+	        		class="btn vdvc-form-btn dropdown-toggle" 
+	        		data-uib-dropdown-toggle>
+	        	Save As <span class="caret"></span>
+	      	</button>
+	      	<ul class="dropdown-menu-right vdvc-more-dd" data-uib-dropdown-menu role="menu" aria-labelledby="createNew">
+		        <li class="vdvc-drop-down-item new-taskspace" role="menuitem" data-ng-click="adv.saveAsDoc($event)">
+		        	<div class="vdvc-drop-down-item">Document</div>
+		        </li>
+		        <li class="vdvc-divider"></li>
+		        <li class="vdvc-drop-down-item open-manage-ts" role="menuitem" data-ng-click="adv.saveAsPdf($event)">
+		        	<div class="vdvc-drop-down-item">Pdf</div>
+		        </li>
+	        </ul>
+	  	</div>
+		<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted" data-ng-click="adv.close()">CLOSE</button>
+	</div>
+</div>

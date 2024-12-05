@@ -1,0 +1,6 @@
+<div data-ng-if="vcc.title.length > 0" class="modal-header" style="padding: 15px 15px 0px;"><h3 class="modal-title" data-ng-bind-html="vcc.title"></h3></div>
+<div class="modal-body" data-ng-bind-html="vcc.text"></div>
+<div class="modal-footer" style="padding: 15px;">
+    <button class="btn vdvc-form-btn-muted" data-ng-click="vcc.cancel()">{{vcc.closeButtonText.length > 0 ? vcc.closeButtonText : "CANCEL"}}</button>
+    <button class="btn btn-primary" data-ng-click="vcc.ok()">{{vcc.actionButtonText.length > 0 ? vcc.actionButtonText : "OK"}}</button>
+</div>

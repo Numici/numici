@@ -1,0 +1,152 @@
+<form>
+	<div class="modal-header" style="padding: 15px;">
+		<div class="row">
+			<div class="col-xs-6" style="padding: 0px;">
+				<h3 class="modal-title">Upload</h3>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body upload-modal-body">
+		<div class="row">
+			
+			<div class="form-group col-xs-12">
+				<label for="uploadForm">FROM</label>
+				<data-ui-select id="uploadForm" data-ng-model="uploadFromChoise.from" on-select="onUploadChoiseSelect()" data-search-enabled="false">
+					<data-ui-select-match>{{$select.selected.label}}</data-ui-select-match>
+			    	<data-ui-select-choices repeat="uploadOption in uploadOptionsList" 
+			    		ui-disable-choice="!uploadOption.isEnabled">
+				      <div data-ng-bind-html="uploadOption.label | highlight: $select.search"></div>
+	        		</data-ui-select-choices>
+	        	</data-ui-select>
+			</div>
+			
+			<div class="col-xs-12">
+				<label for="selctedFolderForUpload">TO</label> 
+				<div class="col-xs-12" id="selctedFolderForUpload" style="border-bottom: 1px solid #adadad;padding: 0px;margin-bottom: 10px;">
+						<!-- <span class="col-xs-10 ellipsis" data-tooltip-append-to-body="true" data-uib-tooltip="{{folderpath}}">{{folderpath}}</span> -->
+						<div class="col-xs-9" style="padding: 0px;height: 25px;">
+							<ul class="nav navbar-nav ellipsis" style="color: rgba(51, 51, 51, 0.74);float: left;line-height: 30px;width:100%;max-width:100%;margin: 0px;">
+			 					 		
+						 		<li data-ng-if="fldr.root" 
+						 			data-ng-repeat="fldr in docHierarchy " 
+						 			data-tooltip-append-to-body='true' 
+						 			data-uib-tooltip="Home" 
+						 			data-tooltip-placement="bottom"
+						 			class="vdvc-breadcrumbs  ellipsis full">
+						 		  	<span>
+								         <i class="fa fa-home"></i>
+								    </span>
+						 		</li>
+						 		
+						 		<li data-ng-if="!fldr.root && !$last"  
+						 			data-ng-repeat="fldr in docHierarchy " 
+						 			data-tooltip-append-to-body='true' 
+						 			data-uib-tooltip="{{fldr.name}}" 
+						 			data-tooltip-placement="bottom"
+						 			class="vdvc-breadcrumbs  ellipsis full">
+						 		  	<span>
+							         	<i class="fa fa-folder-open-o" data-ng-show="!fldr.isDummy"></i> {{::fldr.name}}
+							        </span>
+						 		</li>
+						 		
+						 		<li data-nv-set-rm-mxwidth = "docHierarchy"
+						 			data-ng-if="!fldr.root && $last"  
+						 			data-ng-repeat="fldr in docHierarchy"
+						 			data-tooltip-append-to-body='true' 
+						 			data-uib-tooltip="{{::fldr.name}}"
+						 			data-tooltip-placement="bottom" 
+						 			class="vdvc-breadcrumbs  ellipsis full">
+						 		  	<span>
+							         	<i class="fa fa-folder-open-o"></i> {{::fldr.name}}
+							        </span> 
+						 		</li>
+							</ul>
+						</div>
+						<div class="col-xs-3" style="padding: 0px;">
+							<button class="btn vdvc-form-btn" 
+								type="button" 
+								data-ng-click="BrowseFolders('lg')" 
+								style="font-size: 12px;padding: 0px 5px;line-height: 25px;float:right;">
+								CHANGE
+							</button>
+						</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<h4>Assign Properties</h4>
+			</div>
+			<div class="form-group col-xs-12">
+				<label for="tick">TICKERS</label>
+				<data-ui-select  id="tick"  data-ng-model="selectedTicker.tickerObj"  data-sortable="true">
+					<data-ui-select-match>
+						<button type="button" data-ng-show="selectedTicker.tickerObj" style="background:none;border:none;cursor:pointer;padding:6px 10px;position:absolute;right:30px;top:0px;line-height: 11px;" data-ng-click="clear($event)">X</button>
+			    		<span data-ng-if="$select.selected.ticker != null && $select.selected.ticker != ''">{{$select.selected.ticker}}</span>
+			    		<span data-ng-if="$select.selected.ticker == null || $select.selected.ticker == ''"
+			    			data-uib-tooltip="{{$select.selected.companyName}}">{{$select.selected.companyName | truncate: 7: '...'}}</span>
+			    	</data-ui-select-match>
+			    	<data-ui-select-choices repeat="company in companiesList | filter:$select.search track by $index"  
+					 data-refresh="refreshTickers($select.search)" data-refresh-delay="500" >
+				      <div data-ng-bind-html="company.companyName | highlight: $select.search"></div>
+	        					  <div>
+	        					  	<span data-ng-bind-html="company.ticker | highlight: $select.search"></span>
+	        					    <span data-ng-bind-html="company.cik | highlight: $select.search"></span>
+	        					  </div>
+				    </data-ui-select-choices>
+			    </data-ui-select>
+			</div>
+			
+			<div class="form-group" data-ng-show="isSiteAdmin">
+				<label for="global" class="col-xs-12">UPLOAD AS GLOBAL</label> 
+				<div class="col-xs-12 form-group" id="global">
+				  <div class ="col-xs-12 checkbox col-top-mrgn-5">
+				  	<input id="private" type="checkbox" data-ng-model="asGlobalDoc" >
+					<label for="private">Global Document</label>
+				  </div>
+				</div>
+			</div>
+			
+			<div class="form-group" data-ng-show="uploadFromChoise.from.key == 'uploadDocOptions_ClientSystem'">
+				<div class="col-xs-6" id="docTypes">
+					<label for="docTypes" class="col-xs-12">DOCUMENT TYPE</label>
+					<div class="col-xs-12" data-ng-repeat="docType in docTypes | orderBy:'order'">
+						<div  class ="radio radio-primary" style="margin-bottom: 0px;">
+							<input type="radio" 
+								name="response" 
+								data-ng-model="docTypeSelected.type"
+								data-ng-value="docType.type"
+								data-ng-change="onDocTypeChange()">
+							<label class="cs-lbl">{{::docType.label}}</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-6" id="docSubTypes" data-ng-show="selectedDocSubTypes.length > 0">
+					<label for="docSubTypes" class="col-xs-12">DOCUMENT SUB TYPE</label>
+					<div class="col-xs-12" data-ng-repeat="docSubType in selectedDocSubTypes | orderBy:'order'">
+						<div  class ="radio radio-primary"  style="margin-bottom: 0px;">
+							<input type="radio"
+								   data-ng-model="docSubTypeSelected.type"
+								   data-ng-value="docSubType.type">
+							<label class="cs-lbl">{{::docSubType.label}}</label>
+						</div>
+			  		</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" 
+			type="button" 
+			data-ng-click="cancel()">
+			CANCEL
+		</button>
+		<button class="btn uploadFromClientBtn ng-hide" type="button" 
+			data-ngf-select="uploadFilesFromClient($files, $invalidFiles)" 
+			data-ngf-multiple="true">
+			UPLOAD
+		</button>
+		<button class="btn vdvc-form-btn upload-btn" 
+			type="button" data-ng-click="uploadFiles()">
+			{{btnLable}}
+		</button>
+	</div>
+</form>

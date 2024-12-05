@@ -1,0 +1,128 @@
+<div class="annotation-share-to-ext-dialog-target__icon"
+	data-ng-if="slc.showMoreShareOption('Embed')" title="Embed as iframe"
+	style="flex-grow: 1; justify-content: center; display: flex; align-items: center;">
+	<div data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareAsEmbed()"
+		class="vdvc-circle"
+		style="margin: 0px 0px; background: #069; width: 28px; height: 28px;">
+		<i class="fa fa-angle-left" aria-hidden="true"
+			style="font-size: 14px; margin-right: 8px;"></i><i
+			class="fa fa-angle-right" aria-hidden="true" style="font-size: 14px;"></i>
+	</div>
+</div>
+
+<div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('Facebook')" 
+	title="Share on Facebook"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('Facebook')"
+	   class="fa fl facebook-logo" style="width: 30px;height: 30px;">
+	</i> 
+</div> 
+
+<div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('LinkedIn')" 
+	title="Share on LinkedIn"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('LinkedIn')" 
+	   class="fa fl linkedin-logo" style="width: 30px;height: 30px;">
+	</i>
+</div> 
+
+<div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('Notion')" 
+	title="Share on Notion"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('Notion')" 
+	   class="fa fl notion-logo" style="width: 19px;height: 19px;">
+	</i>
+</div> 
+
+<div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('Twitter')" 
+	title="Share on Twitter"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('Twitter')" 
+	   class="fa fl twitter-logo" style="width: 30px;height: 30px;" 
+	aria-hidden="true"></i> 
+</div> 
+
+<div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('WhatsApp')" 
+	title="Share on Whatsapp"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('WhatsApp')" 
+	   class="fa fl watsapp-logo" style="width: 30px;height: 30px;" 
+	aria-hidden="true"></i> 
+</div>
+
+ <div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('Slack')" 
+	title="Share on Slack"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('Slack')" 
+	   class="fa fl slack-logo" style="width: 30px; height: 30px;"
+	aria-hidden="true"></i> 
+</div>
+
+ <div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('Teams')" 
+	title="Share on Teams"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('Teams')"
+	   class="fa fl teams-logo" style="width: 30px; height: 30px;"
+	aria-hidden="true"></i> 
+</div>
+
+<div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('Webex')" 
+	title="Share on Webex"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('Webex')" 
+	   class="fa fl webex-logo" style="width: 19px;height: 19px;">
+	</i>
+</div> 
+
+ <div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('Onenote')" 
+	title="Save to Onenote"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.checkAndPublishAsSelectedType('onenote')" 
+	   class="fa fl onenote-logo" style="width: 22px; height: 22px;margin-left: 3px;"
+	aria-hidden="true"></i> 
+</div>
+
+ <div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('Email')" 
+	title="Send EMAIL"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.checkAndPublishAsSelectedType('email')"
+	   class="fa fl fl-email" style="width: 28px; height: 28px;"
+	aria-hidden="true"></i> 
+</div> 
+
+<div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('Pdf')" 
+	title="Save as PDF"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.checkAndPublishAsSelectedType('pdf')" 
+	   class="fa fl fl-pdf" style="width: 28px; height: 28px;"
+	aria-hidden="true"></i> 
+</div> 
+
+<div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('Numici Note')" 
+	title="Save as Numici Notes"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.checkAndPublishAsSelectedType('numicinote')"
+	   class="fa fl fl-txt" style="width: 28px; height: 28px;"
+	aria-hidden="true"></i> 
+</div> 
+
+<div class="annotation-share-to-ext-dialog-target__icon" 
+	data-ng-if="slc.showMoreShareOption('Copy')" 
+	title="Copy"
+	style="flex-grow: 1;justify-content: center;display: flex;align-items: center;">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.checkAndPublishAsSelectedType('copy')"
+	   class="fa fa-copy" style="font-size: 28px; color: #069;"
+	aria-hidden="true"></i> 
+</div>

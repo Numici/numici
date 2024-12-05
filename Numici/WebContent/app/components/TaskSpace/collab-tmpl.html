@@ -1,0 +1,15 @@
+<div>
+  <div>
+    <span>
+      <a href tabindex="0" class="accordion-toggle" data-ng-click="toggleOpen()" data-uib-accordion-transclude="heading">
+	      <span class="sub-head">
+	      	{{heading}} <i class="fa fa-fw" data-ng-class="{'fa-chevron-down': !isOpen, 'fa-chevron-up': isOpen}"></i>
+	      </span>
+      </a>
+    </span>
+  </div>
+  <div class="panel-collapse collapse" data-uib-collapse="!isOpen" style="border-top: 1px solid rgb(238, 238, 238);">
+    <div style="padding: 10px;border-bottom: 1px solid #eee;" data-ng-transclude></div>
+  </div>
+</div>
+ 

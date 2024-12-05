@@ -1,0 +1,197 @@
+<div>
+	<div class="modal-header" style="padding: 15px;">
+		<h4>{{AddOrEditRuleCtrl.title}}</h4>
+	</div>
+	<div class="modal-body cp-rules" style="max-height: 500px;display: inline-block;width: 100%;padding: 0px 15px;">
+		<span class="vdvc-error"
+				  data-ng-show="AddOrEditRuleCtrl.errorMsgs.showRuleNameeError">
+				  {{::AddOrEditRuleCtrl.errorMsgs.showRuleNameeErrorMsg}}
+		</span>
+		<div class="row" style="height: 35px;line-height: 35px;margin-bottom: 10px;">
+			<div class="col-xs-6" 
+			     style="padding: 0px;"
+			     data-uib-tooltip="Rule Name"
+				 data-tooltip-append-to-body="true">
+				<input type="text" 
+					   data-ng-model="AddOrEditRuleCtrl.ruleName"
+					   class="vdvc-input-txt"
+					   placeholder="Rule Name">
+			</div>
+			<div class="col-xs-3" style="text-align: right;">
+				<div data-uib-tooltip="Company Doc ?"
+					 data-tooltip-append-to-body="true">
+					<ui-select data-ng-model="AddOrEditRuleCtrl.ruleClass" 
+						       data-search-enabled="false"
+						       data-on-select="AddOrEditRuleCtrl.onPresentationTypeChange($select.selected)">
+				
+					    <ui-select-match  data-placeholder="Company Doc ?">{{$select.selected}}</ui-select-match>
+					    
+					    <ui-select-choices data-repeat="prsntType in AddOrEditRuleCtrl.presentationTypes track by $index">
+					      <div data-ng-bind-html="prsntType | highlight: $select.search"></div>
+					    </ui-select-choices>
+					    
+					</ui-select>
+				</div>
+			</div>
+			<div class="col-xs-3">
+				<div class="checkbox apply-on-crawl-cb">
+					<input type="checkbox"
+						   data-ng-model="AddOrEditRuleCtrl.duringIndex" 
+						   data-ng-change="AddOrEditRuleCtrl.onDuringIndexChange()">
+					<label class="cs-lbl">Apply On Crawl</label>
+				</div>
+			</div>
+		</div>
+		<div class="row" data-ng-show="AddOrEditRuleCtrl.showSubTypes" style="height: 90px;">
+			<div class="col-xs-12 col-sm-6" style="padding: 0px;">
+					<ul class="list-unstyled">
+					  <li><b>Document Type</b>
+					  	<ul class="list-unstyled" style="padding-left: 20px;">
+					      <li data-ng-repeat="docTypes in AddOrEditRuleCtrl.docTypes">
+					      	<div  class ="radio radio-info ">
+								<input type="radio"
+									   data-ng-model="AddOrEditRuleCtrl.docTypSelcted"
+									   data-ng-value="docTypes.value"
+									   data-ng-change="AddOrEditRuleCtrl.onDocTypeChange()">
+								<label class="cs-lbl">{{::docTypes.label}}</label>
+							</div>
+					      </li>
+					    </ul>
+					  </li>
+					</ul>
+				</div>
+				<div data-ng-show="AddOrEditRuleCtrl.showDocSubTypes" class="col-xs-12 col-sm-6" style="padding: 0px;">
+					<ul class="list-unstyled">
+					  <li><b>Document SubType</b>
+					  	<ul class="list-unstyled" style="padding-left: 20px;">
+					      <li data-ng-repeat="subType in AddOrEditRuleCtrl.subTypes">
+					      	<div  class ="radio radio-info ">
+								<input type="radio"
+									   data-ng-model="AddOrEditRuleCtrl.subTypSelcted"
+									   data-ng-value="subType.value">
+								<label class="cs-lbl">{{::subType.label}}</label>
+							</div>
+					      </li>
+					    </ul>
+					  </li>
+					</ul>
+				</div>
+		</div>
+		<div class="row">
+			<div><b>Characteristics</b></div>
+			<div style="height: 220px;border: 1px solid #ccc;">
+				<div style="height: 40px;line-height: 40px;">
+					<div class="col-xs-3">Attribute</div>
+					<div class="col-xs-3">Condition</div>
+					<div class="col-xs-3">Keywords</div>
+					<div class="col-xs-2"></div>
+					<div class="col-xs-1"><span class="fa fa-plus" data-ng-click="AddOrEditRuleCtrl.addRule()"></span></div>
+				</div>
+				<div style="height: 180px;overflow: auto;">
+					<div class="row" data-ng-repeat="uirule in AddOrEditRuleCtrl.uirules track by $index" style="margin-bottom: 10px;">
+						<div class="col-xs-3">
+							<data-ui-select  
+								data-ng-model="uirule.attribute"
+								data-append-to-body="true"
+								data-search-enabled="false"
+								class="cp-attr">
+								<data-ui-select-match >
+									<span style="width: 100%;padding-right: 10px;" 
+										  data-uib-tooltip="{{$select.selected}}"
+										  data-tooltip-append-to-body="true">
+										{{$select.selected}}
+									</span>
+								</data-ui-select-match>
+							    
+							    <data-ui-select-choices data-repeat="attr in AddOrEditRuleCtrl.ruleAttr | filter: $select.search">
+							      {{::attr}}
+							    </data-ui-select-choices>
+							    
+							</data-ui-select>
+						</div>
+						<div class="col-xs-3">
+							<data-ui-select  
+								data-ng-model="uirule.condition"
+								data-append-to-body="true"
+								data-search-enabled="false">
+								<data-ui-select-match >{{$select.selected}}</data-ui-select-match>
+							    
+							    <data-ui-select-choices data-repeat="cond in AddOrEditRuleCtrl.conditions | filter: $select.search">
+							      {{::cond}}
+							    </data-ui-select-choices>
+							    
+							</data-ui-select>
+						</div>
+						<div class="col-xs-3"
+							 data-uib-tooltip="{{uirule.keywords}}"
+							 data-tooltip-append-to-body="true">
+							<input class="vdvc-input-txt" type="text" data-ng-model="uirule.keywords">
+						</div>
+						<div class="col-xs-2">
+							<div data-ng-if="!$last">
+								<data-ui-select  
+									data-ng-model="uirule.join"
+									data-append-to-body="true"
+									data-search-enabled="false">
+									<data-ui-select-match >{{$select.selected}}</data-ui-select-match>
+								    
+								    <data-ui-select-choices data-repeat="join in AddOrEditRuleCtrl.joins | filter: $select.search">
+								      {{join}}
+								    </data-ui-select-choices>
+								    
+								</data-ui-select>
+							</div>
+						</div>
+						<div class="col-xs-1" style="height: 35px;line-height: 35px;">
+							<span class="fa fa-times" data-ng-click="AddOrEditRuleCtrl.removeRule($index)"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer" style="padding: 15px;">
+		<button type="button" 
+			class="btn vdvc-form-btn vdvc-form-btn-muted" 
+			data-ng-click="AddOrEditRuleCtrl.deleteRule()" 
+			data-ng-show="!AddOrEditRuleCtrl.isNewRule" 
+			style="float:left;">
+			DELETE RULE
+		</button>
+		<button type="button" 
+		    class="btn vdvc-form-btn vdvc-form-btn-muted"
+		    data-ng-click="AddOrEditRuleCtrl.filterDocsbyRule()"
+		    data-ng-show="::AddOrEditRuleCtrl.isNewRule">
+		    FILTER DOCS LIKE THIS
+		</button>
+		<button type="button" 
+			class="btn vdvc-form-btn vdvc-form-btn-muted" 
+			data-ng-click="AddOrEditRuleCtrl.cancel()">
+			CANCEL
+		</button>
+		<button type="button" 
+			class="btn vdvc-form-btn" 
+			data-ng-click="AddOrEditRuleCtrl.ok()">
+			SAVE
+		</button>
+	</div>
+</div>
+
+
+
+
+<!-- <div class="row" data-ng-show="AddOrEditRuleCtrl.cpDoc.comments">
+			<div><b>Previous Comments</b></div>
+			<div class="row" style="max-height: 200px;overflow: auto;margin-bottom: 10px;">
+				<div class="col-xs-12" data-ng-repeat="comment in AddOrEditRuleCtrl.cpDoc.comments track by $index" style="padding: 10px;">
+					<div style="border-bottom: 1px solid #ddd;">{{::comment}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="height: 90px;">
+			<span class="vdvc-error" data-ng-show="AddOrEditRuleCtrl.errorMsgs.showCmtError">{{::AddOrEditRuleCtrl.errorMsgs.showCmtErrorMsg}}</span>
+			<textarea rows="3"
+			          data-ng-model="AddOrEditRuleCtrl.comment"
+			          placeholder="Comment" 
+					  style="width: 100%;resize: none;border: 1px solid #ccc;"></textarea>
+		</div> -->

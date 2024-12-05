@@ -1,0 +1,10 @@
+<div style="position: relative;">
+	<ul class="scrollable-menu" style="display: block;padding: 0;max-height: 250px;overflow-y: auto;">
+	    <li data-mention-menu-item="user" data-ng-repeat="user in items" class="list-group-item" style="padding: 5px 10px;border-radius: 0;">
+	         <div  class="text-primary" data-ng-if="user.firstName && user.firstName.length > 0" data-ng-bind-html="user.firstName+' '+ user.lastName | mentionHighlight:typedTerm:'menu-highlighted' | unsafe"></div>
+		      <small>
+		        {{user.loginId}}
+		      </small>
+	    </li>
+	</ul>
+</div>

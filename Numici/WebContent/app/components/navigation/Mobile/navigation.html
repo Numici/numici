@@ -1,0 +1,97 @@
+ <div class="container">
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-ng-controller="NavController as vm">
+			<div class="navbar-header" data-ng-style="{'width' : vm.UserRole == 'TSGuest' ? '100%' : ''}">
+				<button type="button" 
+					class="navbar-toggle" 
+					data-ng-click="vm.isCollapsed = !vm.isCollapsed" 
+					data-ng-show="vm.UserRole != 'TSGuest'">
+					<span class="sr-only">Toggle navigation</span> 
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" data-ng-click="vm.UserRole != 'TSGuest' && vm.goToHomePage()">
+					<!-- {{vm.Company}} -->
+					<img src="/app/assets/icons/Numici-Logo-Long-In-Blue.png" alt="numici">
+				</a>
+				<ul class="nav side-nav icon-nav">
+					<li class="vdvc-ntf-li" 
+						data-md-ink-ripple="#006699" 
+						data-ng-show="vm.searchBtn.show"
+						data-ng-click="vm.searchBtn.isEnabled && vm.openMenuItem(vm.searchBtn)">
+						<span class="vdvc-search-btn fa fa-search fa-rotate-90" 
+							data-ng-class="{active: vm.setAsActiveTab(vm.searchBtn),'vdvc-menu-disabled':!vm.searchBtn.isEnabled}"
+							style="float: right;">
+						</span>
+					</li>
+					<li class="vdvc-ntf-li" 
+						data-md-ink-ripple="#006699" 
+						data-ng-show="vm.notificationsBtn.show && vm.UserRole != 'TSGuest'"
+						data-ng-click="vm.notificationsBtn.isEnabled && vm.openNotifications($event)" 
+						data-on-outside-element-click="vm.closeMenus()">
+						<span class="badge vdvc-badge" 
+							data-ng-show="vm.UserNotificationsCount.showCount" 
+							data-ng-click="vm.notificationsBtn.isEnabled && vm.openNotifications($event)" 
+							data-ng-style="{'right': vm.searchBtn.show ? '150px' : '95px'}">
+							{{ vm.UserNotificationsCount.UnreadCount > 999 ? 999+"+" :vm.UserNotificationsCount.UnreadCount }}
+						</span>
+						<span class="vdvc-notification fa fa-bell-o" 
+							  data-ng-class="{'vdvc-menu-disabled':!vm.notificationsBtn.isEnabled,'active': vm.isNotficationOpen}" 
+							  data-uib-popover-template="'app/components/Notifications/notifications.html'"
+							  data-popover-is-open="vm.isNotficationOpen"
+							  data-popover-placement="auto bottom"
+							  data-popover-class="vdvc-ntf-pop" 
+							  data-ng-disabled="!vm.notificationsBtn.isEnabled" 
+							  style="float: right;">
+						</span>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="navbar-collapse" data-ng-class="vm.isCollapsed ? 'collapse' : 'in'" data-ng-show="vm.UserRole != 'TSGuest'">
+				<ul class="nav navbar-nav side-nav">
+					<li data-ng-class="{active: vm.setAsActiveTab(item)}" 
+						data-ng-repeat="item in vm.navMenu" 
+						data-ng-show="item.label == 'DOCUMENTS'" 
+						style="min-width:80px;" 
+						data-md-ink-ripple="#006699"
+						data-ng-click="vm.isCollapsed = !vm.isCollapsed">
+						<a data-ng-click="item.isEnabled && vm.openMenuItem(item)" class='btn'>
+							 <span data-ng-class="{'vdvc-menu-disabled':!item.isEnabled}">{{item.label}}</span>
+						</a>
+						<div class="active-bar"></div>
+					</li>
+					<li data-ng-click="vm.isCollapsed = !vm.isCollapsed" 
+						data-ng-repeat="item in vm.additionalMenuItems">
+						<a data-ng-class="{'vdvc-menu-disabled':!item.isEnabled}" 
+							data-ng-click="item.isEnabled && vm.openAdditionalMenuItem(item)" 
+							style='padding: 5px 10px;'>{{item.label}}</a>
+					</li>
+					<!-- <li data-ng-click="vm.isCollapsed = !vm.isCollapsed" data-ng-show="vm.UserRole == 'OrgAdmin'">
+						<a href="home.jsf" style='padding: 5px 10px;' target="_blank">V1 DashBoard</a>
+					</li>
+					<li data-ng-click="vm.isCollapsed = !vm.isCollapsed" data-ng-show="vm.UserRole == 'OrgAdmin'">
+						<a href="home.html" style='padding: 5px 10px;' target="_blank">V2 DashBoard</a>
+					</li> 
+					<li data-ng-click="vm.isCollapsed = !vm.isCollapsed" data-ng-show="vm.UserRole == 'VDVCSiteAdmin'">
+						<a data-ui-sref="preferences" style='padding: 5px 10px;'>System Preferences</a>
+					</li>
+					<li data-ng-click="vm.isCollapsed = !vm.isCollapsed">
+						<a data-ng-click="vm.initOndrive()" style='padding: 5px 10px;'>One Drive</a>
+					</li> -->
+					<li data-ng-show="vm.UserRole != 'TSGuest'" data-ng-click="vm.isCollapsed = !vm.isCollapsed">
+						<a data-ng-click="vm.changePassword()" style='padding: 5px 10px;'>
+							Change Password  
+						</a>
+					</li>
+					<li data-ng-show="vm.UserRole != 'TSGuest'" data-ng-click="vm.logout()">
+						<a  style='padding: 5px 10px;'>
+							Log Out  
+							<i style="font-size: 12px;color: #006699;">({{vm.userinfo["UserName"]}})</i>
+						</a>
+					</li> 
+				</ul>
+			</div>
+			<div class="row" data-ng-include data-src="'app/components/Help/HelpTemplate.html'"></div>
+		</nav>	
+</div>

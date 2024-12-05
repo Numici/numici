@@ -1,0 +1,170 @@
+<form name="userRegisterForm" autocomplete="off">
+	<div data-ng-if="!rpmc.registerUserFromExt" class="modal-header" style="padding: 5px 30px;">
+		<h3 class="modal-title">Register User</h3>
+	</div>
+	<div class="modal-body user-register-mb" 
+		style="display: inline-block;padding: 0px 15px;z-index: 39;" 
+		data-ng-style="rpmc.registerUserFromExt && {'padding-top':'15px','max-height':'400px'}">
+		<div class="col-xs-12 form-group message error" data-ng-show="rpmc.showErrorMessage">{{rpmc.errorMessage}}</div>
+		<div class="col-xs-12 form-group message error" data-ng-if="rpmc.googleInitError" data-ng-bind-html="rpmc.googleIniterrMsg | to_trusted"></div>
+		<div class="col-xs-12 form-group message success" data-ng-show="rpmc.showSuccessMessage">{{rpmc.successMessage}}</div>
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-4" for="email">
+				User Id
+				<i class="fa fa-asterisk text-danger"></i>
+			</label>
+			<div class="col-xs-8 input-group">
+				<input class="vdvc-input-txt" 
+					data-ng-class="{'error': rpmc.userIdError}" 
+				   	data-ng-attr-id="{{::rpmc.getAttrVal('email')}}" 
+				   	data-ng-attr-name="{{::rpmc.getAttrVal('email')}}"
+				   	type="email" 
+				   	data-ng-model="rpmc.email" 
+				   	data-ng-blur="rpmc.validateEmail()" 
+				   	data-ng-disabled="rpmc.isProvisionalUser"
+				   	autocomplete="off">
+				<div class="row message error" data-ng-if="rpmc.userIdError">{{rpmc.userIdErrorMessage}}</div>
+			</div>
+		</div>
+		
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-4" for="first_name">
+				First Name
+				<i class="fa fa-asterisk text-danger"></i>
+			</label>
+			<div class="col-xs-8 input-group">
+				<input class="vdvc-input-txt" 
+					data-ng-class="{'error': rpmc.firstNameError}" 
+				   	data-ng-attr-id="{{::rpmc.getAttrVal('first_name')}}" 
+				   	type="text" 
+				   	data-ng-model="rpmc.firstName" 
+				   	data-ng-blur="rpmc.validateFirstName()" 
+				   	data-ng-attr-name="{{::rpmc.getAttrVal('first_name')}}"
+				   	autocomplete="off">
+				<div class="row message error" data-ng-if="rpmc.firstNameError">{{rpmc.firstNameErrorMessage}}</div>
+			</div>
+		</div>
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-4" for="last_name">
+				Last Name
+				<i class="fa fa-asterisk text-danger"></i>
+			</label>
+			<div class="col-xs-8 input-group">
+				<input class="vdvc-input-txt" 
+					data-ng-class="{'error': rpmc.lastNameError}" 
+				   	data-ng-attr-id="{{::rpmc.getAttrVal('last_name')}}"  
+				   	data-ng-attr-name="{{::rpmc.getAttrVal('last_name')}}" 
+				   	type="text" 
+				   	data-ng-model="rpmc.lastName" 
+				   	data-ng-blur="rpmc.validateLastName()" 
+				   	autocomplete="off">
+				<div class="row message error" data-ng-if="rpmc.lastNameError">{{rpmc.lastNameErrorMessage}}</div>
+			</div>
+		</div>
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-4" for="organization">Organization</label>
+			<div class="col-xs-8 input-group">
+				<input class="vdvc-input-txt" 
+					   data-ng-attr-name="{{::rpmc.getAttrVal('organization')}}"
+					   data-ng-attr-id="{{::rpmc.getAttrVal('organization')}}" 
+					   type="text" 
+					   data-ng-model="rpmc.organization"
+					   autocomplete="off">
+			</div>
+		</div>
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-4" for="mobile_phone">Mobile Phone</label>
+			<div class="col-xs-8 input-group">
+				<input class="vdvc-input-txt" 
+					   data-ng-class="{'error': rpmc.mobileError}" 
+					   data-ng-attr-name="{{::rpmc.getAttrVal('mobile_phone')}}" 
+					   data-ng-attr-id="{{::rpmc.getAttrVal('mobile_phone')}}" 
+					   type="text" 
+					   data-ng-model="rpmc.mobilePhone"
+					   autocomplete="off">
+				<div class="row message error" data-ng-if="rpmc.mobileError">{{rpmc.mobileErrorMessage}}</div>
+			</div>
+		</div>
+		
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-4" for="new-password">
+				Password
+				<i class="fa fa-asterisk text-danger"></i>
+			</label>
+			<div class="col-xs-8 input-group">
+				<input class="vdvc-input-txt" 
+					data-ng-class="{'error': rpmc.PWDError}" 
+				   	data-ng-attr-name="{{::rpmc.getAttrVal('password')}}" 
+				   	data-ng-attr-id="{{::rpmc.getAttrVal('password')}}" 
+				   	type="password" 
+				   	data-ng-model="rpmc.newPassword" 
+				   	data-ng-blur="rpmc.validatePwd()" 
+				   	autocomplete="new-password">
+				<div class="row message error" data-ng-if="rpmc.PWDError">{{rpmc.PWDErrorMessage}}</div>
+			</div>
+		</div>
+		
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-4" for="confirm-password">
+				Confirm Password
+				<i class="fa fa-asterisk text-danger"></i>
+			</label>
+			<div class="col-xs-8" style="padding: 0px;">
+				<div class="row input-group">
+					<input class="vdvc-input-txt" 
+						data-ng-class="{'error': rpmc.confirmPWDError}"
+					   	data-ng-attr-name="{{::rpmc.getAttrVal('confirmpwd')}}" 
+					   	data-ng-attr-id="{{::rpmc.getAttrVal('confirmpwd')}}"  
+					   	type="password" 
+					   	data-ng-model="rpmc.confirmPassword" 
+					   	data-ng-blur="rpmc.validateConfirmPwd()" 
+					   	data-show-password="rpmc.showConfirmPwd" 
+					   	autocomplete="off">
+				    <span class="input-group-btn">
+				        <button type="button"
+				        		class="btn vdvc-form-btn fa" 
+				        		data-ng-class="{'fa-eye':!rpmc.showConfirmPwd,'fa-eye-slash':rpmc.showConfirmPwd}"
+				        		data-uib-tooltip="{{rpmc.confirmPwdToolTip}}"  
+				        		data-ng-click="rpmc.showConfirmPassword()">
+				        </button>
+				    </span>
+			    </div>
+			    <div class="row message error" data-ng-if="rpmc.confirmPWDError">{{rpmc.confirmPWDErrorMessage}}</div>
+			</div>
+		</div>
+		<div class="col-xs-12" style="text-align: right;"> 
+			<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="rpmc.cancel()">CANCEL</button>
+			<button class="btn vdvc-form-btn" type="button" data-ng-click="rpmc.ok()" data-ng-disabled="rpmc.disableRegister()">REGISTER</button>
+		</div>
+	</div>
+	<div class="modal-footer reg-pro-user-footer" style="padding: 10px 30px;">
+		<div class="row">
+			<div class="col-xs-12 line" style="padding: 0px;"></div>
+			<div class="col-xs-12" style="text-align: center;margin-top: 30px;"> 
+				<!-- <div class="col-xs-6 sign-up-with-label">
+					Sign up with
+				</div> -->
+				<div class="col-xs-12" style="padding: 0px;display: flex;align-items: center;justify-content: center;">
+					<div id="customGoogleSignIn" 
+				    	class="customGoogleSignIn" 
+				    	data-uib-tooltip="Google" 
+						data-tooltip-append-to-body='true' 
+						data-tooltip-placement="auto">
+				      	<a href="{{googleSignInUrl}}" style="display: flex;align-items: center;">
+							<span class="icon"></span>
+						</a>
+				    </div>
+				    <div class="customSlackSignIn" 
+						data-uib-tooltip="Slack" 
+						data-tooltip-append-to-body='true' 
+						data-tooltip-placement="auto">
+				      	<a data-ng-click="rpmc.signInWithSlack()" style="display: flex;align-items: center;">
+							<span class="icon"></span>
+						</a>
+				    </div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</form>

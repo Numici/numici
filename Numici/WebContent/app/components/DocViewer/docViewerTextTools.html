@@ -1,0 +1,36 @@
+	<!-- data-ng-if="!doc.deleted" -->
+
+<div class="comment-tool btn-group" data-ng-attr-id="{{ 'comment-tool-'+viewerId}}">
+	<!-- <span class='btn' data-ng-click="textHighlight(true)"> -->
+	<button class='btn TxtHilt'  
+		data-ng-click="initComment('highlight')">
+		<div class="fa fa-paint-brush"></div>
+	    <div style="font-size: 12px;">{{getToolTip('TxtHilt')}}</div>
+	</button> 
+	<button class='btn TxtCmt'  
+		  data-ng-click="initComment('comment')">
+		<div class="fa fa-comment-o"></div>
+		<div style="font-size: 12px;">{{getToolTip('TxtCmt')}}</div>
+	</button>
+	<button class='btn CmtShare' 
+		data-ng-show="isDocSharable(doc) && isTSContext()"  
+		data-ng-click="shareComment()">
+		<div class="fa fa-share-alt"></div>
+		<div style="font-size: 12px;">{{getToolTip('ShareHighlight')}}</div>
+	</button>
+	<!-- <button class='btn DpLnkTo' 
+		  data-ng-click="createLink()" 
+		  data-ng-disabled="!doc.isSharable && !isGlobalDoc">
+		<div class="fa fa-bookmark-o"></div>
+		<div style="font-size: 12px;">{{getToolTip('DpLnkTo')}}</div>
+	</button> -->
+	<button data-ng-show="isDocOnEditMode()" 
+		  class='btn DpLnkFrom' 
+		  data-ng-click="attachLink()">
+		<div>
+			<i class="fa fa-link"></i>
+			<i class="fa fa-long-arrow-right"></i>
+		</div>
+		<div style="font-size: 12px;">{{getToolTip('DpLnkFrom')}}</div>
+	</button>
+</div>

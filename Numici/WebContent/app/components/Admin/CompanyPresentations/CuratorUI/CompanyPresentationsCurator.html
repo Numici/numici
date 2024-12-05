@@ -1,0 +1,257 @@
+<div class="row full">
+	<div class="row" data-ng-include data-src="'app/components/Admin/CompanyPresentations/CuratorUI/CompanyPresentationFilters.html'"></div>
+	<div class="cp-results col-xs-12" data-ng-show="curatorCtrl.results.length == 0">
+		<div class="full" style="background: #fff;text-align: center;width: 100%;position: relative;">
+			<div style="position: absolute;top: 50%;transform: translateY(-50%);width: 100%;font-size: 20px;">
+				No Documents Found
+			</div>
+		</div>
+	</div>
+	<div class="cp-results col-xs-12" data-ng-show="curatorCtrl.results.length > 0">
+		<div class="rslts full" style="background: none;">
+			<div class="hdr" style="height: 60px;border: 1px solid #ccc;margin-bottom: 5px;background: #fff;color: #069;">
+				<div class="row">
+					<div style="width: 50%; padding: 5px;float: left;">Date</div>
+					<div style="width: 50%; padding: 5px;float: left;">Ticker</div>
+				</div>
+				<div class="row">
+					<div style="padding: 5px;">Company Name</div>
+				</div>
+			</div>
+			<div class="rslt-list" style="height: calc(100% - 60px);overflow: auto;">
+				<div class="cp-doc ellipsis" 
+				data-ng-click="curatorCtrl.docOnSelect(cprslt)"
+				data-ng-class="{'selected' : curatorCtrl.isSelected(cprslt)}"
+				data-ng-repeat="cprslt in curatorCtrl.results">
+					<div class="row">
+						<div style="width: 50%; padding: 5px;float: left;">{{::cprslt.date | date:'dd MMM yyyy'}}</div>
+						<div style="width: 50%; padding: 5px;float: left;">{{::cprslt.ticker}}</div>
+					</div>
+					<div class="row">
+						<span data-tooltip-append-to-body='true' 
+						      data-uib-tooltip ="{{::cprslt.companyName}}"
+						      style="padding: 5px;">{{::cprslt.companyName}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cont full">
+			
+		</div>
+		<div class="attr full" style="padding: 10px;">
+			<div class="row" style="height: 100px;">
+				<div style="font-weight: 700;">Company Doc?</div>
+				<div>
+					<ui-select data-ng-model="curatorCtrl.types[curatorCtrl.selectedDoc.uid]" 
+						       data-search-enabled="false"
+						       data-on-select="curatorCtrl.onPrsntTypeSelect($select.selected,curatorCtrl.selectedDoc.id)">
+				
+					    <ui-select-match >{{$select.selected}}</ui-select-match>
+					    
+					    <ui-select-choices data-repeat="prsntType in curatorCtrl.prsntTypesFromList(curatorCtrl.selectedDoc)">
+					      <div data-ng-bind-html="prsntType | highlight: $select.search"></div>
+					    </ui-select-choices>
+					    
+					</ui-select>
+				</div>
+				<div class="row" data-ng-show="curatorCtrl.selectedDoc.type == 'yes'">
+					<table class="table table-condensed">
+						<tbody>
+							<tr>
+								<td style="border: none;">
+							 		<div style="font-weight: bold;">Sub Category:</div>
+							 		<div style="padding-left: 10px;">{{curatorCtrl.selectedDoc.subCategory}}</div>
+							 	</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row" style="height: calc(100% - 100px);overflow: auto;">
+				<div class="row">
+					<div style="font-weight: 700;">Attributes</div>
+					<table class="table table-condensed">
+						<tbody>
+							<tr>
+							 	<td style="border: none;max-width: 220px;">
+							 		<div style="font-weight: bold;">Name:</div>
+							 		<div style="padding-left: 10px;">{{curatorCtrl.selectedDoc.docName}}</div>
+							 	</td>
+							</tr>
+							<tr>
+							 	<td style="border: none;max-width: 220px;">
+							 		<div style="font-weight: bold;">Url:</div>
+							 		<div class="ellipsis"  
+							 			 data-tooltip-append-to-body='true' 
+							 			 data-uib-tooltip ="{{curatorCtrl.selectedDoc.url}}"
+							 			 style="padding-left: 10px;">
+										<a data-ng-href="{{curatorCtrl.selectedDoc.url}}" target="_blank">{{curatorCtrl.selectedDoc.url}}</a>
+									</div>
+							 	</td>
+							</tr>
+							<tr data-ng-repeat="(af,av) in curatorCtrl.selectedDoc['attributes']">
+							 	<td style="border: none;max-width: 220px;">
+							 		<div style="font-weight: bold;">{{af}}:</div>
+							 		<div style="padding-left: 10px;">{{curatorCtrl.getAttributeValue(af,av)}}</div>
+							 	</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="cp-results col-xs-12">
+		<div class="col-xs-12 full" style="position: absolute;left: 0;right: 0;" data-ng-show="curatorCtrl.loader">
+			<div class="vdvc-loader-spin" style="background: transparent;position: absolute;top: 50%;transform: translateY(-50%);"></div>
+		</div>
+		<div class="cp-rslt-hdr" >
+			<div class="hdr-label hdr-sort-field" 
+				data-ng-if="curatorCtrl.searchByFilters && (key == 'date' || key == 'ticker')" 
+				data-ng-repeat="(key,hdr) in curatorCtrl.headers" 
+				data-ng-class="hdr.class" 
+				data-ng-click="curatorCtrl.sortBy(key)">
+				{{::hdr.label}} 
+				<i class="fa fa-fw" data-ng-show="key == curatorCtrl.sortedField" data-ng-class="curatorCtrl.getSortIcon(key)"></i>
+			</div>
+			<div class="hdr-label" 
+				data-ng-if="!curatorCtrl.searchByFilters && (key == 'date' || key == 'ticker')" 
+				data-ng-repeat="(key,hdr) in curatorCtrl.headers" 
+				data-ng-class="hdr.class">
+				{{::hdr.label}} 
+			</div>
+			<div class="hdr-label" 
+				data-ng-if="key != 'date' && key != 'ticker'" 
+				data-ng-repeat="(key,hdr) in curatorCtrl.headers" 
+				data-ng-class="hdr.class">
+				{{::hdr.label}}
+			</div>
+		</div>
+		<div class="cp-rslt-content">
+			<div class="cp-rslt-row" data-ng-repeat="rslt in curatorCtrl.results">
+				<div class="hdr-label" 
+					 data-ng-repeat="(key,hdr) in curatorCtrl.headers"
+					 data-ng-class="hdr.class">
+					<div class="ellipsis" data-ng-if="hdr.type == 'Text'" data-tooltip-append-to-body='true' data-uib-tooltip ="{{::rslt[key]}}">
+						{{::rslt[key]}}
+					</div>
+					<div class="ellipsis" data-ng-if="hdr.type == 'Date'"  data-tooltip-append-to-body='true' data-uib-tooltip ="{{::rslt[key] | date:'dd MMM yyyy'}}">
+						{{::rslt[key] | date:'dd MMM yyyy'}}
+					</div>
+					<div class="ellipsis" data-ng-if="hdr.type == 'Link'" data-tooltip-append-to-body='true' data-uib-tooltip ="{{::rslt[key]}}">
+						<a data-ng-href="{{::rslt[key]}}" target="_blank">{{::rslt[key]}}</a>
+					</div>
+					<div  data-ng-if="hdr.type == 'Select'">
+						<ui-select data-ng-model="curatorCtrl.types[rslt.id]" 
+							       data-search-enabled="false"
+							       data-on-select="curatorCtrl.onPrsntTypeSelect($select.selected,rslt.id)">
+					
+						    <ui-select-match >{{$select.selected}}</ui-select-match>
+						    
+						    <ui-select-choices data-repeat="prsntType in curatorCtrl.prsntTypesFromList(rslt)">
+						      <div data-ng-bind-html="prsntType | highlight: $select.search"></div>
+						    </ui-select-choices>
+						    
+						</ui-select>
+					</div>
+					<div data-ng-if="hdr.type == 'Pop'">
+						<button type="button" 
+								class="btn btn-sm vdvc-form-btn"
+								data-ng-click="curatorCtrl.showDetails(rslt)">
+								Details
+						</button>
+					</div>
+					<div data-ng-if="hdr.type == 'Pop'">
+						<button type="button" 
+								class="btn btn-sm vdvc-form-btn"
+								data-uib-popover-template="hdr.config.templateUrl"
+								data-popover-append-to-body="hdr.config.appendToBody"
+								data-popover-is-open="rslt.show"
+								data-popover-placement="auto left"
+								data-popover-trigger="hdr.config.trigger"
+								data-ng-click="curatorCtrl.showAttributes(rslt,key)"
+								data-popover-class="docLinkInfo">
+								Details
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cp-rslt-ftr">
+			<span class="btn btn-sm vdvc-form-btn" 
+				  data-ng-click="curatorCtrl.prev()"
+				  data-ng-disabled="curatorCtrl.filters.pageNo == 0">
+				<i class="fa fa-angle-left fa-fw"></i>
+				<i>&nbsp;Previous</i>
+			</span>			<span style="padding: 0px 15px;font-weight: bold;">
+				{{curatorCtrl.resultCount.range}}
+			</span>
+			<span class="btn btn-sm vdvc-form-btn" 
+				  data-ng-click="curatorCtrl.next()"
+				  data-ng-disabled="curatorCtrl.results.length < curatorCtrl.filters.pageSize">
+				<i>Next&nbsp;</i>
+				<i class="fa fa-angle-right fa-fw"></i>
+			</span>
+		</div>
+	</div> -->

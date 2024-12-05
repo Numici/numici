@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>vAppGen Main Page</title>
+	<link href="resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="resources/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
+	<link rel="stylesheet" href="resources/css/jstree/themes/default/style.min.css" />
+	
+	
+	
+	<link href="resources/css/vappgenJQuery.css" rel="stylesheet">
+	
+	<link href="resources/css/jquery-te-1.4.0.css" rel="stylesheet">
+	
+	<link href="resources/css/c3.css" rel="stylesheet">
+	<link href="resources/css/custom1.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="resources/js/libs/jquery/pepper-grinder/jquery-ui.min.css"></link>
+  	<script type="text/javascript" src="resources/js/libs/jquery/jquery-1.10.2.js"></script>
+  	<script src="resources/js/libs/jquery/jquery-ui-1.11.0.min.js"></script>
+
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	
+	<link href="resources/js/appGrid/gridstack.css" rel="stylesheet">
+	<link href="resources/js/appGrid/gridstack-extra.css" rel="stylesheet">
+	
+	<!-- <script type="text/javascript" src="resources/js/libs/jquery/jquery-1.9.1.js"></script>	 -->
+	
+	<style type="text/css">
+.row {
+	margin-right: 0;
+	margin-left: 0;
+}
+
+.vapp-screens {
+	width: 100% !important;
+	min-height: 500px !important;
+	padding-bottom: 70px;
+}
+
+.grid-stack-placeholder {
+	border: border: dotted 2px rgba(46, 112, 164, 0.7);
+}
+
+/*  .vappgen-container {
+	     background: whitesmoke url('resources/images/grid20light.png') repeat !important;
+	  } */
+.vappgen-container {
+	background-image: url('resources/images/grid12.png') !important;
+	background-size: 8.33333333% 70px !important;
+}
+
+#vappgen-scale {
+	color: white;
+	text-align: center;
+	background-image: url('resources/images/grid12.png') !important;
+	background-size: 8.33333333% 60px !important;
+	height: 20px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.grid12 {
+	background-image: url('resources/images/grid12.png') !important;
+	background-size: 8.33333333% 60px !important;
+}
+
+.ctrl-wrapper {
+	background-color: white;
+	border: 1px dashed #999999;
+}
+
+.groupControl > .ctrl-wrapper {
+	background-color:  rgba(0, 0, 0, 0.2);;
+	border: 1px dashed #999999;
+	overflow:visible !important;
+	/* background-image: url('resources/images/grid12BT.png') !important;
+    background-size: 8.33333333% 70px !important; */
+}
+
+.groupControl > .ui-resizable-handle {
+ 	color: white !important;
+}
+
+/* .freez > .ctrl-wrapper{
+	overflow-x: inherit !important;
+	overflow-y: inherit !important;
+} */
+ 
+
+.vdvcCtrl .ui-resizable-handle {
+	color: #006699 !important;
+}
+
+.ctrlSelected {
+	box-shadow: none;
+	z-index: 10;
+    border: none;
+	
+}
+
+.ctrlSelected > .grid-stack-item-content {
+	box-shadow: 0px 0px 11px 2px #006699;
+	border: 2px dashed rgb(66, 162, 238);
+}
+
+.vapp-control {
+	background-color: transparent !important;
+}
+
+#vappgen-container {
+	/*  background: #999999; */
+	border: 1px solid rgba(185, 177, 177, 0.71);
+}
+
+
+/* .groupControl > .grid-stack-item-content {
+	top: 0px !important;
+	left: 0px !important;
+	right: 0px !important;
+	
+}
+
+.groupControl > .placeholder-content {
+	
+	top: 0px !important;
+	left: 0px !important;
+	right: 0px !important;
+	
+} */
+
+.grid-stack>.grid-stack-item>.grid-stack-item-content {
+	top: 5px;
+	left: 5px;
+	right: 5px;
+	
+}
+
+.grid-stack .grid-stack-placeholder>.placeholder-content {
+	border: 2px dotted #006699;
+	top: 5px;
+	left: 5px;
+	right: 5px;
+	background-color: rgba(0, 102, 153, 0.39);
+}
+
+.ctrl-toolbar .ctrl-tools {
+	padding-right: 15px;
+}
+
+.vdvcCtrl .ui-icon,.vdvcCtrl .ui-widget-content .ui-icon {
+	background-image: none; 
+	
+}
+
+.newGroup {
+    border: 2px solid blue;
+ }
+</style>
+	
+	
+	
+	<script type="text/javascript" src="resources/js/libs/jquery/jstree.js"></script>
+	
+	<script src="//cdn.ckeditor.com/4.4.7/full/ckeditor.js"></script>
+	<script type="text/javascript" src="resources/js/libs/jquery/jquery-te-1.4.0.min.js"></script>
+
+	<!-- commented due to errors reslove it later TODO
+	<link href="resources/css/themes/ui/jquery-ui.css" rel="stylesheet">
+	<script type="text/javascript" src="resources/js/jquery-ui.js"></script>
+	-->
+
+
+	<script type="text/javascript" src="resources/js/libs/chartinglibs/d3.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="resources/js/libs/chartinglibs/crossfilter.min.js"></script>
+	<script type="text/javascript" src="resources/js/libs/chartinglibs/c3.min.js?04-01"></script>
+    <script type="text/javascript" src="resources/js/libs/chartinglibs/c3Extensions.js"></script>
+
+
+
+	<script type="text/javascript" src="resources/js/vdvcInputs.js"></script>
+
+	<!-- <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
+
+	<script type="text/javascript" src="resources/js/libs/bootstrap/bootstrap.min.js"></script>
+	<script type="text/javascript" src="resources/js/libs/underscore.js"></script>
+	<script type="text/javascript" src="resources/js/appGrid/gridstack.js"></script>
+	<script type="text/javascript" src="resources/js/libs/numeral.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/libs/languages.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/Utils.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/Utils/validation.js?20151021"></script>
+	 <script type="text/javascript" src="resources/js/Utils/dataformatter.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/excelGrid.js?04-01"></script>
+	<script type="text/javascript" src="resources/js/AnnotationManager.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/HistoryManager.js?20151021"></script>
+	
+	<script type="text/javascript" src="resources/js/appGrid/vdvcTagManager.js?20151021"></script>
+	
+	<script type="text/javascript" src="resources/js/appGrid/Control.js?20151021"></script>
+
+	<script type="text/javascript" src="resources/js/appGrid/ContainerControl.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/Screen.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/GroupControl.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/ChartControl.js?20151021"></script>
+
+	<script type="text/javascript" src="resources/js/appGrid/CompositeChartControl.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/CompositeFilterControl.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/VidiViciControl.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/Button.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/WorkFlowDashBoardControl.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/LayoutControl.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/MenubarControl.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/ControlFactory.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/ScreenFactory.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/TextControl.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/AnnotationControl.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/ScalarControl.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/appGrid/TagControl.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/vappDesigner/customDesigner.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/vappDesigner/LayoutDesigner.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/vappDesigner/CompositeChartDesigner.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/vappDesigner/CompositeFilterDesigner.js?20151021"></script>
+	<script type="text/javascript" src="resources/js/vappDesigner/MenubarDesigner.js?20151021"></script>	
+	<script type="text/javascript" src="resources/js/appGrid/VAppgenEngine.js?20151021"></script>
+
+<script>
+	var parentWindow = window.opener;
+	var canvasWidth = 1044;
+	var canvasHeight = 600;
+	var panelImgSize = 50;
+	var buttonDragImgWidth = 100;
+	var buttonDragImgHeight = 40;
+	var screens = new Array();
+
+	var vappgenEngine;
+	var modelId, vappId;
+	var modelBlocks;
+	var editVAppMode = false;
+	var editVApp = null;
+	var modelInfo;
+	var customCtrlDialog = null;
+	var vappgenActions;
+	var vappgenControls;
+ 	var supportedControls = ["GroupControl", "ColumnChart", "Layout", "Button",
+	                            "CompositeChart", "CompositeFilter", "PlannerControl",
+	                            "WorkFlowDashBoardControl", "TextControl", 
+	                            "AnnotationControl", "TagControl", "ScalarControl"];
+
+	var usrInfo = Util.getUserInfo();
+	var vappModel = {};
+	var modelData;
+
+	var selectedCtrls = [];
+	var closeOnSaveWarningPrompt = false;
+	var deletedCtrls = [];
+	var vappGenInfo = {};
+	var vAppName;
+	 
+	function getURLParameter(name) {
+		 name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		        results = regex.exec(location.search);
+		    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+
+	function initNewVApp(){
+		var vappName = "";
+		vappgenEngine = new VAppgenEngine();
+		vappgenEngine.setVAppgenState(VAppgenState.Initialized);
+		vappGenInfo.completeControls = vappgenControls;
+		vappGenInfo.supportedControls = supportedControls;
+		vappGenInfo.actions = vappgenActions;
+		var scrnIndex = 0;
+		var div = $("#vappgen-container");
+		var scrnDiv = $('<div id="screen-'+(scrnIndex+1)+'" style="height:100%; width:100% !important;" class="vapp-screens row grid-stack" ></div>');
+		scrnDiv.height(div.height());
+		div.append(scrnDiv);
+		 
+		
+		
+	    vappgenEngine.createScreen (scrnDiv, modelId, usrInfo, vappName, vappModel, vappGenInfo);
+	
+		vappgenEngine.activateScreen(scrnIndex);
+		this.drawControls(vappgenControls);	
+		$(".vapp-screen-index").text((scrnIndex+1) + ' / ' + vappgenEngine.getTotalScreens());
+	}
+
+	function setVAppModelName (name) {
+		var txt = $("a.navbar-brand").text();
+		txt += " - "+name;
+		 $("a.navbar-brand").html(txt);
+	}
+
+	function setNewVAppForEditMode() {
+		var json = vappgenEngine.createEmptyJSONObject();
+		var string = JSON.stringify (json);
+		console.log(string);
+
+		Util.ajaxPost ("vapp/save/"+modelId, json,
+				function(result){
+					if (!result.Status) {
+						Util.showMessage (result.Message);
+					} else {						
+						console.log ("Empty vApp saved successfully into DB");
+						editVApp = result.Vapp;
+						vappgenEngine.setVAppID (result.Vapp.id);
+						vappgenEngine.modelId = modelId;
+						vappgenEngine.setVAppCreatedDate (result.Vapp.createdOn);
+						$(".vapp-name").val(editVApp.appName);
+					}
+				},
+				false,
+				true
+		);
+	}
+
+	deleteVApp = function (vapp, cb) {
+	 	Util.ajaxDelete("vapp/"+vapp.id, null, function(result) {
+			if(result.Status){
+				console.log ("VApp ("+vapp.appName+") is deleted successfully");
+				editVApp = null;
+				if ("function" == typeof cb) {
+					cb();
+				}
+			}else{
+				Util.showMessage("Failed to delete VApp ("+vapp.appName+")");
+			}
+		},
+		false,
+		true);
+	}
+
+	disableOtherTabButtons = function (currentButtonName) {
+		var buttons = $(".btn");
+
+		if (buttons.length == 0)
+			return;
+
+	 	$.each(buttons, function(i,v){
+	 		var name = $(v).attr("name");
+
+	 		if (name == currentButtonName)
+	 			$(v).prop( "disabled", false );
+	 		else
+	 			$(v).prop( "disabled", true );
+		});
+	}
+
+	enableAllTabButtons = function () {
+		var buttons = $(".btn");
+
+		if (buttons.length == 0)
+			return;
+
+	 	$.each(buttons, function(i,v){
+	 	 	$(v).prop( "disabled", false );
+		});
+	}
+
+	disableAllTabButtons = function () {
+		var buttons = $(".btn");
+
+		if (buttons.length == 0)
+			return;
+
+	 	$.each(buttons, function(i,v){
+	 	 	$(v).prop( "disabled", true );
+		});
+	}
+	
+	function deleteMultiControlsConfirmCB (ctrls) {
+		console.log ("User confirmed to deletet the multiple selected controls");
+
+		$.each(ctrls, function(i,v){		
+			var taggedObject = vappgenEngine.getTaggedObject($(v));
+			if (taggedObject != null) {
+				deletedCtrls.push(taggedObject);
+			}
+			vappgenEngine.deleteControl ($(v));	
+		});
+		vappgenEngine.setCurScreenState(VAppgenState.UnderProcess);
+		enableAllTabButtons ();
+		selectedCtrls = [];
+	}
+
+	function deleteSelectedControls (){
+ 		Util.promptDialog ("Do you want to delete the selected controls ?",
+						function(){deleteMultiControlsConfirmCB(selectedCtrls);}, noActionCB, null);
+	}
+
+	function initEditVApp (vapp) {
+ 		vappgenEngine = new VAppgenEngine();
+		console.log ("Opening vApp in edit mode ....!!");
+		console.log (JSON.stringify(vapp));
+
+		
+		
+		vappgenEngine.setVAppgenState(VAppgenState.Initialized);
+		$(".vapp-name").val(vapp.appName);
+		var div = $("#vappgen-container");
+		vappGenInfo.completeControls = vappgenControls;
+		vappGenInfo.supportedControls = supportedControls;
+		vappGenInfo.actions = vappgenActions;
+		
+		var uInfo = vappgenEngine.getUserInfoFromVApp (vapp);		 
+		var mdlId = vapp["modelId"];
+		var vappName = vapp["appName"];
+		
+		var scrnDiv;
+		var noOfScreens = 0;
+		if (vapp && vapp.screens == null)
+			noOfScreens = 1;
+		else 
+			noOfScreens = vapp.screens.length;
+		
+		for (var i=1; vapp && i<=noOfScreens; i++) {
+			scrnDiv = $('<div id="screen-'+i+'" style="height:100%;width:100% !important;" class="vapp-screens row grid-stack" ></div>');
+			scrnDiv.height(div.height());
+			div.append(scrnDiv);
+			vappgenEngine.createScreen (scrnDiv, mdlId, uInfo, vappName, vappModel, vappGenInfo);	
+			vappgenEngine.setScreenState (i-1, VAppgenState.ReadyToSave);
+		} 	
+		
+		var scrnIndex = 0; //Init to First Scren in EDIT vApp Mode.
+	//	var firstScreenDiv = $("#screen-"+1); 
+		var firstScreenDiv = $("#"+vappgenEngine.getScreenId(0));
+		vappgenEngine.activateScreen(scrnIndex); // Add support for mulptile screens
+		vappgenEngine.setScreenDimensions(vapp, firstScreenDiv);
+				
+		this.drawControls(vappgenControls);
+    	vappgenEngine.renderVApp (vapp);
+    	 
+    	firstScreenDiv.show();    	
+    	vappgenEngine.renderScreenMebuBar (scrnIndex);
+    	firstScreenDiv.siblings(".vapp-screens").hide();
+		$(".vapp-screen-index").text((scrnIndex+1) + ' / ' + vappgenEngine.getTotalScreens());		
+		vappgenEngine.setVAppID (vapp.id);
+		vappgenEngine.modelId = modelId;
+		vappgenEngine.setVAppCreatedDate (vapp.createdOn);
+		vappgenEngine.setVAppgenState(VAppgenState.Saved);
+	}
+	
+	function addNewScreen () {		
+		var scrnIndex = vappgenEngine.getCurrentScreenIndex ();	 
+		var seqNum =  vappgenEngine.getNewSequenceNumber();
+		console.log ("New screen index tobe added is: "+ seqNum);
+		
+		var scrnState = vappgenEngine.getCurScreenState(scrnIndex);
+		if (scrnState == VAppgenState.Initialized || scrnState == VAppgenState.UnderProcess) {
+			Util.showMessage ("Please save the changes before adding new screen ...!!");
+			enableAllTabButtons ();
+			return;
+		}
+		
+		$(".screen-name").val("");
+		var div = $("#vappgen-container");
+		var scrnDiv = $('<div id="screen-'+(seqNum)+'" style="height:100%;width:100% !important;" class="vapp-screens row grid-stack" ></div>');
+		scrnDiv.height(div.height());
+		div.append(scrnDiv);		
+		
+		vappgenEngine.createScreen (scrnDiv, modelId, usrInfo, vAppName, vappModel, vappGenInfo);	 		
+		scrnDiv.siblings(".vapp-screens").hide();
+		
+		var totalScreens = vappgenEngine.getTotalScreens();
+		$(".vapp-screen-index").text(totalScreens + ' / ' + totalScreens);
+		vappgenEngine.activateScreen(totalScreens-1);	
+		enableAllTabButtons ();		
+	}
+	
+	function deleteCurrentScreen () {
+		var curScrnIndex = vappgenEngine.getCurrentScreenIndex ();
+		var totalScreens = vappgenEngine.getTotalScreens();
+		
+		if (totalScreens <= 0){
+			enableAllTabButtons ();
+			return;
+		}
+		
+		var curScreenId = vappgenEngine.getScreenId (curScrnIndex);
+		var nextScrnIndex;
+		if (totalScreens == 1) { // Single Screen
+			vappgenEngine.clearScreen();
+			vappgenEngine.activateScreen(0);
+			$(".vapp-screen-index").text('1 / ' + vappgenEngine.getTotalScreens());
+			enableAllTabButtons ();
+			return;
+		} else if ((curScrnIndex+1) == totalScreens) { // removing the last screen
+			var nextScreenId = vappgenEngine.getScreenId (0);
+			nextScrnIndex = 0;
+		} else {
+			var nextScreenId = vappgenEngine.getScreenId (curScrnIndex+1);
+			nextScrnIndex = curScrnIndex;
+		}
+		 
+		vappgenEngine.clearScreen();
+		vappgenEngine.removeCurrentScreen ();
+		vappgenEngine.activateScreen(nextScrnIndex);
+		$("#"+curScreenId).hide();	
+		$("#"+nextScreenId).show();	
+		vappgenEngine.renderScreenMebuBar (nextScrnIndex);
+ 
+		$(".vapp-screen-index").text((nextScrnIndex+1) + ' / ' + vappgenEngine.getTotalScreens());	
+		enableAllTabButtons ();
+	}
+	
+	function moveToNextScreen () {		
+		var div = $("#vappgen-container");		
+		var curScrnIndex = vappgenEngine.getCurrentScreenIndex ();
+		var nextScrnIndex = curScrnIndex + 1;
+		var totalScreens = vappgenEngine.getTotalScreens();
+		
+		var scrnState = vappgenEngine.getCurScreenState(curScrnIndex);
+		if (scrnState == VAppgenState.Initialized || scrnState == VAppgenState.UnderProcess) {
+			Util.showMessage ("Please save the changes before moving from this screen ...!!");
+			enableAllTabButtons ();
+			return;
+		}
+		
+		if (nextScrnIndex == totalScreens) {
+			Util.showMessage ("No more screen to view ...!!");
+			enableAllTabButtons ();
+			return;
+		}
+		var curScreenId = vappgenEngine.getScreenId (curScrnIndex);
+		var nextScreenId = vappgenEngine.getScreenId (nextScrnIndex);
+		
+	 	$("#"+curScreenId).hide();
+		$("#"+nextScreenId).show();
+		vappgenEngine.activateScreen(nextScrnIndex);
+		vappgenEngine.renderScreenMebuBar (nextScrnIndex);
+		$(".vapp-screen-index").text((nextScrnIndex+1) + ' / ' + totalScreens);		
+		enableAllTabButtons ();
+	}
+	
+	function moveToPrevScreen () {	
+		var div = $("#vappgen-container");		
+		var curScrnIndex = vappgenEngine.getCurrentScreenIndex ();
+		
+		var scrnState = vappgenEngine.getCurScreenState(curScrnIndex);
+		if (scrnState == VAppgenState.Initialized || scrnState == VAppgenState.UnderProcess) {
+			Util.showMessage ("Please save the changes before moving from this screen ...!!");
+			enableAllTabButtons ();
+			return;
+		}
+		
+		if (curScrnIndex == 0){
+			Util.showMessage ("No more screen to view ...!!");
+			enableAllTabButtons ();
+			return;
+		}		
+		var prevScrnIndex = curScrnIndex - 1;
+		var totalScreens = vappgenEngine.getTotalScreens();
+	
+		var curScreenId = vappgenEngine.getScreenId (curScrnIndex);
+		var prevScreenId = vappgenEngine.getScreenId (prevScrnIndex);
+		
+		$("#"+curScreenId).hide();
+		$("#"+prevScreenId).show();
+		vappgenEngine.activateScreen(prevScrnIndex);
+		vappgenEngine.renderScreenMebuBar (prevScrnIndex);
+		$(".vapp-screen-index").text(curScrnIndex + ' / ' + totalScreens);		
+		enableAllTabButtons ();
+	}
+	
+	
+	function saveVAppScreenJSON () {
+		var curScrnIndex = vappgenEngine.getCurrentScreenIndex ();
+	 
+		var screenName = $(".screen-name").val();
+		if (screenName == "") {
+			Util.showMessage("Enter Screen Name", okActionCB);
+			return;
+		}
+		
+		if (!vappgenEngine.isUniqueScreenName(curScrnIndex, screenName)) {
+			Util.showMessage("Please enter unique screen name", okActionCB);
+			return;
+		}
+		vappgenEngine.createScreenJSON (curScrnIndex, screenName);
+		Util.showMessage ("Screen "+(curScrnIndex+1)+" is saved successfully");
+		enableAllTabButtons ();
+	}
+	
+	function launchReoderScreenDialog(message, save, cancel){
+		var dialogMarkup = '<div id="reorderScreensDialog"></div>';
+		var dlgButtons = {};
+		var dlg;
+		var isExists = $("body").find("#reorderScreensDialog");
+
+		if (isExists.length > 0){
+			return;
+		}
+
+		dlg = $(dialogMarkup).dialog({
+			      modal: true,
+			      width: 300,
+			      height: 350,
+			      title: "VApp Reorder Screens",
+			      resizable: false,
+			      open: function(){
+			    	  $(this).empty();
+			    	  $(this).append(message);
+			    },
+			      close:function(){
+			    	  $( this ).dialog( "destroy" );
+			      },
+			      buttons: dlgButtons
+		    });
+
+		customCtrlDialog  = dlg;
+
+		addButton($(dlg), dlgButtons, "Save", save);
+		addButton($(dlg), dlgButtons, "Cancel", cancel);
+
+		$(dlg).dialog({buttons:dlgButtons});
+
+		function addButton(dlg, map, key, fn) {
+			if ("function" == typeof fn) {
+				map[key] = function(arg1, arg2) {
+			 	        var status = fn(arg1, arg2);
+						if (status)
+							$(dlg).dialog("close");
+				};
+			}
+		}
+	}
+	
+	function cancelReorderScreens () {
+		console.log ("cancelReorderScreens");
+		enableAllTabButtons ();
+		return true;
+	}
+	
+	function saveReorderScreens () {
+		console.log ("saveReorderScreens");
+ 
+		var sortedIDs = $( "#sortable_screens" ).sortable( "toArray" );
+		vappgenEngine.reorderScreens (sortedIDs);
+	
+		$(".vapp-screen-index").text('1' + ' / ' + vappgenEngine.getTotalScreens());		
+		var firstScreenDiv = $("#"+vappgenEngine.getScreenId(0)); 
+	    firstScreenDiv.show();
+		firstScreenDiv.siblings(".vapp-screens").hide();
+		vappgenEngine.activateScreen(0);
+		vappgenEngine.renderScreenMebuBar (0);
+		enableAllTabButtons ();
+		return true;
+	}
+	
+	function reorderVAppScreens () {
+		var html = "";
+		
+		var noOfScreens = vappgenEngine.getTotalScreens();
+	 
+		html += '<ul id="sortable_screens">';
+		
+		for (var i=0; i<noOfScreens; i++) {
+			var name = vappgenEngine.getScreenName(i);
+			if (name == null) {
+				html += '<li id='+ (i)+' class="ui-state-default" title="'+name+'" alt="'+name+'"> Screen '+ (i+1) +'</li>';
+			} else {
+				html += '<li id='+ (i)+' class="ui-state-default" title="'+name+'" alt="'+name+'"> '+ name +'</li>';
+			}
+		}
+		html += '</ul>';
+		
+		launchReoderScreenDialog (html, this.saveReorderScreens, this.cancelReorderScreens);
+		
+		$("#sortable_screens" ).sortable({
+		      placeholder: "ui-state-highlight"
+		    });
+		$("#sortable_screens" ).disableSelection();
+		
+		$( "#sortable_screens" ).on( "sortstart", function( event, ui ) {
+			$(ui.item).addClass ("ui-sortted-item");
+		} );
+		
+		$( "#sortable_screens" ).on( "sortstop", function( event, ui ) {
+			$( ui.item ).removeClass ("ui-sortted-item");
+		} );
+		
+		$( ".ui-state-default" ).on( "mousedown", function() {
+		 	$(this).addClass ("ui-sortted-item");
+		} );
+		
+		$( ".ui-state-default" ).on( "mouseup", function() {
+			$(this).removeClass ("ui-sortted-item");
+		} );		
+		
+	}
+	
+	
+	function cloneVAppScreen () {
+		console.log ("Clone current vApp screen ....!!");
+		var curScrnIndex = vappgenEngine.getCurrentScreenIndex ();	 
+		var displayScrnIndex = curScrnIndex + 1;
+		var newSeqNum =  vappgenEngine.getNewSequenceNumber();
+		
+		var scrnState = vappgenEngine.getCurScreenState(curScrnIndex);
+		if (scrnState == VAppgenState.Initialized || scrnState == VAppgenState.UnderProcess) {
+			Util.showMessage ("Please save the changes before clonning new screen ...!!");
+			enableAllTabButtons ();
+			return;
+		}
+		
+		$(".screen-name").val("");
+		var div = $("#vappgen-container");
+		var scrnDiv = $('<div id="screen-'+(newSeqNum)+'" style="height:100%;width:100% !important;" class="vapp-screens row grid-stack" ></div>');
+		scrnDiv.height(div.height());
+		div.append(scrnDiv);		
+		
+		var screen = vappgenEngine.createScreen (scrnDiv, modelId, usrInfo, vAppName, vappModel, vappGenInfo);
+		vappgenEngine.cloneVAppScreen(curScrnIndex, screen);
+		scrnDiv.siblings(".vapp-screens").hide();
+		
+		var totalScreens = vappgenEngine.getTotalScreens();
+		$(".vapp-screen-index").text((displayScrnIndex+1) + ' / ' + totalScreens);
+		vappgenEngine.activateScreen(curScrnIndex+1);
+		vappgenEngine.setCurScreenState(VAppgenState.UnderProcess);
+	 
+		enableAllTabButtons ();	
+	}
+	
+	$(window).on('beforeunload', function(){
+        console.log("Trigged before unload event...!!");
+        enableAllTabButtons ();
+ 
+ 		if (!editVApp)
+ 			return;
+ 	
+        var state = vappgenEngine.getVAppgenState();
+        console.log ("Current VAppgen State:"+state +" Flag: "+closeOnSaveWarningPrompt);
+        if (state == VAppgenState.Saved || state == VAppgenState.Initialized){
+        	return;
+        } else {
+        	if (!closeOnSaveWarningPrompt) {
+        		return "Please save the recent changes ..!!";
+        	}
+        }
+     });
+
+	$(window).load(function() {
+	/*
+		$(document).on("contextmenu", "#vappgen-container div.vdvcCtrl",function(event){
+			event.preventDefault();
+		});
+	*/
+		$(document).on("mousedown", "#vappgen-container div.vdvcCtrl",function(event){
+			event.stopImmediatePropagation();
+		 
+			if (event.ctrlKey || event.metaKey) {
+				event.preventDefault();
+			//	console.log ("Multiple controls selcted (before): "+selectedCtrls.length);
+
+				if ($(this).hasClass("ctrlSelected")) {
+					$(this).removeClass("ctrlSelected");
+
+					var id = $(this).attr('id');
+					for (var i=0; i<selectedCtrls.length; i++){
+						if (id == selectedCtrls[i].attr('id')){
+							selectedCtrls.splice (i, 1);
+						}
+					}
+				} else {
+					$(this).addClass("ctrlSelected");
+					selectedCtrls.push($(this));
+				}
+			//	console.log ("Multiple controls selcted (after)): "+selectedCtrls.length);
+			} else {
+				$("body").find("div.ctrlSelected").removeClass("ctrlSelected");
+				$(this).addClass("ctrlSelected");
+				selectedCtrls = [];
+				selectedCtrls.push ($(this));
+			}			 
+		});
+
+		$(document).on("showproperties", "#vappgen-container div.vdvcCtrl",function(event){
+			/* Display properties window */
+			var ctrl = selectedCtrls[0];
+			var attrs = vappgenEngine.getControlAttributes(ctrl);
+			vappgenEngine.showControlProperties(ctrl);
+
+			if (attrs.name == "Button" && !$('input[dataattr="label"]').val().length) {
+				$("select[dataattr='action']").trigger("change");
+			}
+		});
+
+		$(document).on("mousedown", "#vappgen-container", function(event){
+			event.stopImmediatePropagation();
+		 
+			$("body").find("div.ctrlSelected").removeClass("ctrlSelected");
+		 	selectedCtrls = [];		 	
+		});
+
+		$("#vAppScreenName").on("blur", function(event) {
+			event.stopImmediatePropagation();
+			 
+			
+			var screenName = $(".screen-name").val();
+			if (screenName == "") {
+				Util.showMessage("Enter Screen Name", okActionCB);
+				return false;
+			}
+			var curScrnIndex = vappgenEngine.getCurrentScreenIndex ();
+			if (!vappgenEngine.isUniqueScreenName(curScrnIndex, screenName)) {
+				Util.showMessage("Please enter unique screen name", okActionCB);
+				return false;
+			}
+			vappgenEngine.updateScreenName (curScrnIndex, screenName);
+			return false;
+		});
+		
+		$("#vAppScreenName").on("keyup", function(event) {
+			event.stopImmediatePropagation();
+		 
+			
+			var screenName = $(".screen-name").val();
+			if (screenName == "") {
+				Util.showMessage("Enter Screen Name", okActionCB);
+				return (event.keyCode != 13);
+			}
+			var curScrnIndex = vappgenEngine.getCurrentScreenIndex ();
+			if (!vappgenEngine.isUniqueScreenName(curScrnIndex, screenName)) {
+				Util.showMessage("Please enter unique screen name", okActionCB);
+				return (event.keyCode != 13);
+			}
+			vappgenEngine.updateScreenName (curScrnIndex, screenName);
+			return (event.keyCode != 13);
+		});
+		
+		modelId = getURLParameter("model_id");
+		vappId = getURLParameter("vapp_id");
+
+		// Check for VApp id. Edit the exising VAPP.
+		if (typeof vappId !== "undefined" && vappId.trim() !== "") {
+			editVAppMode = true;
+		};
+	 
+		disableAllTabButtons ();
+		Util.showSpinner("manual");
+		$.when(
+			Util.diff_ajaxGet ("model/blockdimensions/"+modelId, function(result){
+				if (!result.Status) {
+					Util.showMessage (result.Message);
+				} else {
+					modelBlocks = result.Blocks;
+				}
+			}),
+
+			Util.diff_ajaxGet ("model/"+modelId, function(result){
+				if (!result.Status) {
+					Util.showMessage (result.Message);
+				} else {
+					modelInfo = result.Model;
+				}
+			}),
+
+			Util.diff_ajaxGet ("vappgen/actions", function(result){
+				if (!result.Status) {
+					Util.showMessage (result.Message);
+				} else {
+					vappgenActions=result.Data;
+				}
+			}),
+
+			Util.diff_ajaxGet ("workspace/"+modelId, function(result){
+				if (!result.Status) {
+					Util.showMessage (result.Message);
+				} else {
+					modelData=result.Data;
+				}
+			}),
+
+			Util.diff_ajaxGet ("vappgen/controls", function(result){
+				if (!result.Status) {
+					Util.showMessage (result.Message);
+				} else {
+					vappgenControls=result.Controls;
+				}
+			})
+		).then(function(){
+			Util.hideSpinner("manual");
+			vappModel.info = modelInfo;
+			vappModel.blocks = modelBlocks;
+			vappModel.id = modelId;
+			vappModel.data = modelData;
+
+			setVAppModelName (modelInfo.name);
+			if (!editVAppMode) {
+				initNewVApp();
+				setNewVAppForEditMode ();
+				enableAllTabButtons ();
+			} else {
+				Util.showSpinner("manual");
+				$.when (
+						Util.diff_ajaxGet ("vapp/"+vappId, function(result){
+							if (!result.Status) {
+								Util.showMessage (result.Message);
+							} else {
+								editVApp = result.Vapp;								
+							}
+						})
+				).then(function(){
+					Util.hideSpinner("manual");
+					if (editVApp && editVApp.id) {
+						Util.sync_ajaxGet ("vapp/gettext/"+modelId+"/"+editVApp.id, function(result){
+							if (!result.Status) {
+								Util.showMessage (result.Message);
+							} else {
+								window["vdvcTextCtrlData"]=result.WorkspaceText;
+							}
+						})
+					}
+					initEditVApp (editVApp);
+					enableAllTabButtons ();
+				})
+			}
+		});
+
+		$(document).on('click', '.dropdown-menu li a', function () {
+		    console.log("Selected Dropdown option is: "+ $(this).text());
+		    var action;
+
+		    switch ($(this).text()) {
+		    	case "Veritical Left":
+		    		action = "vLeft";
+		    		break;
+		    	case "Veritical Center":
+		    		action = "vCenter";
+		    		break;
+		    	case "Veritical Right":
+		    		action = "vRight";
+		    		break;
+		    	case "Horizontal Top":
+		    		action = "hTop";
+		    		break;
+		    	case "Horizontal Bottom":
+		    		action = "hBottom";
+		    		break;
+		    	case "Horizontal Middle":
+		    		action = "hMiddle";
+		    		break;
+
+		    }
+
+		    vappgenEngine.alignControls (selectedCtrls, action);
+		});
+
+		//Handle button callbacks
+		 $(".btn").click(function(){
+		       	var name = $(this).attr("name");
+		    // 	disableOtherTabButtons (name);
+		      	disableAllTabButtons ();
+		      	
+		       	switch (name) {
+		    	case "SaveVApp":
+		    		
+		    		vAppName = $(".vapp-name").val();
+		    		if (vAppName == "") {
+		    			Util.showMessage("Enter VApp Name", okActionCB);
+		    			break;
+		    		}
+	 
+		    		var state = vappgenEngine.getVAppgenState();
+		    		if (state == VAppgenState.ReadyToSave || state == VAppgenState.Saved) {
+		    			saveScreenConfirmCB();
+		    		} else {
+		    			Util.showMessage ("Please save the current screen changes ....!!", okActionCB);
+		    		}
+		    		break;		    		
+		    	case "ClearScreen":
+		    		Util.promptDialog ("Do you want to clear the screen ?",
+ 						clearScreenConfirmCB, noActionCB, null);
+		    		break;
+		    	case "DeleteControl":
+		    		if (!selectedCtrls.length) {
+		    			Util.showMessage ("Please select controls to delete", okActionCB);
+		    		} else {
+		    			deleteSelectedControls ();
+		       		}
+		    		break;
+		    	case "Group":
+		    		
+		    		var ctrls = $(".ctrlSelected");
+		    		if (ctrls.length) {
+		    			vappgenEngine.groupControls (ctrls);
+		    		}		    	
+		    		enableAllTabButtons ();
+		    		break;
+		    	case "Ungroup":
+		    		
+		    		var grpCtrl =  $(".ctrlSelected");
+		    		if (grpCtrl.length) {
+		    			vappgenEngine.ungroupControls(grpCtrl);
+		    		}
+		    		enableAllTabButtons ();
+		    		break;
+		    	case "Close":
+		      		var state = vappgenEngine.getVAppgenState();
+		    		console.log ("Vappgen state on close: "+ state);
+		    		if (state ==  VAppgenState.UnderProcess) {		    		 
+		    			var msg = "vApp has unsaved data and it will deleted permenantly on closing this screen.  Do you want still to close it ?";
+		    			closeOnSaveWarningPrompt = true;
+		    			Util.promptDialog (msg, yesCloseActionCB, noCloseActionCB, null);
+		    		}else {
+		    			yesCloseActionCB();
+		    		}
+		    		break;
+		    	case "AddScreen":
+		    		addNewScreen ();
+		    		break;
+		    	case "DeleteScreen":
+		    		Util.promptDialog ("Do you want to delete the screen "+ 
+		    				(vappgenEngine.getCurrentScreenIndex()+1) + " ?",
+		    				deleteCurrentScreen, noActionCB, null);		    	
+		    		break;
+		    	case "NextScreen":		    			    	 
+		    		moveToNextScreen();		    		 
+		    		break;	
+		    	case "PrevScreen":		    		 
+		    		moveToPrevScreen();		    		
+		    		break;
+		    	case "SaveScreen":
+		    		saveVAppScreenJSON();
+		    		break;	
+		    	case "ReorderScreens":
+		    		reorderVAppScreens();
+		    		break;
+		    	case "CloneScreen":
+		    		cloneVAppScreen();
+		    		break;
+		    	default:
+		    		enableAllTabButtons ();
+		    		break;
+
+	    	}
+	    });
+	});
+
+	function allowDrop(ev) {
+		ev.preventDefault();
+	}
+
+	function isControlSupported(controlType) {
+		var supported = false;
+
+		for (var i=0; i<this.supportedControls.length; i++){
+			var val = this.supportedControls[i];
+			if (controlType == val) {
+				supported = true;
+				break;
+			}
+		}
+
+		return supported;
+	}
+
+	function drawControls (ctrls){
+
+		var ul=$('<ul class="list-group"></ul>');
+		for ( var i = 0; i < ctrls.length; i++ ) {
+		//	console.log(ctrls[i].name);
+
+			if (ctrls[i].subControl) { // check and skip sub controls.
+				continue;
+			}
+
+			var li  = $("<li>");
+			li.addClass("list-group-item");
+			li.attr("ctrl-name",ctrls[i].name);
+
+	//		var markup ="<span class='ctrlImage' ctrl-name='"+ctrls[i].name+"'> <img src="+ctrls[i].imageUrl+" height="+panelImgSize+" width="+panelImgSize +"> </span>";
+			var markup ="<span> <img class='ctrlImage' ctrl-name='"+ctrls[i].name+"' src="+ctrls[i].imageUrl+" height="+panelImgSize+" width="+panelImgSize +"> </span>";
+			li.append(markup);
+			ul.append(li);
+		}
+
+
+		$("#collapseOne").empty();
+		$("#collapseOne").append(ul);
+	 	var current = this;
+
+		var ctrlImages = $('.ctrlImage');
+		if (ctrlImages.length > 0) {
+		 	$.each(ctrlImages,function(i,v){
+		 		var ctrlName = $(v).attr("ctrl-name");
+		 		if (!current.isControlSupported (ctrlName)) {
+		 			$(v).draggable({ helper: "clone",appendTo: "body", revert: true,
+		 				cursorAt: { top: 0, left: 0 }});
+		 		} else {
+		 		 	$(v).draggable({ helper: "clone",appendTo: "body", cursorAt: { top: 0, left: 0 } });
+		 		}
+		 		$(v).on( "dragstart", function(event, ui) {
+		 			if (ctrlName == "Button"){
+		 				ui.helper.attr("width", buttonDragImgWidth);
+		            	ui.helper.attr("height", buttonDragImgHeight);
+		 			}
+		 		});
+			});
+		}
+
+		$('.ctrlImage').css("cursor", "move");
+	}
+
+	function deleteControlConfirmCB (ctrl) {
+		console.log ("User confirmed to deletet the control");
+
+		vappgenEngine.deleteControl (ctrl);
+		enableAllTabButtons ();
+	}
+
+	function clearScreenConfirmCB () {
+		console.log ("User confirmed to clear the screen");
+		vappgenEngine.clearScreen();
+		enableAllTabButtons ();
+	}
+
+	function deleteTaggedEntries (deletedCtrls) {			
+		if (deletedCtrls.length) {			
+			var organisationId = usrInfo.OrganizationId;
+			Util.ajaxDelete ("tags/listitems/"+organisationId, deletedCtrls,
+					function(result){
+					 	if (!result.Status) {
+							Util.showMessage (result.Message, okActionCB);
+						} else {							 
+							console.log ("Tags deleted successfully from DB");							 				
+						}
+					},
+					false,
+					true
+				); 
+		}
+	}
+	
+	function rederVAppScreen (vapp) {
+		vappgenEngine.clearScreen();
+		var div = $("#vappgen-container");
+		vappgenEngine.renderVApp (vapp);
+	}
+	
+	function saveScreenConfirmCB () {
+		var json = vappgenEngine.createVAppJSON(vAppName);
+		var code = vappgenEngine.validateJSONObject(json);
+		if (!code.status){
+			Util.showMessage(code.msg, okActionCB);
+			return;
+		}
+		var string = JSON.stringify (json);
+		console.log(string);
+		
+		console.log ("User confirmed to save the screen");
+		Util.ajaxPost ("vapp/save/"+modelId, json,
+			function(result){
+			 	if (!result.Status) {
+					Util.showMessage (result.Message, okActionCB);
+				} else {
+					if (editVAppMode && deletedCtrls.length) {	
+				//		rederVAppScreen (result.Vapp); // Data is incosistent,hence commented.
+						deleteTaggedEntries (deletedCtrls)
+					}
+				 	vappgenEngine.setVAppgenState(VAppgenState.Saved);
+				 	vappgenEngine.resetControlChangedState();
+					Util.showMessage("vApp saved successfully", okActionCB);
+					console.log ("JSON saved successfully into DB");
+					var curVAppName = editVApp.appName;
+					editVApp = result.Vapp;			
+					if (curVAppName != editVApp.appName) {
+							console.log ("VAppname has been updated ....!!");
+							parentWindow.vAppManager.remoteListVapps(modelInfo);
+					}					
+				}
+			},
+			false,
+			true
+		);
+	}
+
+	function windowClose () {
+		window.close();
+	};
+
+	function yesCloseActionCB () {		
+ 		window.close();
+	};
+
+	function noCloseActionCB () {
+	 	closeOnSaveWarningPrompt = false;
+		enableAllTabButtons ();
+	};
+
+	function noActionCB () {
+		console.log ("No button was selected by user");
+		enableAllTabButtons ();
+	};
+
+	function okActionCB () {
+		console.log ("Ok button was selected by user");
+		enableAllTabButtons ();
+	};
+
+</script>
+
+</head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+           <a class="navbar-brand" href="#" style="color:white;">vAppGen</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" role="form">
+           <!-- 
+           	<div class="btn-group">          	 
+			  <button type="button" class="btn btn-primary">Align</button>
+			  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+			    <span class="caret"></span>
+			    <span class="sr-only">Toggle Dropdown</span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu">
+			    <li><a href="#">Veritical Left</a></li>
+			    <li><a href="#">Veritical Center</a></li>
+			    <li><a href="#">Veritical Right</a></li>
+			    <li><a href="#">Horizontal Top</a></li>
+			    <li><a href="#">Horizontal Middle</a></li>
+			    <li><a href="#">Horizontal Bottom</a></li>
+			  </ul>
+			</div> -->
+			<!--
+          	<button type="button" id="properties" name="Properties" class="btn btn-primary">Properties</button>
+          	-->
+          	<button type="button" id="group" name="Group"class="btn btn-primary">Group</button>
+          	<button type="button" id="ungroup" name="Ungroup"class="btn btn-primary">Ungroup</button>
+            <button type="button" id="delete" name="DeleteControl"class="btn btn-primary">Delete Control</button>
+            <!--  
+            <button type="button" id="clear" name="Clear" class="btn btn-primary">Clear</button>
+            -->
+		    <button type="button" id="save" name="SaveVApp"class="btn btn-primary">Save VApp</button>
+			<button type="button" id="close" name="Close" class="btn btn-primary">Close</button>
+		  </form>
+         </div>
+      </div>
+    </div>
+
+    <div class="container-fluid" style="padding-right: 0px;	padding-left: 0px;">
+      <div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+
+			<div class="controls-panel">
+				<div id="accordion" class="panel-group">
+        			<div class="panel panel-default">
+		            	<div class="panel-heading">
+		                	<h4 class="panel-title">
+		                    	<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Controls</a>
+		                	</h4>
+		            	</div>
+
+        	   			<div id="collapseOne" class="panel-collapse collapse in">
+	                		<div class="panel-body">
+
+        	        		</div>
+            			</div>
+		        	</div>
+		        </div>
+		    </div>
+		 </div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<!--
+			  <h1 class="page-header">View Area</h1>
+						  
+			   	<div class="input-group">
+ 					<span class="input-group-addon" ">vAppName</span>
+ 					<input type="text" class="vapp-name" placeholder="Enter vApp name" style="width:350px;">
+				</div>
+			  -->
+			  <div class="vapp_input_tool_bar">			  	
+				<form class="form-inline">
+				  <div class="form-group">
+				    <label for="nameId">vAppName</label>
+				    <input type="text" class="form-control vapp-name" id="nameId" placeholder="Enter VApp Name" style="width:280px;">				   
+				  </div>
+				  
+			  		<button type="button" id="saveScreen" name="SaveScreen" class="btn btn-primary">Save</button>
+			  		<button type="button" id="clearScreen" name="ClearScreen" class="btn btn-primary">Clear</button>
+          			<button type="button" id="prevScreen" name="PrevScreen" class="btn btn-primary">Prev</button>
+          			<button type="button" id="nextScreen" name="NextScreen" class="btn btn-primary">Next</button>  
+          			<button type="button" id="addScreen" name="AddScreen" class="btn btn-primary">Add</button> 
+          			<button type="button" id="deletetScreen" name="DeleteScreen" class="btn btn-primary">Delete</button>
+          			<button type="button" id="reorderScreens" name="ReorderScreens" class="btn btn-primary">Reorder</button>
+          			<button type="button" id="cloneScreen" name="CloneScreen" class="btn btn-primary">Clone</button>
+				  <button class="btn btn-primary pull-right" type="button">
+  						Screen Index <span class="badge vapp-screen-index">1 / 1</span>
+				  </button>
+				</form>			 
+			  </div>
+				 <!--
+					<canvas id="draw-area" style="background-color:#FAEBD7;width:1000px;height=1200px" ondrop="drop(event)" ondragover="allowDrop(event)" ></canvas>
+					 <div id="container" class="canvas-container"style="background-color:#FAEBD7;" ondrop="drop(event)" ondragover="allowDrop(event)"> </div>
+				  -->
+				  <div id="vappgen-scrn-toolBar" class="vappgen-menubar">
+				  <form class="form-inline">				  
+				  	 <div class="form-group">
+				    	<label for="nameId">Screen Name</label>
+				    	<input type="text" class="form-control screen-name" id="vAppScreenName" placeholder="Enter Screen Name" style="width:280px;">				   
+				  	</div>
+				  	<span class="menu_item">
+				  		<input type="checkbox" role="Calculate" checked>
+				  		<button class="btn btn-primary btn-xs">Calculate</button>
+				  	</span>
+				  	<span class="menu_item">
+				  		<input type="checkbox" role="Tags" checked>
+				  		<button class="btn btn-primary btn-xs">Tags</button>
+				  	</span>
+				  	</form>
+				  </div>
+				  <div id="vappgen-scale" class="row">
+				   <div class="col-xs-1">1</div>
+				   <div class="col-xs-1">2</div>
+				   <div class="col-xs-1">3</div>
+				   <div class="col-xs-1">4</div>
+				   <div class="col-xs-1">5</div>
+				   <div class="col-xs-1">6</div>
+				   <div class="col-xs-1">7</div>
+				   <div class="col-xs-1">8</div>
+				   <div class="col-xs-1">9</div>
+				   <div class="col-xs-1">10</div>
+				   <div class="col-xs-1">11</div>
+				   <div class="col-xs-1">12</div>
+				  
+				   </div>
+				  <div id="vappgen-container" class="vappgen-container row"> </div>				 
+			</div>
+		</div>
+    </div>
+
+  </body>
+</html>

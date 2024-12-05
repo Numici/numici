@@ -1,0 +1,18 @@
+<div class="row" 
+	 data-ng-if="tableOfContents && tableOfContents != 'notInclude'" 
+	 data-ng-attr-id="{{tableId}}" 
+	 style="border-bottom: 1px solid #aaa;padding-bottom: 20px;">
+  <div style="font-size: 18px;color: #069;padding: 10px 0px;font-weight: bold;font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;">
+	{{title}}
+  </div>
+  <div  data-ng-repeat="digest in digestData track by $index"
+        data-ng-style="::getTblOfContListStyles()">
+     <span data-ng-if="tableOfContents == 'withIndex'"
+           data-ng-style="::getTblOfContIndexStyles()">
+		 {{digest.diIndex}}.
+	 </span>
+  	 <span data-ng-style="::getTblOfContLableStyles()">
+		 <a data-ng-href="#index_{{$index}}" data-ng-style="::getTblOfContLinkStyles()">{{::digest.displayName}}</a>
+	</span>
+  </div>
+</div>

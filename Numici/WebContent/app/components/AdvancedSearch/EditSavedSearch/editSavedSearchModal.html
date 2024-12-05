@@ -1,0 +1,56 @@
+<form data-ng-submit="vm.ok()">
+	<div class="modal-header" >
+		<h3 class="modal-title">Rename Search</h3>
+	</div>
+	<div class="modal-body">
+		<div class='row'>
+			<!-- <div data-ng-show="userinfo.isSiteAdmin" class ="col-xs-12 checkbox col-top-mrgn-5" style='padding-left: 35px;padding-bottom: 10px;'>
+				<input type="checkbox" data-ng-model="srchObj.systemSearch">
+				<label>Smart Search</label>
+			</div> -->
+			
+			<div class ="col-xs-12 srch-Ntf">
+				<span data-ng-click="vm.OnchangeNotify()">
+					<i class="fa fa-toggle-on active"
+				       data-ng-if="vm.savedSearch.notify">
+				    </i>
+				    <i class="fa fa-toggle-on fa-rotate-180 inactive"
+				       data-ng-if="!vm.savedSearch.notify">
+				    </i>
+				    <span class="txt-label">Notifications</span>
+				</span>
+				
+			</div>
+			
+			
+			<div class="col-xs-12" style="margin-bottom: 10px;">
+				<label> Category </label>
+				<data-ui-select data-multiple
+								data-limit=1 
+								data-tagging
+								data-ng-model="vm.savedSearchGroup" 
+								data-tagging-label="(New Category)" 
+								data-ng-disabled="disabled" 
+								data-autofocus=true>
+							
+					<data-ui-select-match >{{$item}}</data-ui-select-match>
+				    
+				    <data-ui-select-choices data-repeat="group in vm.allGroups | filter:$select.search track by $index">
+				       {{group}}
+				    </data-ui-select-choices>
+				    
+				</data-ui-select>
+			</div>
+			
+			<div class="col-xs-12" style="margin-bottom: 10px;">
+				<label for="searchCriteria">Search Criteria Name</label>
+				<input id="searchCriteria" type="text" data-ng-model="vm.savedSearch.name" class='vdvc-input-txt'>
+			</div>
+			
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit">SAVE</button>
+	</div>
+</form>

@@ -1,0 +1,36 @@
+<form data-ng-submit="vm.cancel()">
+	<div class="modal-header">
+		<h3 class="modal-title">Response Time Log</h3>
+	</div>
+	<div class="modal-body" style="max-height: 400px;overflow: auto;">
+		<table class='table table-condensed table-striped' id="timeLog">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Requested at (hh:mm:ss:sss)</th>
+					<th>Response at (hh:mm:ss:sss)</th>
+					<th>Requested Url</th>
+					<th>Response Time (seconds)</th>
+					<th>Server Exe Time(seconds)</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat='log in vm.timeLog track by $index'
+					data-ng-class="{'warning': log.responseTime > 2}">
+					<td class="col-xs-3">{{log.timeStamp | date:'yyyy-MM-dd'}}</td>
+					<td class="col-xs-2">{{log.timeStamp | date:'hh:mm:ss:sss'}}</td>
+					<td class="col-xs-2">{{log.resp_timeStamp | date:'hh:mm:ss:sss'}}</td>
+					<td class="col-xs-3" style="word-break: break-word;">{{log.requestedUrl}}</td>
+					<td class="col-xs-1">{{log.responseTime}}</td>
+					<td class="col-xs-1">{{log.serverExeTime}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal-footer">
+	    <button class="btn vdvc-form-btn vdvc-form-btn-muted" type="submit">CLOSE</button>
+		<button class="btn vdvc-form-btn" type="button" data-ng-click="vm.clearlog()">CLEAR</button>
+		<button class="btn vdvc-form-btn" type="button" data-ng-click="vm.tableToExcel()">Export As Excel</button>
+		
+	</div>
+</form>

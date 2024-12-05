@@ -1,0 +1,92 @@
+<div class="col-xs-3 comment-wrap full" data-ng-show="showComments">
+	<div class="comment-in-wrp full">
+		<div class="row vdvc_comment" 
+			data-ng-class="annotation.id" 
+			data-ng-attr-data-id="{{annotation.id}}" 
+			data-ng-attr-data-page="{{annotation.pageNum}}"
+		 	data-on-outside-element-click="onOutClickComment()"
+		 	data-ng-repeat="annotation in pdfAnnotations |  filter:pdfAnnotationsTypeFilter track by $index"
+		 	data-uib-popover-template="linkUIProperties.templateUrl"
+			data-popover-is-open="annotation.showDeepLink"
+			data-popover-placement="auto"
+			data-popover-trigger="linkUIProperties.trigger"
+			data-popover-class="annotation-deep-link-info"
+			data-popover-append-to-body='true'>
+		 	<div class="ellipsis comment-hdr col-xs-12" 
+		 		data-ng-click="pdfCommentOnclick($event,annotation)" 
+		 		style="padding: 5px;">
+				<div class="row" 
+					data-ng-if="annotation.type != 'Pagenote' && annotation.type != 'Screenshot'" 
+				    data-ng-bind-html="getPdfAnnotationText(annotation) | to_trusted"
+					data-tooltip-append-to-body="true" 
+					data-uib-tooltip-html="getPdfAnnotationText(annotation) | to_trusted">
+				</div>
+				<markdown-to-html class="markdown-body" 
+					data-ng-if="hasFormatedText(annotation)" 
+					data-text="annotation.formatedText" 
+					data-annotation="annotation">
+				</markdown-to-html>
+			</div>
+		 	<div class='comment-crd' data-ng-click="pdfCommentOnclick($event,annotation)">
+				<div class='comment-conv'>
+					<div class="row comment-conv-wrap" 
+						data-ng-attr-data-convId="{{annotation.id}}"
+						data-ng-show="!hasRootComment(annotation) && annotation.userName">
+						<div class="col-xs-2">
+							<div class='vdvc-circle' data-tooltip-append-to-body='true'
+								data-uib-tooltip="{{annotation.userName}}">{{getUserlabel(annotation.userName) | truncate: 2}}</div>
+						</div>
+						<div class="col-xs-10">
+							<div class="col-xs-12 text-muted" style="width: calc(100% - 20px);padding: 0px;margin-top: 5px;font-size: 10px;"> 
+								<span>{{annotation.userName}} | </span> <span data-am-time-ago='annotation.createdOn'></span>
+							</div>
+						</div>
+						<div class="col-xs-12" style="border-bottom: 1px solid #ccc;margin-top: 10px;"></div>
+					</div>
+					<div class="row comment-conv-wrap" data-ng-repeat="conv in annotation.conversations | orderBy:'createdOn':false track by $index"
+						data-ng-attr-data-convId="{{conv.id}}">
+						<div class="col-xs-2" data-ng-show="conv.userName">
+							<div class='vdvc-circle' data-tooltip-append-to-body='true'
+								data-uib-tooltip="{{::conv.userName}}">{{::getUserlabel(conv.userName) | truncate: 2 }}</div>
+						</div>
+						<div class="col-xs-10">
+							<form data-editable-form name="editcommentForm">
+								<div class="comment-conv-txt" 
+									data-e-class="vdvc-txtA" 
+									data-e-data-msd-elastic
+									data-e-form="editcommentForm"
+									data-e-data-ng-keypress="$event.stopPropagation();"
+									data-e-ng-click="$event.stopPropagation();" 
+									data-e-placeholder="Reply" 
+									data-editable-textarea="conv.note" 
+									data-e-rows="1" 
+									data-onbeforesave="updatePdfComment($data,conv,annotation)">
+									<span data-ng-bind-html="formatComment(annotation,conv.note) | to_trusted"></span>
+									<div data-ng-if="::showTagsInfo(conv)" class="col-xs-12" style="margin-top: 5px;padding: 0;">
+										<span data-ng-repeat="tag in conv.tagsInfo"
+											class="vdvc-annot-conv-tag"> 
+											<span class="ellipsis" 
+												data-tooltip-placement="auto"
+										  		data-uib-tooltip="{{showTagName(tag)}}"
+										  		data-tooltip-append-to-body='true'
+								 				style="display: block;">
+								 				{{showTagName(tag)}}
+								 			</span>
+										</span>
+									</div>
+								</div>
+							</form>
+							<div class="col-xs-12 text-muted" style="width: calc(100% - 20px);height: 15px;margin-top: 5px;font-size: 10px;padding: 0px;"> 
+								<span data-ng-show="conv.userName">{{::conv.userName}} </span><span data-ng-show="conv.userName && conv.createdOn"> | </span> <span data-ng-show="conv.createdOn" data-am-time-ago='conv.createdOn'></span>
+							</div>
+							<!-- <div data-ng-show="conv.userName" class="col-xs-12 text-muted" style="width: calc(100% - 20px);height: 15px;margin-top: 5px;font-size: 10px;padding: 0px;"> 
+								<span>{{::conv.userName}} | </span> <span data-am-time-ago='conv.createdOn'></span>
+							</div> -->
+						</div>
+						<div class="col-xs-12" style="border-bottom: 1px solid #ccc;margin-top: 10px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

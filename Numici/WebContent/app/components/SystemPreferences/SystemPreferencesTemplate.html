@@ -1,0 +1,135 @@
+	<div class="container-fluid full">
+		<!-- <div style="height: 55px"></div> -->
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="form-group col-xs-6" style="margin-top:15px;padding-left:0px;">
+					<label class="col-xs-4" for="key_type" style="line-height: 33px;padding-left:0px;">Select Key Type</label> 
+					<div class="col-xs-8">
+						<data-ui-select id="key_type" data-ng-model="vm.appKeyType" data-on-select="vm.selectedAppKeyData()" data-search-enabled="false">
+							<data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+					    
+						    <data-ui-select-choices data-repeat="appKey in vm.appKeyTypeList">
+							       <div data-ng-bind-html="appKey | highlight: $select.search"></div>
+							</data-ui-select-choices>
+					    
+						</data-ui-select>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="col-xs-12">
+				<label class="col-xs-2" for="description" style="line-height: 33px;padding-left:0px;">Description</label>
+				<span class="col-xs-10" id="description" style="line-height: 33px;padding-left: 10px;">{{vm.appKeyValuesList[0].description}}</span>
+				
+			</div> -->
+			<div class="col-xs-12">
+				<table class="table system-preferences-table docTable" style="width: 100%;">
+					<thead >
+						<tr style="height: 40px;">
+							<th>Key</th>
+							<th>Value</th>
+							<th>Is Active</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-repeat="appKeyValue in vm.appKeyValuesList">
+							<td style="line-height: 33px;">
+								<span>{{appKeyValue.key}}</span>
+								<span class="system-preference-help" 
+									data-uib-tooltip="{{appKeyValue.description}}" 
+									data-tooltip-placement="auto bottom" 
+									data-tooltip-append-to-body="true" 
+									role="button" 
+									tabindex="0">
+									<i class="fa fa-info-circle fa-fw" aria-hidden="true"></i>
+								</span>
+							</td>
+							<td data-ng-style="{ 'line-height' : vm.showTextArea() ? '1.25em' : '33px' }">
+								<div class="ellipsis" data-ng-show="!appKeyValue.clone.isEdited" 
+									data-ng-style="vm.showTextArea() && { 'height' : '104px','max-height' : '104px','overflow-y' : 'auto' }">
+									{{appKeyValue.value}}
+								</div>
+								<div data-ng-show="appKeyValue.clone.isEdited && appKeyValue.key != 'helpTopicOrder' && vm.showHelpTextDisplayTypes()">
+									<data-ui-select data-ng-model="appKeyValue.clone.value" data-search-enabled="false">
+										<data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+								    
+									    <data-ui-select-choices data-repeat="helpTextDisplayType in vm.helpTextDisplayTypes">
+										       <div data-ng-bind-html="helpTextDisplayType | highlight: $select.search"></div>
+										</data-ui-select-choices>
+								    
+									</data-ui-select>
+								</div>
+								<div data-ng-show="appKeyValue.clone.isEdited && appKeyValue.key == 'helpTopicOrder' && vm.showHelpTextDisplayTypes()">
+									<data-ui-select data-ng-model="appKeyValue.clone.value" data-search-enabled="false">
+										<data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+								    
+									    <data-ui-select-choices data-repeat="helpTopicOrder in vm.helpTopicOrders">
+										       <div data-ng-bind-html="helpTopicOrder | highlight: $select.search"></div>
+										</data-ui-select-choices>
+								    
+									</data-ui-select>
+								</div>
+								<div data-ng-show="appKeyValue.clone.isEdited && vm.showHelpTextTopics()">
+									<data-ui-select data-ng-model="appKeyValue.clone.value" data-search-enabled="false">
+										<data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+								    
+									    <data-ui-select-choices data-repeat="helpTextTopic in vm.helpTextTopics">
+										       <div data-ng-bind-html="helpTextTopic | highlight: $select.search"></div>
+										</data-ui-select-choices>
+								    
+									</data-ui-select>
+								</div>
+								<div data-ng-show="appKeyValue.clone.isEdited && vm.showColorPicker()">
+									<input colorpicker="rgba" type="text" data-ng-model="appKeyValue.clone.value" />
+								</div>
+								<div data-ng-show="appKeyValue.clone.isEdited && vm.showTextBox()">
+									<input type="text" data-ng-model="appKeyValue.clone.value" />
+								</div>
+								<div data-ng-show="appKeyValue.clone.isEdited && vm.showTextArea()">
+									<textarea data-ng-model="appKeyValue.clone.value" style="margin: 0px;height: 110px;max-height: 110px;width: 100%;resize:none;line-height: 1.25em;">
+									</textarea>
+								</div>
+							</td>
+							<td class="wraptext" style="line-height: 33px;">
+								<span data-ng-click="$event.stopPropagation();"  class="checkbox" style="margin:0px;width:30px;" data-ng-show="!appKeyValue.clone.isEdited">
+					               <input data-ng-model="appKeyValue.active" type="checkbox" data-ng-disabled="!appKeyValue.clone.isEdited">
+					               <label style="padding: 0px;line-height: normal;"></label>
+					            </span>
+								<span data-ng-click="$event.stopPropagation();"  class="checkbox" style="margin:0px;width:30px;" data-ng-show="appKeyValue.clone.isEdited">
+					               <input data-ng-model="appKeyValue.clone.active" type="checkbox" data-ng-disabled="!appKeyValue.clone.isEdited">
+					               <label style="padding: 0px;line-height: normal;"></label>
+					            </span>
+							</td>
+							<td style="line-height: 33px;">
+								<div class="col-xs-12">
+									<span class='fa fa-pencil-square-o fa-lg' 
+										  data-ng-show="!appKeyValue.clone.isEdited" 
+										  data-tooltip-append-to-body="true" 
+										  data-tooltip-placement="bottom" 
+										  data-uib-tooltip="Edit" 
+										  data-ng-click="vm.EditAppKeyValues(appKeyValue)">
+									</span>
+									
+									<span class='fa fa-floppy-o fa-lg'
+									  		  data-ng-show="appKeyValue.clone.isEdited" 
+									  		  data-tooltip-append-to-body="true" 
+									  		  data-tooltip-placement="bottom" 
+									  		  data-uib-tooltip="Save" 
+									  		  data-ng-click="vm.SaveAppKeyValues(appKeyValue)">
+									</span>
+									<span class='fa fa-times fa-lg'
+										  data-ng-show="appKeyValue.clone.isEdited" 
+										  data-tooltip-append-to-body="true" 
+										  data-tooltip-placement="bottom" 
+										  data-uib-tooltip="Cancel" 
+										  data-ng-click="vm.CancelEdit(appKeyValue)">
+									</span>
+									
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>

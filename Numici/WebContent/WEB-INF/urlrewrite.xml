@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite
+    PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+    "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+<urlrewrite default-match-type="wildcard">
+	<rule match-type="regex" enabled="true">
+		<condition type="request-uri" operator="notequal">((.*\.html)|(.*\.js)|(^\/resources/.*)|(.*\.jsp)|(\.jsf)|(\.xhtml)|(^\/api\/.*)|(^\/annotateWebApi)|(^\/webMessageOauth)|(^\/oauth)|(^\/Upload)|(\/faces)|(\/icefaces)|(\/xmlhttp)|(^\/privacy-policy)$|(^\/Welcome_extension_user)$|(^\/mgcallback.*)|(^\/docUpload)|(^\/evernotecallback.*)|(^\/EvernoteOAuthService.*)|(^\/GoogleDocViewer.*)|(^\/ImageUpload.*)|(^\/ImageUploadAsBase64.*)|(^\/onedrivecallback.*)|(^\/OneDriveGoogleDocViewer.*)|(^\/slackcommand.*)|(^\/slackevents.*)|(^\/slackcallback.*)|(^\/app\/assets.*)|(^\/dlink.*)|(^\/linkrouter.*)|(^\/clipper.*)|(^\/linkedincallback.*)|(^\/linkedinreauthcallback.*))</condition>
+		<from>
+			((^\/login)$|(^\/fldr.*)|(^\/deleteme.*)|(^\/portfolios.*)|(^\/docview.*)|(^\/search.*)|(^\/slacksearch.*)|(^\/manage.*)|(^\/list.*)|(^\/slack)$|(^\/link.*)|(^\/urlError)|(^\/acount)|(^\/welcome)|(^\/webannotation.*)|(^\/models)|(^\/vApps)|(^\/digestsettings.*)|(^\/sharelinks.*)|(^\/tsdigestview.*)|(^\/digestlink.*)|(^\/preferences)|(^\/appsettings)|(^\/administration)|(^\/trash.*)|(^\/cp)$|(^\/tci)|(^\/authError)|(^\/ODAuthErr.*)|(^\/WAErrorWOA.*)|(^\/publicADWarning.*)|(^\/WAError.*)|(^\/manageslack)|(^\/managenotifications)|(^\/user\/preferences)|(^\/evernoteAuthError)|(^\/regprouser.*)|(^\/reguserfromext.*)|(^\/verifyotp.*)|(^\/resetpwd.*)|(^\/resetpwdsuccess.*)|(^\/public\/view.*)|(^\/SlackAuthErr.*)|(^\/SlackAuthCB.*)|(^\/boxAuthErr.*)|(^\/dropBoxAuthErr.*)|(^\/linkedInAuthErr.*)|(^\/linkedInAuthSuccess.*)|(^\/asanaAuthErr.*)|(^\/error.*)|(^\/slacksignincb.*)|(^\/slackhome.*)|(^\/addslack.*)|(^\/asana\/manage.*)|(^\/actionitems.*)|(^\/signup.*)|(^\/inbox.*))
+		</from>
+		<to last="true">/numiciapp</to>
+	</rule>
+	<rule match-type="regex" enabled="true">
+		<condition type="request-uri" operator="notequal">((.*\.html)|(.*\.js)|(^\/resources/.*)|(.*\.jsp)|(\.jsf)|(\.xhtml)|(^\/api\/.*)|(^\/annotateWebApi)|(^\/webMessageOauth)|(^\/oauth)|(^\/Upload)|(\/faces)|(\/icefaces)|(\/xmlhttp)|(^\/privacy-policy)$|(^\/Welcome_extension_user)$|(^\/mgcallback.*)|(^\/docUpload)|(^\/evernotecallback.*)|(^\/EvernoteOAuthService.*)|(^\/GoogleDocViewer.*)|(^\/ImageUpload.*)|(^\/ImageUploadAsBase64.*)|(^\/onedrivecallback.*)|(^\/OneDriveGoogleDocViewer.*)|(^\/slackcommand.*)|(^\/slackevents.*)|(^\/slackcallback.*)|(^\/app\/assets.*)|(^\/dlink.*)|(^\/linkrouter.*)|(^\/clipper.*))</condition>
+		<from>
+			((^\/p\/digestview)$|(^\/p\/digestviewold)|(^\/p\/digestdocview)|(^\/p\/webannotation)|(^\/p\/waerror)|(^\/publicUrlError))
+		</from>
+		<to last="true">/numicipublicapp</to>
+	</rule>
+	<rule match-type="regex" enabled="true">
+		<from>^/$</from>
+    	<to type="redirect">/login</to>
+	</rule>
+</urlrewrite>

@@ -1,0 +1,11 @@
+<div class='row full'  id='vdvc_doc_viewer' data-ng-init="docContext='FromSearch';">
+	<doc-viewer-navbar class="srch"></doc-viewer-navbar>
+	<div class="full doc-content">
+		<vdvc-note-viewer data-ng-show="!showPdf"></vdvc-note-viewer>
+		<data-vdvc-pdf-viewer class="vdvc-pdfWrp" data-ng-show="showPdf"></data-vdvc-pdf-viewer>
+	</div>
+	
+	<vdvc-spinner name="search_spinner">
+		<div class="vdvc-loader-spin vdvc-v-align"></div>
+	</vdvc-spinner>
+</div>

@@ -1,0 +1,435 @@
+
+<script type="text/ng-template" id="collab-tmpl.html">
+ <div>
+	<div>
+	  <span data-ng-show="heading">
+	    <a href tabindex="0" class="accordion-toggle" data-ng-click="toggleOpen()" data-uib-accordion-transclude="heading">
+		      <span class="sub-head">
+		      	{{heading}} <i class="fa fa-fw" data-ng-class="{'fa-chevron-down': !isOpen, 'fa-chevron-up': isOpen}"></i>
+		      </span>
+	    </a>
+	  </span>
+	</div>
+	<div class="panel-collapse collapse" data-uib-collapse="!isOpen" style="background: #eee;margin: -1px;">
+	  <div style="padding: 0px 10px;max-height: 163px;overflow-y: auto;" data-ng-transclude></div>
+	</div>
+ </div>
+</script>
+
+<div class="container-fluid full" style="overflow: hidden;">
+	<div id="nav-bar-height-div"></div>
+	<div class="col-xs-12" style="padding: 0px;overflow: auto;">
+		<div data-set-content-container-height="Taskspace" id="vdvc-content-wrap" class="col-xs-12" style="position: relative;min-width: 1075px;">
+			<div class="full ts-ls-exp" 
+				data-ng-show="vm.UserRole != 'TSGuest'" 
+			    data-ng-class="{'ts-ls-colps': vm.toggleTsListSideBarChecked, 'ts-ls-exp': !vm.toggleTsListSideBarChecked}">
+			    <div class="full" style="width: calc(100% - 30px);float:left;padding: 10px 0px;" data-ng-show="!vm.toggleTsListSideBarChecked">
+			     	<div id="taskspace-pane" class="row full" style="position: relative; overflow: hidden;">
+			     	    <div data-ng-show="vm.checkedItems.length > 0"
+							 class="ts-pane-view">
+							<div class="row" style="padding: 0px 5px;">
+							 	<span style="display: inline-block;vertical-align: middle;">
+							 		<span style="padding: 2px 4px;/* background: #fb8d33; */">{{vm.checkedItems.length}}</span>
+							 		<span>Selected</span>
+							 	</span>
+							 	<button type="button" 
+							 		class="btn vdvc-doc-btn" 
+							 		data-ng-click="vm.unselectAll($event)" 
+							 		data-tooltip-append-to-body="true" 
+						  			data-tooltip-placement="bottom" 
+						  			data-uib-tooltip="De select all"
+							 		style="margin-left: 20px;float: right;">
+							 		<i class="fa fa-square-o fa-fw"></i>
+							 	</button>
+							</div>
+						
+							<div class="row">
+								<button type="button" 
+					  				class="btn vdvc-doc-btn {{action.title}}" 
+					  				data-ng-repeat="(key, action) in vm.actionProps" 
+					  				data-ng-show="action.show" 
+					  				data-tooltip-append-to-body="true" 
+					  				data-tooltip-placement="right" 
+					  				data-uib-tooltip="{{action.title}}" 
+					  				data-ng-click="vm.executeTSAction(action.title)">
+							  		<i class='fa {{action.class}}'></i> 
+							  		<!-- <span data-ng-if="!vm.deviceInfo.isTouch">{{action.title}}</span> -->
+							    </button>
+							</div>		
+						</div>
+						<div id="ts-filters-wrap" style="height: 70px; margin-bottom: 10px; border-bottom: 1px solid #ccc; position: absolute; width: 100%;background: #fff;">
+							<div style="padding: 0px 10px;height:30px;margin: 3px 0px; ">
+							  <input type="text" 
+							         style="height: 30px;"
+							         placeholder="Find Taskspace"
+							         class="vdvc-input-txt " 
+							         data-ng-model="vm.tsSearchTxt" 
+							         autofocus>
+						    </div>
+							<div style="padding: 0px 10px;height:30px;margin: 3px 0px; ">
+								<div class="dropdown ts-list-filters" 
+									data-uib-dropdown
+								 	style="float: left;">
+							        <button type="button" 
+						        		class="btn vdvc-nav-btn dropdown-toggle create-new" 
+						        		data-uib-dropdown-toggle 
+						        		data-ng-disabled="disabled" 
+						        		data-tooltip-append-to-body="true" 
+								        data-tooltip-placement="auto top" 
+								        data-uib-tooltip="Filter : {{vm.tsList}}"
+						        		style="font-size: 13px;height: 25px;padding: 0px 5px;margin: 2.5px 2.5px 0px 0px;">
+							        	<i class="fa fa-filter" aria-hidden="true" style="float: left;height: 23px;line-height: 23px;"></i>
+							        	<div class="ellipsis" style="min-width: 15px;max-width: 15px;height: 23px;line-height: 23px;float: left;margin: 0px 5px;">{{vm.tsList == 'All' ? 'All' : ''}}</div>
+							        	<span class="caret" style="float: left;height: 18px;line-height: 18px;margin: unset;margin-top: 10px;"></span>
+							      	</button>
+							      	<ul class="dropdown-menu vdvc-more-dd" data-uib-dropdown-menu role="menu" aria-labelledby="createNew" style="width: 160px;top: calc(100% - 2px);">
+								        <li class="vdvc-drop-down-item new-taskspace" role="menuitem" data-ng-click="vm.showTaskSpaces($event,'All')">
+								        	<div class="vdvc-drop-down-item">
+								        	  <span style="width: 20px;margin-right: 0px;display: inline-block;">
+								        	  	<i class="fa fa-fw fa-check" data-ng-if="vm.tsList == 'All'"></i>
+								        	  </span>
+								        	  <span>All</span>
+								        	</div>
+								        </li>
+								        <li class="vdvc-drop-down-item open-manage-ts" role="menuitem" data-ng-click="vm.showTaskSpaces($event,'Favorites')">
+								        	<div class="vdvc-drop-down-item">
+								        	  <span style="width: 20px;margin-right: 0px;display: inline-block;">
+								        	  	<i class="fa fa-fw fa-check" data-ng-if="vm.tsList == 'Favorites'"></i>
+								        	  </span>
+								        	  <span>Favorites</span>
+								        	</div>
+								        </li>
+								        <li class="vdvc-drop-down-item open-manage-ts" role="menuitem" data-ng-click="vm.showTaskSpaces($event,'Owned by Me')">
+								        	<div class="vdvc-drop-down-item">
+								        	  <span style="width: 20px;margin-right: 0px;display: inline-block;">
+								        	  	<i class="fa fa-fw fa-check" data-ng-if="vm.tsList == 'Owned by Me'"></i>
+								        	  </span>
+								        	  <span>Owned by Me</span>
+								        	</div>
+								        </li>
+								        <li class="vdvc-drop-down-item open-manage-ts" role="menuitem" data-ng-click="vm.showTaskSpaces($event,'Shared with me')">
+								        	<div class="vdvc-drop-down-item">
+								        	  <span style="width: 20px;margin-right: 0px;display: inline-block;">
+								        	  	<i class="fa fa-fw fa-check" data-ng-if="vm.tsList == 'Shared with me'"></i>
+								        	  </span>
+								        	  <span>Shared with Me</span>
+								        	</div>
+								        </li>
+								    </ul>
+							  	</div>
+								<div class="dropdown ts-list-sort" 
+								 	 data-uib-dropdown
+								 	 style="float: left;">
+							        <button type="button" 
+						        		class="btn vdvc-nav-btn dropdown-toggle create-new" 
+						        		data-uib-dropdown-toggle 
+						        		data-ng-disabled="disabled"
+						        		data-tooltip-append-to-body="true" 
+								        data-tooltip-placement="auto top" 
+								        data-uib-tooltip="Sort by {{vm.getTSSortedField()}} {{vm.tsListSortByDec ? 'descending' : 'ascending'}}"
+						        		style="font-size: 13px;height: 25px;padding: 0px 5px;margin: 2.5px 2.5px 0px;">
+							        	<i class="fa" 
+							        		data-ng-class="vm.getTSSortedOrderIcon()" 
+							        		aria-hidden="true" 
+							        		style="float: left;height: 23px;line-height: 23px;font-size: 12px;">
+							        	</i>
+							        	<div class="ellipsis" style="min-width: 87px;max-width: 87px;float: left;height: 23px;line-height: 23px;margin: 0px 5px;text-align: left;">
+							        		{{vm.getTSSortedField()}}
+							        	</div>
+							        	<span class="caret" 
+							        		style="float: left;height: 18px;line-height: 18px;margin: unset;margin-top: 10px;">
+							        	</span>
+							      	</button>
+							      	<ul class="dropdown-menu-right vdvc-more-dd" data-uib-dropdown-menu role="menu" aria-labelledby="createNew" style="width: 170px;right: 2.5px;top: calc(100% - 2px);">
+								        <li class="vdvc-drop-down-item open-manage-ts" role="menuitem" data-ng-click="vm.sortBy($event,'createdDate',true)">
+								        	<div class="vdvc-drop-down-item">
+								        	  <span style="width: 20px;margin-right: 0px;display: inline-block;">
+								        	  	<i class="fa fa-fw fa-check" data-ng-if="vm.tsListSortBy == 'createdDate'"></i>
+								        	  </span>
+								        	  <span>Date Created</span>
+								        	  <span class="fa" 
+								        	  	data-ng-if="vm.tsListSortBy == 'createdDate'" 
+								        	  	data-ng-class="{'fa-sort-numeric-asc' : !vm.tsListSortByDec , 'fa-sort-numeric-desc': vm.tsListSortByDec}" 
+								        	  	style="float: right;padding: 0px 1px;margin-left: 5px;margin-top: 8px;">
+								        	  </span>
+								        	</div>
+								        </li>
+								        <li class="vdvc-drop-down-item open-manage-ts" role="menuitem" data-ng-click="vm.sortBy($event,'lastOpened',true)">
+								        	<div class="vdvc-drop-down-item">
+								        	  <span style="width: 20px;margin-right: 0px;display: inline-block;">
+								        	  	<i class="fa fa-fw fa-check" data-ng-if="vm.tsListSortBy == 'lastOpened'"></i>
+								        	  </span>
+								        	  <span>Date Last Opened</span>
+								        	  <span class="fa" 
+								        	  	data-ng-if="vm.tsListSortBy == 'lastOpened'" 
+								        	  	data-ng-class="{'fa-sort-numeric-asc' : !vm.tsListSortByDec , 'fa-sort-numeric-desc': vm.tsListSortByDec}" 
+								        	  	style="float: right;padding: 0px 1px;margin-left: 5px;margin-top: 8px;">
+								        	  </span>
+								        	</div>
+								        </li>
+								        <li class="vdvc-drop-down-item open-manage-ts" role="menuitem" data-ng-click="vm.sortBy($event,'name')">
+								        	<div class="vdvc-drop-down-item">
+								        	  <span style="width: 20px;margin-right: 0px;display: inline-block;">
+								        	  	<i class="fa fa-fw fa-check" data-ng-if="vm.tsListSortBy == 'name'"></i>
+								        	  </span>
+								        	  <span>Name</span>
+								        	  <span class="fa" 
+								        	  	data-ng-if="vm.tsListSortBy == 'name'" 
+								        	  	data-ng-class="{'fa-sort-alpha-asc' : !vm.tsListSortByDec , 'fa-sort-alpha-desc': vm.tsListSortByDec}" 
+								        	  	style="float: right;padding: 0px 1px;margin-left: 5px;margin-top: 8px;">
+								        	  </span>
+								        	</div>
+								        </li>
+								   	</ul>
+							  	</div>
+								<button type="button" 
+									data-ng-if="!vm.isNewTaskSpaceHidden()"
+							        class="btn vdvc-nav-btn" 
+							        id="new-taskspace" 
+							        data-ng-click="vm.newTaskSpace($event)" 
+							        data-tooltip-append-to-body="true" 
+							        data-tooltip-placement="bottom" 
+							        data-uib-tooltip="New Taskspace" 
+							        data-ng-disabled="vm.isNewTaskSpaceDisable()" 
+							        style="height: 25px;padding: 0px 2.5px;margin: 2.5px 0px 0px 2.5px;">
+									<span class="fa fa-fw fa-plus" style="height: 23px;line-height: 23px;"></span>
+								</button>
+							</div>
+						</div>
+						<div id="list-of-taskspaces" style="height: calc(100% - 75px); overflow-y: scroll;overflow-x: hidden; position: relative;top: 75px;">
+							<div data-ng-class="{'active': taskSpace.current,'item-selected' : taskSpace.selected, 'ts-mobile-li' : vm.deviceInfo.isMobile || vm.deviceInfo.isTablet || vm.deviceInfo.isTouch}" 
+								 class="ts-li"
+								 data-ng-repeat="taskSpace in vm.taskSpaces | filter:searchTaskspace track by $index " 
+								 data-ng-click="vm.setActivateTaskSpace($event,taskSpace)"
+								 data-scroll-if="{{taskSpace.current}}"
+								 data-scroll-on-hover>
+								 
+								<div class="row" data-ng-click="$event.stopPropagation();">
+									<div class="checkbox  checkbox-circle crd-checkbox" 
+										 data-ng-class="{'checkbox-primary' : taskSpace.selected}"
+										 style="bottom: -3px;right: -3px;">
+								       <input data-ng-class="{'first-tsg-checkbox' : $first}" data-ng-model="taskSpace.selected" type="checkbox" data-ng-change="vm.selectTaskSpace(taskSpace)">
+								       <label></label>
+								    </div>
+							    </div>
+								 
+								<div style="height: 30px;line-height: 30px;">
+									<div class="task-hdr ng-binding ellipsis" 
+								  		data-tooltip-placement="auto top"
+								  		data-uib-tooltip="{{vm.tabName(taskSpace)}}"
+								  		data-tooltip-class="ts-tab-tooltip"  
+						 				data-tooltip-append-to-body='true'
+						 				style="vertical-align: top;float: left;width: calc(100% - 93px);">
+						 				{{taskSpace.name}}
+						 			</div>
+								  	<div style="float: right; width: 93px; color: #777;">
+									  	<span data-ng-if="taskSpace.current" style="display: inline-block;vertical-align: top;float: right;">
+									  		<!-- <span data-ng-if="!vm.deviceInfo.isTouch && !vm.isTSChangeLayoutHidden()" 
+									  			class="ts-layout-icon" 
+									  			data-ng-click="!vm.isTSChangeLayoutDisable() && vm.chageLayout($event)" 
+									  			role="button" 
+									  			data-ng-style="{'cursor' : !vm.isTSChangeLayoutDisable() ? 'pointer' : 'not-allowed'}">
+										      	<i class="fa fa-fw fa-columns"></i>
+										      	<i class="fa fa-stack-text" style="margin-top: 5px;">{{vm.layoutLable}}</i>
+										    </span> -->
+										  	<span data-ng-show="vm.isTsSharable(taskSpace)" 
+										  		class="invite-to-ts fa fa-fw fa-users" 
+										  		data-ng-class="{'shareTaskSpace' : taskSpace.current}" 
+										  		data-ng-click="taskSpace.slackChannelType != 'G' && vm.shareTaskSpace($event)" 
+										  		role="button" 
+										  		data-ng-style="{'cursor' : taskSpace.slackChannelType == 'G' ? 'not-allowed' : 'pointer'}" 
+										  		data-tooltip-placement="auto top"
+												data-tooltip-append-to-body='true' 
+												data-uib-tooltip ="{{taskSpace.slackChannelType == 'G' ? 'Can not share a Taskspace connected to Private Channel' : 'Invite / Edit Collaborators'}}">
+										  	</span>
+										  	<!-- <span class="fa fa-fw fa-times " data-ng-class="{'closeCurrentTaskSpace' : taskSpace.current}" data-ng-click="vm.closeTaskSpace($event,taskSpace)" role="button" tabindex="0"></span> -->
+									  		<span class="set-ts-as-favorite fa fa-fw"
+									  		      data-ng-class="{'fa-spin' : taskSpace.favoriteBtnDisabled ,'fa-star-o' : !taskSpace.favorite, 'fa-star' : taskSpace.favorite}"  
+									  		      data-ng-click="vm.setFavorite($event,taskSpace)"
+									  		      role="button" 
+									  		      tabindex="0" 
+									  		      data-ng-style="{'color' : (taskSpace.current && taskSpace.favorite) ? 'rgb(0, 102, 153)' : ''}" 
+									  		      data-tooltip-placement="auto top"
+												  data-tooltip-append-to-body='true' 
+												  data-uib-tooltip="{{taskSpace.favorite ? 'Marked as Favorite' : 'Click to mark as Favorite'}}">
+									  		</span>
+									  		<span class="slack-logo" 
+									  			data-ng-if="vm.isTSConnectedToSlack(taskSpace)" 
+									  			style="position: relative;" 
+									  			data-tooltip-placement="auto top"
+												data-tooltip-append-to-body='true' 
+												data-uib-tooltip ="Channel Name : {{taskSpace.slackChannelName}}">
+						 					  	<i class="fa fa-lock" data-ng-if="taskSpace.slackChannelType == 'G'">
+									 			</i>
+								 		 	</span>
+									  	</span>
+									  	<span data-ng-if="!taskSpace.current" style="display: inline-block;vertical-align: top;float: right;">
+									  		<!-- <span class="fa fa-fw fa-times closeTaskSpace" data-ng-click="vm.closeTaskSpace($event,taskSpace)" role="button" tabindex="0"></span> -->
+									  		<span class="fa fa-fw"
+									  		      style="color: #069;"
+									  		      data-ng-class="{'fa-spin' : taskSpace.favoriteBtnDisabled ,'fa-star-o' : !taskSpace.favorite, 'fa-star' : taskSpace.favorite}"  
+									  		      data-ng-click="vm.setFavorite($event,taskSpace)"
+									  		      role="button" 
+									  		      tabindex="0" 
+									  		      data-tooltip-placement="auto top"
+												  data-tooltip-append-to-body='true' 
+												  data-uib-tooltip="{{taskSpace.favorite ? 'Marked as Favorite' : 'Click to mark as Favorite'}}">
+									  		</span>
+									  		<span class="slack-logo" 
+									  			data-ng-if="vm.isTSConnectedToSlack(taskSpace)" 
+									  			style="position: relative;" 
+									  			data-tooltip-placement="auto top"
+												data-tooltip-append-to-body='true' 
+												data-uib-tooltip ="Channel Name : {{taskSpace.slackChannelName}}">
+						 					  	<i class="fa fa-lock" data-ng-if="taskSpace.slackChannelType == 'G'">
+									 			</i>
+								 		 	</span>
+									  	</span>
+								  	</div>
+								</div>
+								<!-- <div class="sub-head ellipsis" 
+									data-tooltip-placement="auto top"
+									data-tooltip-append-to-body='true' 
+									data-uib-tooltip ="{{taskSpace.tickers | join:', '}}">
+									{{taskSpace.tickers | join:', '}}
+								</div> -->
+								<div style="height: 30px;line-height: 30px;">
+									<div class="sub-head ellipsis col-xs-6" 
+										data-tooltip-placement="auto top"
+										data-tooltip-append-to-body='true' 
+										data-uib-tooltip ="Number of documents in the Taskspace"
+										style="padding: 0px;padding-right: 5px;">
+										{{vm.getDocsHeading(taskSpace)}}
+									</div>
+									<div class="sub-head col-xs-6" 
+										data-ng-if="!taskSpace.permissions.readOnly" 
+										data-tooltip-placement="auto top"
+										data-tooltip-append-to-body='true' 
+										data-uib-tooltip="Collaborators" 
+										data-ng-click="$event.stopPropagation();taskSpace.collabOpen = !taskSpace.collabOpen"
+										data-ng-style="taskSpace.collabOpen && {'border-bottom': '1px solid #069','color': '#069'}"
+										style="padding: 0px;cursor: pointer;height: 30px;line-height: 30px;">
+										<span class="ellipsis" 
+											  style="width: calc(100% - 15px);height: 30px;line-height: 30px;display: inline-block;">
+											  {{vm.getCollaboratorsHeading(taskSpace)}} 
+									    </span>
+										<span class="fa fa-fw" 
+										      data-ng-class="{'fa-chevron-down': !taskSpace.collabOpen, 'fa-chevron-up': taskSpace.collabOpen}"
+										      style="float: right;font-size: 10px;padding: 8px 0px;">
+										</span>
+									</div>
+								</div>
+								
+								<div data-ng-click="$event.stopPropagation();">
+									<data-uib-accordion>
+									<!-- data-heading="{{vm.getCollaboratorsHeading(taskSpace)}}"  -->
+										<div data-uib-accordion-group
+										     data-template-url="collab-tmpl.html"
+										     data-is-open="taskSpace.collabOpen"
+										     style="background: transparent;border-radius: 0;box-shadow: none;margin-bottom: -18px;">
+									      <div class="sub-head ellipsis" 
+											   data-tooltip-placement="auto top"
+											   data-tooltip-append-to-body='true' 
+											   data-uib-tooltip ="{{taskSpace.owner}}"
+											   style="padding: 5px 0px;border-bottom: 1px dotted #aaa;">
+											 <i class="fa fa-fw fa-user-circle-o"></i> {{taskSpace.owner}}
+										  </div>
+										   <div data-ng-repeat="collab in taskSpace.collaborators track by $index">
+										     <div class="sub-head ellipsis" style="padding: 5px 0px;border-bottom: 1px dotted #aaa;">
+											   	<div data-tooltip-placement="auto top"
+											   	  data-tooltip-append-to-body='true' 
+											      data-uib-tooltip ="{{collab.displayName}}">
+											   	 	<i class="fa fa-fw fa-users"></i> {{collab.displayName}}
+											   	</div>
+											   	<div data-tooltip-placement="auto top"
+											   	  data-tooltip-append-to-body='true' 
+											      data-uib-tooltip ="{{collab.userId}}">
+											   		{{collab.userId}}
+											   	</div>
+											 </div>
+										  </div>
+									    </div>
+									</data-uib-accordion>
+								</div>
+								<div class="sub-head ellipsis" 
+									data-tooltip-placement="auto top"
+									data-tooltip-append-to-body='true' 
+									data-uib-tooltip ="Taskspace Owner">
+									{{taskSpace.owner}}
+								</div>
+								<div class="sub-head ellipsis" 
+									data-tooltip-placement="auto top"
+									data-tooltip-append-to-body='true' 
+									data-uib-tooltip ="Date Taskspace was {{vm.getTSDateLable()}}">
+									<!-- Opened On: {{taskSpace.lastOpened | date:'medium'}} -->
+									{{vm.getTSDateLable()}}: {{vm.getTSDateValue(taskSpace) | date:'medium'}}
+								</div>
+								<!-- 
+								<div class="sub-head ellipsis" 
+									data-tooltip-placement="auto top"
+									data-tooltip-append-to-body='true' 
+									data-uib-tooltip ="{{taskSpace.createdDate | date:'medium'}}">
+									Created On: {{taskSpace.createdDate | date:'medium'}}
+								</div>
+								 -->
+							</div>
+						</div>
+					</div>
+			    </div>
+			    
+			    <div data-ng-show="vm.toggleTsListSideBarChecked"
+			         style="border: 1px solid #ddd;background: #fff;top:10px;height: calc(100% - 20px);width: 30px;float: left;position: relative;color:#069;">
+						<span class="v-txt-mid" data-collapsed-doc-list-width="Taskspaces">
+							<span class="ellipsis" 
+						    	style="width: 100%;float: left;padding: 0px 25px;margin: 5px 0px;">
+								{{vm.activeTaskSpace.name}}
+							</span>
+							<span style="position: absolute;right: 0px;">
+								<button type="button" 
+								        class="btn vdvc-nav-btn vdvc-doc-main-btn" 
+								        data-ng-if="!vm.isNewTaskSpaceHidden()"
+								        data-ng-click="vm.newTaskSpace($event)" 
+								        data-tooltip-append-to-body="true" 
+								        data-tooltip-placement="bottom" 
+								        data-uib-tooltip="New Taskspace" 
+								        style="height: 28px;">
+									<span class="fa fa-fw fa-plus"></span>
+								</button>
+								<!-- <button type="button" 
+								        class="btn vdvc-nav-btn vdvc-doc-main-btn" 
+								        data-ng-click="vm.changeTsView($event,'default')" 
+								        data-tooltip-append-to-body="true" 
+								        data-tooltip-placement="bottom" 
+								        data-uib-tooltip="Default View" aria-hidden="true">
+									<span class="ts-layout-icon" role="button" tabindex="0">
+								      <i class="fa fa-fw fa-columns "></i>
+								      <i class="fa fa-stack-text" style="margin-top: 5px;">d</i>
+								    </span>
+								</button> -->
+									<!-- <button type="button" 
+									        class="btn vdvc-nav-btn vdvc-doc-main-btn" 
+									        data-ng-click="vm.manageTaskSpace($event)" 
+									        data-tooltip-append-to-body="true" 
+									        data-tooltip-placement="bottom" 
+									        data-uib-tooltip="Manage" aria-hidden="true">
+										<span class="fa fa-cog fa-fw" aria-hidden="true"></span>
+									</button> -->
+							</span>
+						</span>
+				</div>
+			    <div class="ts-obj-colp-bwrp" style="top:10px;height: calc(100% - 20px);">
+						<div class="ts-obj-colp-btn" data-ng-click="vm.toggleOnePaneTsList()" role="button" tabindex="0">
+							<i class="fa fa-fw" data-ng-class="{'fa-angle-double-right': vm.toggleTsListSideBarChecked, 'fa-angle-double-left': !vm.toggleTsListSideBarChecked}" aria-hidden="true" style="">
+							</i>
+						</div>
+				</div>
+			</div>
+			<div class="full ts-cont-colps" 
+			     data-ng-class="{'ts-cont-colps': !vm.toggleTsListSideBarChecked, 'ts-cont-exp': vm.toggleTsListSideBarChecked}" 
+			     data-ng-style="{'width' : vm.UserRole == 'TSGuest' ? '100%' : '','left' : vm.UserRole == 'TSGuest' ? '0%' : ''}" >
+				<div class="full" data-ui-view data-name="content"></div>
+			</div>
+		</div>
+	</div>
+	
+</div>

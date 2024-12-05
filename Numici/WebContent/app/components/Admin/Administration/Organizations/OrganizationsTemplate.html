@@ -1,0 +1,76 @@
+<div class="row full">
+	<div class="col-xs-12">
+		<div class="col-xs-6" style="padding-left:0px;">
+			<input type="text" 
+        	   class="form-control vdvc-input-txt" 
+        	   id="org_search"
+			   data-ng-model="oc.searchString" 
+			   placeholder='Search' 
+			   style="margin-top: 5px;">
+		</div>
+		<div class="col-xs-6" style="padding-left:0px;text-align: center;">
+			<button type="button" 
+	      		class="btn vdvc-nav-btn" 
+	      		data-ng-click="oc.createOrganization()" 
+	      		style="float:right;margin-top: 5px;margin-left: 5px;height: 35px;">
+	        	Add Organization
+	      	</button>
+	    </div>
+	</div>
+	<div class="col-xs-12" style="margin-top: 5px;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;height: calc(100% - 55px);overflow-y: auto;">
+		<table class="table organizations-table" style="width: 100%;margin-bottom: 0px;">
+			<thead>
+				<tr style="height: 40px;">
+					<th data-ng-repeat="orgHeader in oc.organizationHeaders | orderBy : 'order'">{{orgHeader.label}}</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-if="oc.searchStringFilter(organization)" data-ng-repeat="organization in oc.organizationsList">
+					<td data-ng-if="orgHeader.type != 'date'" 
+						class="ellipsis" 
+						data-ng-repeat="orgHeader in oc.organizationHeaders | orderBy : 'order'" 
+						data-tooltip-append-to-body="true"
+  		    			data-tooltip-placement="auto"
+  		    			data-uib-tooltip="{{organization[orgHeader.key]}}" 
+						style="line-height: 33px;">
+						{{organization[orgHeader.key]}}
+					</td>
+					<td data-ng-if="orgHeader.type == 'date'" 
+						class="ellipsis" 
+						data-ng-repeat="orgHeader in oc.organizationHeaders | orderBy : 'order'" 
+						data-tooltip-append-to-body="true"
+  		    			data-tooltip-placement="auto"
+  		    			data-uib-tooltip="{{organization[orgHeader.key] | date:'medium'}}" 
+						style="line-height: 33px;">
+						{{organization[orgHeader.key] | date:'medium'}} 
+					</td>
+					<td style="line-height: 33px;">
+						<button type="button" 
+							class="btn vdvc-form-btn" 
+ 							data-ng-click="oc.viewOrganization(organization)"
+					 		data-tooltip-append-to-body="true"
+  		    				data-tooltip-placement="auto"
+  		    				data-uib-tooltip="View">
+					 		<i class="fa fa-eye fa-fw"></i>
+					 	</button>
+						<button type="button" class="btn vdvc-form-btn" 
+ 							data-ng-click="oc.editOrganization(organization)"
+					 		data-tooltip-append-to-body="true"
+    		    			data-tooltip-placement="auto"
+    		    			data-uib-tooltip="Edit">
+					 		<i class="fa fa-pencil fa-fw"></i>
+					 	</button>
+					 	<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted vdvc-slack-ts-delete-btn" 
+							data-ng-click="oc.deleteOrganization(organization)"
+				 			data-tooltip-append-to-body="true"
+  		    				data-tooltip-placement="auto"
+  		    				data-uib-tooltip="Delete">
+					 		<i class="fa fa-trash fa-fw"></i>
+					 	</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

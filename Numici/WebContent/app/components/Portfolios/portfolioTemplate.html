@@ -1,0 +1,44 @@
+<div class="min-crd-view" 
+	 data-ng-class="{'item-selected' : portfolio.selected}">
+	 
+	<div class="row" >
+		<div class="checkbox  checkbox-circle crd-checkbox" 
+			data-ng-class="{'checkbox-primary' : portfolio.selected}" 
+			data-ng-show="pc.showGridCheckbox()">
+	       <input data-ng-class="{'first-pg-checkbox' : $first}" data-ng-model="portfolio.selected" type="checkbox" data-ng-change="pc.checkPortfolio(portfolio)">
+	       <label></label>
+	    </div>
+    </div>
+    <div class="row min-crd-content ellipsis" 
+    	 data-ng-click="pc.openPortfolio(portfolio)"
+    	 data-on-long-press="pc.onLongPress(portfolio)"
+    	 data-md-ink-ripple="#333">
+		<div class="row" style=" font-size: 14px;color:#000000;margin-top: 30px;">
+			<div class="col-xs-12"  style="text-align: center;">
+				<div class="crd-portfolio-icon">
+					<i class="fa fa-briefcase"></i>
+				</div>
+				<div class="crd-shrd-portfolio-icon" data-ng-show="portfolio.isShared">
+					<i class="fa fa-user"></i>
+				</div>
+			</div>
+			<div class="col-xs-12 "  style="text-align: center;" data-tooltip-append-to-body='true' data-uib-tooltip ="{{portfolio.name}}">
+				{{portfolio.name}}
+			</div>
+			<div class="col-xs-12  sub-head ellipsis"  style="text-align: center;color:#006699;" data-tooltip-append-to-body='true' data-uib-tooltip ="{{portfolio.createdBy}}" >
+				{{portfolio.createdBy}}
+			</div>
+		</div>
+		
+		<div class="row vdvc-crd-tag-wrp">
+			<span data-ng-repeat='tag in portfolio.tags | limitTo : 2 ' class="vdvc-card-tag"  data-tooltip-append-to-body='true' data-uib-tooltip ="{{tag.TagName}}">
+				<span style='width: 100%;display: inline-block;'>
+					<span class="tag-cls">
+						<i class="fa fa-times-circle"  role="button" tabindex="0" data-ng-click='unTag(tag,portfolio,$event)'></i>
+					</span>
+					<span>{{tag.TagName}}</span>
+				</span>
+			</span>
+		</div>
+	</div>
+</div>

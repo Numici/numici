@@ -1,0 +1,108 @@
+<div data-set-elemen 
+	class="container-fluid vdvc-email-doc-viewer-container" 
+	id='vdvc_doc_viewer' 
+	data-ng-class="{'isolate': isolateDoc}"
+	style="height: 100%;padding-top: 65px;min-width: 750px;overflow-x: auto;overflow-y: hidden;">
+	<div data-ng-if="!EmailDocViewer.isInTaskspace && !EmailDocViewer.isInInbox" data-ng-include-replace data-ng-include="'app/components/DocViewer/EmailViewer/EmailDocViewerNavBar.html'"></div>
+	<div data-ng-include-replace data-ng-include="'app/components/DocViewer/EmailViewer/EmailDocViewerSecondaryNavBar.html'"></div>
+	<div data-set-element class="col-xs-12 email-document-wrap"  data-ng-attr-data-id="{{EmailDocViewer.document.id}}">
+		<div data-ng-class="showComments ? 'col-xs-9' : 'col-xs-12'" style="padding: 0px;">
+			<div class="email-properties row" style="padding: 10px 0px;background: #fff;border-bottom: 1px solid #ccc;">
+				<div class="col-xs-12">
+					<div class="col-xs-12 ellipsis" 
+						style="height: 25px; font-size: 16px;font-weight: 700;padding: 0px 8px;" 
+						data-ng-if="EmailDocViewer.mailProperties.subject.length > 0">
+						<span data-uib-tooltip="{{EmailDocViewer.mailProperties.subject}}" 
+							data-tooltip-append-to-body='true' 
+							data-tooltip-placement="auto">
+							{{EmailDocViewer.mailProperties.subject}}
+						</span>
+					</div>
+					<div class="col-xs-12" style="padding: 0px 8px;">
+						<div class="col-xs-2" style="width: 30px;padding: 0px;">
+							<div class='vdvc-circle' data-tooltip-append-to-body='true'
+								data-uib-tooltip="{{EmailDocViewer.mailProperties.from}}" 
+								data-tooltip-placement="auto" 
+								style="margin: 5px 0px;">
+								{{EmailDocViewer.getUserlabel(EmailDocViewer.mailProperties.from) | truncate: 2 }}
+							</div>
+						</div>
+						<div class="col-xs-10" style="width: calc(100% - 30px);padding: 0px;">
+							<div class="col-xs-12 ellipsis" style="height: 40px;line-height: 40px;font-size: 14px;font-weight: 700;"> 
+								<span data-uib-tooltip="{{EmailDocViewer.mailProperties.from}}" 
+									data-tooltip-append-to-body='true' 
+									data-tooltip-placement="auto">
+									{{EmailDocViewer.mailProperties.from}}
+								</span>
+							</div>
+							<!-- <div class="col-xs-12 text-muted ellipsis" style="height: 20px; line-height: 20px; font-size: 10px;"> 
+								<span data-uib-tooltip="{{EmailDocViewer.mailProperties.receivedTime | date:'medium'}}" 
+									data-tooltip-append-to-body='true' 
+									data-tooltip-placement="auto">
+									{{EmailDocViewer.mailProperties.receivedTime | date:'medium'}}
+								</span>
+							</div> --> <!-- As this value is not comming -->
+						</div>
+					</div>
+					<div class="col-xs-12" style="padding: 0px;">
+						<div class="col-xs-10 ellipsis" style="width: calc(100% - 165px);height: 20px;margin-bottom: 5px;padding: 0px 8px;" data-ng-if="EmailDocViewer.mailProperties.to.length > 0">
+							<span>TO:</span>
+							<span data-uib-tooltip="{{EmailDocViewer.getReceivedUsers(EmailDocViewer.mailProperties.to)}}" 
+								data-tooltip-append-to-body='true' 
+								data-tooltip-placement="auto">
+								{{EmailDocViewer.getReceivedUsers(EmailDocViewer.mailProperties.to)}}
+							</span>
+						</div>
+						<div class="col-xs-2 ellipsis" style="width: 165px;height: 20px;margin-bottom: 5px;padding: 0px;text-align: right;" data-ng-if="EmailDocViewer.mailProperties.to.length > 0">
+							<span data-uib-tooltip="{{EmailDocViewer.document.createdOn | date:'medium'}}" 
+								data-tooltip-append-to-body='true' 
+								data-tooltip-placement="auto">
+								{{EmailDocViewer.document.createdOn | date:'medium'}}
+							</span>
+						</div>
+					</div>
+					<div class="col-xs-12 ellipsis" style="height: 20px;margin-bottom: 5px;padding: 0px 8px;" data-ng-if="EmailDocViewer.mailProperties.cc.length > 0">
+						<span>CC:</span>
+						<span data-uib-tooltip="{{EmailDocViewer.getReceivedUsers(EmailDocViewer.mailProperties.cc)}}" 
+							data-tooltip-append-to-body='true' 
+							data-tooltip-placement="auto">
+							{{EmailDocViewer.getReceivedUsers(EmailDocViewer.mailProperties.cc)}}
+						</span>
+					</div>
+					<div class="col-xs-12 ellipsis" style="height: 20px;margin-bottom: 5px;padding: 0px 8px;" data-ng-if="EmailDocViewer.mailProperties.bcc.length > 0">
+						<span>BCC:</span>
+						<span data-uib-tooltip="{{EmailDocViewer.getReceivedUsers(EmailDocViewer.mailProperties.bcc)}}" 
+							data-tooltip-append-to-body='true' 
+							data-tooltip-placement="auto">
+							{{EmailDocViewer.getReceivedUsers(EmailDocViewer.mailProperties.bcc)}}
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row full doc-content">
+				<div class="col-xs-12" style="padding: 0px;height: calc(100% - 10px);">
+					<div class="col-xs-12 doc-viewr email-dov-viewer full">
+						<div class="col-xs-12 vdvc-ldr-spin-wrap" data-ng-show="EmailDocViewer.loader" data-ng-class="{'full':EmailDocViewer.loader}">
+					   		<div class="vdvc-loader-spin vdvc-v-align"></div>
+					   	</div>
+					   	<div class="row full email-doc-container" style="padding: 0px;">
+							<div class="cke-wrap full">
+								<form>
+									<textarea data-ng-attr-id="{{ 'editor-'+ EmailDocViewer.document.id }}"
+										style="display: none; width: 0px; overflow: auto;position:absolute;top:-500px;"
+										data-ng-model="EmailDocViewer.content">
+									</textarea>
+								</form>
+							</div>
+							
+							<div data-ng-include-replace data-ng-include="'app/components/DocViewer/EmailViewer/EmailDocViewerBodyTools.html'"></div>
+							<div data-ng-include-replace data-ng-include="'app/components/DocViewer/docViewerLinkInfo.html'"></div>
+							<div data-ng-include-replace data-ng-include="'app/components/DocViewer/linkMetaInfo.html'"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div data-ng-include-replace data-ng-include="'app/components/DocViewer/docViewerComments.html'"></div>
+	</div>
+</div>

@@ -1,0 +1,69 @@
+.cke_dialog {
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 5px 3px #ccc;
+}
+
+.cke_toolgroup {
+	border: 1px solid rgba(153, 153, 153, 0.14) !important;
+	margin: 3px 6px 3px 0px !important;
+   /*  border-bottom-color: #979797  !important;
+    border-radius: 3px  !important;
+    box-shadow: 0 1px 0 rgba(255,255,255,.5),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+    background: #e4e4e4  !important;
+    background-image: linear-gradient(to bottom,#fff,#e4e4e4)  !important;
+    filter: progid:DXImageTransform.Microsoft.gr  !important; */
+}
+div.cke a.cke_button.cke_combo_button, div.cke .cke_combo_button.cke_combo_button {
+    /* border: 1px solid rgba(153, 153, 153, 0.14); */
+    margin: 0px 3px;
+}
+
+/* a.cke_combo_button {
+    border: 1px solid #a6a6a6;
+    border-bottom-color: #979797;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.5),0 0 2px rgba(255,255,255,.15) inset,0 1px 0 rgba(255,255,255,.15) inset;
+    background: #e4e4e4;
+    background-image: linear-gradient(to bottom,#fff,#e4e4e4);
+    filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#ffffff',endColorstr='#e4e4e4');
+} */
+
+/* .cke_combo_text {
+    line-height: 24px !important;
+} */
+
+.cke_panel {
+    box-shadow: 0px 2px 2px 1px #999 !important;
+}
+
+.cke_toolgroup a.cke_button:last-child:after, .cke_toolgroup a.cke_button.cke_button_disabled:hover:last-child:after {
+	border-right: none !important;
+	right: -5px;
+}
+
+.cke_toolbar {
+	float: left !important;
+	margin: 2px !important;
+}
+
+.cke_top {
+	z-index: 10 !important;
+	width:calc(100% - 15px) !important;
+}
+
+.cke_top ,
+.cke_contents {
+	overflow-x: auto !important; 
+}
+
+
+#cke_digestMail {
+	border: 1px solid #ccc !important;
+}
+
+
+#cke_digestMail .cke_top{
+	padding: 0px 0px;
+	width: 100% !important;
+	height: 40px;
+}

@@ -1,0 +1,30 @@
+<form data-ng-submit="vm.ok()">
+	<div class="modal-header">
+		<h3 class="modal-title">ADD TAG</h3>
+	</div>
+	<div class="modal-body">
+		<div class="col-xs-12 form-group">
+			<data-ui-select multiple 
+							data-ng-model="vm.selectedTags.tags" 
+							data-tagging-label="(New Tag)" 
+							data-tagging="vm.tagTransform"  
+							data-on-remove = "vm.onRemoveTag($item)" 
+							data-on-select="vm.onSelectDocumentTag($item)" 
+							data-ng-disabled="disabled" 
+							data-autofocus=true>
+				<data-ui-select-match >{{vm.showTagName($item)}}</data-ui-select-match>
+			    <data-ui-select-choices data-repeat="tag in vm.Alltags | filter:$select.search"
+			    						data-refresh="vm.refreshTagInfo($select.search)" 
+			    						data-refresh-delay="500"
+			    						data-ui-disable-choice="vm.tagFilterSelected(tag,vm.selectedTags.tags)">
+			       <div data-ng-if="tag.isTag" data-ng-bind-html="(tag.TagName | highlight: $select.search) +' (new)'"></div>
+      			   <div data-ng-if="!tag.isTag" data-ng-bind-html="vm.showTagName(tag) | highlight: $select.search"></div>
+			    </data-ui-select-choices>
+			</data-ui-select>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit">ADD</button>
+	</div>
+</form>

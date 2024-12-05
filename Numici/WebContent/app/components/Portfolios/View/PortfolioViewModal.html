@@ -1,0 +1,61 @@
+<form>
+	<div class="modal-body" style="min-height: 120px;padding-bottom: 0px;">
+		<div class="row">
+			<div class="col-sm-12" style="height: 40px;padding: 0px;">
+				<label class="col-sm-3" style="line-height: 35px;">Portfolio Name</label>
+			    <div class="ellipsis col-sm-9" style="line-height: 35px;">
+			        {{vm.portfolio.name}}
+			    </div>
+			</div>
+			<div class="col-xs-12" style="max-height: 340px;overflow: auto;">
+				<table class="table docTable" 
+					data-ng-show="vm.portfolio.portfolioTickers.length>0" 
+					style="width: 100%;">
+					<thead>
+						<tr style="height: 40px;">
+							<th class="ellipsis" 
+								data-ng-class="hdr.class" 
+								data-ng-repeat="hdr in vm.pfTickersListHeaders" 
+								data-ng-click="vm.sortByfield(hdr)">
+								<div class="row" style="position: relative;padding-right: 20px;">
+									<span data-uib-tooltip="{{::hdr.label}}" data-tooltip-append-to-body="true">
+										{{::hdr.label}}
+									</span>
+									<span class="" style="position: absolute;right: 5px;top:0;">
+										<i class="fa" 
+											data-ng-show="hdr.value == vm.portfolioField" 
+											data-ng-class="{'fa-caret-up' : !vm.portfolioFieldDecending , 
+															'fa-caret-down': vm.portfolioFieldDecending}">
+										</i>
+									</span>
+								</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-if="!fldr.trash"
+							data-ng-repeat="ticker in vm.portfolio.portfolioTickers track by ticker.id" 
+							data-ng-class="{'item-selected' : ticker.selected}">
+							<td class="ellipsis" data-ng-repeat="hdr in vm.pfTickersListHeaders">
+								<span class="row">
+									<span class="ellipsis" 
+										data-uib-tooltip="{{ticker[hdr.value]}}" 
+										data-tooltip-append-to-body="true">
+										{{ticker[hdr.value]}}
+									</span>
+								</span>
+							</td>
+						</tr>
+					</tbody>	
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<span class="" style="float: left;font-weight: bold;height: 34px;line-height: 34px;">
+			<span style="color: #069;">Number of Tickers : </span>
+			{{vm.portfolio.portfolioTickers.length}}
+		</span>
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">Close</button>
+	</div>
+</form>

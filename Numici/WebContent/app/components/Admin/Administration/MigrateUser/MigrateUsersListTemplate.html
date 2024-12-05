@@ -1,0 +1,150 @@
+<div class="row full" style="min-width: 900px;overflow-x: auto;">
+	<div class="col-xs-12">
+		<div class="col-xs-4" style="height: 40px;line-height: 40px;padding-left:0px;">
+			<label class="col-xs-12 ellipsis" 
+				for="total-users-count" 
+				style="padding-left: 0px;">
+				<span>Total users count : </span>
+				<span id="total-users-count">{{mulc.totalUsersCount}}</span>
+			</label>
+		</div>
+		<div class="col-xs-4" style="padding-left:0px;">
+			<input type="text" 
+        	   class="form-control vdvc-input-txt" 
+        	   id="user_search" 
+			   data-ng-model="mulc.searchString" 
+			   placeholder='Search' 
+			   style="height: 40px;">
+		</div>
+		<div class="col-xs-4" style="padding-left:0px;text-align: center;">
+			<button type="button" 
+	      		class="btn vdvc-nav-btn" 
+	      		data-ng-click="mulc.migrateUser()" 
+	      		style="float: right;margin-top: 5px;margin-left: 5px;height: 35px;">
+	        	Migrate User 
+	      	</button>
+	    </div>
+	</div>
+	<div class="col-xs-12 migrate-users-table" style="margin-top: 5px;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;height: calc(100% - 80px);overflow-y: auto;">
+		<div class="row" style="height: 40px;line-height: 40px;border-bottom: 2px solid #069;font-size: 16px;">
+			<div class="{{migrationUsersListHeader.class}} header ellipsis" 
+				data-ng-repeat="migrationUsersListHeader in mulc.migrationUsersListHeaders | orderBy : 'order'" 
+				data-ng-click="mulc.sortByField($event,migrationUsersListHeader,'migrateUser')" 
+				style="position: relative;">
+ 			 	<span data-uib-tooltip="{{::migrationUsersListHeader.label}}" 
+					data-tooltip-append-to-body="true">
+					{{::migrationUsersListHeader.label}}
+				</span>
+				<span class="lv-sort-icon-wrap">
+					<i class="fa fa-fw" 
+						data-ng-show="migrationUsersListHeader.key == mulc.migrateUserField" 
+						data-ng-class="{'fa-caret-up' : !mulc.migrateUserFieldDecending , 'fa-caret-down': mulc.migrateUserFieldDecending}">
+					</i>
+				</span>
+			</div>
+		</div>
+		<div class="row user-details" 
+			data-ng-if="mulc.searchStringFilter(migratedUser)" 
+			data-ng-repeat="migratedUser in mulc.migratedUsersList" 
+ 			data-ng-click="mulc.showMigrateActivityList(migratedUser)" 
+ 			data-ng-class="{'selected' : migratedUser.selected}" 
+			style="cursor: pointer;">
+ 			<div class="row" style="height: 42px;line-height: 40px;border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">
+ 				<div class="{{migrationUsersListHeader.class}}" 
+ 					data-ng-repeat="migrationUsersListHeader in mulc.migrationUsersListHeaders | orderBy : 'order'" 
+ 					data-ng-if="migrationUsersListHeader.type != 'date'" 
+ 					data-tooltip-append-to-body="true" 
+ 					data-tooltip-placement="auto" 
+ 					data-uib-tooltip="{{migratedUser[migrationUsersListHeader.key]}}" 
+ 					style="position: relative;">
+ 					<div class="ellipsis" 
+ 						style="float: left;" 
+ 						data-ng-style="{'width' : $first ? 'calc(100% - 18px)' : '100%'}">
+ 						{{migratedUser[migrationUsersListHeader.key]}}
+ 					</div>
+ 					<div data-ng-if="$first" 
+ 						class="migrate-user-additional-info-icon" 
+ 						data-ng-click="mulc.showMigrateUserAdditionalInfo($event,migratedUser.additionalInfo,'migrateUser',migratedUser[migrationUsersListHeader.key])" 
+ 						style="width: 18px;float: left;">
+						<i class="fa fa-info-circle fa-fw" aria-hidden="true"></i>
+					</div>
+ 				</div>
+ 				<div class="{{migrationUsersListHeader.class}} ellipsis" 
+ 					data-ng-repeat="migrationUsersListHeader in mulc.migrationUsersListHeaders | orderBy : 'order'" 
+ 					data-ng-if="migrationUsersListHeader.type == 'date'" 
+ 					data-tooltip-append-to-body="true" 
+ 					data-tooltip-placement="auto" 
+ 					data-uib-tooltip="{{migratedUser[migrationUsersListHeader.key] | date:'medium'}}" 
+ 					style="position: relative;">
+ 					{{migratedUser[migrationUsersListHeader.key] | date:'medium'}}
+ 				</div>
+ 			</div>
+ 			<div class="row migrate-users-activity-table" data-ng-click="$event.stopPropagation()">
+ 				<div data-ng-show="migratedUser.showActivityList" class="col-xs-12">
+					<div class="row user-activity-headers" style="height: 40px;line-height: 40px;border-bottom: 2px solid #069;font-size: 16px;">
+						<div class="{{migrateUserActivityListHeader.class}} header ellipsis" 
+							data-ng-repeat="migrateUserActivityListHeader in mulc.migrateUserActivityListHeaders | orderBy : 'order'" 
+							style="position: relative;">
+			 			 	<span data-uib-tooltip="{{::migrateUserActivityListHeader.label}}" 
+								data-tooltip-append-to-body="true">
+								{{::migrateUserActivityListHeader.label}}
+							</span>
+						</div>
+					</div>
+					<div class="row user-activity-details" 
+						data-ng-repeat="activity in migratedUser.activitiesList" 
+						data-ng-show="mulc.hasActivityList(migratedUser)">
+			 			<div class="row" style="height: 42px;line-height: 40px;border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">
+			 				<div class="{{migrateUserActivityListHeader.class}} ellipsis" 
+			 					data-ng-repeat="migrateUserActivityListHeader in mulc.migrateUserActivityListHeaders | orderBy : 'order'" 
+			 					data-ng-if="migrateUserActivityListHeader.type != 'date'" 
+			 					data-tooltip-append-to-body="true" 
+			 					data-tooltip-placement="auto" 
+			 					data-uib-tooltip="{{activity[migrateUserActivityListHeader.key]}}" 
+			 					style="position: relative;">
+			 					<div class="ellipsis" 
+			 						style="float: left;" 
+			 						data-ng-style="{'width' : $first ? 'calc(100% - 18px)' : '100%'}">
+			 						{{activity[migrateUserActivityListHeader.key]}}
+			 					</div>
+			 					<div data-ng-if="$first" 
+			 						class="migrate-user-activity-additional-info-icon" 
+			 						data-ng-click="mulc.showMigrateUserActivityAdditionalInfo($event,activity.additionalInfo,'migrateUserActivity',activity[migrateUserActivityListHeader.key])" 
+			 						style="width: 18px;float: left;">
+									<i class="fa fa-info-circle fa-fw" aria-hidden="true"></i>
+								</div>
+			 				</div>
+			 				<div class="{{migrateUserActivityListHeader.class}}" 
+			 					data-ng-repeat="migrateUserActivityListHeader in mulc.migrateUserActivityListHeaders | orderBy : 'order'" 
+			 					data-ng-if="migrateUserActivityListHeader.type == 'date'" 
+			 					style="position: relative;">
+			 					<div class="ellipsis" 
+			 						data-tooltip-append-to-body="true" 
+			 						data-tooltip-placement="auto" 
+			 						data-uib-tooltip="{{activity[migrateUserActivityListHeader.key] | date:'medium'}}" 
+			 						style="float: left;" 
+			 						data-ng-style="{'width' : $last ? 'calc(100% - 18px)' : '100%'}">
+			 						{{activity[migrateUserActivityListHeader.key] | date:'medium'}}
+			 					</div>
+			 					<div data-ng-if="$last && activity['activity'] !== 'Delete'" 
+			 						class="migrate-user-additional-info-icon" 
+			 						data-ng-click="mulc.showMigrateUserActivityLog($event,activity['activity'],migratedUser['id'])" 
+			 						data-tooltip-append-to-body="true" 
+			 						data-tooltip-placement="auto" 
+			 						data-uib-tooltip="Log Info" 
+			 						style="width: 18px;float: left;">
+									<i class="fa fa-file-code-o fa-fw" aria-hidden="true"></i>
+								</div>
+			 				</div>
+			 			</div>
+	 				</div>
+					<div class="row user-activity-details" data-ng-show="!mulc.hasActivityList(migratedUser)">
+						<div class="row" style="height: 42px;line-height: 40px;border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">
+							No activities found
+						</div>
+					</div>
+				</div>
+ 			</div>
+ 		</div>
+	</div>
+</div>

@@ -1,0 +1,30 @@
+<form data-ng-submit="rftc.remove()">
+	<div class="modal-header">
+		<h3 class="modal-title">Confirm Remove From Taskspace</h3>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-xs-12" 
+				data-ng-if="rftc.hasDocLink" 
+				style="padding-bottom: 15px;">
+				The Document is Shared as a link; on removing the Document 
+				the link would be deleted permanently (shared link will not be 
+				accessible)
+			</div>
+			<div class="col-xs-12">Are you sure you want to remove this document from taskspace ?</div>
+			<div class="col-xs-12" 
+				data-ng-if="rftc.docType === 'WebResource'"
+				style="padding-left: 30px;">
+				<div class="checkbox">
+					<input type="checkbox"
+						   data-ng-model="rftc.deleteObject">
+					<label class="cs-lbl">Also do you want to delete document from system</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="rftc.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit">REMOVE</button>
+	</div>
+</form>

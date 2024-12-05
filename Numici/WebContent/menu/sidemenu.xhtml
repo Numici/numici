@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:icecore="http://www.icefaces.org/icefaces/core"
+        xmlns:ace="http://www.icefaces.org/icefaces/components"
+        xmlns:ice="http://www.icesoft.com/icefaces/component"
+    >
+    <ui:composition>
+	<h:form id="sideMenuForm">
+	 	<ice:panelGrid rendered="#{loginBean.loggedIn}" columns="1" cellspacing="10" style="margin-top:10px">
+			<ice:panelGroup rendered="#{loginBean.userRole eq 'VDVCSiteAdmin' or loginBean.userRole eq 'VDVCAdmin'}" >
+				<ice:commandLink styleClass="sideMenu" value="Organizations" action="#{organizationController.showOrgList}"/>
+			</ice:panelGroup>
+			<ice:panelGroup rendered="#{loginBean.rbacAdmin or loginBean.rbacOrgAdmin}" >
+				<ice:commandLink styleClass="sideMenu" value="Users" action="#{userController.showUsers}"/>
+			</ice:panelGroup>
+			<ice:panelGroup rendered="#{loginBean.rbacAdmin or loginBean.rbacOrgAdmin}" >
+				<ice:commandLink styleClass="sideMenu" value="Admin Groups" action="#{adminGroupController.showGroups}"/>
+			</ice:panelGroup>
+			<ice:panelGroup rendered="#{loginBean.rbacAdmin or loginBean.rbacOrgAdmin}" >
+				<ice:commandLink styleClass="sideMenu" value="Roles" action="#{roleController.showRoles}"/>
+			</ice:panelGroup>
+			<ice:panelGroup rendered="#{loginBean.rbacOrgAdmin}" >
+				<ice:commandLink styleClass="sideMenu" value="SAML Configuration" action="#{organizationController.configSSO}"/>
+			</ice:panelGroup>
+			<ice:panelGroup rendered="#{loginBean.userRole eq 'VDVCSiteAdmin' or loginBean.userRole eq 'VDVCAdmin'}" >
+				<ice:commandLink styleClass="sideMenu" value="Workflows" action="#{planningProcessController.showWfs}"/>
+			</ice:panelGroup>
+			<ice:panelGroup rendered="#{ loginBean.userRole eq 'User'}" >
+				<div id="dashboard_menu"></div>
+			</ice:panelGroup>
+		</ice:panelGrid>
+	</h:form>
+    </ui:composition>
+</html>

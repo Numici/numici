@@ -1,0 +1,103 @@
+<form data-ng-submit="cttsoc.transferOwneship()">
+	<div class="modal-header" style="padding: 15px;">
+		<h3 class="modal-title">
+			Confirm Transfer Taskspace Ownership 
+		</h3>
+	</div>
+	<div class="modal-body share-doc-modal-body" style="max-height: 350px;overflow-y: auto;">
+		<div class="row" data-ng-show="cttsoc.docsInfo.length > 0">
+			<div class="col-xs-12">
+				<p>You are Owner for the below list of Documents (added to the Taskspace)</p>
+				<p>Please select the Documents you wish to Transfer Ownership (along with Taskspace)</p>
+			</div>
+			<div class="col-xs-12">
+				<table class='table table-condensed table-striped' id="timeLog">
+					<thead>
+						<tr>
+							<th>
+								<div style="max-width: 200px;">
+									<div class ="checkbox" style="margin: 0px;">
+										<input id="select-all-docs" type="checkbox" data-ng-model="cttsoc.selectAllDocs" data-ng-change="cttsoc.selectAllDocuments()" data-ng-disabled="cttsoc.disableSelectAllDocs()">
+										<label for="select-all-docs"><div class="ellipsis" style="font-weight: bold;">Document Name</div></label>
+									</div>
+								</div>
+							</th>
+							<th>Transferable</th>
+							<th>Reason</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-repeat='doc in cttsoc.docsInfo track by $index'>
+							<td class="col-xs-4">
+								<div style="max-width: 200px;">
+									<div class ="checkbox" style="margin: 0px;">
+										<input id="{{doc.id}}" type="checkbox" data-ng-model="doc.selected" data-ng-change="cttsoc.selectDocument(doc)" data-ng-disabled="!doc.canTransfer">
+										<label for="{{doc.id}}"><div class="ellipsis">{{doc.name}}</div></label>
+									</div>
+								</div>
+							</td>
+							<td class="col-xs-2">{{doc.canTransfer}}</td>
+							<td class="col-xs-6">{{doc.reason}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row" data-ng-show="cttsoc.slackInfo.connection.length > 0">
+			<!-- <div class="col-xs-12">
+				<div class="col-xs-3" style="height: 34px;line-height: 34px;padding-left: 0px;">
+					Slack Connection : 
+				</div>
+				<div class="col-xs-9" style="padding: 0px 5px;margin-bottom: 10px;height: 34px;line-height: 34px;background: #ccc;">
+					{{cttsoc.slackInfo.connection}}
+				</div>
+			</div> -->
+			<div class="col-xs-12" data-ng-if="cttsoc.slackInfo.connection != 'None'">
+				<div class="col-xs-12" data-ng-if="cttsoc.slackInfo.connection == 'CanTransfer'" style="padding: 0px;">
+					<div class="col-xs-12" style="padding: 0px;">
+						<p>This Taskspace is connected to Slack channel.</p>
+						<p>Do you wish to Transfer Slack connection Transfer / Disconnect</p>
+					</div>
+					<div class="col-xs-12" 
+						style="padding-left: 35px;">
+						<div  class ="radio radio-primary radio-inline" style="margin-bottom: 0px;">
+							<input type="radio" 
+								name="slackConnection" 
+								data-ng-model="cttsoc.slackConnection.status"
+								value="Transfer">
+							<label class="cs-lbl">Transfer</label>
+						</div>
+						<div  class ="radio radio-primary radio-inline" style="margin-bottom: 0px;">
+							<input type="radio" 
+								name="slackConnection" 
+								data-ng-model="cttsoc.slackConnection.status"
+								value="Disconnect">
+							<label class="cs-lbl">Disconnect</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12" data-ng-if="cttsoc.slackInfo.connection == 'CannotTransfer'" style="padding: 0px;">
+					<p>
+						This Taskspace is connected to Slack channel, And it can't be transferred as '{{cttsoc.slackInfo.reason}}'.
+					</p>
+					<p>
+						Taskspace Slack channel connection will be disconnected.
+					</p>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="modal-footer" style="padding: 15px;">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" 
+			type="button" 
+			data-ng-click="cttsoc.cancel()">
+			CANCEL
+		</button>
+		<button class="btn vdvc-form-btn" 
+			type="submit" 
+			data-ng-disabled="cttsoc.userPerms.users.length == 0 || cttsoc.isFormSubmiting">
+			TRANSFER
+		</button>
+	</div>
+</form>

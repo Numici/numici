@@ -1,0 +1,52 @@
+<ul  class="nav navbar-nav ellipsis dh" data-ng-controller="DocHierarchyController as dhc">
+				 		
+	<li data-ng-if="docHierarchy.root" 
+		data-ng-repeat="docHierarchy in dhc.docHierarchyList" 
+		data-tooltip-append-to-body="true" 
+		data-uib-tooltip="Home"
+		data-tooltip-placement="bottom"
+		class="vdvc-breadcrumbs ellipsis full">
+	  <span  >
+         <a class="" data-ui-sref="docs({ folderId: docHierarchy.id })" style="color: rgba(51, 51, 51, 0.74);">
+           <i class="fa fa-home"></i>
+         </a> 
+       </span>
+	</li>
+	<li data-ng-if="docHierarchy.trash" 
+		data-ng-repeat="docHierarchy in dhc.docHierarchyList" 
+		data-tooltip-append-to-body="true" 
+		data-uib-tooltip="Trash"
+		data-tooltip-placement="bottom"
+		class="vdvc-breadcrumbs ellipsis full">
+	  <span  >
+         <a href="#" data-ng-click="dhc.openDocument(docHierarchy,$event)" style="color: rgba(51, 51, 51, 0.74);">
+           <i class="fa fa-trash-o"></i> {{::docHierarchy.name}}
+         </a> 
+       </span>
+	</li>
+	<li data-ng-if="!docHierarchy.root && !docHierarchy.trash && docHierarchy._type=='Folder'" 
+		data-ng-repeat="docHierarchy in dhc.docHierarchyList" 
+		data-tooltip-append-to-body ="true"  
+		data-uib-tooltip="{{docHierarchy.name}}" data-tooltip-placement="bottom"
+		class="vdvc-breadcrumbs ellipsis full">
+	   <span>
+         <a href="#" data-ng-click="dhc.openDocument(docHierarchy,$event)" style="color: rgba(51, 51, 51, 0.74);">
+         	 <i class="fa fa-folder-open-o" data-ng-show="!docHierarchy.isDummy"></i> {{::docHierarchy.name}}
+         </a> 
+       </span> 
+	</li>
+	
+	<li data-nv-set-rm-mxwidth ="dhc.docHierarchyList"
+		data-ng-if="!docHierarchy.root && !docHierarchy.trash && docHierarchy._type=='Document'"  
+		data-ng-repeat="docHierarchy in dhc.docHierarchyList" 
+		data-tooltip-append-to-body="true" 
+		data-uib-tooltip="{{docHierarchy.displayName || docHierarchy.name}}" 
+		data-tooltip-placement="bottom" 
+		class="vdvc-breadcrumbs ellipsis full">
+	   <span>							
+       	  <span style="color: rgba(51, 51, 51, 0.74);">
+       	  	<i class="fa" data-ng-class="{'fa-file-text-o': !docHierarchy.global , 'fa-globe': docHierarchy.global}"></i> {{docHierarchy.displayName || docHierarchy.name}}
+       	  </span>
+       	</span>
+	</li>
+</ul> 

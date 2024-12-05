@@ -1,0 +1,54 @@
+<form data-ng-submit="vm.ok()">
+	<div class="modal-header">
+		<h3 class="modal-title">New Document</h3>
+	</div>
+	<div class="modal-body" style="min-height: 120px;">
+		<div class="row" style="margin-bottom: 10px;">
+			<label class="col-xs-12 col-sm-3">File Name : </label>
+		    <div class="col-xs-12 col-sm-9">
+		        <input type="text" 
+		        	   class="form-control vdvc-input-txt" 
+		        	   data-ng-model='vm.noteName' 
+					   placeholder='File Name' autocomplete="off" autofocus>
+		    </div>
+		</div>
+		<div class="row" style="margin-bottom: 5px;">
+			<label class="col-xs-12 col-sm-3" for="tick">Ticker : </label>
+			<div class="col-xs-12 col-sm-9">
+				<data-ui-select id="tick" data-ng-model="vm.selectedTicker.tickerObj"  data-sortable="true">
+					<data-ui-select-match>
+						<button type="button" data-ng-show="vm.selectedTicker.tickerObj" style="background:none;border:none;cursor:pointer;padding:5px 10px;position:absolute;right:30px;top:1px;" data-ng-click="vm.clear($event)">X</button>
+			    		<span data-ng-if="$select.selected.ticker != null && $select.selected.ticker != ''">{{$select.selected.ticker}}</span>
+			    		<span data-ng-if="$select.selected.ticker == null || $select.selected.ticker == ''"
+			    			data-uib-tooltip="{{$select.selected.companyName}}">{{$select.selected.companyName | truncate: 7: '...'}}</span>
+			    	</data-ui-select-match>
+			    	<data-ui-select-choices repeat="company in vm.companiesList | filter:$select.search track by $index"  
+					 data-refresh="vm.refreshTickers($select.search)" data-refresh-delay="500" >
+				      <div data-ng-bind-html="company.companyName | highlight: $select.search"></div>
+	        					  <div>
+	        					  	<span data-ng-bind-html="company.ticker | highlight: $select.search"></span>
+	        					    <span data-ng-bind-html="company.cik | highlight: $select.search"></span>
+	        					  </div>
+				    </data-ui-select-choices>
+			    </data-ui-select>
+		    </div>
+		</div>
+		<div class="row" >
+			<div class="col-xs-12 col-sm-3"></div>
+			<div class="col-xs-12 col-sm-9">
+				<div class="checkbox col-top-mrgn-5">
+					<input id="private" type="checkbox" data-ng-model="vm.isPrivate" >
+					<label for="private">Private</label>
+				</div>
+			    <!-- <div class ="col-xs-12 checkbox col-top-mrgn-5">
+					<input id="readOnly" type="checkbox" data-ng-model="vm.isEditable" >
+					<label for="readOnly">Read Only</label>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit">{{vm.btnLable}}</button>
+	</div>
+</form>

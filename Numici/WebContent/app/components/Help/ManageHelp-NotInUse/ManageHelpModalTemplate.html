@@ -1,0 +1,79 @@
+<form data-ng-submit="mhmc.ok()">
+	<div class="modal-header" style="height: 50px;padding: 10px;">
+		<div class="col-xs-11" style="padding:0px;">
+			<ul class="nav navbar-nav ellipsis" style="font-size: 20px; color: rgba(51, 51, 51, 0.74);float: left;line-height: 30px;width:100%;max-width:100%;height:35px;margin: 0px;">
+			 					 		
+			 		<li data-ng-if="fldr.root" 
+			 			data-ng-repeat="fldr in mhmc.fldrHierarchy " 
+			 			data-tooltip-append-to-body='true' 
+			 			data-uib-tooltip="Home" 
+			 			data-tooltip-placement="bottom"
+			 			class="vdvc-breadcrumbs  ellipsis full">
+			 		  	<span data-ng-class="{'fldr-slct':mhmc.selectedFolder.id == fldr.id}">
+					         <i class="fa fa-home"></i>
+				       	</span>
+			 		</li>
+			 		
+			 		<li data-ng-if="!fldr.root && !$last"  
+			 			data-ng-repeat="fldr in mhmc.fldrHierarchy " 
+			 			data-tooltip-append-to-body='true' 
+			 			data-uib-tooltip="{{fldr.name}}" 
+			 			data-tooltip-placement="bottom"
+			 			class="vdvc-breadcrumbs  ellipsis full">
+			 		  	<span data-ng-click="mhmc.openFolder(fldr)" data-ng-class="{'fldr-slct':mhmc.selectedFolder.id == fldr.id}">
+				         	<i class="fa fa-folder-open-o" data-ng-show="!fldr.isDummy"></i> {{::fldr.name}}
+				       	</span>
+			 		</li>
+			 		
+			 		<li data-nv-set-rm-mxwidth="mhmc.fldrHierarchy" 
+			 			data-ng-if="!fldr.root && $last"  
+			 			data-ng-repeat="fldr in mhmc.fldrHierarchy"
+			 			data-tooltip-append-to-body='true' 
+			 			data-uib-tooltip="{{::fldr.name}}"
+			 			data-tooltip-placement="bottom" 
+			 			class="vdvc-breadcrumbs  ellipsis full">
+			 		  	<span data-ng-click="mhmc.openFolder(fldr)" data-ng-class="{'fldr-slct':mhmc.selectedFolder.id == fldr.id}">
+				         	<i class="fa fa-folder-open-o"></i> {{::fldr.name}}
+				       	</span> 
+			 		</li>
+				</ul>
+		</div>
+		<div class="col-xs-1" style="padding: 7px 0px;">
+			<i class="fa fa-close" data-ng-click="mhmc.cancel()" style="float: right;color: #006699;"></i>
+		</div>
+	</div>
+	<div class="modal-body" style="height: 300px;overflow: auto;background: #eee;">
+		<div class="col-xs-12" data-ng-if="mhmc.hasHelpFolder" style="padding: 0px">
+			<div class="col-sm-6 col-xs-12" data-ng-repeat="folder in mhmc.foldersList"  data-ng-click=" !mhmc.isValidTarget(folder) || mhmc.onSelectFolderOrFile(folder)" style="padding: 5px;">
+				<div class="col-xs-12 fldr-bar" data-ng-class="{'fldr-slct': mhmc.selectedFolder.id == folder.id,'fldr-disabled': !mhmc.isValidTarget(folder)}" >
+					<div class="col-xs-2" style="padding: 0px">
+						<span class="fa fa-folder-o" style="position: absolute;top: 6px;font-size: 30px;color: #aaa;"></span>
+						<span class="fa fa-user" data-ng-show="!folder.isOwner" style="position: absolute;left: 15px;top: 15px;font-size: 11px;color: #aaa;"></span>
+					</div>
+					<div class="col-xs-8 ellipsis" data-uib-tooltip="{{::folder.name}}" data-tooltip-append-to-body='true'>{{::folder.name}}</div>
+					<div class="col-xs-2" style="padding: 0px" data-ng-if="mhmc.isValidTarget(folder)">
+						<span class="btn btn-sm fa fa-chevron-right" data-ng-click="mhmc.openFolder(folder)"></span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-sm-6 col-xs-12" data-ng-repeat="doc in mhmc.docsList" style="padding: 5px;">
+				<div class="col-xs-12" style="background: #ddd;height: 40px;line-height: 40px;cursor: not-allowed;">
+					<div class="col-xs-2" style="padding: 0px">
+						<span class="fa" data-ng-class="mhmc.getFileIcon(doc)" style="position: absolute;top: 6px;font-size: 30px;color: #aaa;"></span>
+						<span class="fa fa-user" data-ng-show="!doc.perms.owner" style="position: absolute;left: 15px;top: 15px;font-size: 11px;color: #aaa;"></span>
+					</div>
+					<div class="col-xs-10 ellipsis">{{::doc.displayName}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12" data-ng-if="!mhmc.hasHelpFolder" style="padding: 0px">
+			"Help" folder not available.
+		</div>
+	</div>
+	<div class="modal-footer" style="padding: 15px;">
+		<div class="col-xs-12">
+			<button class="btn vdvc-form-btn" type="submit" data-ng-disabled='mhmc.enableMoveHere()' style="float: right;">{{::mhmc.submitLable}}</button>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,290 @@
+<div class="container-fluid full vdvc-3ps-wrap" style="overflow: hidden;">
+	<div id="search-nav-bar-height-div"></div>
+	<div class="col-xs-12" style="padding: 0px;overflow: auto;">
+		<div data-set-content-container-height="Search" id="vdvc-search-content-wrap" class="col-xs-12 adv-srch-body" style="padding: 0px;min-width: 1075px;">
+			<div class="col-xs-12" data-ng-include data-src="'app/components/AdvancedSearch/SearchBar/searchbar.html'" style="padding: 0px;"></div>
+			<div style="position: relative;" data-three-pane-height class="col-xs-12 col-sm-12 col-md-12 col-lg-12 adv-srch-results-container">
+				<div class="full">
+					<div class="full adv-srch-results" data-ng-class="{'col-xs-3 col-sm-3 col-md-3 col-lg-3': !toggleSideBarChecked,'s-r-on-colp' :toggleSideBarChecked}" data-ng-style="{'width' : !deviceInfo.isMobile && !vm.deviceInfo.isTablet ? '326px' : ''}">
+						 <div id="search_result"  data-ng-hide="toggleSideBarChecked" data-ng-style="{'width' : !deviceInfo.isMobile && !vm.deviceInfo.isTablet ? 'calc(100% - 30px)' : ''}">
+							<div class="row full">
+								<div class="full">
+									<div class="row srch-pane-1-hdr" data-ng-show="searchResults">
+										<div class="row sp1-hdr-1">
+										   <!--  <span data-ng-show="!isFromNotification">
+										    	"First {{count}} of {{maxCount}} Documents"
+										    </span> -->
+										    <div class="col-xs-12" 
+										    	data-ng-show="!isFromNotification" 
+										    	style="padding: 0px;">
+												<button class="btn vdvc-form-btn" 
+													  data-ng-click="prev()"
+													  data-ng-disabled="query.pageNumber == 1" 
+													  style="width: 40px;float: left;padding: 6px;">
+													<i class="fa fa-angle-double-left fa-fw"></i>
+												</button>			
+												<span class="ellipsis" 
+													data-uib-tooltip="{{resultCount.range}}" 
+											   		data-tooltip-append-to-body="true" 
+													style="width: calc(100% - 80px);float: left;text-align: center;font-weight: bold;height: 34px;line-height: 34px;">
+													{{resultCount.range}}
+												</span>
+												<button class="btn vdvc-form-btn" 
+													  data-ng-click="next()"
+													  data-ng-disabled="searchResults.length < query.pageSize" 
+													  style="width: 40px;float: left;padding: 6px;">
+													<i class="fa fa-angle-double-right fa-fw"></i>
+												</button>
+											</div>
+										    <span data-ng-show="isFromNotification">
+										    	New Matched document  
+										    </span>
+										</div>
+										<div class="row col-top-offcet-5 sp1-hdr-2">
+											<span class="full col-xs-2 col-sm-2 col-md-2 col-lg-2 srch-pane-1-icon sp1-hdr-2-l">
+													<i class="fa fa-lg fa-file-text-o"></i>
+											</span>
+											<span class="full col-xs-9 col-sm-9 col-md-9 col-lg-9 sp1-hdr-2-m">
+												<span class="col-bottom-mrgn-5 col-sm-12 col-md-12 col-lg-12 srch-pane-1-hdr-ele sp1-hdr-2-m-ele-name" 
+													data-ng-click="sortBy('displayName','str')">
+													Name <i class="fa" data-ng-class="getSortIcon('displayName')"></i>
+												</span>
+												<span class="srch-pane-1-hdr-col col-xs-4 srch-pane-1-hdr-ele sp1-hdr-2-m-ele-ticker" 
+													data-ng-click="sortBy('tickers','str')" 
+													data-ng-show="showTickersFilter()">
+													Ticker <i class="fa" data-ng-class="getSortIcon('tickers')"></i>
+												</span>
+												<span class="srch-pane-1-hdr-col srch-pane-1-hdr-ele srch-pane-2-hdr-ele-date" 
+													data-ng-click="sortBy('datePublished','num')" 
+													data-ng-class="{'col-xs-4' : showTickersFilter(),'col-xs-6' : !showTickersFilter()}">
+													Date <i class="fa" data-ng-class="getSortIcon('datePublished')"></i>
+												</span>
+												<span class="srch-pane-1-hdr-col srch-pane-1-hdr-ele sp1-hdr-2-m-ele-docType" 
+													data-ng-click="sortBy('documentType','str')" 
+													data-ng-class="{'col-xs-4' : showTickersFilter(),'col-xs-6' : !showTickersFilter()}">
+													Doc Type <i class="fa" data-ng-class="getSortIcon('documentType')"></i>
+												</span>
+											</span>
+											<span class="col-xs-1 col-sm-1 col-md-1 col-lg-1 sp1-hdr-2-r" 
+												data-ng-click="showHelp('SearchResultSort')" 
+												data-uib-tooltip="Sort Help" 
+												data-tooltip-placement="bottom">
+													<i class="fa fa-question-circle" aria-hidden="true"></i>
+											</span>
+										</div>
+									</div>	
+									<div class="list-group vdvc-list-group  srch-pane-1-body-wrap" 
+										data-three-pane-height="SearchResults" style="position: relative;">
+										<div data-ng-repeat="result in searchResults track by result.ID" data-scroll-on-hover data-scroll-if="{{isObjselected(result.ID,selectedId)}}">
+											<!-- <a data-ng-if="result.group=='Document' && !result.isExternal" 
+												data-ui-sref=".doc({docId:result.ID,clientId:result.clientId})" 
+												class="list-group-item ellipsis" 
+												data-ng-click="showSnippets(result)" 
+												data-ng-class="{'red': result.isRed,'active': result.ID == selectedId}"> -->
+											 <a data-ng-if="result.group=='Document' && !result.isExternal" 
+											 	class="list-group-item ellipsis" 
+												data-ng-click="showDocsAndSnippets(result)" 
+												data-ng-class="{'red': result.isRed,'active': result.ID == selectedId}">
+												<span class="full col-xs-2 col-sm-2 col-md-2 col-lg-2 srch-pane-1-icon sr-card-l" style="padding-left: 15px;">
+													<!-- <i class="fa fa-lg" 
+														data-ng-class="{'fa-file-text-o': !result.isGlobal , 'fa-globe': result.isGlobal}" >
+													</i> -->
+													<i data-ng-class="getFileIcon(result)" ></i>
+												</span>
+												<span class="full col-xs-10 col-sm-10 col-md-10 col-lg-10 sr-card-r">
+													<span class="col-bottom-mrgn-5 col-xs-12 col-sm-12 col-md-12 col-lg-12 sr-card-r-ele-name" 
+														data-ng-mouseover="getDocLocation(result)" 
+														data-uib-tooltip="{{result.fullpath}}" 
+														data-tooltip-append-to-body="true">
+														{{::result.displayName}}
+													</span>
+													<span class="srch-pane-1-hdr-col col-xs-4 col-sm-4 col-md-4 col-lg-4 col-rt-border sr-card-r-ele-ticker" 
+														data-uib-tooltip="{{result.ticker}}" 
+														data-tooltip-append-to-body="true" 
+														data-ng-show="showTickersFilter()">
+														{{::result.ticker}}
+													</span>
+													<span class="srch-pane-1-hdr-col sr-card-r-ele-date" 
+														data-uib-tooltip="{{result.datePublished | date : 'medium'}}" 
+														data-tooltip-append-to-body="true" 
+														data-ng-class="{'col-xs-4' : showTickersFilter(),'col-xs-6' : !showTickersFilter()}">
+														{{::result.datePublished | date : 'yyyy-MM-dd'}}
+													</span>
+													<span class="srch-pane-1-hdr-col sr-card-r-ele-doc-type" 
+														  data-set-doc-type 
+														  data-type="{{result.documentType}}" 
+														  data-ng-class="{'col-xs-4' : showTickersFilter(),'col-xs-6' : !showTickersFilter()}">
+													</span>
+												</span>
+											</a>
+											
+											 <a data-ng-if="result.group=='Document' && result.isExternal" 
+												class="list-group-item ellipsis" 
+												data-ng-click="showDocsAndSnippets(result)" 
+												data-ng-class="{'red': result.isRed,'active': result.ID == selectedId}">
+												<span class="full col-xs-2 col-sm-2 col-md-2 col-lg-2 srch-pane-1-icon sr-card-l" style="position: relative;">
+													<i class="fa fa-lg" 
+														data-ng-class="{'fa-file-text-o': !result.isGlobal , 'fa-globe': result.isGlobal}" >
+													</i>
+													<i class="fa fa-cloud" style="position: absolute;left: 10px;font-size: 12px;top: 5px;"></i>
+												</span>
+												<span class="full col-xs-10 col-sm-10 col-md-10 col-lg-10 sr-card-r">
+													<span class="col-bottom-mrgn-5 col-xs-12 col-sm-12 col-md-12 col-lg-12 sr-card-r-ele-name" 
+														data-uib-tooltip="{{::result.displayName}}" 
+														data-tooltip-append-to-body="true">
+														{{::result.displayName}}
+													</span>
+													<span class="srch-pane-1-hdr-col col-xs-4 col-sm-4 col-md-4 col-lg-4 col-rt-border sr-card-r-ele-ticker" 
+														data-uib-tooltip="{{result.ticker}}" 
+														data-tooltip-append-to-body="true" 
+														data-ng-show="showTickersFilter()">
+														{{::result.ticker}}
+													</span>
+													<span class="srch-pane-1-hdr-col sr-card-r-ele-date" 
+														data-uib-tooltip="{{result.datePublished | date : 'medium'}}" 
+														data-tooltip-append-to-body="true" 
+														data-ng-class="{'col-xs-4' : showTickersFilter(),'col-xs-6' : !showTickersFilter()}">
+														{{::result.datePublished | date : 'yyyy-MM-dd'}}
+													</span>
+													<span class="srch-pane-1-hdr-col sr-card-r-ele-doc-type" 
+														  data-set-doc-type 
+														  data-type="{{result.documentType}}" 
+														  data-ng-class="{'col-xs-4' : showTickersFilter(),'col-xs-6' : !showTickersFilter()}">
+													</span>
+												</span>
+											</a>
+											
+											<a data-ng-if="result.group=='News'" 
+												class="list-group-item ellipsis" 
+												data-ng-click="showDocsAndSnippets(result)" 
+												data-uib-tooltip="{{result.fullpath}}" 
+												data-ng-mouseover="getDocLocation(result)" 
+												data-ng-class="{'red': result.isRed,'active': result.ID == selectedId}">
+												
+												<span class="full col-xs-2 col-sm-2 col-md-2 col-lg-2 srch-pane-1-icon sr-card-l">
+													<i class="fa fa-lg" 
+														data-ng-class="{'fa-file-text-o': !result.isGlobal , 'fa-globe': result.isGlobal}">
+													</i>
+												</span>
+												
+												<span class="full col-xs-10 col-sm-10 col-md-10 col-lg-10 sr-card-r">
+													<span class="col-bottom-mrgn-5 col-xs-12 col-sm-12 col-md-12 col-lg-12 sr-card-r-ele-name">
+														{{::result.Name}}
+													</span>
+													<span class="srch-pane-1-hdr-col col-xs-6 col-sm-6 col-md-6 col-lg-6 col-rt-border sr-card-r-ele-ticker" 
+														data-ng-show="showTickersFilter()">
+														{{::result.ticker}}
+													</span>
+													<span class="srch-pane-1-hdr-col col-xs-6 col-sm-6 col-md-6 col-lg-6 sr-card-r-ele-date"
+														data-uib-tooltip="{{result.datePublished | date : 'medium'}}" 
+														data-tooltip-append-to-body="true">
+														{{::result.datePublished | date : 'yyyy-MM-dd'}}
+													</span>
+													<!-- <span class="srch-pane-1-hdr-col col-xs-3">{{::result.score}}</span> -->
+												</span>
+											</a>
+											
+											<div>
+											   <div class="ellipsis" 
+											   		data-ng-repeat="ts in result.taskspaces track by $index"
+											   		data-ng-click ="onTaskSpaceSelect(result,ts)"
+											   		style="height: 40px; line-height: 40px;border-bottom: 1px solid #eee;padding-right: 20px;">
+											   		{{ts.name}}
+											   </div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+				        </div> 
+						 <!-- <div class="full srch-pane-1-toggle-btn" 
+							data-ng-show="searchResults.length > 0">
+							<div class="vdvc-toggle-sidebar-btn" 
+								 data-ng-click="toggleSideBar()">
+								<i class="fa" 
+									data-ng-class="{'fa-angle-double-down': toggleSideBarChecked, 'fa-angle-double-left': !toggleSideBarChecked}" 
+									aria-hidden="true">
+									<i data-ng-show="toggleSideBarChecked">First {{count}} of {{maxCount}} Documents</i>
+								</i>
+							</div>
+						</div>  -->
+						
+						<div class="full" style="float: left;" 
+							data-ng-show="searchResults.length > 0">
+							<div style="height: 50px;"></div>
+							<div class="s-t-c-txt">
+								<span class="v-txt-mid">
+									<!-- FIRST {{count}} OF {{maxCount}} DOCUMENTS -->
+									{{resultCount.range}}
+								</span>
+							</div>
+							<div class="s-t-b-w ">
+								<div class="s-t-btn" 
+									 data-ng-click="toggleSideBar()">
+									<i class="fa fa-fw" 
+										data-ng-class="{'fa-angle-double-right': toggleSideBarChecked, 'fa-angle-double-left': !toggleSideBarChecked}" 
+										aria-hidden="true">
+									</i>
+								</div>
+							</div>
+							
+						</div> 
+						
+						
+				    </div>
+					
+					<div class="full" data-ng-class="{'col-xs-9': !toggleSideBarChecked ,'s-dV-on-colp': toggleSideBarChecked}" style="padding: 0px;" data-ng-style="{'width' : !deviceInfo.isMobile && !vm.deviceInfo.isTablet ? 'calc(100% - 326px)' : ''}">
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 full srch-pane-2-wrap" data-ng-show="snippets" data-ng-style="{'width' : !deviceInfo.isMobile && !vm.deviceInfo.isTablet ? '163px' : ''}">
+							<div class="row srch-pane-2-hdr">
+								Matches Found {{snippets.length}}
+							</div>
+							<div data-three-pane-height="Snippets"  
+							     class="col-xs-12 col-sm-12 col-md-12 col-lg-12  snippet-wrap srch-snippet-wrap"
+							     style="position: relative;">
+							 <div data-ng-repeat="(key , value) in uiSnippets track by key" style="margin-bottom: 10px;display: inline-block;width: 100%">
+							    <div data-ng-repeat="snippet in value track by snippet.index" 
+									data-ng-click="selectSnippet(snippet.index,$event,snippet)" 
+									data-ng-class="{ active: snippet.index == selectedSnippet}"
+									class="vdvc-snippet srch-snippet col-xs-12"
+									style="display: inline-block;width: 100%;padding-top: 5px;">
+									<div class="row" style="background-color: #fff;color: #777;margin-bottom: 5px;">
+										<div class="ellipsis" style="border-bottom: 1px solid #aaa;padding-bottom: 5px;"
+											 data-uib-tooltip="{{getTsName(key)}}" 
+											 data-tooltip-append-to-body="true">{{getTsName(key)}}</div>
+									</div>
+									<div class="row"
+									     data-ng-bind-html="snippet.string | to_trusted"></div>
+							    </div>
+							</div> 
+								<!--<div data-ng-if="!$last" 
+									class="col-xs-12 col-sm-12 col-md-12 col-lg-12 vdvc-snippet srch-snippet" 
+									data-ng-repeat="snippet in uiSnippets track by $index" 
+									data-ng-click="selectSnippet(snippet.index,$event,snippet)" 
+									data-ng-class="{ active: snippet.index == selectedSnippet}">
+									<span data-ng-bind-html="snippet.string | to_trusted"></span>
+								</div>
+								<div data-ng-if="$last" 
+									class="col-xs-12 col-sm-12 col-md-12 col-lg-12 vdvc-snippet srch-snippet" 
+									style="margin-bottom :0px;" 
+									data-ng-repeat="snippet in uiSnippets track by $index" 
+									data-ng-click="selectSnippet(snippet.index,$event,snippet)" 
+									data-ng-class="{ active: snippet.index == selectedSnippet }">
+									<span data-ng-bind-html="snippet.string | to_trusted"></span>
+								</div> -->
+							</div>
+						</div>         
+						<div class="full srch-pane-3-wrap" data-ng-class="{'col-xs-12 ns': !snippets,'col-xs-10': snippets}" data-ng-style="{'width' : !deviceInfo.isMobile && !vm.deviceInfo.isTablet && snippets ? 'calc(100% - 163px)' : ''}">
+							<div data-ng-class="{'isolate': isolateDoc}" 
+								class="col-xs-12 col-sm-12 col-md-12 col-lg-12 full doc-viewer-wrp srch-doc-viewer-wrp srchDocViewer" data-ng-style="{'padding-left' : !deviceInfo.isMobile && !vm.deviceInfo.isTablet ? '15px' : ''}">
+								<!-- <div class="full" data-ui-view data-name="content"></div> -->
+							</div>
+						</div>
+				
+					</div>
+			        
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>

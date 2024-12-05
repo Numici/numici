@@ -1,0 +1,327 @@
+<div class="web-resource-lnk-meta-info" 
+	 contenteditable="false"
+	 data-ng-attr-id="{{ 'web-resource-lnk-meta-info-'+ documentId }}" 
+	 style="width: 70%;padding: 0px 15px;margin: auto;">
+	 
+	<div style="position: relative;top:35px;" data-ng-if="webResourceLinkInfo.showLoader">
+		<div class="vdvc-loader"></div>
+	</div>
+	<div style="position: absolute;top:35px;" data-ng-if="webResourceLinkInfo.showError">
+		<div style="color: #a94442;">{{webResourceLinkInfo.errorMsg}}</div>
+	</div>
+	<div data-ng-if="!webResourceLinkInfo.showLoader">
+		<div class="action-bar" data-ng-if="isDocOnEditMode()">
+			<div class="action btn btn-sm fa fa-chain-broken" data-ng-click="Unlink()"></div>
+		</div>
+		<div class="col-xs-12" style="padding: 0px;">{{webResourceLinkInfo.linkType}}</div>
+		<div data-ng-if="imagePosition == 'left'">
+			<div data-ng-if="webResourceLinkInfo.metaInfo.imageUrl && digestMetaInfoOptions.image"
+				    style="width: 35%;float: left;margin: 1em;margin-left: 0em;" data-ng-if="">
+				<div>
+					<img data-ng-src="{{webResourceLinkInfo.metaInfo.imageUrl}}"
+						 style="width: 100%;">
+				</div>
+			</div>
+			<div style="width: calc(65% - 1em);float: left;">
+				<div class="col-xs-12" style="padding: 0px;">
+					<div>
+						<a data-ng-href="{{webResourceLinkInfo.url}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}" 
+						   style="text-decoration: none;color: #069;font-size: 20px;">
+					      {{webResourceLinkInfo.metaInfo.title}}
+					    </a>
+					</div>
+					<div data-ng-if="webResourceLinkInfo.isGSResource" style="height: 30px;line-height: 30px;color:#006621;">
+						{{webResourceLinkInfo.metaInfo.GS_Authors}} - {{webResourceLinkInfo.metaInfo.GS_YearOfPublication}} - {{webResourceLinkInfo.metaInfo.GS_Publication}}
+					</div>
+				</div>
+				<div class="col-xs-12" style="padding: 0px;">
+					<div data-ng-bind-html="webResourceLinkInfo.metaInfo.description | to_trusted"></div>
+				</div>
+				<div class="row" data-ng-if="webResourceLinkInfo.isGSResource" style="padding: 0px;height: 30px;line-height: 30px;">
+					<div style="width: 25%;float: left;">
+						<a data-ng-href="{{webResourceLinkInfo.metaInfo.GS_CitedByUrl}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}" 
+						   data-ng-attr-title="Cited by {{webResourceLinkInfo.metaInfo.GS_Citations}}"
+						   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;">
+					       Cited by {{webResourceLinkInfo.metaInfo.GS_Citations}}
+					    </a>
+					</div>
+					<div style="width: 25%;float: left;">
+						<a data-ng-href="{{webResourceLinkInfo.metaInfo.GS_RelatedArticles}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}"
+						   title="Related articles" 
+						   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;">
+					       Related articles
+					    </a>
+					</div>
+					<div style="width: 25%;float: left;">
+						<a data-ng-href="{{webResourceLinkInfo.metaInfo.GS_AllVersionsUrl}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}" 
+						   data-ng-attr-title="All {{webResourceLinkInfo.metaInfo.GS_NoOfVersions}} versions"
+						   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;">
+					       All {{webResourceLinkInfo.metaInfo.GS_NoOfVersions}} versions
+					    </a>
+					</div>
+					<div style="width: 25%;float: left;">
+						<a data-ng-href="{{webResourceLinkInfo.metaInfo.GS_sourceUrl}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}"
+						   data-ng-attr-title="{{webResourceLinkInfo.metaInfo.GS_sourceUrlText}}"
+						   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;">
+					       {{webResourceLinkInfo.metaInfo.GS_sourceUrlText}}
+					    </a>
+					</div>
+				</div>
+				<div class="col-xs-12"
+				     data-ng-if="webResourceLinkInfo.citations" 
+				     style="display: inline-block;border: 1px solid #ccc;margin: 10px 0px;">
+					<div style="height: 40px;line-height: 40px;text-align: center;background-color: #ccc;">Cite</div>
+					
+					<!-- <div data-ng-bind-html="webResourceLinkInfo.citations.citationHtml | to_trusted"></div> -->
+					
+					<div data-ng-if="webResourceLinkInfo.citations.citationMetaData">
+						<table style="width:100%;border-collapse: collapse;">
+							<tbody>
+								<tr data-ng-repeat="(key,val) in webResourceLinkInfo.citations.citationMetaData track by $index">
+									<th style="border-bottom: 1px solid #ccc;text-align: left;padding: 10px;">{{::key}}</th>
+									<td style="border-bottom: 1px solid #ccc;text-align: left;padding: 10px;">{{::val}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="row" data-ng-if="webResourceLinkInfo.citations.citationLinks" style="padding: 0px;text-align: center;">
+						<div style="width: 25%;float: left;" data-ng-repeat="(key,val) in webResourceLinkInfo.citations.citationLinks track by $index">
+							<a data-ng-href="{{::val}}" 
+							   target="_blank" 
+							   data-ng-attr-title="{{::key}}"
+							   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;height: 40px;line-height: 40px;">
+						      	{{::key}}
+						    </a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div data-ng-if="imagePosition == 'fullWidth'">
+			<div style="width: 100%;float: left;">
+				<div class="col-xs-12" style="padding: 0px;">
+					<div>
+						<a data-ng-href="{{webResourceLinkInfo.url}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}" 
+						   style="text-decoration: none;color: #069;font-size: 20px;">
+					      {{webResourceLinkInfo.metaInfo.title}}
+					    </a>
+					</div>
+					<div data-ng-if="webResourceLinkInfo.isGSResource" style="height: 30px;line-height: 30px;color:#006621;">
+						{{webResourceLinkInfo.metaInfo.GS_Authors}} - {{webResourceLinkInfo.metaInfo.GS_YearOfPublication}} - {{webResourceLinkInfo.metaInfo.GS_Publication}}
+					</div>
+				</div>
+				<div class="col-xs-12" style="padding: 0px;">
+					<div data-ng-bind-html="webResourceLinkInfo.metaInfo.description | to_trusted"></div>
+				</div>
+				<div class="row" data-ng-if="webResourceLinkInfo.isGSResource" style="padding: 0px;height: 30px;line-height: 30px;">
+					<div style="width: 25%;float: left;">
+						<a data-ng-href="{{webResourceLinkInfo.metaInfo.GS_CitedByUrl}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}" 
+						   data-ng-attr-title="Cited by {{webResourceLinkInfo.metaInfo.GS_Citations}}"
+						   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;">
+					       Cited by {{webResourceLinkInfo.metaInfo.GS_Citations}}
+					    </a>
+					</div>
+					<div style="width: 25%;float: left;">
+						<a data-ng-href="{{webResourceLinkInfo.metaInfo.GS_RelatedArticles}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}"
+						   title="Related articles" 
+						   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;">
+					       Related articles
+					    </a>
+					</div>
+					<div style="width: 25%;float: left;">
+						<a data-ng-href="{{webResourceLinkInfo.metaInfo.GS_AllVersionsUrl}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}" 
+						   data-ng-attr-title="All {{webResourceLinkInfo.metaInfo.GS_NoOfVersions}} versions"
+						   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;">
+					       All {{webResourceLinkInfo.metaInfo.GS_NoOfVersions}} versions
+					    </a>
+					</div>
+					<div style="width: 25%;float: left;">
+						<a data-ng-href="{{webResourceLinkInfo.metaInfo.GS_sourceUrl}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}"
+						   data-ng-attr-title="{{webResourceLinkInfo.metaInfo.GS_sourceUrlText}}"
+						   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;">
+					       {{webResourceLinkInfo.metaInfo.GS_sourceUrlText}}
+					    </a>
+					</div>
+				</div>
+				<div class="col-xs-12"
+				     data-ng-if="webResourceLinkInfo.citations" 
+				     style="display: inline-block;border: 1px solid #ccc;margin: 10px 0px;">
+					<div style="height: 40px;line-height: 40px;text-align: center;background-color: #ccc;">Cite</div>
+					
+					<!-- <div data-ng-bind-html="webResourceLinkInfo.citations.citationHtml | to_trusted"></div> -->
+					
+					<div data-ng-if="webResourceLinkInfo.citations.citationMetaData">
+						<table style="width:100%;border-collapse: collapse;">
+							<tbody>
+								<tr data-ng-repeat="(key,val) in webResourceLinkInfo.citations.citationMetaData track by $index">
+									<th style="border-bottom: 1px solid #ccc;text-align: left;padding: 10px;">{{::key}}</th>
+									<td style="border-bottom: 1px solid #ccc;text-align: left;padding: 10px;">{{::val}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="row" data-ng-if="webResourceLinkInfo.citations.citationLinks" style="padding: 0px;text-align: center;">
+						<div style="width: 25%;float: left;" data-ng-repeat="(key,val) in webResourceLinkInfo.citations.citationLinks track by $index">
+							<a data-ng-href="{{::val}}" 
+							   target="_blank" 
+							   data-ng-attr-title="{{::key}}"
+							   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;height: 40px;line-height: 40px;">
+						      	{{::key}}
+						    </a>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-xs-12" style="padding: 0px;margin: 15px auto;" data-ng-if="webResourceLinkInfo.metaInfo.imageUrl">
+				<div>
+					<img data-ng-src="{{webResourceLinkInfo.metaInfo.imageUrl}}"
+						 style="width: 100%;">
+				</div>
+			</div>
+			
+		</div>
+		
+		<div data-ng-if="imagePosition == 'right'">
+			<div style="width: calc(65% - 1em);float: left;">
+				<div class="col-xs-12" style="padding: 0px;">
+					<div>
+						<a data-ng-href="{{webResourceLinkInfo.url}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}" 
+						   style="text-decoration: none;color: #069;font-size: 20px;">
+					      {{webResourceLinkInfo.metaInfo.title}}
+					    </a>
+					</div>
+					<div data-ng-if="webResourceLinkInfo.isGSResource" style="height: 30px;line-height: 30px;color:#006621;">
+						{{webResourceLinkInfo.metaInfo.GS_Authors}} - {{webResourceLinkInfo.metaInfo.GS_YearOfPublication}} - {{webResourceLinkInfo.metaInfo.GS_Publication}}
+					</div>
+				</div>
+				<div class="col-xs-12" style="padding: 0px;">
+					<div data-ng-bind-html="webResourceLinkInfo.metaInfo.description | to_trusted"></div>
+				</div>
+				<div class="row" data-ng-if="webResourceLinkInfo.isGSResource" style="padding: 0px;height: 30px;line-height: 30px;">
+					<div style="width: 25%;float: left;">
+						<a data-ng-href="{{webResourceLinkInfo.metaInfo.GS_CitedByUrl}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}" 
+						   data-ng-attr-title="Cited by {{webResourceLinkInfo.metaInfo.GS_Citations}}"
+						   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;">
+					       Cited by {{webResourceLinkInfo.metaInfo.GS_Citations}}
+					    </a>
+					</div>
+					<div style="width: 25%;float: left;">
+						<a data-ng-href="{{webResourceLinkInfo.metaInfo.GS_RelatedArticles}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}"
+						   title="Related articles" 
+						   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;">
+					       Related articles
+					    </a>
+					</div>
+					<div style="width: 25%;float: left;">
+						<a data-ng-href="{{webResourceLinkInfo.metaInfo.GS_AllVersionsUrl}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}" 
+						   data-ng-attr-title="All {{webResourceLinkInfo.metaInfo.GS_NoOfVersions}} versions"
+						   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;">
+					       All {{webResourceLinkInfo.metaInfo.GS_NoOfVersions}} versions
+					    </a>
+					</div>
+					<div style="width: 25%;float: left;">
+						<a data-ng-href="{{webResourceLinkInfo.metaInfo.GS_sourceUrl}}" 
+						   data-ng-attr-target="{{webResourceLinkInfo.target}}"
+						   data-ng-attr-title="{{webResourceLinkInfo.metaInfo.GS_sourceUrlText}}"
+						   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;">
+					       {{webResourceLinkInfo.metaInfo.GS_sourceUrlText}}
+					    </a>
+					</div>
+				</div>
+				<div class="col-xs-12"
+				     data-ng-if="webResourceLinkInfo.citations" 
+				     style="display: inline-block;border: 1px solid #ccc;margin: 10px 0px;">
+					<div style="height: 40px;line-height: 40px;text-align: center;background-color: #ccc;">Cite</div>
+					
+					<!-- <div data-ng-bind-html="webResourceLinkInfo.citations.citationHtml | to_trusted"></div> -->
+					
+					<div data-ng-if="webResourceLinkInfo.citations.citationMetaData">
+						<table style="width:100%;border-collapse: collapse;">
+							<tbody>
+								<tr data-ng-repeat="(key,val) in webResourceLinkInfo.citations.citationMetaData track by $index">
+									<th style="border-bottom: 1px solid #ccc;text-align: left;padding: 10px;">{{::key}}</th>
+									<td style="border-bottom: 1px solid #ccc;text-align: left;padding: 10px;">{{::val}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="row" data-ng-if="webResourceLinkInfo.citations.citationLinks" style="padding: 0px;text-align: center;">
+						<div style="width: 25%;float: left;" data-ng-repeat="(key,val) in webResourceLinkInfo.citations.citationLinks track by $index">
+							<a data-ng-href="{{::val}}" 
+							   target="_blank" 
+							   data-ng-attr-title="{{::key}}"
+							   style="display: block;text-decoration: none;color: #069;padding: 0px 10px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding-left: 0px;height: 40px;line-height: 40px;">
+						      	{{::key}}
+						    </a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div data-ng-if="webResourceLinkInfo.metaInfo.imageUrl && digestMetaInfoOptions.image"
+				    style="width: 35%;float: left;margin: 1em;margin-right: 0em;" data-ng-if="">
+				<div>
+					<img data-ng-src="{{webResourceLinkInfo.metaInfo.imageUrl}}"
+						 style="width: 100%;">
+				</div>
+			</div>
+		</div>
+		
+		<div class="row"
+			data-ng-repeat="annotation in docAnnotations track by $index"
+			style="padding: 10px 0px; clear: both;">
+			<div class="row">
+				<div data-ng-style="{'border-left-width': '4px', 'border-left-color': enableBorder, 'border-left-style': 'solid'}" style="padding-left: 10px; position: relative;">
+					<div data-ng-if="hasAnnotatedText(annotation)"
+							 data-ng-bind-html="::getAnnotatedText(annotation) | to_trusted"></div>
+					<div style="font-size: 12px; color: #aaa;">
+						<span> {{annotation.userName}} &nbsp; {{formatCreatedDate(annotation.createdOn)}} </span> 
+					</div>
+				</div>
+			</div>
+			<div class="row" style="padding: 0px 15px 0px 30px;">
+				<div data-ng-if="conv.note && conv.note.length > 0"
+					class="row"
+					data-ng-repeat="conv in annotation.conversations track by $index">
+					<div class="row" style="margin: 10px 0px;">
+						<img data-ng-src="{{commentIconUrl}}" 
+							 data-cke-real-node-type="1"
+							 data-track-changes-ignore="true" 
+							 data-cke-editable="false"
+							 contenteditable="false"
+							 align="left"
+							 style="float: left; width: 20px; position:relative;top:5px;margin-right: 10px;">
+							 
+							<!-- <span data-ng-bind-html="formatComment(annotation,conv.note) | to_trusted"></span> -->
+							
+							<comment-to-html data-comment="conv.note" data-annotation="annotation"></comment-to-html>
+							
+						<div style="font-size: 12px; color: #aaa; clear: both;">
+							{{conv.userName}} &nbsp; {{formatCreatedDate(conv.createdOn)}}</div>
+							
+						<div class="row" data-ng-if="conv.tagsInfo" style="margin-top: 5px; margin-bottom: 5px;">
+							<span data-ng-repeat="tag in conv.tagsInfo track by $index" style="display:inline-block; height: 20px;line-height: 20px;background: #069;padding:0px 10px;margin-right: 10px;color: #fff;">
+								{{showTagName(tag)}}
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

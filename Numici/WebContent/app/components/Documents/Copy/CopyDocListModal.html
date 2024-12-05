@@ -1,0 +1,33 @@
+<form data-ng-submit="cdlc.ok()">
+	<div class="modal-header">
+		<h3 class="modal-title">Copy File - {{cdlc.selectedDocList[0].displayName}}</h3>
+	</div>
+	<div class="modal-body" style="min-height: 120px;">
+		<div class="row" data-ng-repeat="doc in cdlc.selectedDocList" style="margin-bottom: 10px;">
+			<label class="col-xs-12 col-sm-3" for="filename">File Name : </label>
+		    <div class="col-xs-12 col-sm-9">
+		        <input type="text" 
+	        	   class="form-control vdvc-input-txt" 
+	        	   data-ng-model='doc.newName' 
+	        	   data-ng-keyup="cdlc.onDocNameChange($event)" 
+				   placeholder='File Name'>
+		    </div>
+		    <div data-ng-if="doc.errorMsg != ''" class="col-xs-9" style="color: red;float: right;">
+		        {{doc.errorMsg}}
+		    </div>
+		</div>
+		<div class="row" >
+			<div class="col-xs-12 col-sm-3"></div>
+			<div class="col-xs-12 col-sm-9">
+				<div class="checkbox col-top-mrgn-5">
+					<input id="private" type="checkbox" data-ng-model="cdlc.isCopyWithAnnotations" >
+					<label for="private">Copy with annotations</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="cdlc.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit" data-ng-disabled='cdlc.disableCopy()'>COPY</button>
+	</div>
+</form>

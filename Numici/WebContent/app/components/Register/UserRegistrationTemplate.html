@@ -1,0 +1,111 @@
+<form name="userRegisterForm" data-ng-submit="ur.ok()" autocomplete="off">
+	<div class="modal-header">
+		<h3 class="modal-title">Register</h3>
+	</div>
+	<div class="modal-body user-register-mb">
+		<div class="col-xs-12 form-group message error" data-ng-show="ur.showErrorMessage">{{ur.errorMessage}}</div>
+		<div class="col-xs-12 form-group message success" data-ng-show="ur.showSuccessMessage">{{ur.successMessage}}</div>
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-12 col-sm-4" for="first_name">
+				First Name
+				<i class="fa fa-asterisk text-danger"></i>
+			</label>
+			<div class="col-xs-12 col-sm-8 input-group">
+				<input class="vdvc-input-txt" 
+					data-ng-class="{'error': ur.firstNameError}" 
+				   	id="first_name" 
+				   	type="text" 
+				   	data-ng-model="ur.firstName">
+			</div>
+		</div>
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-12 col-sm-4" for="last_name">
+				Last Name
+				<i class="fa fa-asterisk text-danger"></i>
+			</label>
+			<div class="col-xs-12 col-sm-8 input-group">
+				<input class="vdvc-input-txt" 
+					data-ng-class="{'error': ur.lastNameError}" 
+				   	id="last_name" 
+				   	type="text" 
+				   	data-ng-model="ur.lastName">
+			</div>
+		</div>
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-12 col-sm-4" for="organization">Organization</label>
+			<div class="col-xs-12 col-sm-8 input-group">
+				<input class="vdvc-input-txt" 
+					   id="organization" 
+					   type="text" 
+					   data-ng-model="ur.organization">
+			</div>
+		</div>
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-12 col-sm-4" for="mobile_phone">Mobile Phone</label>
+			<div class="col-xs-12 col-sm-8 input-group">
+				<input class="vdvc-input-txt" 
+					   id="mobile_phone" 
+					   type="text" 
+					   data-ng-model="ur.mobilePhone">
+			</div>
+		</div>
+		
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-12 col-sm-4" for="email">
+				Email
+				<i class="fa fa-asterisk text-danger"></i>
+			</label>
+			<div class="col-xs-12 col-sm-8 input-group">
+				<input class="vdvc-input-txt" 
+					data-ng-class="{'error': ur.userIdError}" 
+				   	id="email" 
+				   	type="email" 
+				   	data-ng-model="ur.email">
+			</div>
+		</div>
+		
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-12 col-sm-4" for="new-password">
+				Password
+				<i class="fa fa-asterisk text-danger"></i>
+			</label>
+			<div class="col-xs-12 col-sm-8 input-group">
+				<input class="vdvc-input-txt" 
+					data-ng-class="{'error': ur.PWDError}" 
+				   	id="new-password" 
+				   	type="password" 
+				   	data-ng-model="ur.newPassword">
+			</div>
+		</div>
+		
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-12 col-sm-4" for="confirm-password">
+				Confirm Password
+				<i class="fa fa-asterisk text-danger"></i>
+			</label>
+			<div class="col-xs-12 col-sm-8 input-group">
+				<input class="vdvc-input-txt" 
+					data-ng-class="{'error': ur.confirmPWDError}"
+				   	id="confirm-password" 
+				   	type="password" 
+				   	data-ng-model="ur.confirmPassword"
+				   	data-show-password="ur.showConfirmPwd">
+			    <span class="input-group-btn">
+			        <button type="button"
+			        		class="btn vdvc-form-btn fa" 
+			        		data-ng-class="{'fa-eye':!ur.showConfirmPwd,'fa-eye-slash':ur.showConfirmPwd}"
+			        		data-uib-tooltip="{{ur.confirmPwdToolTip}}" 
+			        		data-ng-click="ur.showConfirmPassword()">
+			        </button>
+			    </span>
+			</div>
+			
+		</div>
+		
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="ur.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit" data-ng-disabled='ur.disableRegister()'>REGISTER</button>
+	</div>
+
+</form>

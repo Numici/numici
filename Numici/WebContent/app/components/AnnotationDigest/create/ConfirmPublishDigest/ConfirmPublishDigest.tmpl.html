@@ -1,0 +1,18 @@
+<div class="modal-header" style="padding: 5px 15px;">
+	<h3 class="modal-title">Confirm</h3>
+</div>
+<div class="modal-body" style="padding: 0px 15px 0px 30px;">
+	<div class="row">
+		<div>You have un-saved changes in digest settings</div> 
+		<div data-ng-if="!cpdc.ConfirmData.isAnnotationOptionSelected" 
+			style="padding-left:30px;">
+			At least one of the four checkboxes (Highlights / Comments) need to be selected; otherwise the digest will be empty
+		</div>
+		<div style="margin-top: 15px;">What do you want to do with un-saved changes ?</div>
+	</div>
+</div>
+<div class="modal-footer" style="padding: 5px 15px 10px;">
+    <button class="btn btn-primary vdvc-form-btn-muted" data-ng-click="cpdc.cancel()">CANCEL</button>
+    <button class="btn btn-primary vdvc-form-btn-muted" data-ng-click="cpdc.confirmAction('ignore')">IGNORE</button>
+    <button class="btn btn-primary" data-ng-if="cpdc.ConfirmData.isAnnotationOptionSelected" data-ng-click="cpdc.confirmAction('save')">SAVE</button>
+</div>

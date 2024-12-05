@@ -1,0 +1,150 @@
+<div class="row full" style="min-width: 900px;overflow-x: auto;padding-top: 100px;">
+	 <div class="navbar-fixed-top second-navbar second-navbar-top dl-main-navbar">
+		<div class="col-xs-4" style="font-size: 20px; color: rgba(51, 51, 51, 0.74);">
+			LinkedIn - Numici Integration Info
+		</div>
+		<div class="col-xs-8" style="padding-left:0px;text-align: right;">
+			<span data-ng-if="lipc.linkedInAuthExpired" style="color: #b20000;">
+				{{lipc.linkedInReAuthMessage}}
+			</span>
+			<button type="button" 
+	      		class="btn vdvc-nav-btn" 
+	      		data-ng-if="lipc.linkedInAuthExpired"
+	      		data-ng-click="lipc.reAuthorizeLinkedIn()">
+	        	Re-Authorize
+	      	</button>
+			<button type="button" 
+	      		class="btn vdvc-nav-btn" 
+	      		data-ng-click="lipc.revokeLinkedInAuth()" 
+	      		style="margin-right: 15px;">
+	        	Revoke
+	      	</button>
+	    </div>
+	 </div>
+	<div class="col-xs-12" style="height: 25px;line-height: 25px;">
+		<div class="col-xs-4" style="padding-left:0px;">
+			<label class="ellipsis" 
+				for="total-posts-count" 
+				style="padding-left: 0px;">
+				LinkedIn User : {{lipc.linkedInUserName}}
+			</label>
+		</div>
+		<div class="col-xs-4" style="text-align: center;padding-left:0px;">
+			<label class="ellipsis" 
+				for="total-posts-count" 
+				style="padding-left: 0px;">
+				LinkedIn User EmailId : {{lipc.linkedInUserEmailId}}
+			</label>
+		</div>
+		<div class="col-xs-4" style="padding-left:0px;">
+			<label class="ellipsis" 
+				for="total-posts-count" 
+				style="float: right;padding-left: 0px;" 
+				data-uib-tooltip="{{lipc.linkedInAuthCreatedDate | date : 'medium'}}" 
+				data-tooltip-append-to-body="true">
+				LinkedIn Auth Created Date : {{lipc.linkedInAuthCreatedDate | date : 'yyyy-MM-dd'}}
+			</label>
+		</div>
+	</div>
+	<div class="col-xs-12" style="height: 25px;line-height: 25px;">
+		<div class="col-xs-4" style="padding-left:0px;">
+			<label class="ellipsis" 
+				for="total-posts-count" 
+				style="padding-left: 0px;">
+				Numici User : {{lipc.currentUser}}
+			</label>
+		</div>
+		<div class="col-xs-4" style="text-align: center;padding-left:0px;">
+			<label class="ellipsis" 
+				for="total-posts-count" 
+				style="padding-left: 0px;">
+			</label>
+		</div>
+		<div class="col-xs-4" style="padding-left:0px;">
+			<label class="ellipsis" 
+				for="total-posts-count" 
+				style="float: right;padding-left: 0px;"
+				data-uib-tooltip="{{lipc.linkedInAuthExpiryDate | date : 'medium'}}" 
+				data-tooltip-append-to-body="true">
+				LinkedIn Auth Expiry Date : {{lipc.linkedInAuthExpiryDate | date : 'yyyy-MM-dd'}}
+			</label>
+		</div>
+	</div>
+	<div class='col-xs-12' style="margin-top: 5px;border-top: 1px solid #ccc;overflow-y: auto;"><h4>LinkedIn Posts</h4></div>
+	<div class="col-xs-12">
+		<div class="col-xs-4" style="padding-left:0px;">
+			<input type="text" 
+        	   class="form-control vdvc-input-txt" 
+        	   id="posts_search" 
+			   data-ng-model="lipc.searchString" 
+			   placeholder='Search' 
+			   style="margin-top: 5px;">
+		</div>
+		<div class="col-xs-8" style="padding-left:0px;">
+			<label class="ellipsis" 
+				for="total-posts-count" 
+				style="float: right;padding-left: 0px;padding-top: 15px;">
+				Total Posts count : {{lipc.totalPostsCount}}
+			</label>
+		</div>
+	</div>
+	<div data-in-view-container class="col-xs-12 users-table" style="margin-top: 5px;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;height: calc(100% - 145px);overflow-y: auto;">
+		<div class="row" style="height: 40px;line-height: 40px;border-bottom: 2px solid #069;font-size: 16px;">
+			<div class="{{postsHeader.class}} header ellipsis" 
+				data-ng-repeat="postsHeader in lipc.postsHeaders | orderBy : 'order'" 
+				style="position: relative;" 
+				data-tooltip-append-to-body="true" 
+ 			 	data-tooltip-placement="auto" 
+ 			 	data-uib-tooltip="{{postsHeader.label}}">
+				{{postsHeader.label}}
+			</div>
+			<div class="col-xs-1 header ellipsis" 
+				style="position: relative;"
+				data-tooltip-append-to-body="true" 
+ 			 	data-tooltip-placement="auto" 
+ 			 	data-uib-tooltip="View Post in LinkedIn">
+				View Post
+			</div>
+		</div>
+		<div class="row posts-details" 
+			data-ng-if="lipc.searchStringFilter(linkedInPost)" 
+ 			data-ng-repeat="linkedInPost in lipc.linkedInPostsList | limitTo : lipc.linkedInPostsLimit : lipc.linkedInPostsBegin" 
+ 			data-ng-class="{'selected' : linkedInPost.selected}" 
+			data-scroll-if="linkedInPost.selected">
+ 			<div class="row" style="height: 42px;line-height: 40px;border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">
+ 				<div class="{{postsHeader.class}} ellipsis" 
+ 					data-ng-repeat="postsHeader in lipc.postsHeaders | orderBy : 'order'" 
+ 					data-ng-if="postsHeader.type == 'date'" 
+ 					data-tooltip-append-to-body="true" 
+ 					data-tooltip-placement="auto" 
+ 					data-uib-tooltip="{{linkedInPost[postsHeader.key] | date:'medium'}}" 
+ 					style="position: relative;">
+ 					{{linkedInPost[postsHeader.key] | date : 'yyyy-MM-dd'}}
+ 				</div>
+ 				<div class="{{postsHeader.class}} ellipsis" 
+ 					data-ng-repeat="postsHeader in lipc.postsHeaders | orderBy : 'order'" 
+ 					data-ng-if="postsHeader.type != 'date'" 
+ 					data-tooltip-append-to-body="true" 
+ 					data-tooltip-placement="auto" 
+ 					data-uib-tooltip="{{linkedInPost[postsHeader.key]}}" 
+ 					style="position: relative;">
+ 					{{linkedInPost[postsHeader.key]}}
+ 				</div>
+ 				<div class="col-xs-1"
+ 					style="position: relative;cursor: 'pointer';">
+ 					<a data-ng-href="{{'https://www.linkedin.com/feed/update/'+linkedInPost['articleId']}}" target="_blank">View Post</a>
+ 				</div>
+ 			</div>
+ 		</div>
+ 		<div data-ng-if="lipc.linkedInPostsList.length == 0" >
+			No Articles posted to LinkedIn
+		</div>
+		<div class="row"
+		     data-ng-show="lipc.linkedInPostsList.length > lipc.linkedInPostsLimit"
+		     data-in-view="$inview&&lipc.loadMoreLinkedInPosts($inview)"
+		     style="padding: 15px;text-align: center;font-weight: 700;">
+			<div>Loading</div>
+			<div class="vdvc-loader"></div>
+		</div>
+	</div>
+</div>

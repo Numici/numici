@@ -1,0 +1,175 @@
+<a target="_blank" title="Embed as iframe"
+	class="annotation-share-to-ext-dialog-target__icon share-flex"
+	data-ng-if="slc.showShareOption('Embed')" rel="noopener">
+	<div data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareAsEmbed()"
+		class="vdvc-circle"
+		style="margin: 0px 0px; background: #069; width: 38px; height: 38px;">
+		<i class="fa fa-angle-left" aria-hidden="true"
+			style="font-size: 20px; margin-right: 10px; margin-top: 9px;"></i><i
+			class="fa fa-angle-right" aria-hidden="true" style="font-size: 21px;"></i>
+	</div>
+</a>
+
+<a  target="_blank" title="Share on Facebook" 
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('Facebook')" 
+	rel="noopener">
+	<!-- <i class="fa fa-facebook-square" style="font-size: 40px;"
+	aria-hidden="true"></i> --> <!-- <i class="facebook-logo"
+	aria-hidden="true"></i> -->
+	<i  class="fa fl facebook-logo" 
+	    data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('Facebook')"
+		aria-hidden="true" 
+		style="width: 40px;height: 40px;">
+	</i>
+</a> 
+
+<a  target="_blank" 
+    title="Share on LinkedIn"
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('additionalNavigation_LinkedIn')" 
+	rel="noopener">
+	<!-- <i class="fa fa-linkedin" style="font-size: 40px;"
+	aria-hidden="true"></i> --> <!-- <i class="linkedin-logo"
+	aria-hidden="true"></i> -->
+	<i  class="fa fl linkedin-logo" 
+	    data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('LinkedIn')"
+		aria-hidden="true" 
+		style="width: 40px;height: 40px;">
+	</i>
+</a> 
+
+<a  target="_blank" 
+    title="Share on Twitter"
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('Twitter')" 
+	rel="noopener">
+	<!-- <i class="fa fa-twitter" style="font-size: 40px;"
+	aria-hidden="true"></i> --> <!-- <i class="twitter-logo"
+	aria-hidden="true"></i> -->
+	<i  class="fa fl twitter-logo"
+	    data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('Twitter')"
+		aria-hidden="true" 
+		style="width: 40px;height: 40px;">
+	</i>
+</a> 
+
+<a  target="_blank" title="Share on Whatsapp"
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('WhatsApp')" 
+	rel="noopener">
+	<!-- <i class="fa fa-whatsapp" style="font-size: 40px;"
+	aria-hidden="true"></i> --> <!-- <i class="watsapp-logo"
+	aria-hidden="true"></i> -->
+	<i  class="fa fl watsapp-logo"
+	    data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('WhatsApp')" 
+		aria-hidden="true" 
+		style="width: 40px;height: 40px;">
+	</i>
+</a> 
+
+<a 
+	data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('Notion')" target="_blank"
+	title="Share on Notion"
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('additionalNavigation_Notion')" 
+	rel="noopener">
+	<i data-ng-show="slc.ShowShareOnNotion('Notion')" class="fa fl notion-logo" style="width: 25px; height: 25px;"
+	aria-hidden="true"></i>
+</a>
+
+<a 
+	data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('Slack')" target="_blank"
+	title="Share on Slack"
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('additionalNavigation_Slack')" 
+	rel="noopener">
+	<i data-ng-show="slc.ShowShareOnSlack('Slack')" class="fa fl slack-logo" style="width: 40px; height: 40px;"
+	aria-hidden="true"></i>
+</a>
+
+<a  data-ng-show="slc.ShowShareOnTeams('Teams')"
+	title="Share on Teams"
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('additionalNavigation_OneDrive')" 
+	rel="noopener">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('Teams')" target="_blank" class="fa fl teams-logo" style="width: 40px; height: 40px;"
+	aria-hidden="true"></i>
+</a> 
+
+<a 
+	data-ng-click="slc.linkInfo.url.length > 0 && slc.ShareOnSocialMedia('Webex')" target="_blank"
+	title="Share on Webex"
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('additionalNavigation_Webex')" 
+	rel="noopener">
+	<i data-ng-show="slc.ShowShareOnWebex('Webex')" class="fa fl webex-logo" style="width: 25px; height: 25px;"
+	aria-hidden="true"></i>
+</a>
+
+<a  data-ng-show="slc.ShowShareOnOnenote('onenote')"
+	title="Save to Onenote"
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('additionalNavigation_OneDrive')" 
+	rel="noopener">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.checkAndPublishAsSelectedType('onenote')" target="_blank" 
+	   class="fa fl onenote-logo" 
+	   style="width: 32px; height: 32px;margin: 4px 4px 4px 0px;"
+	aria-hidden="true"></i>
+</a> 
+
+<a 
+	target="_blank"
+	title="Send EMAIL"
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('email')" 
+	rel="noopener">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.checkAndPublishAsSelectedType('email')"
+	   class="fa fl fl-email" style="width: 38px; height: 38px;"
+	aria-hidden="true"></i>
+</a> 
+
+<a 
+	target="_blank"
+	title="Save as PDF"
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('pdf')" 
+	rel="noopener">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.checkAndPublishAsSelectedType('pdf')" 
+	   class="fa fl fl-pdf" style="width: 38px; height: 38px;"
+	aria-hidden="true"></i>
+</a> 
+
+<a 
+	target="_blank"
+	title="Save as Numici Notes"
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('numicinote')" 
+	rel="noopener">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.checkAndPublishAsSelectedType('numicinote')" 
+	   class="fa fl fl-txt" style="width: 38px; height: 38px;"
+	aria-hidden="true"></i>
+</a>
+ 
+<a 
+	target="_blank" title="Copy"
+	class="annotation-share-to-ext-dialog-target__icon share-flex" 
+	data-ng-if="slc.showShareOption('copy')" 
+	rel="noopener">
+	<i data-ng-click="slc.linkInfo.url.length > 0 && slc.checkAndPublishAsSelectedType('copy')" 
+	   class="fa fa-copy" style="font-size: 38px; color: #069;"
+	aria-hidden="true"></i>
+</a>
+
+<a   
+	target="_blank" 
+	data-ng-show="slc.showMoreShareOptionsList()"
+	title="More Share Options"
+	class="annotation-share-to-ext-dialog-target__icon share-flex"  
+	rel="noopener">
+	<i data-ng-click="slc.toggleMoreShareOptionsMenu($event)" 
+	   class="fa fa-ellipsis-h fa-fw" style="font-size: 25px; color: #069;"></i>
+	<i data-ng-show="slc.showArrow()"
+	   style="position: absolute;border-width: 10px;border-style: solid;bottom: -1px;border-color: transparent transparent #eee;z-index: 1024;"></i>
+</a>
+

@@ -1,0 +1,23 @@
+<form data-ng-submit="vm.ok()">
+	<div class="modal-header" >
+		<h3 class="modal-title">Rename</h3>
+	</div>
+	<div class="modal-body">
+		<div class="form-group col-xs-12">
+			<label for="description">NAME</label> 
+			<input type="text" class="form-control vdvc-input-txt" data-ng-model='vm.tsSection.name' autofocus>
+		</div>
+		<div class="form-group col-xs-12">
+			<label for="description">DESCRIPTION</label> 
+			<textarea data-msd-elastic class="vdvc-txtA" rows="2" 
+				id="description" 
+				data-ng-model="vm.tsSection.description" 
+				style="border: 1px solid #ddd; overflow: hidden; overflow-wrap: break-word; resize: none; min-height: 65px; max-height: 66px; overflow-y: auto;padding-right: 52px;">
+		 	</textarea>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit">SAVE</button>
+	</div>
+</form>

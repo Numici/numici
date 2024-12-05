@@ -1,0 +1,175 @@
+<form>
+	<div class="modal-header" style="height: 50px;">
+		<h4>Microsoft Office 365 Integration</h4>
+	</div>
+	<div class="modal-body" style="max-height: 400px;overflow: auto;">
+		<div class="row" data-ng-if="odcc.isAuthPresent">
+			<div class="col-xs-12" data-ng-if="odcc.config.inSync" style="height: 40px;color: green;text-align: center;font-weight: bold;">
+				Synchronization is in progress
+			</div>
+			<div class="row" style="height: 40px;line-height: 40px;">
+				<div class="col-xs-3">Office 365 User Name:</div>
+				<div class="col-xs-3">{{::odcc.config.name}}</div>
+			</div>
+			<div class="row" style="height: 40px;line-height: 40px;">
+				<div class="col-xs-3">Office 365 User Email:</div>
+				<div class="col-xs-2">{{::odcc.config.mail}}</div>
+				<div class="col-xs-1"></div>
+				<div class="col-xs-3">Numici User Name:</div>
+				<div class="col-xs-2">{{::odcc.config.userId}}</div>
+			</div>
+		</div>
+		<div class="row" data-ng-if="!odcc.isAuthPresent">
+			<div class="row" style="margin: 10px;">
+				<div class="checkbox">
+					<input type="checkbox" data-ng-model="odcc.authorizeOneDrive">
+					<label class="cs-lbl">OneDrive</label>
+				</div>
+			</div>
+			<div class="row" style="margin: 10px;">
+				<div class="checkbox">
+					<input type="checkbox" data-ng-model="odcc.authorizeTeams">
+					<label class="cs-lbl">Teams</label>
+				</div>
+			</div>
+			<div class="row" style="margin: 10px;">
+				<div class="checkbox">
+					<input type="checkbox" data-ng-model="odcc.authorizeOneNote">
+					<label class="cs-lbl">OneNote</label>
+				</div>
+			</div>
+			<div class="row" style="margin: 10px;">
+				<div class="checkbox">
+					<input type="checkbox" data-ng-model="odcc.authorizeOutlook" data-ng-disabled="odcc.isGoogleMailAuthorize">
+					<label class="cs-lbl">Outlook Email</label>
+				</div>
+			</div>
+			<div class="row" data-ng-show="odcc.isGoogleMailAuthorize">
+				<div class="row" style="margin: 10px;color: #a94442;">
+			 		<i class="fa fa-exclamation-circle" style="margin-right: 5px;"></i>
+			 		You have already Authorized to Send Mail using Gmail. <br>   If you would like to use Microsoft Outlook Email, you need to Revoke the Authorization of Gmail. 
+			 	</div>
+			</div>
+		</div>
+		<div class="row" data-ng-if="odcc.isAuthPresent">
+			<div class="row" style="margin: 10px;">
+				<div class="col-xs-10 checkbox">
+					<input type="checkbox" data-ng-model="odcc.authorizeOneDrive" data-ng-disabled=true>
+					<label class="cs-lbl">OneDrive</label>
+				</div>
+				<div class="col-xs-2">
+					<button class="btn vdvc-form-btn"
+							data-ng-if="odcc.isOneDriveAuthorize"
+							type="button" 
+							data-ng-click="odcc.revoke('OneDrive')">
+							REVOKE
+					</button>
+				</div>
+				<div class="col-xs-2">
+					<button class="btn vdvc-form-btn" 
+							data-ng-if="!odcc.isOneDriveAuthorize"
+							type="button" 
+							data-ng-click="odcc.authorizeApp('OneDrive')">
+							AUTHORIZE
+					</button>
+				</div>
+			</div>
+			<div class="row" style="margin: 10px;">
+				<div class="col-xs-10 checkbox">
+					<input type="checkbox" data-ng-model="odcc.authorizeTeams" data-ng-disabled=true>
+					<label class="cs-lbl">Teams</label>
+				</div>
+				<div class="col-xs-2">
+					<button class="btn vdvc-form-btn"
+							data-ng-if="odcc.isTeamsAuthorize"
+							type="button" 
+							data-ng-click="odcc.revoke('Teams')">
+							REVOKE
+					</button>
+				</div>
+				<div class="col-xs-2">
+					<button class="btn vdvc-form-btn" 
+							data-ng-if="!odcc.isTeamsAuthorize"
+							type="button" 
+							data-ng-click="odcc.authorizeApp('Teams')">
+							AUTHORIZE
+					</button>
+				</div>
+			</div>
+			<div class="row" style="margin: 10px;">
+				<div class="col-xs-10 checkbox">
+					<input type="checkbox" data-ng-model="odcc.authorizeOneNote" data-ng-disabled=true>
+					<label class="cs-lbl">OneNote</label>
+				</div>
+				<div class="col-xs-2">
+					<button class="btn vdvc-form-btn"
+							data-ng-if="odcc.isOneNoteAuthorize"
+							type="button" 
+							data-ng-click="odcc.revoke('OneNote')">
+							REVOKE
+					</button>
+				</div>
+				<div class="col-xs-2">
+					<button class="btn vdvc-form-btn" 
+							data-ng-if="!odcc.isOneNoteAuthorize"
+							type="button" 
+							data-ng-click="odcc.authorizeApp('OneNote')">
+							AUTHORIZE
+					</button>
+				</div>
+			</div>
+			<div class="row" style="margin: 10px;">
+				<div class="col-xs-10 checkbox">
+					<input type="checkbox" data-ng-model="odcc.authorizeOutlook" data-ng-disabled=true>
+					<label class="cs-lbl">Outlook Email</label>
+				</div>
+				<div class="col-xs-2">
+					<button class="btn vdvc-form-btn"
+							data-ng-if="odcc.isOutlookAuthorize"
+							type="button" 
+							data-ng-click="odcc.revoke('SendMail')">
+							REVOKE
+					</button>
+				</div>
+				<div class="col-xs-2">
+					<button class="btn vdvc-form-btn" 
+							data-ng-if="!odcc.isOutlookAuthorize"
+							data-ng-disabled="odcc.isGoogleMailAuthorize"
+							type="button" 
+							data-ng-click="odcc.authorizeApp('SendMail')">
+							AUTHORIZE
+					</button>
+				</div>
+			</div>
+			<div class="row" data-ng-show="odcc.isGoogleMailAuthorize">
+				<div class="row" style="margin: 10px;color: #a94442;">
+			 		<i class="fa fa-exclamation-circle" style="margin-right: 5px;"></i>
+			 		You have already Authorized to Send Mail using Gmail. <br>   If you would like to use Microsoft Outlook Email, you need to Revoke the Authorization of Gmail. 
+			 	</div>
+			</div>
+		</div>
+<!-- 		<div class="row" style="height: 40px;line-height: 40px;margin: 10px;">
+			<div class="col-xs-3">Office 365 User Name:</div>
+			<div class="col-xs-3">{{::odcc.config.name}}</div>
+		</div> -->
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" 
+				type="button" 
+				data-ng-click="odcc.cancel()">
+				CLOSE
+		</button>
+		<button class="btn vdvc-form-btn"
+				data-ng-if="odcc.isAuthPresent"
+				type="button" 
+				data-ng-click="odcc.revoke('ALL')">
+				REVOKE ALL
+		</button>
+		<button class="btn vdvc-form-btn"
+				data-ng-if="!odcc.isAuthPresent"
+				type="button" 
+				data-ng-click="odcc.authorize()">
+				AUTHORIZE
+		</button>
+	</div>
+</form>

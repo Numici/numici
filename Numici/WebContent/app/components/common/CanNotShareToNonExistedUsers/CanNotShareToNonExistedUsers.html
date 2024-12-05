@@ -1,0 +1,24 @@
+<form data-ng-submit="cnsnc.ok()">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-xs-12" data-ng-if="cnsnc.sharedUserList.length > 0" style="padding: 0px 15px 15px;">
+				<span>Selected objects are successfully shared to '{{cnsnc.getSharedUsers()}}' users</span>
+			</div>
+			<div class="row" style="padding: 0px 15px 15px;">
+				<div class="col-xs-12" style="padding: 0px;">
+					<span>Selected objects could not be shared to the below list of users as they are not NUMICI users. And you do not have privilages to invite a non-numici user.</span>
+				</div>
+				<div class="col-xs-12" style="padding: 0px;margin-left: 15px;width: calc(100% - 30px);height: 100px;overflow-y: auto;border: 1px solid #ccc;">
+					<div class="col-xs-12" data-ng-repeat="NonNumiciUser in cnsnc.NonNumiciUsers">
+						<div class ="col-top-mrgn-5">
+							<label for="{{NonNumiciUser.loginId}}">{{NonNumiciUser.loginId}}</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn" type="submit">OK</button>
+	</div>
+</form>

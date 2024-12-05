@@ -1,0 +1,22 @@
+<div class="modal-header" 
+	style="padding: 15px 15px 0px;">
+	<h3 class="modal-title" data-ng-bind-html="vcwrbc.title"></h3>
+</div>
+<div class="modal-body">
+	<div class="row" data-ng-bind-html="vcwrbc.text"></div>
+	<div class="col-xs-12" 
+		style="padding-left: 35px;">
+		<div class="radio radio-primary" 
+			data-ng-repeat="radioBtn in vcwrbc.radioBtns">
+			<input type="radio" 
+				name="confirmResponse" 
+				data-ng-model="vcwrbc.confirmResponse.selectedOption"
+				value="{{radioBtn.value}}">
+			<label class="cs-lbl">{{radioBtn.label}}</label>
+		</div>
+	</div>
+</div>
+<div class="modal-footer" style="padding: 15px;">
+    <button class="btn vdvc-form-btn-muted" data-ng-click="vcwrbc.cancel()">{{vcwrbc.closeButtonText.length > 0 ? vcwrbc.closeButtonText : "CANCEL"}}</button>
+    <button class="btn btn-primary" data-ng-click="vcwrbc.ok()" data-ng-disabled="vcwrbc.radioBtns.length > 0 && vcwrbc.confirmResponse.selectedOption.length == 0">{{vcwrbc.actionButtonText.length > 0 ? vcwrbc.actionButtonText : "OK"}}</button>
+</div>

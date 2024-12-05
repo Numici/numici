@@ -1,0 +1,197 @@
+<form data-ng-submit="vm.ok($event)">
+	<div class="modal-header" style="padding: 10px 15px;">
+		<div class="row">
+			<div class="col-xs-7" style="padding-left: 0px;">
+				<h3 class="modal-title">{{vm.headerLabel()}}</h3>
+			</div>
+			<div class="col-xs-5" 
+				data-ng-show="vm.showSelectTsSection()" 
+				style="padding-left: 0px;">
+				<label for="ts-section" style="width: 70px;float: left;line-height: 33px;">SECTION : </label> 
+				<data-ui-select id="ts-section" 
+					data-ng-model="vm.selectedTSSection" 
+					data-search-enabled="false" 
+					style="width: calc(100% - 70px);float: left;">
+					<data-ui-select-match>{{$select.selected.name}}</data-ui-select-match>
+			    	<data-ui-select-choices data-repeat="tsSection in vm.selectedTS.sections">
+						<div data-ng-bind-html="tsSection.name | highlight: $select.search"></div>
+					</data-ui-select-choices>
+			    </data-ui-select>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body" style="height: 300px;overflow: auto;background: #eee;">
+		<div class="row" style="margin-bottom: 5px;">
+			<div class="col-xs-5" style="padding-left: 0px;">
+				<span class="fldrs-hdr"> 
+					TASKSPACES 
+					<span>({{vm.getTSListCount()}})</span>
+				</span>
+			</div>
+			<div class="col-xs-7" style="padding:0px;">
+				<div class="col-xs-2" style="width: 30px;float: right;padding: 0px;">
+					<div class="table-col-con-dd" 
+						data-uib-dropdown 
+						data-auto-close="outsideClick">
+						<button  type="button" 
+		      		   			 class="btn vdvc-nav-btn vdvc-doc-main-btn"
+		      		   			 data-uib-dropdown-toggle 
+		      		   			 data-ng-disabled="disabled" 
+		      		   			 style="padding: 7.5px;">
+					    	<i class="fa fa-ellipsis-h fa-rotate-90 fa-fw"></i>
+					    </button>
+					    <ul data-uib-dropdown-menu class="dropdown-menu-right" role="menu" aria-labelledby="single-button">
+					        <li role="menuitem" data-ng-class="{active : hdr.checked}" data-ng-repeat="hdr in vm.taskSpacesListHeaders" data-ng-click="vm.selectColumn(hdr,vm.taskSpacesListHeaders)">
+					        	<div class="vdvc-drop-down-item">{{hdr.label}}</div>
+					        	<div data-ng-if="!$last" class="vdvc-divider"></div>
+					        </li>
+					    </ul>
+				    </div>
+				</div>
+				<div class="col-xs-10" style="padding:0px 5px 0px 0px;width: calc(100% - 30px);float: right;">
+					<input type="text" 
+		        	   class="form-control vdvc-input-txt" 
+		        	   data-ng-model="vm.searchString" 
+					   placeholder='Find Taskspace'>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<table id="ts-table" class="table docTable fldrs-table">
+				<thead >
+					<tr>
+						<th class="wraptext" 
+							data-ng-if="hdr.checked && $first" 
+							data-ng-class="hdr.class" 
+							data-ng-repeat="hdr in vm.taskSpacesListHeaders" 
+							data-ng-click="vm.sortByfield(hdr)">
+							<div class="row lv-th-ele-wrap">
+								<span class="lv-obj-icon-wrap">
+									<i class="fa fa-fw fa-book"></i>
+								</span>
+								<span data-uib-tooltip="{{hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == vm.tsField" 
+										data-ng-class="{'fa-caret-up' : !vm.tsFieldDecending , 'fa-caret-down': vm.tsFieldDecending}">
+									</i>
+								</span>
+							</div>
+						</th>
+						<th class="ellipsis" 
+							data-ng-if="hdr.checked && !$first" 
+							data-ng-class="hdr.class" 
+							data-ng-repeat="hdr in vm.taskSpacesListHeaders" 
+							data-ng-click="vm.sortByfield(hdr)">
+							<div class="row lv-th-ele-wrap">
+								<span data-uib-tooltip="{{hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == vm.tsField" 
+										data-ng-class="{'fa-caret-up' : !vm.tsFieldDecending , 'fa-caret-down': vm.tsFieldDecending}">
+									</i>
+								</span>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-if="vm.searchStringFilter(ts)" 
+						data-ng-repeat="ts in vm.taskSpaces track by $index" 
+						data-ng-dblclick="(!vm.supportMultiSelectTaskspace && !vm.disableTaskspace(ts)) && vm.selectTaskspace(ts)" 
+						data-ng-click="(!vm.supportMultiSelectTaskspace && !vm.disableTaskspace(ts)) && vm.selectTaskspace(ts)" 
+						data-on-long-press="(!vm.supportMultiSelectTaskspace && !vm.disableTaskspace(ts)) && vm.selectTaskspace(ts)" 
+						data-ng-class="{'link-folder-selected': vm.selectedTS.id == ts.id,'ts-disabled': vm.disableTaskspace(ts)}" 
+						class="ts-row">
+						<td data-ng-class="hdr.class" 
+							data-ng-if="hdr.checked && $first" 
+							data-ng-repeat="hdr in vm.taskSpacesListHeaders">
+							<div class="wraptext">
+								<div data-ng-if="vm.supportMultiSelectTaskspace" class="checkbox lv-cb-wrap" 
+									data-ng-click="$event.stopPropagation();">
+				               		<input type="checkbox" 
+				               			data-ng-model="ts.selected" 
+				               			data-ng-change="vm.selectNoteBookToSync(ts)">
+				               		<label class="lv-cb-label"></label>
+				            	</div>
+								<div class="lv-obj-icon-wrap" style="float: left;">
+									<i class="fa fa-fw fa-book"></i>
+								</div>
+								<div data-ng-switch="hdr.type" style="float: left;max-width: calc(100% - 60px);">
+									<div class="ellipsis">
+										<div data-ng-switch-when="text" 
+											data-uib-tooltip="{{ts[hdr.value]}}" 
+											data-tooltip-append-to-body="true">
+											{{ts[hdr.value]}}
+										</div>
+										<div data-ng-switch-when="Date" 
+											data-uib-tooltip="{{ts[hdr.value] | date:'medium'}}" 
+											data-tooltip-append-to-body="true">
+											{{ts[hdr.value] | date:'medium'}}
+										</div>
+									</div>
+								</div>	
+							</div>
+						</td>
+						<td class="ellipsis" 
+							data-ng-if="hdr.checked && !$first" 
+							data-ng-repeat="hdr in vm.taskSpacesListHeaders">
+							<span class="row" 
+								data-ng-switch="hdr.type">
+								<span class="ellipsis">
+									<span data-ng-switch-when="text" 
+										data-uib-tooltip="{{ts[hdr.value]}}" 
+										data-tooltip-append-to-body="true">
+										{{ts[hdr.value]}}
+									</span>
+									<span data-ng-switch-when="Date" 
+										data-uib-tooltip="{{ts[hdr.value] | date:'medium'}}" 
+										data-tooltip-append-to-body="true">
+										{{ts[hdr.value] | date:'medium'}}
+									</span>
+								</span>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- <div class="col-xs-6" 
+			 data-ng-repeat="ts in vm.taskSpaces | orderBy : 'name' track by $index"
+			 style="height: 50px;margin: 10px 0px;">
+			<div class="col-xs-12 ellipsis ts-bar" 
+				 data-ng-class="{'ts-slct': vm.selectedTS.id == ts.id,'ts-disabled': vm.disableTaskspace(ts)}" 
+				 data-uib-tooltip="{{ts.name}}" 
+				 data-tooltip-append-to-body='true'
+				 data-ng-click="!vm.disableTaskspace(ts) && vm.selectTaskspace(ts)">
+				 {{ts.name}}
+			</div>
+		</div> -->
+	</div>
+	<div class="modal-footer" style="padding: 10px 15px;">
+		<div class="col-xs-8" style="padding: 0px;">
+			<button type="button" 
+				class="btn vdvc-form-btn" 
+				data-ng-click="vm.openCreateTaskSpaceModal('md')" 
+				style="float: left;">
+				  <span class="fa fa-plus"></span> NEW TASKSPACE
+			</button>
+			<div data-ng-show="vm.showPostToSlackAutomatically()" 
+				style="width: calc(100% - 164px);float: left;margin-left: 10px;text-align: left;">
+				<div class="v-line" style="float: left;height: 35px;margin-right: 10px;"></div>
+				<div class="checkbox" style="margin: 0px;margin-left: 10px;margin-top: 7.5px;color: #069;">
+					<input id="slack-automatic" type="checkbox" data-ng-model="vm.autoPostAnns">
+					<label for="slack-automatic"><div class="ellipsis" style="">Post conversations to Slack automatically</div></label>
+				</div>
+			</div>
+		</div>
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit" data-ng-disabled='vm.disableAdd()'>{{vm.submitLabel()}}</button>
+	</div>
+</form>

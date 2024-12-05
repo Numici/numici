@@ -1,0 +1,266 @@
+<div class="col-xs-12 full taskContainer" style="padding: 0px 15px;">
+	 <div class="full" style="padding: 10px 0px;">
+	 		<div class="full onepane-animate-hide" 
+	      		 data-ng-controller="TsObjectController as tsobj"
+	      		 data-ng-init="tsobj.focusedObj='One';tsobj.ts = vm.taskSpace" 
+	      		 data-ng-class="{'ts-obj-exp': !vm.toggleSideBarChecked, 'ts-obj-colap': vm.toggleSideBarChecked}" style="padding: 0px;">
+	        	<div class="full row"
+	        		 data-drop="true"
+	        		 data-ng-model="tsobj.droppedObj"
+	        		 data-jqyoui-options="tsobj.objDropUIOptions"
+	        		 data-jqyoui-droppable="{onDrop : 'tsobj.onObjDrop'}"
+	        		 style="background: #fff">
+	        		 
+	        		 
+	        		<div class="col-xs-12 vdvc-ldr-spin-wrap" data-ng-show="tsobj.loader" data-ng-class="{'full':tsobj.loader}">
+		        		<div class="vdvc-loader-spin vdvc-v-align"></div>
+		        	</div>
+	        		 
+	        		<div class="col-xs-12 ts-drp-area">
+	        			<div class="drp vdvc-v-align">
+	        				 Drop Here
+	        			</div>
+	        		</div>
+	        		<!-- <div class="full row" data-ng-class="{'isolate': vm.isolateDoc}" data-ui-view data-name="object1"></div> -->
+	        		
+	        		<!-- <div class="full row task-obj-wrap" 
+	        			 data-ng-include
+	        			 data-ng-class="{'isolate': tsobj.isolateDoc}"
+	        			 data-src="'app/components/TaskSpace/docViewer.html'"></div> -->
+	        			 
+	        			 <div class="full row task-obj-wrap One" data-ng-mouseenter="tsobj.showVdvcNavbar()" data-ng-mouseleave="tsobj.hideVdvcNavbar()"></div>
+	        			 
+	        	</div>
+	        </div>
+	        <div class="full vrt-ts-obj-wrap"  
+	        	 data-vrt-ts-obj-scroll
+	        	 data-ng-class="{'colap-tsobj-list': vm.toggleSideBarChecked}">
+	        	 
+	        	<!-- <div class="full onepane-tsobjects-toggle">
+	        		<div class="onepane-tsobjects-toggle-btn" 
+	        			 data-ng-click="vm.toggleOnePaneTsObjects()">
+						<i class="fa" data-ng-class="{'fa-angle-double-right': !vm.toggleSideBarChecked, 'fa-angle-double-up': vm.toggleSideBarChecked}" aria-hidden="true"></i>
+						<i data-ng-show="vm.toggleSideBarChecked">TASKSPACE DOCUMENTS</i>
+					</div>
+	        	</div> -->
+	        	
+				<div class="ts-obj-colp-bwrp">
+					<div class="ts-obj-colp-btn" 
+						 data-ng-click="vm.toggleOnePaneTsObjects()">
+						<i class="fa fa-fw" 
+							data-ng-class="{'fa-angle-double-right': !vm.toggleSideBarChecked, 'fa-angle-double-left': vm.toggleSideBarChecked}" 
+							aria-hidden="true">
+						</i>
+					</div>
+				</div>
+	        	<div class="ts-obj-colp-txt">
+					<span class="v-txt-mid">
+						TASKSPACE DOCUMENTS
+					</span>
+				</div>
+	        	<div class="full vrt-ts-obj" 
+	        		 data-ui-sortable="vm.sortableOptions" 
+	        		 data-ng-model="vm.taskSpace.objects"
+	        		 data-ng-hide="vm.toggleSideBarChecked"
+	        		 style="padding: 0px;">
+	        		 
+	        		 
+	        		 <div class="col-xs-12 ts-card-wrap" >
+		        			<div class="row ts-card"
+		        				 data-drag="true" 
+		        				 data-jqyoui-options="vm.objDragUIOptions "
+		        				 data-jqyoui-draggable="{ placeholder: 'keep',
+		        				 						 insertInline:false}" 
+		        				 data-ng-model="vm.digestObject">
+		        				<div class="full" data-ng-click="vm.onObjectClick(vm.digestObject)" style="    padding: 5px 0px;">
+			        				<div class="col-xs-12">
+			        					<span class="fa fa-eye fa-fw"
+			        						 data-ng-style="{color: vm.taskSpace.permissions.edit ? '#006699' : '#999' }"></span>
+			        					<span>{{vm.digestObject.name}}</span>
+			        				</div>
+		        				</div>
+		        			</div>
+		        		</div>
+		        		 
+		        		 
+		        		<div class="col-xs-12 ts-card-wrap" 
+		        			data-ng-if="!TsObj.invalidObject" 
+		        			data-ng-repeat="TsObj in vm.taskSpace.objects | filter: vm.docSearchTxt track by $index" 
+		        			data-uib-popover-template="vm.docLinkUIProperties.templateUrl"
+							data-popover-is-open="TsObj.showDocLink"
+							data-popover-placement="auto"
+							data-popover-trigger="vm.docLinkUIProperties.trigger"
+							data-popover-class="annotation-deep-link-info"
+							data-popover-append-to-body="true">
+		        			<!-- <span data-ng-if="vm.getExtDocIcon(TsObj.objectInfo)" style="position: absolute;left: 15px;top: 20px;z-index: 1;">
+		        				<span style="display: inline-block;">
+		      						<img class="image" data-ng-src="{{::vm.getExtDocIcon(TsObj.objectInfo)}}" style="width: 22px; height: 11px;">
+		       					</span>
+		        			</span> -->
+		        					        			
+		        			<div class="ts-card-actn"
+		        			     data-ng-click="$event.stopPropagation()">
+			        			<span  style="float: right;">
+			        				<span class="fa fa-share-alt fa-fw" 
+			        				 	data-ng-click="vm.shareDocumentLink(TsObj)" 
+										data-tooltip-append-to-body='true'
+										data-uib-tooltip="Share Annotations on Document">
+									</span>
+			        				<span data-ng-show="vm.showMoveTsObjAction(TsObj)" 
+			        					  class="fa fa-share fa-fw move-obj" 
+			        					  data-ng-click="vm.moveTsObj($event,TsObj)" 
+			        					  data-uib-tooltip="{{vm.getToolTip('TsObjextMove')}}" 
+			        					  data-tooltip-placement="top" 
+			        					  data-tooltip-append-to-body='true'></span>
+			        			    <span class="fa fa-sort fa-fw sort-obj"
+			        					  data-uib-tooltip="{{vm.getToolTip('TsObjextSort')}}" 
+			        					  data-tooltip-placement="top" 
+			        					  data-tooltip-append-to-body='true'></span>
+			        				<span data-ng-show="vm.taskSpace.permissions.edit" 
+			        					  class="fa fa-times fa-fw" 
+			        					  data-ng-class="vm.getRemoveObjBtnClass($index)"  
+			        					  data-ng-click="vm.removeTsObj($event,TsObj)" 
+			        					  data-uib-tooltip="{{vm.getToolTip('TsRemoveObjext')}}" 
+			        					  data-tooltip-placement="top" 
+			        					  data-tooltip-append-to-body='true'></span>
+								  	<!-- <span class="fa fa-expand  fa-fw"  data-ng-click="vm.TaskSpaceAction($event,'close')" ></span> -->
+			        			</span>
+		        			</div>
+		        			
+		        			
+		        			
+		        			<div class="row ts-card" 
+		        				 data-scroll-if="TsObj.objectId == vm.taskSpaceState.focusObject1"
+		        				 data-drag="true" 
+		        				 data-jqyoui-options="vm.objDragUIOptions "
+		        				 data-jqyoui-draggable="{index: {{$index}}, 
+		        				 						 placeholder: 'keep',
+		        				 						 insertInline:false}" 
+		        				 data-ng-class="{'current_ts_doc': TsObj.objectId == vm.taskSpaceState.focusObject1}"
+		        				 data-ng-model="vm.taskSpace.objects">
+		        				
+		        				<div class="row full ellipsis" data-ng-click="vm.onObjectClick(TsObj)">
+	        						<div class="row full ts-crd-content">
+										<div class="row" style="height: 30px;line-height: 30px;">
+											<div class="col-xs-12" 
+											     data-uib-tooltip="{{TsObj.objectInfo.name}}" 
+											     data-tooltip-append-to-body="true"
+											     style="float: left;width: calc(100% - 60px);">
+												<span class="ts-card-icon">
+							     					<span class="ts-doc-icon">
+														<i data-ng-class="vm.getFileIcon(TsObj.objectInfo.name)" class="fa"></i>
+													</span>
+													<span class="ts-shrd-doc-icon" data-ng-show="TsObj.objectInfo.isShared">
+														<i class="fa fa-user"></i>
+													</span>
+						      					</span>
+						      					<span>
+						      					  {{TsObj.objectInfo.name}}
+						      					</span>
+											</div>
+											<div style="float: left;width: 60px;">
+											    <!-- <div style="float: right;padding: 3px 10px 3px 3px;" data-ng-click="$event.stopPropagation()">
+							        				<span class="fa fa-sort fa-fw sort-obj"
+							        					  data-uib-tooltip="{{vm.getToolTip('TsObjextSort')}}" 
+							        					  data-tooltip-placement="top" 
+							        					  data-tooltip-append-to-body='true'></span>
+							        				<span data-ng-show="vm.showMoveTsObjAction(TsObj)" 
+							        					  class="fa fa-share fa-fw move-obj" 
+							        					  data-ng-click="vm.moveTsObj($event,TsObj)" 
+							        					  data-uib-tooltip="{{vm.getToolTip('TsObjextMove')}}" 
+							        					  data-tooltip-placement="top" 
+							        					  data-tooltip-append-to-body='true'></span>
+							        				<span data-ng-show="vm.taskSpace.permissions.edit" 
+							        					  class="fa fa-times fa-fw" 
+							        					  data-ng-class="vm.getRemoveObjBtnClass($index)"  
+							        					  data-ng-click="vm.removeTsObj($event,TsObj)" 
+							        					  data-uib-tooltip="{{vm.getToolTip('TsRemoveObjext')}}" 
+							        					  data-tooltip-placement="top" 
+							        					  data-tooltip-append-to-body='true'></span>
+												  	<span class="fa fa-expand  fa-fw"  data-ng-click="vm.TaskSpaceAction($event,'close')" ></span>
+							        			</div> -->
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-12" style="color:#006699;" data-uib-tooltip="{{TsObj.objectInfo.createdBy}}" data-tooltip-append-to-body="true">
+												{{TsObj.objectInfo.createdBy}}
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-xs-12" data-uib-tooltip="{{TsObj.objectInfo.companyName}}" data-tooltip-append-to-body="true">
+												{{TsObj.objectInfo.companyName}}
+											</div>
+										</div>
+										<div class="row vdvc-text-sub">
+											<div data-set-doc-type data-type="{{TsObj.objectInfo.docType}}" class="col-xs-12"></div>
+											<div class="col-xs-12" data-uib-tooltip="{{TsObj.objectInfo.datePublished | date:'medium'}}" data-tooltip-append-to-body="true">
+												Date Published: {{TsObj.objectInfo.datePublished | date:'medium'}}
+											</div>
+										</div>
+										<div class="row vdvc-text-sub">
+											<div class="col-sm-6 col-xs-12">
+												Annotations: {{TsObj.objectInfo.annotationsCount}}
+											</div>
+											<div class="col-sm-6 col-xs-12">
+												Highlights: {{TsObj.objectInfo.highlightsCount}}
+											</div>
+										</div>
+			        				</div>	
+								</div>
+		        			</div>
+		        		</div>
+		        		<div class="col-xs-12 ts-card-wrap" 
+		        			data-ng-if="TsObj.invalidObject" 
+		        			data-ng-repeat="TsObj in vm.taskSpace.objects | filter: vm.docSearchTxt track by $index">
+		        			<div class="ts-card-actn"
+		        			     data-ng-click="$event.stopPropagation()">
+		        			    <span style="float: right;">
+			        				<span data-ng-show="vm.taskSpace.permissions.edit" 
+			        					  class="fa fa-times fa-fw" 
+			        					  data-ng-class="vm.getRemoveObjBtnClass($index)"  
+			        					  data-ng-click="vm.removeTsObj($event,TsObj)" 
+			        					  data-uib-tooltip="{{vm.getToolTip('TsRemoveObjext')}}" 
+			        					  data-tooltip-placement="top" 
+			        					  data-tooltip-append-to-body='true'>
+			        				</span>
+		        				</span>
+		        			</div>
+		        			<div class="row ts-card">
+		        				<div class="row full ts-crd-content">
+			        				<div class="row">
+										<div class="col-xs-12" 
+											style="height: 30px;line-height: 30px;font-style: italic;text-align: center;">
+											({{TsObj.type}} not found)
+										</div>
+									</div>
+			        			</div>
+		        			</div>
+		        		</div>
+		        		<!-- <div class="col-xs-12 ts-card-wrap" data-ng-repeat="TsObj in vm.dummyTSObjList | orderBy : 'name' track by $index">
+		        			<div class="row ts-card" data-ng-click=" vm.taskSpace.permissions.edit && vm.addObjectToTS()">
+		        				
+		        				<div class="col-xs-12 ts-name  vdvc-v-align">
+		        					<div class="fa fa-plus-circle" 
+		        						 data-ng-style="{color: vm.taskSpace.permissions.edit ? '#006699' : '#999' }"
+		        						 style="font-size: 30px;"></div>
+		        					<div>{{TsObj.name}}</div>
+		        				</div>
+		        			</div>
+		        		</div> -->
+	        	</div>
+	        </div>
+	  </div>
+	  <span data-ng-if="vm.taskSpace.permissions.edit" 
+	   	data-ng-click="vm.addObjectToTS()" 
+	   	class="add-ts-btn">
+	   		<i class="fa fa-tasks fa-fw" style="font-size: 14px;margin-left: -5px;vertical-align: middle;"></i>
+		    <i class="fa fa-plus fa-fw" style="position: absolute;top: 10px;right: 7px;font-size: 12px;"></i>
+	  </span>
+	  <div data-ng-if="vm.taskSpace.objects.length >= 1" 
+	  	class="search-ts-objects">
+	  	<span class="fa fa-search fa-rotate-360 search-ts-objects-toggle-btn" 
+	  		data-ng-click="vm.toggleTSObjectsSearch()" style="position: relative;float: left;">
+	  	</span>
+	  </div>		
+</div>
+

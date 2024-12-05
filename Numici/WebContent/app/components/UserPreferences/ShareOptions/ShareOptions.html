@@ -1,0 +1,87 @@
+<div class="container-fluid full">
+	<div class="col-xs-12" style="padding-bottom: 10px;">
+		<div class="col-xs-12 col-sm-6 ntf-settings">
+			<div class="second-navbar second-navbar-top dl-main-navbar">
+				<div class="col-xs-8" style="padding-left: 0px;font-size: 20px; color: rgba(51, 51, 51, 0.74);">
+					Select Primary Share Options
+				</div>	
+				<div class="col-xs-4" style="padding-left: 0px;text-align: center;">
+					<button type="button" 
+			      		class="btn vdvc-nav-btn" 
+			      		data-ng-show="soc.isShareOptionsEdited" 
+			      		data-ng-click="soc.cancelShareOptionsSettings()" 
+			      		style="margin-left: 5px;">
+			        	Cancel
+			      	</button>
+			      	<button type="button" 
+			      		class="btn vdvc-nav-btn" 
+			      		data-ng-show="soc.isShareOptionsEdited" 
+			      		data-ng-click="!soc.disableSaveShareOptionsSettings() && soc.saveShareOptionsSettings()" 
+			      		data-ng-disabled="soc.disableSaveShareOptionsSettings()" 
+			      		style="margin-left: 5px;">
+			        	Save
+			      	</button>
+			      	<button type="button" 
+			      		class="btn vdvc-nav-btn" 
+			      		data-ng-show="!soc.isShareOptionsEdited" 
+			      		data-ng-click="soc.editShareOptionsSettings()" 
+			      		style="margin-left: 5px;">
+			        	Edit
+			      	</button>
+				</div>	
+			 </div>
+			 <div>Unselected share options will be available under 'More Share Options'</div>
+			 <div data-ng-if="!soc.isSelectedAtLeastOneOption()" style="color: #b20000;">
+			 	Please select at least one 'Primary Share Option'.
+			 </div>
+			 <div class="col-xs-12" style="padding-bottom: 15px;background: #fff;width: fit-content;">
+			 	<div class="row">
+				 	<table class="table vdvc-ntf-settings-table">
+						<!-- <thead>
+							<tr>
+								<th class="wraptext ellipsis">Notification Event</th>
+								<th class="wraptext" 
+									data-ng-repeat="notificationSentTo in soc.notificationSentToListModal" 
+									style="text-align: center;">
+									<div class="row">
+										<span class="checkbox lv-cb-wrap" data-uib-tooltip="{{::notificationSentTo.label}}" 
+											data-tooltip-append-to-body="true"  
+											data-ng-click="$event.stopPropagation();" 
+											style="padding: 0;width: calc(100% - 25px);">
+											<input type="checkbox" 
+					               			data-ng-model="notificationSentTo.selectAll" 
+					               			data-ng-change="soc.selectAllNotificationsSentTo(notificationSentTo)" 
+					               			data-ng-disabled="!soc.isShareOptionsEdited">
+											<label class="head-cb-lable lv-cb-label">
+												<div class="ellipsis">{{::notificationSentTo.label}}</div>
+											</label>
+										</span>
+									</div>
+								</th>
+							</tr>
+						</thead> -->
+						<tbody>
+							<tr data-ng-repeat="shareOption in soc.shareOptionsList">
+								<td class="wraptext ellipsis">
+									<span class="ellipsis" 
+										data-uib-tooltip="{{shareOption.label}}" 
+										data-tooltip-append-to-body="true">
+										{{shareOption.label}}
+									</span>
+								</td>
+								<td class="wraptext" style="text-align: center;">
+									<span class="checkbox lv-cb-wrap">
+					               		<input type="checkbox" 
+					               			data-ng-model="shareOption.important" 
+					               			data-ng-disabled="!soc.isShareOptionsEdited">
+					               		<label class="lv-cb-label"></label>
+					            	</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+    	</div>
+    </div>
+</div>

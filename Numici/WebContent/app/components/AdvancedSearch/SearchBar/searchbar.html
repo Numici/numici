@@ -1,0 +1,605 @@
+<div id="vdvc-search-filters" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 adv-srch-filters-container" data-ng-class="{'adsr-min-bar': toggleSrcBar}">
+	<form role="form" data-ng-submit="getEntities('true')">
+		<div class="row asrh-filters-bar-1" data-ng-if="!showOnlySearchFilters" data-ng-show="!toggleSrcBar">
+			<div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-4" 
+				data-ng-class="{'col-xs-12' : deviceInfo.isMobile,'col-xs-4' : !deviceInfo.isMobile}">
+				<label class="cs-lbl" for="savedSearch">SELECT SAVED SEARCH</label> 
+				<data-ui-select class="ss-select" 
+								id="savedSearch" 
+								data-ng-model="srchObj.selected"  
+								data-ng-disabled="disabled" 
+								data-search-enabled="false" 
+								data-on-select="onSavedSearchChange($select.selected,'user')">
+					<data-ui-select-match>
+						<div data-tooltip-placement="auto" 
+				        data-uib-tooltip="{{$select.selected.name}}" 
+				        data-tooltip-append-to-body="true">
+					        {{$select.selected.name}}
+					    </div>
+					    <span data-ng-if="$select.selected.name != 'None' && !$select.selected.valid" 
+				    		class="fa fa-exclamation-triangle saved-srch-invalid"
+					        data-tooltip-placement="auto" 
+					        data-uib-tooltip="{{$select.selected.invalidReason}}" 
+					        data-tooltip-append-to-body="true"></span>
+				    </data-ui-select-match>
+				    <data-ui-select-choices data-group-by="'group'" 
+				    	data-group-filter="srchObj.reverseOrderFilterFn"
+				    	data-repeat="savedSearch in savedSearchList |  orderBy : 'name' | filter: $select.search">
+				      	<div class='vdvc-srch-opt'>
+							<span class="ss-ele-wrap">
+								<div data-tooltip-placement="auto" 
+							        data-uib-tooltip="{{ savedSearch.name || 'empty' }}" 
+							        data-tooltip-append-to-body="true">
+							        {{ savedSearch.name || 'empty' }}
+							    </div>
+							    <span data-ng-if="savedSearch.name != 'None' && !savedSearch.valid" 
+							    	class="fa fa-exclamation-triangle saved-srch-invalid"
+							        data-tooltip-placement="auto" 
+							        data-uib-tooltip="{{savedSearch.invalidReason}}" 
+							        data-tooltip-append-to-body="true">
+							    </span>
+							    <span data-ng-if="savedSearch.name != 'None'" 
+							    	class="btn btn-xs fa fa-pencil srch-actions ss-tool-edit" 
+							    	data-ng-click="editSavedSearch(savedSearch,$event)"
+							     	data-uib-tooltip="Edit" 
+							     	data-tooltip-append-to-body="true">
+							    </span>
+								<span data-ng-if="savedSearch.name != 'None'" 
+									class="btn btn-xs fa fa-trash-o srch-actions ss-tool-delete" 
+									data-ng-click="deleteSavedSearch(savedSearch,$event)" 
+									data-uib-tooltip="Delete" 
+									data-tooltip-append-to-body="true">
+								</span>
+							</span>
+					   	</div>
+				    </data-ui-select-choices>
+				</data-ui-select>
+			</div>
+			<div class="form-group col-sm-4 col-md-4 col-lg-4" 
+				data-ng-class="{'col-xs-12' : deviceInfo.isMobile,'col-xs-4' : !deviceInfo.isMobile}">
+				<div class="row" >
+					<label class="cs-lbl" for="savedSmartSearch">SELECT SMART SEARCH</label>  
+					<data-ui-select class="ss-select" 
+									id="savedSmartSearch" 
+									data-ng-model="srchObj.systemSearchSlctd"  
+									data-ng-disabled="disabled" 
+									data-search-enabled="false" 
+									data-on-select="onSavedSearchChange($select.selected,'system')">
+						<data-ui-select-match>
+							<div data-tooltip-placement="auto" 
+						        data-uib-tooltip="{{$select.selected.name}}" 
+						        data-tooltip-append-to-body="true">
+						        {{$select.selected.name}}
+						    </div>
+					    	<span data-ng-if="$select.selected.name != 'None' && !$select.selected.valid" 
+					    		class="fa fa-exclamation-triangle saved-srch-invalid"
+						        data-tooltip-placement="auto" 
+						        data-uib-tooltip="{{$select.selected.invalidReason}}" 
+						        data-tooltip-append-to-body="true">
+						    </span>
+					    </data-ui-select-match>
+					    <data-ui-select-choices data-group-by="'group'"
+    						data-group-filter="srchObj.reverseOrderFilterFn" 
+    						data-repeat="savedSearch in systemsavedSearchList |  orderBy : 'name' | filter: $select.search">
+					      	<div class='vdvc-srch-opt'>
+								<span class="ss-ele-wrap">
+									<div data-tooltip-placement="auto" 
+								        data-uib-tooltip="{{ savedSearch.name || 'empty' }}" 
+								        data-tooltip-append-to-body="true">
+								        {{ savedSearch.name || 'empty' }}
+								    </div>
+							    	
+								    <span data-ng-if="savedSearch.name != 'None' && !savedSearch.valid" 
+								    	class="fa fa-exclamation-triangle saved-srch-invalid"
+							          	data-tooltip-placement="auto" 
+							          	data-uib-tooltip="{savedSearch.invalidReason}" 
+							          	data-tooltip-append-to-body="true">
+							        </span>
+							    	<span data-ng-if="savedSearch.name != 'None' && userinfo.isSiteAdmin" 
+							    		class="btn btn-xs fa fa-pencil srch-actions ss-tool-edit" 
+							    		data-ng-click="editSavedSearch(savedSearch,$event)"
+								     	data-uib-tooltip="Edit">
+								    </span>
+									<span data-ng-if="savedSearch.name != 'None' && userinfo.isSiteAdmin" 
+										class="btn btn-xs fa fa-trash-o srch-actions ss-tool-delete" 
+										data-ng-click="deleteSavedSearch(savedSearch,$event)" 
+										data-uib-tooltip="Delete">
+									</span>
+								</span>
+							</div>
+					    </data-ui-select-choices>
+					</data-ui-select>
+				</div>
+			</div>
+			<div class="form-group col-sm-4 col-md-4 col-lg-4" 
+				style="position: relative;" 
+				data-ng-class="{'col-xs-12' : deviceInfo.isMobile,'col-xs-4' : !deviceInfo.isMobile}">
+				<div class="row srch-tool-group">
+					<div class="vdvc-drpdwn-wrap" data-on-outside-element-click="srchObj.close()">
+						<button type="button" 
+							class="vdvc-nav-btn btn btn-sm ss-save-btn" 
+							data-ng-click='srchObj.toggleMenu($event)' 
+							data-ng-disabled ="srchObj.isDisabled()">
+							SAVE
+						</button>
+						<div class='row dropdown-menu vdvc-cust-dd-menu dropdown-menu-right' 
+							data-ng-show='srchObj.isOpen'>
+							<div data-ng-show="userinfo.isSiteAdmin" 
+								class ="col-xs-12 checkbox col-top-mrgn-5 ss-dd-ele-smart-srch">
+								<input type="checkbox" data-ng-model="srchObj.systemSearch">
+								<label class="cs-lbl">Smart Search</label>
+							</div>
+							<div class ="col-xs-12 srch-Ntf ss-dd-ele-ntf">
+								<span data-ng-click="srchObj.OnchangeNotify()">
+									<i class="fa fa-toggle-on active"
+								       data-ng-if="srchObj.isNotify">
+								    </i>
+								    <i class="fa fa-toggle-on fa-rotate-180 inactive"
+								       data-ng-if="!srchObj.isNotify">
+								    </i>
+								    <span class="txt-label">Notifications</span>
+								</span>
+							</div>
+							<div class="col-xs-12 ss-dd-ele-cate">
+								<label class="cs-lbl"> Category </label>
+								<data-ui-select data-multiple
+												data-limit=1 
+												data-tagging
+												data-ng-model="srchObj.group" 
+												data-tagging-label="(New Category)" 
+												data-ng-disabled="disabled" 
+												data-autofocus=true>
+											
+											<!-- data-tagging="srchObj.TransformNewGroup"  
+												data-on-remove = "srchObj.onRemoveGroup($item)" 
+												data-on-select="srchObj.onSelectGroup($item)"  -->
+											
+								    <data-ui-select-match >{{$item}}</data-ui-select-match>
+								    <data-ui-select-choices data-repeat="group in allGroups | filter:$select.search track by $index">
+								       {{group}}
+								    </data-ui-select-choices>
+								    
+								</data-ui-select>
+							</div>
+							
+							<div class="col-xs-12 ss-dd-ele-scn">
+								<label class="cs-lbl" for="searchCriteria">Search Criteria Name</label>
+								<input type="text" 
+									id="searchCriteria" 
+									data-ng-model="srchObj.criteriaName" 
+									data-focus-on="srchObj.isOpen" class='vdvc-input-txt'
+									data-ng-enter='srchObj.saveCriteria($event)'>
+							</div>
+							<div class="col-xs-12 ss-dd-btn-grp">
+								<button type="button" 
+									class='btn vdvc-form-btn vdvc-form-btn-muted' 
+									data-ng-click='srchObj.close($event)'>
+									CANCEL
+								</button>
+								<button type="button" 
+									class='btn vdvc-form-btn' 
+									data-ng-disabled="enableSaveSearch(srchObj.criteriaName)" 
+									data-ng-click='srchObj.saveCriteria($event)'>
+									DONE
+								</button>
+							</div>
+						</div>
+					</div>
+					
+					
+					<div class="vdvc-drpdwn-wrap" 
+						data-on-outside-element-click="srchSaveAsObj.close()">
+						<button type="button" 
+							class="vdvc-nav-btn btn btn-sm ss-save-as-btn" 
+							data-ng-click='srchSaveAsObj.toggleMenu($event)' 
+							data-ng-disabled ="srchSaveAsObj.isDisabled()">
+							SAVE AS
+						</button>
+						<div class='row dropdown-menu vdvc-cust-dd-menu dropdown-menu-right' 
+							data-ng-show='srchSaveAsObj.isOpen'>
+							<div data-ng-show="userinfo.isSiteAdmin" 
+								class ="col-xs-12 checkbox col-top-mrgn-5 ss-dd-ele-smart-srch">
+								<input type="checkbox" data-ng-model="srchSaveAsObj.systemSearch" >
+								<label class="cs-lbl">Smart Search</label>
+							</div>
+							<div class ="col-xs-12 srch-Ntf ss-dd-ele-ntf">
+								<span data-ng-click="srchSaveAsObj.OnchangeNotify()">
+									<i class="fa fa-toggle-on active"
+								       data-ng-if="srchSaveAsObj.isNotify">
+								    </i>
+								    <i class="fa fa-toggle-on fa-rotate-180 inactive"
+								       data-ng-if="!srchSaveAsObj.isNotify">
+								    </i>
+								    <span class="txt-label">Notifications</span>
+								</span>
+								
+							</div>
+							<div class="col-xs-12 ss-dd-ele-cate">
+								<label class="cs-lbl"> Category </label>
+								<data-ui-select data-multiple
+												data-limit=1 
+												data-tagging
+												data-ng-model="srchSaveAsObj.group" 
+												data-tagging-label="(New Category)" 
+												data-ng-disabled="disabled" 
+												data-autofocus=true>
+											
+											<!-- data-tagging="srchObj.TransformNewGroup"  
+												data-on-remove = "srchObj.onRemoveGroup($item)" 
+												data-on-select="srchObj.onSelectGroup($item)"  -->
+											
+								    <data-ui-select-match >{{$item}}</data-ui-select-match>
+								    
+								    <data-ui-select-choices data-repeat="group in allGroups | filter:$select.search track by $index">
+								       {{group}}
+								    </data-ui-select-choices>
+								    
+								</data-ui-select>
+							</div>
+							<div class="col-xs-12 ss-dd-ele-scn">
+								<label class="cs-lbl" for="searchCriteria">Search Criteria Name</label>
+								<input type="text" 
+									id="searchCriteria" 
+									data-ng-model="srchSaveAsObj.criteriaName" 
+									data-select-on-focus
+									data-focus-on="srchSaveAsObj.isOpen" 
+									class='vdvc-input-txt' 
+									data-ng-enter='srchSaveAsObj.saveCriteria($event)'>
+							</div>
+							<div class="col-xs-12 ss-dd-ele-btn-grp">
+								<button type="button" 
+									class='btn vdvc-form-btn vdvc-form-btn-muted' 
+									data-ng-click='srchSaveAsObj.close($event)'>
+									CANCEL
+								</button>
+								<button type="button" 
+									class='btn vdvc-form-btn' 
+									data-ng-disabled="enableSaveSearch(srchSaveAsObj.criteriaName)" 
+									data-ng-click='srchSaveAsObj.saveCriteria($event)'>
+									DONE
+								</button>
+							</div>
+						</div>
+					</div>
+					<span class="btn btn-xs fa srch-close-btn" 
+						data-ng-click="CloseSearch()">
+						×
+					</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row adv-srch-filters-wrap">
+			<div style="width: calc(100% - 100px);float: left;">
+				<div class="form-group" 
+					data-ng-class="{'col-xs-12' : deviceInfo.isMobile,'col-xs-3' : !deviceInfo.isMobile}">
+					<label class="cs-lbl" for="savedSearch">KEYWORDS</label>
+					<span class="srch-key-word-help" 
+						data-ng-click="showHelp('SearchKeyword')" 
+						data-uib-tooltip="Keyword Help" 
+						data-tooltip-placement="auto bottom"
+						data-tooltip-append-to-body="true">
+						<i class="fa fa-question-circle" aria-hidden="true"></i>
+					</span> 
+					<div class="input-group">
+						<input type="text" class="form-control vdvc-input-txt" 
+							   id="KEYWORDS" 
+							   data-ng-model="query.searchString" 
+							   autofocus 
+							   autocomplete="off" 
+							   style="text-overflow: ellipsis;"
+							   data-ng-show="!isKeywordDisabled">
+						<input type="text" 
+					   		class="form-control vdvc-input-txt" 
+					   		id="KEYWORDS" 
+					   		data-ng-disabled ="isKeywordDisabled"
+					   		data-ng-model="srchObj.systemSearchName" 
+					   		autofocus 
+					   		autocomplete="off" 
+					   		style="text-overflow: ellipsis;"
+					   		data-ng-show="isKeywordDisabled">
+					   	<span class="input-group-btn">
+				              <span class="btn btn-in" data-ng-click="showHelp('SearchKeyword')">
+				              	<i class="fa fa-key fa-fw"></i>
+				              </span>
+				        </span>
+				   	</div>
+				</div>
+
+				<div data-ng-class="{'col-xs-5' : showTickersFilter() && !deviceInfo.isMobile,'col-xs-3' : !showTickersFilter() && !deviceInfo.isMobile,'col-xs-12' : deviceInfo.isMobile}" 
+					style="padding: 0px;">
+					<div class="form-group col-xs-6" 
+						 data-ng-click="tickerFocused()" 
+						 data-on-outside-element-click="tickerDeFocused()" 
+						 data-ng-show="showTickersFilter()">
+						<label class="cs-lbl" for="TICKERS">TICKERS</label> 
+						<div class="input-group">
+						<data-ui-select customize-ui-select-group-lable 
+							class="search-ticker-ui-select" 
+							id="TICKERS" 
+							multiple 
+							data-ng-model="advancedInputs.tickers" 
+							data-on-select="tickerDeFocused()" 
+							data-search-enabled="false">
+							<data-ui-select-match>
+					    		<span data-ng-if="$item.group == 'companies' && $item.ticker != null && $item.ticker != ''">
+					    			{{$item.ticker}}
+					    		</span>
+					    		<span data-ng-if="$item.group == 'companies' && ($item.ticker == null || $item.ticker == '')"
+					    			data-uib-tooltip="{{$item.companyName}}">
+					    			{{$item.companyName | truncate: 7: '...'}}
+					    		</span>
+					    		<span data-ng-if="$item.group == 'portfolios' && $item.displayTickers != null && $item.displayTickers != ''"
+					    			data-uib-tooltip="{{$item.name +' - '+ $item.displayTickers}}">
+					    			{{$item.name | truncate: 7: '...'}}
+					    		</span>
+					    		<span data-ng-if="$item.group == 'portfolios' && ($item.displayTickers == null || $item.displayTickers == '')"
+					    			data-uib-tooltip="{{$item.name}}">
+					    				{{$item.name | truncate: 7: '...'}}
+					    		</span>
+					    	</data-ui-select-match>
+					    	<data-ui-select-choices data-group-by="'group'" 
+					    		repeat="ticker in tickersList | filter:$select.search track by $index"  
+						    	data-refresh="refreshTickerInfo($select.search)" 
+						    	data-refresh-delay="500">
+						      	<div class="tickers_choices_list" 
+						      		data-ng-if="ticker.group == 'companies'">
+						      		<div class="tcl_ticker" 
+						      			data-ng-bind-html="ticker.ticker | highlight: $select.search">
+						      		</div>
+						      		<div class="tcl_companyName" 
+						      			data-ng-bind-html="ticker.companyName | highlight: $select.search">
+						      		</div>
+						      		<div class="tcl_cik" 
+						      			data-ng-bind-html="ticker.cik | highlight: $select.search">
+						      		</div>
+						      	</div>
+						      	<div class="portfolios_choices_list" 
+						      		data-ng-if="ticker.group == 'portfolios'">
+						      		<div class="pcl_name" 
+						      			data-ng-bind-html="ticker.name | highlight: $select.search">
+						      		</div>
+						      		<div class="pcl_ticker_list" 
+						      			data-ng-bind-html="ticker.displayTickers | highlight: $select.search">
+						      		</div>
+						      	</div>
+						    </data-ui-select-choices>
+					    
+						</data-ui-select>
+						
+						<span class="input-group-btn">
+					              <span class="btn btn-in">
+					              	<i class="fa fa-line-chart fa-fw"></i>
+					              	<i class="fa fa-stack-text fa-fw">Ticker</i>
+					              </span>
+					    </span>
+						</div>
+					</div>
+					<div class="form-group" 
+						data-ng-class="{'col-xs-6' : showTickersFilter(),'col-xs-12' : !showTickersFilter()}">
+						<label class="cs-lbl" for="TAGS">TAGS</label> 
+						<div class="input-group">
+						<data-ui-select multiple 
+							id="TAGS" 
+							data-ng-model="advancedInputs.multiTags" 
+							sortable="true" 
+							data-ng-class="{'selected': advancedInputs.multiTags.length > 2}">
+							<span style="height: 50px;">...</span>
+					    	<data-ui-select-match data-amar="ni"><span data-uib-tooltip="{{showTagName($item)}}">{{showTagName($item) | truncate: 10: '...'}}</span></data-ui-select-match>
+					    	<data-ui-select-choices data-repeat="tag in tags | filter:$select.search track by $index"
+						    	data-refresh="refreshTagInfo($select.search)" data-refresh-delay="500">
+						       <div data-ng-bind-html="showTagName(tag) | highlight: $select.search"></div>
+						    </data-ui-select-choices>
+					    </data-ui-select>
+						<span class="input-group-btn">
+					              <span class="btn btn-in" >
+					              	<i class="fa fa-tags fa-fw"></i>
+					              </span>
+					        </span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group" 
+					data-ng-class="{'col-xs-2' : showTickersFilter() && !deviceInfo.isMobile,'col-xs-3' : !showTickersFilter() && !deviceInfo.isMobile,'col-xs-12' : deviceInfo.isMobile}" 
+					data-on-outside-element-click="DocTypeWrap.close()">
+						<label class="cs-lbl" for="DOCUMENT_TYPE">DOCUMENT TYPE</label> 
+						<div class="input-group">
+							<div id="DOCUMENT_TYPE" 
+								data-ng-click="DocTypeWrap.toggle()">
+								<input type="text" class="ellipsis form-control selected_doc_types" 
+									data-ng-model="SlctdDocTypes.getSelectedDocTypes"
+									data-ng-model-options="{ getterSetter: true }"
+									readonly
+									style="background: #fff;color: transparent;text-shadow: 0 0 0 #000;border-radius: 0;">
+								<div data-uib-tooltip="{{SlctdDocTypes.getSelectedDocTypes()}}" 
+									data-tooltip-placement="left"
+									data-tooltip-append-to-body="true"
+									class="full" 
+									style="background: transparent;position: absolute;width: 100%;top:0;left: 0;z-index: 10;"></div>
+							</div>
+							<span class="input-group-btn">
+					              <span class="btn btn-in" >
+					              	<i class="fa fa-file-text-o  fa-fw"></i>
+					              </span>
+					        </span>
+					        <div class='custom-drop-down-r input-wrap doc_type_drop_down' 
+								data-ng-show="DocTypeWrap.isOpen">
+								<div class="row col-xs-offset-1">
+									<div class="col-xs-12" >
+										<div class ="col-xs-12 checkbox col-top-mrgn-5">
+											<input type="checkbox" 
+												data-ng-model="docTypes.selectAllDocs" 
+												data-ng-change="onDocTypeChange('All')">
+											<label>ALL</label>
+											<span class="vdvc-error" 
+												data-ng-hide="DocTypeWrap.validateDocTypeSelection()">
+												(Please Select at least one Document Type)
+											</span>
+										</div>
+										<div class="col-xs-6" 
+											data-ng-repeat="(key,value) in docTypes['Documents'] | groupBy: 'group'">
+											<div class ="row" 
+												data-ng-repeat="docType in value |  orderBy:'order'" 
+												data-ng-show="docType.show">
+												<div class ="checkbox col-top-mrgn-5" 
+													data-ng-class="{ 'col-xs-offset-1': docType.isSubType}">
+													<input type="checkbox" 
+														data-ng-model="docType.checked" 
+														data-ng-change="onDocTypeChange(docType)" 
+														data-ng-disabled="docType.disable">
+													<label>{{::docType.lable}}</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								
+								</div>
+								<div class="divider-h-full col-top-bottom-mrgn-10 "></div>
+								<div class="row">
+									<div class="col-xs-12">
+										<div class ="checkbox col-top-mrgn-5 doc_dype_dd_row2_ele" 
+											data-ng-repeat="docType in docTypes['ownerShip'] | orderBy:'order'" 
+											data-ng-show="docType.show">
+											<input type="checkbox" 
+												data-ng-model="docType.checked" 
+												data-ng-change="onDocTypeChange(docType)" 
+												data-ng-disabled="docType.disable">
+											<label>{{::docType.lable}}</label>	
+										</div>
+									</div>
+								</div>
+								<div class="divider-h-full col-top-bottom-mrgn-10 "></div>
+								<div class="col-xs-12">
+									<div class ="col-xs-12 checkbox col-top-mrgn-5" 
+										data-ng-repeat="docType in docTypes['optional'] | orderBy:'order'" 
+										data-ng-show="docType.show">
+										<input type="checkbox" 
+											data-ng-model="docType.checked" 
+											data-ng-disabled="docType.disable">
+										<label>{{docType.lable}}</label>	
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				<div class="form-group" 
+					data-ng-class="{'col-xs-2' : showTickersFilter() && !deviceInfo.isMobile,'col-xs-3' : !showTickersFilter() && !deviceInfo.isMobile, 'col-xs-12' : deviceInfo.isMobile}">
+					<label class="cs-lbl" for="TIMEFRAME">TIMEFRAME</label>
+					<div class="input-group"> 
+						<data-ui-select id="TIMEFRAME" 
+							data-ng-model="timeFrameDate.selected" 
+							data-ng-disabled="disabled" 
+							data-search-enabled="false" 
+							data-on-select="onSelectTimeFrame($select.selected)">
+							<data-ui-select-match >{{$select.selected.timeAgo}}</data-ui-select-match>
+						    
+						    <data-ui-select-choices data-repeat="timeframe in timeframes | filter: $select.search">
+						      {{::timeframe.label}}
+						    </data-ui-select-choices>
+						    
+						</data-ui-select>
+						<span class="input-group-btn">
+				              <span class="btn btn-in" >
+				              	<i class="fa fa-clock-o fa-fw"></i>
+				              </span>
+				        </span>
+				    </div>
+					
+					<div class='custom-drop-down-r input-wrap cust_time_frame_wrap' 
+						data-ng-show="custTimeFrame">
+						<div class="row">
+							<div class="col-xs-6">
+								<label class="cs-lbl" for="dt_from">FROM</label>
+						     	<input type="text" 
+						     		class="cust_time_frame_from" 
+						     		id="dt_from" 
+						     		data-ng-keypress="return (event.keyCode!=13);" 
+						     		data-ng-model="dtObj.start" 
+						     		data-uib-datepicker-popup="yyyy-MM-dd" 
+						     		data-max-date="dtObj.end" 
+						     		value="{{dtObj.start | amDateFormat: displayFormat}}">
+						     	<span class="cust_time_frame_from_errmsg"> 
+						     		{{custStartDateErrMsg}}
+						     	</span>
+						    </div>
+						    <div class="col-xs-6">
+						    	<label class="cs-lbl" for="dt_to">TO</label>
+						    	<input type="text" 
+						    		class="cust_time_frame_to" 
+						    		id="dt_to"
+						    		data-ng-keypress="return (event.keyCode!=13);" 
+						    		data-ng-model="dtObj.end" 
+						    		data-uib-datepicker-popup="yyyy-MM-dd" 
+						    		data-max-date="dtObj.maxDate" 
+						    		data-min-date="dtObj.start" 
+						    		value="{{dtObj.end | amDateFormat: displayFormat}}">
+						    	<span class="cust_time_frame_to_errmsg">{{custEndDateErrMsg}}</span>	
+						    </div>
+						</div>
+				     	<div class="row cust_time_frame_dp_wrap">
+				     		<div class="col-xs-6">
+					     		<div class="uib-datepicker" 
+					     			data-uib-datepicker data-ng-model="dtObj.start" 
+					     			data-max-date="dtObj.end">
+					     		</div>
+					     	</div>
+					     	<div class="col-xs-6">
+					     		<div class="uib-datepicker" 
+					     			data-uib-datepicker data-ng-model="dtObj.end" 
+					     			data-max-date="dtObj.maxDate" 
+					     			data-min-date="dtObj.start">
+					     		</div>
+					     	</div>
+					     	<div class="pull-right cust_time_frame_dp_tool_wrap">
+					     		<span class="btn btn-sm vdvc-form-btn vdvc-form-btn-muted" 
+					     			data-ng-click="cancelCustomeDate()" >
+					     			CANCEL
+					     		</span>
+							    <span class="btn btn-sm vdvc-form-btn" 
+							    	data-ng-click="clearDateRange()">
+							    	CLEAR
+							    </span>
+							   	<span class="btn btn-sm vdvc-form-btn" 
+							   		data-ng-click="applyDateRange()">
+							   		APPLY
+							   	</span>
+					     	</div>
+				     	</div>
+				    </div>
+			</div>
+			</div>
+			<div style="width: 100px;float: left;">
+				<div class="form-group" style="padding: 0px;">
+					<label class="cs-lbl"  for="btn-gp">&nbsp;</label>
+					<div id="btn-gp">
+						<button type="button" 
+								class="btn vdvc-form-btn-muted srch-reset-btn" 
+								data-ng-disabled="enableSrchGoBtn()"
+								data-ng-click="clearSearch()"
+								data-tooltip-placement="bottom auto" 
+						    	data-uib-tooltip="Reset" 
+						        data-tooltip-append-to-body="true">
+							<i class="fa fa-undo fa-fw" aria-hidden="true"></i>
+						</button>
+						<button type="submit" 
+							class="btn vdvc-form-btn" 
+							data-ng-disabled="enableSrchGoBtn()">
+							GO
+						</button>
+						<!-- <button type="button" class="btn cs-btn-icon" data-ng-click="toggleSearchBar()"
+							data-uib-tooltip="Toggle Search Bar" 
+							data-tooltip-placement="auto bottom">
+								<i class="fa fa-fw" data-ng-class="{'fa-angle-double-up': !toggleSrcBar,'fa-angle-double-down': toggleSrcBar}"></i>
+						</button> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<span class="collap-btn" class="btn cs-btn-icon"
+			        data-ng-click="toggleSearchBar()"
+					data-uib-tooltip="Toggle Search Bar" 
+					data-tooltip-placement="auto bottom">
+			<i class="fa fa-fw" data-ng-class="{'fa-angle-double-up': !toggleSrcBar,'fa-angle-double-down': toggleSrcBar}"></i>
+	</span>
+</div>

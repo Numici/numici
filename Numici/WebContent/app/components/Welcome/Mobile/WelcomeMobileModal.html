@@ -1,0 +1,33 @@
+<div class="modal-header">
+	<div class="col-xs-10" style="padding: 0px;">
+		{{wmc.title}}
+	</div>
+	<div class="col-xs-2" style="padding: 0px;">
+		<i class="fa fa-close" data-ng-click="wmc.close()" style="float: right;color: #006699;"></i>
+	</div>
+</div>
+<div class="modal-body" style="max-height: calc(100% - 85px);">
+	<div class="welcome-mobile-doc-viewer col-xs-12 full" style="height: 100% !important;border-bottom: 1px solid #ccc;padding: 0px;">
+		<div class='row full'>
+			<div class="row full">
+				<div class="cke-wrap col-xs-12 full">
+					<form>
+						<textarea id="welcome-help-text-editor"
+							style="display: none; width: 0px; overflow: auto;position:absolute;top:-500px;"
+							data-ng-model="wmc.content"></textarea>
+					</form>
+				</div>
+				<div data-ng-include-replace data-ng-include="'app/components/Help/linkMetaInfo.html'"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer" style="padding: 10px;position: inherit;bottom: 0px;background-color: #EEE;">
+	<div class="col-xs-12">
+		<div class ="checkbox col-top-mrgn-5" style="text-align: left;">
+			<input type="checkbox" 
+				data-ng-model="wmc.doNotShow">
+			<label>Do not show this information again</label>
+		</div>
+	</div>
+</div>

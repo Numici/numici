@@ -1,0 +1,31 @@
+<div class="modal-header">
+	<div class="col-xs-11">
+		{{vm.title}}
+	</div>
+	<div class="col-xs-1">
+		<i class="fa fa-close" data-ng-click="vm.close()" style="float: right;color: #006699;"></i>
+	</div>
+</div>
+<div class="modal-body">
+	<div class="welcome-help-doc-viewer col-xs-12 full" style="border-bottom: 1px solid #ccc;padding: 0px;">
+		<div class='row full'>
+			<div class="row full">
+				<div class="cke-wrap col-xs-12 full">
+					<form>
+						<textarea id="welcome-help-text-editor"
+							style="display: none; width: 0px; overflow: auto;position:absolute;top:-500px;"
+							data-ng-model="vm.content"></textarea>
+					</form>
+				</div>
+				<div data-ng-include-replace data-ng-include="'app/components/Help/linkMetaInfo.html'"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12">
+		<div class ="checkbox col-top-mrgn-5">
+			<input type="checkbox" 
+				data-ng-model="vm.doNotShow">
+			<label>Do not show this information again</label>
+		</div>
+	</div>
+</div>

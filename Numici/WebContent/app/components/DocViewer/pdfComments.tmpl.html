@@ -1,0 +1,316 @@
+<div class="col-xs-3  comment-wrap full" data-ng-show="showComments" style="overflow-y: hidden;">
+	<div class="col-xs-12" style="text-align: center;padding: 2px 0px;" data-ng-if="!isDocInInbox">
+		<button type="button" 
+			class="btn vdvc-nav-btn create-new-page-btn" 
+			data-ng-click="initPagenote()" 
+			data-uib-tooltip="Create Page Note" 
+			data-tooltip-placement="bottom" 
+			style="float: left;height: 30px;" 
+			data-ng-disabled="pagenoteInitiated">
+			<i class="fa fa-plus fa-fw" aria-hidden="true" style="margin-right: 5px;"></i>
+			Page Note
+		</button>
+		
+		<button type="button" 
+			class="btn vdvc-nav-btn create-screenshot-btn" 
+			data-ng-click="enableScreenshot()" 
+			data-uib-tooltip="Capture Screenshot" 
+			data-tooltip-placement="bottom" 
+			style="float: right;height: 30px;width: 30px;font-size: 1.4em;line-height: 1em;" 
+			data-ng-style="pdfViewer.isScreenshotEnabled && {'background-color':'#069','color':'#fff'}">
+			<i class="fa fa-crosshairs" aria-hidden="true"></i>
+		</button>
+	</div>
+	<div class="col-xs-12 comment-in-wrp full" style="height: calc(100% - 36px)!important;overflow-y: auto;padding: 0px;">
+		<div id="pdf-viewer-pagenote-wrap" data-ng-include="'app/components/DocViewer/pagenote.tmpl.html'"></div>
+		
+		<div class="row vdvc_comment" 
+			data-ng-class="annotation.id" 
+			data-ng-attr-data-id="{{annotation.id}}" 
+			data-ng-attr-data-page="{{annotation.pageNum}}"
+		 	data-on-outside-element-click="onOutClickComment()"
+		 	data-ng-repeat="annotation in pdfAnnotations |  filter:pdfAnnotationsTypeFilter track by $index"
+		 	data-uib-popover-template="linkUIProperties.templateUrl"
+			data-popover-is-open="annotation.showDeepLink"
+			data-popover-placement="auto"
+			data-popover-trigger="linkUIProperties.trigger"
+			data-popover-class="annotation-deep-link-info"
+			data-popover-append-to-body='true'>
+		 	<div class="comment-hdr col-xs-12" 
+		 		data-ng-click="pdfCommentOnclick($event,annotation)" 
+		 		style="padding: 25px 10px;">
+				<div class="row">
+					<div class="row" 
+						data-ng-if="annotation.type != 'Pagenote' && annotation.type != 'Screenshot'" 
+					    data-ng-bind-html="getPdfAnnotationText(annotation) | to_trusted"
+						data-tooltip-append-to-body="true" 
+						data-uib-tooltip-html="getPdfAnnotationText(annotation) | to_trusted">
+					</div>
+					<markdown-to-html class="markdown-body" 
+						data-ng-if="hasFormatedText(annotation)" 
+						data-text="annotation.formatedText" 
+						data-annotation="annotation">
+					</markdown-to-html>
+					<div class="row" style="position: absolute;top: 5px;right: 5px;height: 20px;">
+						<span class="slack-logo" 
+							data-ng-show="showPostAnnotDigestToSlack()" 
+							data-ng-class="{'disabled': !showPostAnnotDigestToSlack()}" 
+							data-ng-click="showPostAnnotDigestToSlack() && postAnnotDigestToSlack(doc,annotation)" 
+							data-tooltip-append-to-body='true'
+							data-uib-tooltip="Post to Slack" 
+							style="width: 17px;height: 17px;background-size: 17px;float: left;">
+					    </span>
+						<span class="annot-deep-link btn" 
+							data-ng-show="isDocSharable(doc)" 
+							data-ng-class="{'disabled': !isDocSharable(doc),'active': annotation.showDeepLink}" 
+							data-ng-click="isDocSharable(doc) && getDocAnnotationLink(doc,annotation)" 
+							data-tooltip-append-to-body='true'
+							data-uib-tooltip="Share Annotation">
+							<i class="fa fa-share-alt fa-fw"></i>
+					    </span>
+					    <span data-ng-if="canEditPdfAnnotation(annotation)" 
+					    	class="annot-deep-link btn" 
+							data-ng-click="deletePdfAnnotation(annotation,$event)" 
+							data-tooltip-append-to-body='true'
+							data-uib-tooltip="delete annotation">
+							<i class="fa fa-trash-o fa-fw"></i>
+					    </span>
+					</div>
+				</div>
+			</div>
+		 	<div class='comment-crd' data-ng-click="pdfCommentOnclick($event,annotation)">
+				<div class='comment-conv'>
+					<div class="row comment-conv-wrap" 
+						data-ng-attr-data-convId="{{annotation.id}}"
+						data-ng-show="!hasRootComment(annotation) && annotation.userName">
+						<div class="col-xs-2" style="width: 30px;">
+							<div class='vdvc-circle' data-tooltip-append-to-body='true'
+								data-uib-tooltip="{{annotation.userName}}">{{getUserlabel(annotation.userName) | truncate: 2}}</div>
+						</div>
+						<div class="col-xs-10" style="width: calc(100% - 30px);">
+							<div class="col-xs-12 text-muted" style="width: calc(100% - 20px);padding: 0px;margin-top: 5px;font-size: 10px;"> 
+								<span>{{annotation.userName}} | </span> <span data-am-time-ago='annotation.createdOn'></span>
+							</div>
+						</div>
+						<div class="col-xs-12" style="border-bottom: 1px solid #ccc;margin-top: 10px;"></div>
+					</div>
+					<div class="row comment-conv-wrap" data-ng-repeat="conv in annotation.conversations | orderBy:'createdOn':false track by $index"
+						data-ng-attr-data-convId="{{conv.id}}">
+						<div class="col-xs-2" data-ng-show="conv.userName" style="width: 30px;">
+							<div class='vdvc-circle' data-tooltip-append-to-body='true'
+								data-uib-tooltip="{{conv.userName}}">{{getUserlabel(conv.userName) | truncate: 2}}</div>
+						</div>
+						<div class="col-xs-10" style="width: calc(100% - 30px);">
+							<form data-editable-form name="editcommentForm">
+								<!-- <div class='col-xs-12 comment-tag-wrap' 
+									data-ng-show="doc.isPdfDBAnnotation && editcommentForm.$visible" 
+									style="padding: 0px;margin-bottom: 5px;">
+									<button class="btn btn-xs vdvc-form-btn pull-right"
+										data-ng-click="assignActionItems($event,annotation,conv,editcommentForm)"
+										data-ng-disabled="isUpdateConvDisabled(editcommentForm,conv) || disableAssignActionItemBtn()" 
+										data-ng-show="showAssignActionItemBtn()">
+										ASSIGN
+									</button>
+								</div> -->
+								<div class="comment-conv-txt" 
+									data-e-class="vdvc-txtA" 
+									data-e-data-msd-elastic
+									data-e-form="editcommentForm"
+									data-e-data-ng-keypress="$event.stopPropagation();"
+									data-e-ng-click="$event.stopPropagation();" 
+									data-e-placeholder="Reply" 
+									data-editable-textarea="conv.note" 
+									data-e-rows="1" 
+									data-onbeforesave="updatePdfComment($data,conv,annotation)">
+									<span data-ng-bind-html="formatComment(annotation,conv.note) | to_trusted"></span>
+									<div data-ng-if="doc.isPdfDBAnnotation && conv.tagsInfo && conv.tagsInfo.length > 0" class="col-xs-12" style="margin-top: 5px;padding: 0;">
+										<span data-ng-repeat="tag in conv.tagsInfo"
+											class="vdvc-annot-conv-tag"> 
+											<span class="ellipsis" 
+												data-tooltip-placement="auto"
+										  		data-uib-tooltip="{{showTagName(tag)}}"
+										  		data-tooltip-append-to-body='true'
+								 				style="display: block;">
+								 				{{showTagName(tag)}}
+								 			</span>
+										</span>
+									</div>
+									<span data-ng-if="::canEditPdfAnnotation(conv)" class="comment-conv-menu" style="position: absolute;top: 0;right: -5px;">
+										<span class="btn btn-xs fa fa-pencil" data-ng-click="!doc.perms.readonly && editComment(editcommentForm,conv,conv.tagsInfo,$event)" data-ng-class="{'disabled': doc.perms.readonly}"></span>
+										<span class="btn btn-xs fa fa-trash-o" data-ng-click="!doc.perms.readonly && deletePdfComment(conv,annotation,$event)" data-ng-class="{'disabled': doc.perms.readonly}"></span>
+									</span>
+								</div>
+								
+								<div class="col-xs-12 editConvForm" data-ng-show="editcommentForm.$visible" style="padding:0px;">
+							        <div class="col-xs-12 comment-tag-wrap" data-ng-show="doc.isPdfDBAnnotation" style="padding:0px;margin-bottom: 5px;">
+							        	<data-ui-select multiple 
+								        	data-ng-attr-id="{{conv.id}}" 
+											data-ng-model="selectedAnnotTags[conv.id]" 
+											data-tagging-label="(New Tag)" 
+											data-ng-disabled="isUpdateConvDisabled(editcommentForm,conv)" 
+											data-tagging="tagTransform" 
+											data-on-select="onSelectAnnotTag($item,conv.id)">
+											<data-ui-select-match placeholder="Tags">
+												<div class="selected-tag-name" 
+													data-ng-click="editConvTag($item,conv.id,$event)" 
+													style="margin-right: 15px;color: #333;">
+													{{showTagName($item)}}
+												</div>
+											</data-ui-select-match>
+											<data-ui-select-choices data-repeat="tag in Alltags | filter:$select.search "
+																	data-refresh="refreshTagInfo($select.search)" 
+																	data-refresh-delay="500"
+																	data-ui-disable-choice="tagFilterSelected(tag,selectedAnnotTags[conv.id])">
+											  <div data-ng-if="tag.isTag" data-ng-bind-html="(tag.TagName | highlight: $select.search) +' (new)'"></div>
+				     			   			  <div data-ng-if="!tag.isTag" data-ng-bind-html="showTagName(tag) | highlight: $select.search"></div>
+											</data-ui-select-choices>
+										</data-ui-select>
+							        </div>
+							        <div data-ng-include-replace data-ng-include="'app/components/common/Tags/AddAndEditConvTags.temp.html'"></div>
+							        <div class="col-xs-12" style="padding:0px;">
+							        	<button type="button" 
+								        	class="btn btn-xs vdvc-form-btn vdvc-form-btn-muted pull-left cancel-edit-comment" 
+								        	data-ng-disabled="editcommentForm.$waiting" 
+								        	data-ng-click="cancelEditComment(editcommentForm,conv,$event)">
+								          	CANCEL
+								        </button>
+								        <button type="submit" 
+								        	class="btn btn-xs vdvc-form-btn pull-right" 
+								        	data-ng-disabled="isUpdateConvDisabled(editcommentForm,conv)">
+								          	SAVE
+								        </button>
+							        </div>
+							    </div>
+							</form>
+							<div data-ng-show="conv.userName" class="col-xs-12 text-muted" style="width: calc(100% - 20px);padding: 0px;margin-top: 5px;font-size: 10px;"> 
+								<span>{{conv.userName}} | </span> <span data-am-time-ago='conv.createdOn'></span>
+							</div>
+						</div>
+						<div class="col-xs-12" style="border-bottom: 1px solid #ccc;margin-top: 10px;"></div>
+					</div>
+				</div>
+			</div>
+			<div class='col-xs-12 comment-in-wrap' data-ng-click="clickonText($event)" data-ng-show="showDocCommentReply(doc,annotation)">
+				<!-- <div class='col-xs-12 comment-tag-wrap' 
+					data-ng-show="doc.isPdfDBAnnotation" 
+					style="padding: 0px;margin-bottom: 5px;">
+					<button class="btn btn-xs vdvc-form-btn pull-right"
+						data-ng-click="assignActionItems($event,annotation)"
+						data-ng-disabled="isAddCmtDisabled(annotation.id) || disableAssignActionItemBtn()" 
+						data-ng-show="showAssignActionItemBtn()">
+						ASSIGN
+					</button>
+				</div> -->
+				<div class='comment-in' style="margin-bottom: 5px;">
+					<div class="row" data-ng-hide="enableAtMention">
+						<div style="position: relative;">
+								<textarea data-msd-elastic class="vdvc-txtA" 
+									rows="1" 
+									placeholder="Reply"
+									class="editor form-control"
+								 	data-ng-model="docCommentReply[annotation.id]" 
+								 	style="overflow: hidden;overflow-wrap: break-word;resize: none;">
+								</textarea>
+						</div>
+					</div>
+					<div class="row" data-ng-show="enableAtMention">
+						<div style="position: relative;">
+							<textarea class="vdvc-txtA" data-msd-elastic
+						          data-ng-model="docCommentReply[annotation.id]" 
+						          placeholder="Reply"
+						          data-mention
+							 	  data-mention-id="annotation.id"
+							 	  data-mention-require-leading-space= "true"
+	                              data-mention-items="Users"
+	                              data-mention-template-url="app/components/Mention/users-menu-item.tmpl.html"
+	                              data-mention-select="getUserRaw(item)"
+	                              data-mention-search="searchUser(term)"
+	                              data-mention-select-not-found="true"
+	                              data-mention-typed-term="typedUser[annotation.id]"
+	                              data-mention-users="mentionedusers(users,id)"
+	                              data-ng-trim="false">
+	                        </textarea>
+						</div>
+		                <div style="padding: 8px 0px;color: #777;font-size: 12px;">{{::mentionChar}}mention users to Assign Actions</div>
+					</div>		
+					
+					<div class="row" style="padding: 10px 0px;" data-ng-show="mentionUser[annotation.id].length > 0">
+						<div style="float: left;width: 30px;">
+							<div class="checkbox">
+								<input type="checkbox" data-ng-model="mentionUserChecked[annotation.id]">
+								<label></label>
+							</div>
+						</div>
+						<div style="float: left;width: calc(100% - 30px)">
+							<data-ui-select class="ss-select"  data-ng-model="mentionUserSelect[annotation.id]" 
+								data-search-enabled="false" 
+								data-on-select="mentionUserOnSelect($select.selected,annotation.id)" >
+							    <data-ui-select-match>
+							    	<div data-tooltip-placement="auto" 
+							        data-uib-tooltip="{{$select.selected}}" 
+							        data-tooltip-append-to-body="true">
+								         Assign to {{$select.selected}}
+								    </div>
+							    </data-ui-select-match>
+							    <data-ui-select-choices repeat="usr in mentionUser[annotation.id] | highlight: $select.search">
+								    <span data-ng-bind-html="usr"></span>
+								</data-ui-select-choices>
+							</data-ui-select>
+						</div>
+					</div>
+				</div>
+				<div class='col-xs-12 comment-tag-wrap' data-ng-show="doc.isPdfDBAnnotation" style="padding: 0px;margin-bottom: 5px;">
+					<data-ui-select multiple 
+						data-ng-attr-id="{{annotation.id}}" 
+						data-ng-model="selectedAnnotTags[annotation.id]" 
+						data-tagging-label="(New Tag)" 
+						data-ng-disabled="isAddCmtDisabled(annotation.id)" 
+						data-tagging="tagTransform" 
+						data-on-select="onSelectAnnotTag($item,annotation.id)" >
+						<data-ui-select-match placeholder="Tags">
+							<div class="selected-tag-name" 
+								data-ng-click="editAnnotTag($item,annotation.id,$event)" 
+								style="margin-right: 15px;color: #333;">
+								{{showTagName($item)}}
+							</div>
+						</data-ui-select-match>
+					    <data-ui-select-choices data-repeat="tag in Alltags | filter:$select.search "
+					    						data-refresh="refreshTagInfo($select.search)" 
+					    						data-refresh-delay="500"
+					    						data-ui-disable-choice="tagFilterSelected(tag,selectedAnnotTags[annotation.id])">
+					      <div data-ng-if="tag.isTag" data-ng-bind-html="(tag.TagName | highlight: $select.search) +' (new)'"></div>
+    			   			  <div data-ng-if="!tag.isTag" data-ng-bind-html="showTagName(tag) | highlight: $select.search"></div>
+					    </data-ui-select-choices>
+					</data-ui-select>
+				</div>
+				<div data-ng-include-replace data-ng-include="'app/components/common/Tags/AddAndEditAnnotationTags.temp.html'"></div>
+				<div class='col-xs-12 comment-in-ftr' style="padding: 0px;">
+					<div class="row" 
+					     data-ng-if="mentionUserChecked[annotation.id]"
+					     style="padding-bottom: 10px;">
+					     The assigned person will be notified and responsible for the assigned Action Item.
+					</div>
+					<div class="row">
+					     <button class="btn btn-xs vdvc-form-btn vdvc-form-btn-muted pull-left"
+						data-ng-click="cancelPdfAddComment($event,annotation)">
+						CANCEL
+					</button>
+					<button class="btn btn-xs vdvc-form-btn pull-right"
+						data-ng-click="addPdfTextComment(annotation)"
+						data-ng-disabled="isAddCmtDisabled(annotation.id)"
+						data-ng-if="!mentionUserChecked[annotation.id]">
+						REPLY
+					</button>
+					<button class="btn btn-xs vdvc-form-btn pull-right"
+						data-ng-click="assignActionItems($event,annotation)"
+						data-ng-disabled="isAddCmtDisabled(annotation.id)"
+						data-ng-if="mentionUserChecked[annotation.id]">
+						ASSIGN
+					</button>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,39 @@
+<form data-ng-submit="asana.revokeAuthPerms()" class="box-config-form">
+	<div class="modal-header" style="padding: 10px 30px;">
+		<h4 class="modal-title">
+			Asana Config
+			<i class="fa fa-close" style="float:right;color: #006699;" data-ng-click="box.cancel()"></i>
+		</h4>
+	</div>
+	<div class="modal-body ">
+		<div class="row" style="height: 40px;line-height: 40px;margin: 10px;">
+			<div class="col-xs-6">Numici User</div>
+			<div class="col-xs-6">{{::asana.config.userId}}</div>
+		</div>
+		
+		<div class="row" style="height: 40px;line-height: 40px;margin: 10px;">
+			<div class="col-xs-6">Asana User Name</div>
+			<div class="col-xs-6">{{::asana.config.name}}</div>
+		</div>
+		
+		<div class="row" style="height: 40px;line-height: 40px;margin: 10px;">
+			<div class="col-xs-6">Asana User Email</div>
+			<div class="col-xs-6 box-user-email">{{::asana.config.asanaEmail}}</div>
+		</div>
+	
+	</div>
+	<div class="modal-footer">
+		<div class="col-xs-12" style="padding: 0px;">
+			<div class="col-xs-6" style="float: right;padding-right: 0px;">
+				<button class="btn vdvc-form-btn vdvc-form-btn-muted" 
+				        type="button" 
+				        data-ng-click="asana.cancel()" >CLOSE</button>
+				<button class="btn vdvc-form-btn" 
+					    type="submit" 
+					    data-ng-disabled="true">REVOKE</button>
+			</div>
+		</div>
+		
+	</div>
+
+</form>

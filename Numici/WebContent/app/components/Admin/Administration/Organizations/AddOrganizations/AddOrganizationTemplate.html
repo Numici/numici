@@ -1,0 +1,78 @@
+<form data-ng-submit="aoc.ok()">
+	<div class="modal-header" style="padding: 15px;">
+		<h3 class="modal-title">{{aoc.isInEditMode ? "Edit": (aoc.isInViewMode ? "View" : "Add New")}} Organization</h3>
+	</div>
+	<div class="modal-body add-app-settings-modal-body">
+		<div class="row">
+			<div data-ng-show="organizationField.show" class="col-xs-12" 
+				data-ng-repeat="organizationField in aoc.organizationFieldsModel" 
+				data-ng-class="aoc.getSectionsClass()" 
+				style="padding: 0px 15px;">
+				<div class="row" style="margin-bottom: 10px;">
+					<label class="col-xs-12" style="padding: 0px;text-align: center;text-decoration: underline;">{{organizationField.label}}</label>
+				</div>
+				<div data-ng-show="subField.show" class="row" data-ng-repeat="subField in organizationField.subFields" style="margin-bottom: 10px;">
+					<label class="col-xs-12 col-sm-5 ellipsis" 
+						for="{{subField.key}}" 
+						data-tooltip-append-to-body="true"
+ 		    			data-tooltip-placement="auto"
+ 		    			data-uib-tooltip="{{subField.label}}" 
+ 		    			style="padding: 0px;text-align: right;height: 28px;line-height: 28px;font-size: 12px;">
+						{{subField.label}}
+						<i data-ng-if="subField.required" 
+							class="fa fa-asterisk text-danger" 
+							style="font-size: 8px; vertical-align: super;">
+						</i>
+					</label>
+				    <div class="col-xs-12 col-sm-6" style="padding: 0px 0px 0px 15px;">
+				        <input data-ng-if="subField.type != 'date' && subField.type != 'boolean'" 
+				        	type="{{subField.type}}" 
+				        	class="form-control vdvc-input-txt" 
+				        	id="{{subField.key}}" 
+							data-ng-model="subField.value" 
+							data-ng-disabled="{{subField.disable}}" 
+							style="height: 28px;" 
+							autocomplete="{{'new-'+subField.key}}">
+						<div data-ng-if="subField.type == 'boolean'" 
+							class="checkbox" 
+							style="margin-top: 5px;">
+							<input type="checkbox" 
+								id="{{subField.key}}" 
+							    data-ng-model="subField.value"  
+							    data-ng-disabled="{{subField.disable}}">
+							<label for="{{subField.key}}"></label>
+						</div>
+						<div data-ng-if="subField.type == 'date'" class="ellipsis">
+							<span data-ng-if="subField.value != null && subField.value != 0" 
+								id="{{subField.key}}" 
+								data-tooltip-append-to-body="true" 
+  		    					data-tooltip-placement="auto" 
+  		    					data-uib-tooltip="{{subField.value | date:'medium'}}" 
+								style="height: 28px;line-height: 28px;">
+								{{subField.value | date:'medium'}}
+							</span>
+							<span data-ng-if="subField.value == null || subField.value == 0" 
+								id="{{subField.key}}" 
+								style="height: 28px;line-height: 28px;">
+								--
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="users-list">
+		
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="col-xs-8 error">
+			<span data-ng-show="aoc.showErrorMessage">{{aoc.errorMessage}}</span>
+		</div>
+		<div class="col-xs-4">
+			<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="aoc.cancel()">CANCEL</button>
+			<button data-ng-show="!aoc.isInViewMode" class="btn vdvc-form-btn" type="submit" data-ng-disabled="aoc.validateOrganizationFields()">SAVE</button>
+		</div>
+	</div>
+</form>
+

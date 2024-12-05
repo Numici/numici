@@ -1,0 +1,32 @@
+<div data-on-outside-element-click="vm.docLinkUIProperties.close()">
+	<!-- <div style="padding: 5px 0px;">{{vm.docLinkInfo.link.linkType}}</div>
+	<div style="padding: 5px 0px;">{{vm.docLinkInfo.link.text}}</div> -->
+	<div class="row" style="padding: 5px 0px;">
+		<div class="input-group" style="width:100%;">
+			<input type="text" 
+				   data-ng-model="vm.docLinkInfo.url"
+				   data-select-on-focus
+				   data-select-on-click
+				   data-focus-on="vm.docLinkInfo.focusLink"
+				   class="vdvc-input-txt" readonly>
+			<span data-ng-show="vm.docLinkUIProperties.cpToClipBoard"
+				class="input-group-btn" style="font-size: 14px;">
+				<button data-uib-tooltip="Copy to Clipboard"
+					class="btn vdvc-form-btn fa fa-clipboard" type="button"
+					data-clipboard data-text="vm.docLinkInfo.url"
+					data-on-copied="vm.docLinkUIProperties.copySuccess()"
+					data-on-error="vm.docLinkUIProperties.copyfail(err)"
+					style="height: 35px;padding: 10px;"></button>
+			</span> 
+		</div>
+		<span data-copy-link-help-style
+			  data-ng-show="!vm.docLinkUIProperties.cpToClipBoard"
+			  data-ng-if="!vm.deviceInfo.isTouch">
+		</span>
+	</div>
+	<div class="row"
+		style="padding: 5px 0px; font-size: 12px; color: #777;">
+		<b>Note : </b>If you plan to share the document link with other users,
+		make sure the file is accessible to those users.
+	</div>
+</div>

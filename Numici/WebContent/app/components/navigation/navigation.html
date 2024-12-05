@@ -1,0 +1,271 @@
+ <div class="container">
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-ng-controller="NavController as vm">
+			<div class="navbar-header" style=" min-width: 125px;padding: 0px 15px;">
+				<button type="button" class="navbar-toggle" data-ng-click="vm.isCollapsed = !vm.isCollapsed">
+					<span class="sr-only">Toggle navigation</span> 
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" 
+					data-ng-click="vm.UserRole != 'TSGuest' && vm.goToHomePage()" 
+					data-ng-style="{'cursor' : vm.UserRole == 'TSGuest' ? 'default' : 'pointer'}">
+					<!-- {{vm.Company}} -->
+					<img src="/app/assets/icons/Numici-Logo-Long-In-Blue.png" alt="numici">
+				</a>
+			</div>
+			
+			<div class="navbar-collapse" data-ng-class="vm.isCollapsed ? 'collapse' : 'in'">
+				<ul class="nav navbar-nav side-nav">
+					<li data-ng-class="{active: vm.setAsActiveTab(item)}" 
+						data-ng-repeat="item in vm.navMenu" 
+						style="min-width:80px;" 
+						data-md-ink-ripple="#006699">
+						<a data-ng-click="item.isEnabled && vm.openMenuItem(item)" class='btn'>
+							 <span data-ng-class="{'vdvc-menu-disabled':!item.isEnabled}">{{item.label}}</span>
+						</a>
+						<div class="active-bar"></div>
+					</li>
+				</ul>
+				<div class="navbar-right">
+					<ul class="nav navbar-nav side-nav icon-nav " style='padding-right: 45px;'>
+						<li class="btn vdvc-extension-btn" 
+							data-ng-if="vm.UserRole != 'TSGuest' && !vm.userinfo.isGuestUser && vm.numiciExtension.isDeviceSupport" 
+							data-ng-show="!vm.numiciExtension.isExtensionInstalled" 
+							data-ng-click="vm.goToNumiciExtension()" 
+							role="button" 
+							style="height: 47px;line-height: 45px;border: 2px solid #069;color: #069;font-weight: 700;top: 5px;padding: 0px;margin-right: 10px !important;">
+							<span style="padding: 15px;">
+								  {{vm.numiciExtension.label}}
+							</span>
+						</li> 
+						<li data-ng-show="vm.numiciExtension.show" class="v-line" data-md-ink-ripple="#006699"></li>
+						<li class="tips-wizard" data-ng-if="vm.showTipsWizard()">
+							<span class="fa fa-fw fa-lightbulb-o vdvc-tips-wizard-btn" 
+								data-ng-class="{active: vm.isTipsWizardStarted}" 
+					         	data-ng-click="!vm.isTipsWizardStarted && vm.startTaskSpaceTipTour(false)" 
+					         	data-tooltip-append-to-body="true" 
+					         	data-tooltip-placement="bottom" 
+					         	data-uib-tooltip="Take a tour of Numici">
+					        </span>
+						</li>
+						<li class="vdvc-ntf-li" 
+							data-md-ink-ripple="#006699" 
+							data-ng-show="vm.notificationsBtn.show && vm.UserRole != 'TSGuest'" 
+							data-ng-click="vm.notificationsBtn.isEnabled && vm.openNotifications($event)"
+							data-on-outside-element-click="vm.closeMenus()">
+							<span class="badge vdvc-badge" 
+								data-ng-show="vm.UserNotificationsCount.showCount" 
+								data-ng-click="vm.notificationsBtn.isEnabled && vm.openNotifications($event)">
+								{{ vm.UserNotificationsCount.UnreadCount > 999 ? 999+"+" :vm.UserNotificationsCount.UnreadCount }}
+							</span>
+							<span class="vdvc-notification fa fa-bell-o" 
+								  data-ng-class="{'vdvc-menu-disabled':!vm.notificationsBtn.isEnabled,'active': vm.isNotficationOpen}" 
+								  data-uib-popover-template="'app/components/Notifications/notifications.html'"
+								  data-popover-is-open="vm.isNotficationOpen" 
+								  data-popover-placement="bottom-right" 
+								  data-popover-class="vdvc-ntf-pop" 
+								  data-ng-disabled="!vm.notificationsBtn.isEnabled" 
+								  data-tooltip-append-to-body="true" 
+								  data-tooltip-placement="auto bottom" 
+								  data-uib-tooltip="Notifications">
+							</span>
+						</li> 
+						<li data-ng-show="vm.notificationsBtn.show && vm.UserRole != 'TSGuest'" class="v-line" data-md-ink-ripple="#006699"></li>
+						<li class="vdvc-search-btn" 
+							data-ng-class="{active: vm.setAsActiveTab(vm.searchBtn)}" 
+							data-ng-if="!vm.userinfo.isGuestUser" 
+							data-ng-show="vm.searchBtn.show" 
+							data-ng-click="vm.searchBtn.isEnabled && vm.openMenuItem(vm.searchBtn)" 
+							role="button" 
+							data-tooltip-append-to-body="true" 
+							data-tooltip-placement="auto bottom" 
+							data-uib-tooltip="Search Documents">
+							<span data-ng-class="{'vdvc-menu-disabled':!vm.searchBtn.isEnabled}" 
+								  class="fa fa-search fa-rotate-90">
+							</span>
+						</li> 
+						<li data-ng-show="vm.showMoreAppMenu()" data-md-ink-ripple="#006699" style="margin-left: 2px !important;">
+							<span class="vdvc-more-tabs-btn fa fa fa-bars" 
+								  data-ng-show="vm.showMoreAppMenu()"
+								  data-ng-click="vm.additionalMenuBtn.isEnabled && vm.toggleMoreTabsMenu($event)" 
+								  data-ng-class="{'active': vm.isMoreTabsMenuOpen,'vdvc-menu-disabled':!vm.additionalMenuBtn.isEnabled}" 
+								  data-tooltip-append-to-body="true" 
+								  data-tooltip-placement="auto bottom" 
+								  data-uib-tooltip="Integrations and User Preferences">
+							</span>
+							<div class="arrow" data-ng-show="vm.isMoreTabsMenuOpen"></div>
+							<ul class="dropdown-menu vdvc-more-tabs-menu" data-ng-show="vm.isMoreTabsMenuOpen" data-on-outside-element-click="closeMenus()" style="padding:0px;">
+								<li>
+									<div class="vdvc-more-tabs-menu-ele-grp">
+										<div data-ng-if="vm.integrationsMenuItems.length > 0" 
+											class="dropdown" 
+											data-uib-dropdown>
+											<div class="arrow" data-ng-show="vm.isIntegrationsMenuOpen" style="top: 3px;left: 0px;border-color: transparent transparent transparent #fff;"></div>
+									        <div class="vdvc-more-tabs-menu-ele dropdown-toggle" 
+									        	data-uib-dropdown-toggle 
+									        	style="padding: 0px;">
+									        	<a data-ng-click="vm.toggleIntegrationsMenu($event)" 
+									        		style="width: 100%;float: left;padding: 0 10px;">
+									        		Integrations
+									        	</a>
+									        </div>
+									        <ul class="dropdown-menu dropdown-menu-left" style="top: 0px;left:-169px;">
+									          <li>
+									          	<div class="vdvc-more-tabs-menu-ele-grp">
+													<div data-ng-repeat="item in vm.integrationsMenuItems" 
+														class="vdvc-more-tabs-menu-ele" 
+														data-ng-click="item.isEnabled && vm.openAdditionalMenuItem(item)" 
+														data-ng-class="{'active': vm.setAsActiveTab(item),'vdvc-menu-disabled':!item.isEnabled}">
+														<a>{{item.label}}</a>
+													</div>
+												</div>
+									          </li>
+									        </ul>
+							      		</div>
+										<div data-ng-repeat="item in vm.additionalMenuItems" 
+											class="vdvc-more-tabs-menu-ele" 
+											data-ng-click="item.isEnabled && vm.openAdditionalMenuItem(item)" 
+											data-ng-class="{'active': vm.setAsActiveTab(item),'vdvc-menu-disabled':!item.isEnabled}">
+											<a>{{item.label}}</a>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li data-ng-show="vm.searchBtn.show || vm.showMoreAppMenu()" class="v-line" data-md-ink-ripple="#006699"></li>
+						<li data-md-ink-ripple="#006699" data-ng-show="vm.UserRole != 'TSGuest'">
+							<span class="vdvc-user-settings-btn" 
+								data-ng-class="{'active': vm.isUserSettingsOpen}" 
+								data-ng-click="vm.toggleUserSettings($event)" 
+								role="button" 
+								data-uib-tooltip="{{vm.userinfo['UserName']}}" 
+								data-tooltip-append-to-body='true' 
+								data-tooltip-placement="bottom-right" 
+								tabindex="0" 
+								aria-hidden="false" 
+								style="display: block;">
+								<i class="fa fa-exclamation-circle vdvc-used-space-error-icon" 
+									data-ng-if="vm.sizeValidation == 'ExceededUserQuota'" 
+									data-tooltip-append-to-body='true' 
+									data-uib-tooltip ="{{vm.exceededUserQuotaMsg}}" 
+									data-tooltip-placement="auto">
+								</i>
+								<i class="fa fa-exclamation-triangle vdvc-used-space-warning-icon" 
+									data-ng-if="vm.sizeValidation == 'Utilized80PercentOfUserQuota'" 
+									data-tooltip-append-to-body='true' 
+									data-uib-tooltip ="{{vm.utilized80PercentOfUserQuotaMsg}}" 
+									data-tooltip-placement="auto">
+								</i>
+								<span class="vdvc-usr-st-label">
+								   {{getUserlabel(vm.userinfo["UserName"])| truncate: 1}}
+								</span>
+							</span>
+							<div class="arrow" data-ng-show="vm.isUserSettingsOpen"></div>
+							<ul class="dropdown-menu vdvc-usr-st-menu" data-ng-show="vm.isUserSettingsOpen" data-on-outside-element-click="vm.closeMenus()" style="padding:0px;">
+								<li>
+									<div class="vdvc-usr-st-menu-ele-grp"><!-- data-ng-style ="vm.sizeValidation != null && {'height':'140px'}"  -->
+										<div class="vdvc-usr-st-menu-ele" 
+											style="height: 70px;" 
+											data-ng-style ="vm.sizeValidation != null && {'border-bottom':'0px'}">
+											<div class="vdvc-usr-st-profile-pic-wrap">
+												<div class="vdvc-usr-st-profile-pic-div">
+													{{getUserlabel(vm.userinfo["UserName"])| truncate: 1}}
+												</div>
+											</div>
+											<div class="vdvc-usr-st-profile-dt-div">
+												<div class="vdvc-usr-st-profile-uname ellipsis">
+													<span data-tooltip-append-to-body='true' 
+														data-uib-tooltip ="{{vm.userinfo['FirstName']+' '+vm.userinfo['LastName']}}">
+														{{vm.userinfo["FirstName"]+" "+vm.userinfo["LastName"]}}
+													</span>
+													<span class="btn btn-xs fa fa-pencil vdvc-usr-st-profile-actions ss-tool-edit" 
+												    	data-ng-click="vm.editUserName()"
+												     	data-uib-tooltip="{{vm.editUserNameHeader}}" 
+												     	data-tooltip-append-to-body="true">
+												    </span>
+												</div>
+												<div class="vdvc-usr-st-profile-uid ellipsis" 
+													data-tooltip-append-to-body='true' 
+													data-uib-tooltip ="{{vm.userinfo['UserId']}}">
+													{{vm.userinfo["UserId"]}}
+												</div>
+												<div class="vdvc-usr-st-profile-used-space ellipsis" 
+													data-tooltip-append-to-body='true' 
+													data-uib-tooltip ="{{vm.userinfo['UsedSpace']}}">
+													Size Utilized : {{vm.userinfo["UsedSpace"]}} of {{vm.userinfo["AllocatedSize"]}}
+												</div>
+											</div>
+										</div>
+										<div data-ng-if="vm.sizeValidation != null" class="vdvc-usr-st-menu-ele"> <!--  style="height: 30px;line-height: 20px;" -->
+											<div class="vdvc-usr-st-profile-used-space-error-div">
+												<p data-ng-if="vm.sizeValidation == 'ExceededUserQuota'" 
+													class="vdvc-usr-st-profile-used-space-error"  
+													data-tooltip-append-to-body='true' 
+													data-uib-tooltip ="{{vm.exceededUserQuotaMsg}}">
+													<i class="fa fa-exclamation-circle" style="margin-right: 5px;"></i>{{vm.exceededUserQuotaMsg}}
+												</p>
+												<p data-ng-if="vm.sizeValidation == 'Utilized80PercentOfUserQuota'" 
+													class="vdvc-usr-st-profile-used-space-warning"  
+													data-tooltip-append-to-body='true' 
+													data-uib-tooltip ="{{vm.utilized80PercentOfUserQuotaMsg}}">
+													<i class="fa fa-exclamation-triangle" style="margin-right: 5px;"></i>{{vm.utilized80PercentOfUserQuotaMsg}}
+												</p>
+											</div>
+										</div>
+										<div data-ng-if="vm.UserRole != 'Guest'" class="vdvc-usr-st-menu-ele st2">
+											<div class="vdvc-usr-st-cpwd-div">
+												<a data-ng-click="vm.changePassword()">
+													Change Password  
+												</a>
+											</div>
+											<div class="vdvc-usr-st-logout-div">
+												<a data-ng-click="vm.logout()">
+													Log Out
+												</a>
+											</div>
+										</div>
+										<div data-ng-if="vm.UserRole == 'Guest'" class="vdvc-usr-st-menu-ele st2">
+											<div class="vdvc-gusr-st-upgrade-div">
+												<a data-ng-click="vm.upgradeAccount()">
+													Upgrade to <b>NUMICI</b> user  
+												</a>
+											</div>
+											<div class="vdvc-gusr-st-logout-div">
+												<a data-ng-click="vm.logout()">
+													Log Out
+												</a>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li data-ng-show="vm.helpBtn.show && vm.UserRole != 'TSGuest'" class="v-line" data-md-ink-ripple="#006699"></li>
+						<li data-ng-show="vm.helpBtn.show && vm.UserRole != 'TSGuest'" data-md-ink-ripple="#006699" style="margin-left: 2px !important;">
+							<span class="vdvc-help-btn fa fa-question-circle-o" 
+								id="vdvc-help-btn" 
+								  data-ng-click="vm.helpBtn.isEnabled && vm.toggleHelp($event)" 
+								  data-ng-class="{'active': vm.isHelpMenuOpen,'vdvc-menu-disabled':!vm.helpBtn.isEnabled}" 
+								  data-tooltip-append-to-body="true" 
+								  data-tooltip-placement="auto bottom" 
+								  data-uib-tooltip="Help">
+							</span>
+						</li>
+						<li data-ng-show="vm.UserRole == 'TSGuest' && !vm.isTablet" data-md-ink-ripple="#006699" style="margin-left: 10px !important;margin-right: 10px !important;top: 1.5px;height: 47px;line-height: 47px;">
+							<span data-ng-click="vm.openRegisterModal()" 
+								style="padding: 14px;border: 2px solid #069;color: #069;font-weight: 700;">
+								Get free Numici account
+							</span>
+						</li>
+					</ul>
+					<!-- <form class="navbar-form navbar-left" role="search">
+						<input type="text" class="form-control nav-search " placeholder="Search" name="srch-term" >
+					</form> 
+					<span class="navbar-right " style="background: url('./assets/icons/hamburger.png') no-repeat 10px 15px;width: 40px;height: 50px;"></span> -->
+				</div>
+
+			</div>
+			<div class="row" data-ng-include data-src="'app/components/Help/HelpTemplate.html'"></div>
+		</nav>	
+</div>

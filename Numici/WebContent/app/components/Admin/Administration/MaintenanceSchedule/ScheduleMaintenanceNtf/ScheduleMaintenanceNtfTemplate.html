@@ -1,0 +1,15 @@
+<div class="modal-header" style="padding: 15px;font-size: 23px;color: #245580;">
+	<div data-ng-if="smnc.title.length > 0" 
+		class="modal-title col-xs-10" 
+		data-ng-bind-html="smnc.title">
+	</div>
+	<!-- <div class="col-xs-2" style="float: right;font-size: 28px;padding: 0px;">
+		<span class="fa fa-times" data-ng-click="smnc.close()" style="float: right;"></span>
+	</div> -->
+</div> 
+<div class="modal-body">
+	<div class="col-xs-12" data-ng-bind-html="smnc.text"></div>
+</div>
+<div class="modal-footer" style="padding: 15px;">
+    <button class="btn btn-primary" data-ng-click="smnc.close()">OK</button>
+</div>

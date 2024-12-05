@@ -1,0 +1,196 @@
+<div class="container-fluid full">
+	<div id="nav-bar-height-div" style="height: 110px"></div>
+	<div class="row">
+		<div class="row navbar-fixed-top second-navbar second-navbar-top" 
+			 style="transition:top 0.2s ease-in-out;">
+			<div class=" col-xs-9" style="padding-left: 30px;">
+			 	<span style="font-size: 20px; color: rgba(51, 51, 51, 0.74);"> 
+			 		PORTFOLIOS  
+			 		<span>({{pc.portfolios.length}})</span> 
+			 	</span>
+			</div>
+			<div class="col-xs-3">
+				<div class="nav navbar-nav navbar-right nav-actions " style="padding-right: 30px;">
+					<div class="btn-group">
+				      <button  data-ng-if="pc.isEnabled('SwitchCardListView')"
+				      		   type="button" 
+				      		   class="btn vdvc-nav-btn vdvc-doc-main-btn SwitchCardListView" 
+				      		   data-ng-click="pc.switchView()"
+				      		   data-tooltip-append-to-body="true"
+				      		   data-tooltip-placement="bottom"
+				      		   data-uib-tooltip="Switch to {{pc.view == 'List' ? 'Grid view' : 'List view'}}">
+				      		<span class="fa fa-th-large fa-fw" 
+				      			data-ng-class="pc.view == 'List' ? 'fa-th-large' : 'fa-list-ul'">
+				      		</span>
+				      </button>
+				      <button id="createNew" 
+				      		  type="button" 
+				      		  class="btn vdvc-nav-btn vdvc-doc-main-btn createNew" 
+				      		  data-ng-click="pc.OpenCreatePortfolioModal('lg')">
+				        	<i data-ng-if="::!pc.deviceInfo.isTouch">New Portfolio</i>
+				        	<i data-ng-if="::pc.deviceInfo.isTouch" class="fa fa-plus fa-fw"></i>
+				      </button>
+				    </div>
+				</div>
+			</div>		
+		</div>
+		<div data-ng-show="pc.checkedItems.length > 0"
+			 class="row navbar-fixed-top second-navbar second-navbar-top" 
+			 style="transition:top 0.2s ease-in-out; background: #006699;color:#fff;">
+			<div class="col-xs-4" style="padding: 0px 30px;">
+			 	<span style="display: inline-block;vertical-align: middle;">
+			 		<span style="padding: 2px 4px;/* background: #fb8d33; */"><b>{{pc.checkedItems.length}}</b></span>
+			 		<span>Selected</span>
+			 	</span>
+			 	<button type="button" 
+			 			class="btn vdvc-doc-btn" 
+			 			data-ng-click="pc.unselectAll($event)" 
+			 			style="margin-left: 20px;">
+			 		<i class="fa fa-close"></i>
+			 		<!-- <span data-ng-if="::!pc.deviceInfo.isTouch">Deselect all</span> -->
+			 	</button>
+			</div>
+			<div class="col-xs-8">
+				<div class="nav navbar-nav navbar-right nav-actions " style="padding-right: 30px;">
+					<div>
+				  		<button type="button" 
+				  				class="btn vdvc-doc-btn {{key}}" 
+				  				data-ng-repeat="(key, portfolioAction) in pc.portfolioActionProps" 
+				  				data-ng-show="portfolioAction.show" 
+				  				data-tooltip-append-to-body="true" 
+				  				data-tooltip-placement="bottom" 
+				  				data-uib-tooltip="{{portfolioAction.title}}" 
+				  				data-ng-click="pc.executePortfolioAction(portfolioAction.title)">
+					  		<i class='fa {{portfolioAction.class}}'></i> 
+					  		<!-- <span data-ng-if="::!vm.deviceInfo.isTouch">{{portfolioAction.title}}</span> -->
+					    </button>
+				   	</div>
+				</div>
+			</div>		
+		</div>
+	</div>
+	
+	<div data-set-content-container-height="Portfolios" 
+		id="vdvc-content-wrap" 
+		class="row" 
+		data-ng-if="pc.view == 'Grid'" 
+		style="overflow-y: auto;">
+		<div class="row" >
+			<div data-portfolio-card 
+				 data-ng-repeat ="portfolio in pc.portfolios track by portfolio.id"
+				 class="col-xs-12 col-sm-4 col-md-3 col-lg-2" 
+				 style="padding: 15px;">
+			</div>
+		</div>
+	</div>
+	
+	<div data-set-content-container-height="Portfolios" 
+		id="vdvc-content-wrap" 
+		class="row col-xs-12" 
+		data-ng-if="pc.view == 'List' && pc.portfolios.length>0"  
+		style="overflow-y: auto;">
+		<div class="row" style="background: #fff;">
+			<table class="table docTable" data-ng-show="pc.portfolios.length>0" style="width: 100%;">
+				<thead>
+					<tr style="height: 40px;">
+						<th class="wraptext" 
+							data-ng-if="$first" 
+							data-ng-class="[hdr.class, hdr.value]" 
+							data-ng-repeat="hdr in pc.portfolioListHeaders" 
+							data-ng-click="pc.sortByfield(hdr)">
+							<div class="row" style="position: relative;padding-right: 20px;">
+								<span data-ng-click="$event.stopPropagation();" 
+									class="head-cb checkbox" 
+									style="margin:0px;width:30px;display: inline-block;">
+					               <input data-ng-model="pc.checkAllPortfolios.selected" 
+					               		type="checkbox" 
+					               		data-ng-change="pc.selectAllPortfolios()">
+					               <label class="head-cb-lable" style="padding: 0px;"></label>
+					            </span>
+					            <span style="width:30px;display: inline-block;vertical-align: middle;">
+									<i class="fa fa-briefcase" style="font-size: 22px;"></i>
+								</span>
+								<span data-uib-tooltip="{{::hdr.label}}" data-tooltip-append-to-body="true">
+									{{::hdr.label}}
+								</span>
+								<span class="" style="position: absolute;right: 5px;top:0;">
+									<i class="fa" 
+										data-ng-show="hdr.value == pc.portfolioField" 
+										data-ng-class="{'fa-caret-up' : !pc.portfolioFieldDecending , 
+														'fa-caret-down': pc.portfolioFieldDecending}">
+									</i>
+								</span>
+							</div>
+						</th>
+						<th class="ellipsis" 
+							data-ng-if="!$first" 
+							data-ng-class="[hdr.class, hdr.value]" 
+							data-ng-repeat="hdr in pc.portfolioListHeaders" 
+							data-ng-click="pc.sortByfield(hdr)">
+							<div class="row" style="position: relative;padding-right: 20px;">
+								<span data-uib-tooltip="{{::hdr.label}}" data-tooltip-append-to-body="true">
+									{{::hdr.label}}
+								</span>
+								<span class="" style="position: absolute;right: 5px;top:0;">
+									<i class="fa" 
+										data-ng-show="hdr.value == pc.portfolioField" 
+										data-ng-class="{'fa-caret-up' : !pc.portfolioFieldDecending , 
+														'fa-caret-down': pc.portfolioFieldDecending}">
+									</i>
+								</span>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="listPortfolio in pc.portfolios track by listPortfolio.id" 
+						data-ng-click="pc.openPortfolio(listPortfolio)"
+						data-on-long-press="pc.onLongPress(listPortfolio)"
+						data-ng-class="{'item-selected' : listPortfolio.selected}">
+						<td class="wraptext" data-ng-if="$first" data-ng-repeat="hdr in pc.portfolioListHeaders">
+							<span data-ng-click="$event.stopPropagation();" 
+								class="checkbox" 
+								style="margin:0px;width:30px;display: inline-block;">
+				               <input data-ng-class="{'first-pl-checkbox' : $first}" 
+				               		data-ng-model="listPortfolio.selected" 
+				               		type="checkbox" 
+				               		data-ng-change="pc.checkPortfolio(listPortfolio)">
+				               <label style="padding: 0px;"></label>
+				            </span>
+				            <div style="width:30px;display: inline-block;">
+								<span class="ls-portfolio-icon">
+									<i class="fa fa-briefcase"></i>
+								</span>
+								<span class="ls-shrd-portfolio-icon" data-ng-show="listPortfolio.isShared">
+									<i class="fa fa-user"></i>
+								</span>
+							</div>
+							<span class="ellipsis" 
+								data-uib-tooltip="{{listPortfolio[hdr.value]}}" 
+								data-tooltip-append-to-body="true">
+								{{listPortfolio[hdr.value]}}
+							</span>
+						</td>
+						<td class="ellipsis" data-ng-if="!$first" data-ng-repeat="hdr in pc.portfolioListHeaders">
+							<span data-ng-switch="hdr.type">
+								<span class="ellipsis">
+									<span data-ng-switch-when="text" 
+										data-uib-tooltip="{{listPortfolio[hdr.value]}}" 
+										data-tooltip-append-to-body="true">
+										{{listPortfolio[hdr.value]}}
+									</span>
+									<span class="ellipsis" 
+										data-ng-switch-when="Date" 
+										data-uib-tooltip="{{listPortfolio[hdr.value] | date:'medium'}}" 
+										data-tooltip-append-to-body="true">
+										{{listPortfolio[hdr.value] | date:'medium'}}
+									</span>
+								</span>
+							</span>
+						</td>
+					</tr>
+				</tbody>	
+			</table>
+		</div>
+	</div>
+</div>

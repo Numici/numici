@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:icecore="http://www.icefaces.org/icefaces/core"
+        xmlns:ace="http://www.icefaces.org/icefaces/components"
+        xmlns:ice="http://www.icesoft.com/icefaces/component"
+    >
+    <h:head>
+        <title>Vidi Vici Technologies</title>
+        <ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
+		<link rel="stylesheet" type="text/css" href="./resources/css/styles.css" />
+		<h:outputScript library="javax.faces" name="jsf.js"></h:outputScript>
+		<script type="text/javascript" src="resources/js/libs/jquery/jquery-1.9.1.js"></script>
+		<script type="text/javascript" src="resources/js/libs/jquery/jquery-ui-1.10.3.custom.min.js"></script>
+		<script type="text/javascript" src="resources/js/Utils.js"></script>
+    </h:head>
+    <h:body>
+<script type="text/javascript" language="JavaScript">
+// <![CDATA[
+function windowController(){
+	var wnd=null;
+	var loadedWindows = [];
+	
+	this.openWindow=function(wndUrl, wndName){
+		var wndObj=findWindow(wndName);
+		if(wndObj !== null && wndObj.name === "vdvcBuilder"){
+			wndObj.focus();
+		}else if (wndObj !== null && wndObj.name.search("VAppGen") != -1){
+			wndObj.focus();
+		}else {
+			wnd=window.open(wndUrl,wndName);
+			wnd.focus();
+			loadedWindows.push(wnd);
+		}
+		
+	};
+	
+	this.closeWindows=function(){
+		for(var i=0;i<loadedWindows.length;i++){
+			if(loadedWindows[i].closed == false){
+				loadedWindows[i].close();
+			}
+		}
+		loadedWindows=[];
+	};
+	this.findWindow=function(wndName){
+		for (var i=0; i< loadedWindows.length; i++){
+			if (loadedWindows[i].name == wndName){
+				return loadedWindows[i];
+			}
+		}
+		return null;
+	};
+	return this;
+}
+
+//]]>
+ </script>
+<script type="text/javascript" language="JavaScript">
+// <![CDATA[
+var myTimer;
+var interval=600000;
+var childwindows={};
+var _windowController=windowController();
+
+function sessionExpiryHandler() {
+	console.log("Timer fired - redirecting to logout.jsf");
+	_windowController.closeWindows();
+	window.location = './logout.jsf';
+}
+
+function resetSessionExpiry() {
+	 console.log("Interval is " + interval);
+	 if ( myTimer )
+	 	clearInterval(myTimer);
+	 myTimer = setInterval(function(){ sessionExpiryHandler(); }, interval);
+	 console.log("Timer set");
+ }
+
+ var serverErrorHandler = function(statusCode, responseTxt, responseDOM) {
+		_windowController.closeWindows();
+		window.location.href = './error.jsp';
+ }
+ 
+ function initErrorHandler() {
+	 if (ice) {
+		    ice.configuration.disableDefaultIndicators = true;
+		    ice.onServerError(serverErrorHandler);
+	}
+ }
+
+ function initSessionExpiry() {
+	 if ( document.getElementById('form1:interval') ) {
+		 interval =  document.getElementById('form1:interval').value;
+		 console.log('Interval is found');
+	 } else {
+		 interval = 11*60;
+		 console.log('Hidden field not found');
+	 }
+	 interval = interval  * 1000;
+	 resetSessionExpiry();
+ }
+
+ function dirtyTracker() {
+		var modules = [];
+		var timer = null;
+		
+		this.dummyRequest= function() {
+			resetSessionExpiry();
+			$.ajax({
+				type : 'GET',
+				contentType : 'text/html',
+				url : './dummy.html',
+				success : function(result, textStatus, jqXHR) {
+					console.log(result);
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus);
+				}
+			});
+			this.checkAndClearTimer();
+		};
+
+		this.checkAndClearTimer=function() {
+			var dirty = false;
+			for (var i=0; i< modules.length; i++){
+				if (modules[i].dirty){
+					dirty = true;
+					break;
+				}
+			}
+			if ( !dirty && timer ) {
+				clearInterval(timer);
+				timer = null;
+			}
+		};
+		
+		this.checkAndStartTimer=function() {
+			if ( !timer ) {
+				timer = setInterval(function(){ this.dummyRequest(); }, interval-10000);
+			}
+		};
+		
+		this.setDirty=function(module){
+			var found = false;
+			for (var i=0; i< modules.length; i++){
+				if (modules[i].name == module){
+					modules[i].dirty = true;
+					found = true;
+					break;
+				}
+			}
+			if ( !found ) {
+				var moduleStatus = {name:module, dirty:true};
+				modules.push(moduleStatus);
+			}
+			this.checkAndStartTimer();
+		};
+		
+		this.clearDirty=function(module){
+			for (var i=0; i< modules.length; i++){
+				if (modules[i].name == module){
+					modules[i].dirty = false;
+					this.checkAndClearTimer();
+					break;
+				}
+			}
+		};
+		return this;
+	}
+ var _dirtyTracker=dirtyTracker();
+  //]]>
+ </script>
+	   	<table width="100%" style="border-spacing:0;"><tr>
+    		<td class="header" align="left" width="35%">Vidi Vici Technologies</td>
+    		<td class="userinfo" align="right" width="65%">
+    		<h:form id="form1">
+    			<ice:inputHidden id="interval" value="#{session.maxInactiveInterval}"></ice:inputHidden>
+    		</h:form>
+    		<h:form id="logoutForm">
+    			<ice:panelGroup rendered="#{loginBean.loggedIn}">Welcome #{loginBean.displayName}. 
+		 		<a href="./logout.jsf" >
+							<ice:graphicImage title="Logout" id="exit_png"
+												value="/resources/images/exit.png"
+												style="border: 0px solid;" />
+		 		</a>
+    			</ice:panelGroup>
+    		</h:form>
+    		</td>
+    	</tr></table>
+    <!--  	<ui:insert name="topmenu">
+	    	<div class="topMenu">
+    			<ui:include src="/menu/default.xhtml"/>
+    		</div>
+    	</ui:insert> -->
+    		<table border="1" style="height:600px;width:100%;border-collapse:collapse;"><tr><td width="17%" style="vertical-align:top;">
+	    			<ui:insert name="sidemenu">
+		    			<ui:include src="/menu/sidemenu.xhtml"/>
+	    			</ui:insert>
+    		</td>
+    		<td width="80%" style="vertical-align:top;">
+					<ui:insert name="mainbody">This is main body placeholder</ui:insert>
+	    	</td>
+	    	</tr>
+	    	</table>
+    	<div class="footer">
+    		Copyright &copy; 2014 Vidi Vici Technologies, Inc.
+    	</div>
+<script type="text/javascript" language="JavaScript">
+// <![CDATA[
+            initSessionExpiry();
+            initErrorHandler();
+//]]>
+ </script>
+    </h:body>
+</html>    

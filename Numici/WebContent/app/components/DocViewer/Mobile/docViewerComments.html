@@ -1,0 +1,59 @@
+<div class="col-xs-12  comment-wrap full" data-ng-show="showComments">
+	<div class="comment-in-wrp full">
+		<div class="row vdvc_comment" data-ng-class="annotation.uid" data-ng-attr-data-id="{{annotation.id}}" data-ng-attr-data-rid="{{annotation.resourceName}}"
+		 data-on-outside-element-click="onOutClickComment()"
+		 data-ng-repeat="annotation in docAnnotations track by $index" data-ng-style="{'top': annotation.top}">
+		 	<div class="ellipsis comment-hdr col-xs-12" data-ng-click="onClickComment($event)">
+				<div class="row" data-ng-bind-html="annotation.Commentedtext | to_trusted">
+				</div>
+			</div>
+		 	<div class='comment-crd' data-ng-click="onClickComment($event)">
+				<div class='comment-conv'>
+					<div class="row comment-conv-wrap" data-ng-repeat="conv in annotation.conversations | orderBy:'createdOn':false track by $index"
+					data-ng-attr-data-convId="{{conv.id}}">
+						<div class="col-xs-2" data-ng-show="conv.userName">
+							<div class='vdvc-circle' data-tooltip-append-to-body='true'
+								data-uib-tooltip="{{conv.userName}}">{{getUserlabel(conv.userName) | truncate: 2 }}</div>
+						</div>
+						<div class="col-xs-10" >
+							<div class="comment-conv-txt" 
+							data-e-class="vdvc-txtA" 
+							data-e-data-msd-elastic
+							data-e-form="editcommentForm" 
+							data-e-data-ng-keypress="$event.stopPropagation();"
+							data-e-ng-click="$event.stopPropagation();"
+							data-editable-textarea="conv.note"
+							data-onshow="preventClickEventOnEditComment($event)"
+							data-onhide="unBindClickEventonEditComment()"
+							data-onbeforesave="updateComment($data,conv,annotation)">
+							<!-- <div class="comment-conv-txt" > -->
+								<span data-ng-bind-html="conv.note | linky:'_blank'" ></span>
+								<span data-ng-if="::canEditdocAnnotation(conv)" class="comment-conv-menu" style="position: absolute;top: 0;right: -5px;">
+									<span class="btn btn-xs fa fa-pencil" data-ng-click="editComment(editcommentForm,$event)"></span>
+									<span class="btn btn-xs fa fa-trash-o" data-ng-click="deleteComment(conv.id,annotation,$event)"></span>
+								</span>
+							</div>
+							<div data-ng-show="conv.userName" class="text-muted" style="height: 20px; font-size: 10px;"> 
+								<span>{{conv.userName}} | </span> <span data-am-time-ago='conv.createdOn'></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='comment-in-wrap' data-ng-click="clickonText($event)">
+				<div class='comment-in'>
+					<div class="row">
+						<textarea class="vdvc-txtA" data-msd-elastic
+						 data-ng-model="docCommentReply[annotation.id]" placeholder="Comment" autofocus></textarea>
+					</div>
+				</div>
+				<div class='comment-in-ftr'>
+					<button class="btn btn-xs vdvc-btn-flat pull-left vfb"
+						data-ng-click="cancelAddComment($event,annotation)">CANCEL</button>
+					<button class="btn btn-xs vdvc-form-btn pull-right vfb"
+						data-ng-click="addTextComment(annotation)">ADD</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

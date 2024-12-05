@@ -1,0 +1,316 @@
+<div class="container-fluid full">
+	<div style="height: 110px"></div>
+	<div style="height: calc(100% - 110px);">
+		<div class="row navbar-fixed-top second-navbar second-navbar-top vdvc-ts-list-for-tablet" >
+		 <div class="col-xs-12" style="padding-left: 30px;padding-right: 30px;">
+			<div class="row" style="border-bottom: 1px solid #ddd;height: 43px;">
+				<div class="ts-tab-wrap"> 
+					<ul class="ts-tsbs" data-arrange-ts-tabs-list="vm.taskSpaces">
+						<li class="ts-tab" 
+							data-ng-class="{'active': tab.current}" 
+							data-ng-repeat="tab in vm.taskSpaces track by $index" 
+							data-ng-click="vm.setActivateTaskSpace($event,tab)"
+							data-popover-placement="auto top"
+					  		data-uib-popover="{{vm.tabName(tab)}}" 
+					  		data-popover-trigger="'focus'" 
+					  		data-popover-append-to-body="true" 
+					  		role="menuitem">
+							<span class="nav-link">
+							  	<span class="task-hdr ng-binding ellipsis" 
+							  		style="vertical-align: top;">
+					 					{{vm.tabName(tab)}}
+					 			</span>
+							  	<span data-ng-if="tab.current" style="display: inline-block;vertical-align: top;">
+							  		<span data-ng-if="::!vm.deviceInfo.isTouch" class="ts-layout-icon task-actions" data-ng-click="vm.chageLayout($event)" role="button" tabindex="0">
+								      <i class="fa fa-columns task-actions"></i>
+								      <i class="fa fa-stack-text" style="margin-top: 12px;">{{vm.layoutLable}}</i>
+								    </span>
+							  		<!-- <span class="fa fa-table task-actions"  data-ng-click="vm.chageLayout($event)" role="button" tabindex="0"></span> -->
+								  	<span data-ng-show="tab.permissions.invite && tab.permissions.edit" class="fa fa-share-alt task-actions"  data-ng-class="{'shareTaskSpace' : tab.current}" data-ng-click="vm.shareTaskSpace($event)" role="button" tabindex="0"></span>
+								  	<span class="fa fa-times task-actions" data-ng-class="{'closeCurrentTaskSpace' : tab.current}" data-ng-click="vm.closeTaskSpace($event,tab)" role="button" tabindex="0"></span>
+							  	</span>
+							  	<!-- <span data-ng-if="!tab.current" style="display: inline-block;vertical-align: top;float:right;">
+							  		<span class="fa fa-times closeTaskSpace" data-ng-click="vm.closeTaskSpace($event,tab)" role="button" tabindex="0"></span>
+							  	</span> -->
+							 </span>
+						</li>
+					</ul>
+					<div data-uib-dropdown 
+						class="vdvc-tab-list-drop-down"
+						data-auto-close="outsideClick"
+						data-ng-if="vm.hiddenTabCount > 0">
+			        	<div data-uib-dropdown-toggle>
+			        		<i class="fa fa-angle-double-right fa-fw" aria-hidden="true"></i>
+			        		<div style="float: right;">
+								<div style="float: left;">(</div>
+								<div class="hidden-tab-count ellipsis"
+									data-tooltip-placement="auto top"
+							  		data-uib-tooltip="{{vm.hiddenTabCount}}"
+							  		data-tooltip-class="ts-tab-tooltip"  
+					 				data-tooltip-append-to-body="true">
+									{{vm.hiddenTabCount}}
+								</div>
+							  	<div style="float: left;">)</div>
+			        		</div>
+						</div>
+				      	<ul class="vdvc-tab-list-drop-down-menu dropdown-menu-right" 
+				      		data-uib-dropdown-menu 
+				      		role="menu">
+					        <li class="ellipsis ts-tab-dd-item" 
+					        	data-ng-if="!tab.isVisible" 
+					        	data-ng-repeat="tab in vm.taskSpaces track by $index" 
+					        	data-ng-click="vm.setActivateTaskSpace($event,tab)" 
+					        	data-popover-placement="auto top"
+						  		data-uib-popover="{{vm.tabName(tab)}}" 
+						  		data-popover-trigger="'focus'" 
+						  		data-popover-append-to-body="true"
+					        	role="menuitem">
+					        	<span class="task-hdr ellipsis">
+					        		{{vm.tabName(tab)}}
+					        	</span>
+					        	<!-- <span data-ng-if="!tab.current" style="display: inline-block;vertical-align: top;float:right;">
+							  		<span class="fa fa-times closeTaskSpace" data-ng-click="vm.closeTaskSpace($event,tab)" role="button" tabindex="0"></span>
+							  	</span> -->
+					        </li>
+					    </ul>
+					</div>
+				</div>
+				<div class="ts-navbar-right">
+					<div style="float: right;">
+						<button type="button" 
+			      		    class="btn cs-btn-icon cs-bb" 
+			      		    data-ng-if="vm.isNewTaskSpaceHidden()"
+			      		    data-ng-click="vm.newTaskSpace($event)"
+			      		    data-tooltip-append-to-body="true"
+			      		    data-tooltip-placement="bottom"
+			      		    data-uib-tooltip="New Taskspace">
+			       			<i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+			      		</button>
+			      		<button type="button" 
+			      		    class="btn cs-btn-icon cs-bb" 
+			      		    data-ng-click="vm.manageTaskSpace($event)"
+			      		    data-tooltip-append-to-body="true"
+			      		    data-tooltip-placement="bottom"
+			      		    data-uib-tooltip="Manage Taskspace">
+			       			<i class="fa fa-cog fa-fw" aria-hidden="true"></i>
+			      		</button>
+					</div>
+					<!-- <div data-ng-show="vm.activeTaskSpace" 
+						 class="dropdown" 
+					 	 data-on-toggle="vm.getAnnotationsById($event,open)"
+					 	 data-uib-dropdown 
+					 	 data-auto-close="outsideClick"
+					 	 data-is-open="vm.tsCmtDD.isOpen"
+					 	 style="float: right;">
+					        <button type="button" 
+				      		   class="btn cs-btn-icon cs-bb" 
+				      		   id="commentsDropdownMenu"
+				      		   data-uib-dropdown-toggle
+				      		   style="position: relative;">
+				      		   <i class="fa fa-comment-o fa-fw"></i>
+				      		   <i class="fa fa-stack-text fa-fw" style="
+								    position: absolute;
+								    left: 0;
+								    width: 100%;
+								    text-align: center;
+								    font-size: 8px;
+								    height: 25px;
+								    line-height: 25px;">
+								    TS
+								</i>
+						    </button>
+					        <ul class="dropdown-menu-right vdvc-ts-comments" 
+					        	data-uib-dropdown-menu 
+					        	data-ts-comments-dropdown-height
+					        	aria-labelledby="commentsDropdownMenu"
+					        	style="background: #eee;padding: 0px;padding-bottom: 70px;">
+					        	<li role="menuitem" 
+					        		data-ng-repeat="TSAnnotation in vm.TSAnnotations | orderBy:'createdOn':false track by TSAnnotation.id"
+					        		data-ng-attr-data-id="{{TSAnnotation.id}}" 
+					        		data-ng-attr-data-rid="{{TSAnnotation.resourceName}}"
+					        		data-scroll-if="TSAnnotation.id == vm.curCmtId"
+					        		data-ng-class="{'vdvc-ts-cmt-slct': vm.selectedComment.id == TSAnnotation.id}" 
+					        		style="margin: 5px 0px;background: #fff;">
+					        		<div class="vdvc-ts-comment">
+					        			<div class="row comment-conv-wrap" data-ng-click="vm.onClickTsComment($event,TSAnnotation)">
+											<div class="row comment-conv" 
+												 data-ng-repeat="conversation in TSAnnotation.conversations | orderBy:'annotatedOn':false track by conversation.id"
+												 style="margin: 10px 0px;">
+							            		<div class="col-xs-2">
+													<div class='vdvc-circle' data-tooltip-append-to-body='true'
+														 data-uib-tooltip="{{conversation.userName}}">{{getUserlabel(conversation.userName) | truncate: 2}}</div>
+												</div>
+						            			<div class="col-xs-10" style="padding: 0px;">
+							            			<div class="comment-conv-txt" 
+														data-e-class="vdvc-txtA" 
+														data-e-data-msd-elastic
+														data-e-form="editcommentForm" 
+														data-e-data-ng-keypress="$event.stopPropagation();"
+														data-e-ng-click="$event.stopPropagation();"
+														data-editable-textarea="conversation.note"
+														data-onshow="preventClickEventOnEditComment($event)"
+														data-onhide="vm.unBindClickEventonEditComment()"
+														data-onbeforesave="vm.updateComment($data,conversation, TSAnnotation)">
+														
+															<span data-ng-bind-html="conversation.note | linky:'_blank'" ></span>
+															<span data-ng-if="vm.canEditTSAnnotation(conversation)" class="comment-conv-menu" style="position: absolute;top: 0;right: -5px;">
+																<span class="btn btn-xs fa fa-pencil" data-ng-click="vm.editComment(editcommentForm,$event)"></span>
+																<span class="btn btn-xs fa fa-trash-o" data-ng-click="vm.deleteComment(conversation,TSAnnotation)"></span>
+															</span>
+													</div>
+								            		<div class="text-muted" style="font-size: 10px;">
+								            			{{conversation.userName}} | <span data-am-time-ago='conversation.annotatedOn'></span>
+								            		</div>
+								            	</div>
+					            			</div>
+										</div>
+										<div class='row comment-in-wrap' data-ng-show="vm.selectedComment.id == TSAnnotation.id">
+											<div class="col-xs-10 col-xs-offset-2" style="padding: 0px;">
+												<div class='comment-in'>
+													<div class="row">
+														<textarea class="vdvc-txtA" data-msd-elastic
+														 data-ng-model="vm.reply[TSAnnotation.id]" placeholder="Reply" autofocus></textarea>
+													</div>
+												</div>
+												<div class='comment-in-ftr'>
+													<button class="btn btn-xs vdvc-btn-flat pull-left vfb"
+														data-ng-click="vm.cancelReplyComment($event,TSAnnotation)">CANCEL</button>
+													<button class="btn btn-xs vdvc-form-btn pull-right vfb"
+														data-ng-click="vm.replyToComment($event,TSAnnotation)">REPLY</button>
+												</div>
+											</div>
+										</div>
+					        		</div>
+								</li>
+					            <li class="ts-comment-input">
+						            <div class="divider"></div>
+						            <div class='comment-in-wrap'  style="padding: 0px;">
+										<div class='comment-in'>
+											<div class="row">
+												<div class="col-xs-2">
+													<div class='vdvc-circle' data-tooltip-append-to-body='true'
+														 data-uib-tooltip="{{vm.currentUser}}">{{getUserlabel(vm.currentUser)| truncate: 2}}</div>
+												</div>
+												<div class="col-xs-8" style="padding-left: 0px;">
+													 data-msd-elastic
+													<textarea class="vdvc-txtA" 
+													 		  data-ng-model="vm.annotation.note" 
+													 		  placeholder="Comment" 
+													          style="height:50px;border: 0px;"
+													          autofocus>
+													</textarea>
+												</div>
+												<div class="col-xs-2" style="padding: 0px;">
+													<div class='vdvc-circle vdvc-add-ts-comments-btn' 
+														 data-ng-click="vm.addTaskSpaceComment($event,vm.annotation)"
+														 data-tooltip-append-to-body='true'
+											 			 data-uib-tooltip="Add" 
+											 			 style="background:#006699;transform: rotate(45deg);float: right;position: absolute;right: 10px;">
+											 			 <i class="fa fa-paper-plane" aria-hidden="true"></i>
+											 		</div>
+												</div>
+											</div>
+										</div>
+									</div>
+						        </li>
+					        </ul>
+					</div> -->
+					<div data-ng-show="vm.activeTaskSpace" 
+						 class="dropdown" 
+						 data-uib-dropdown
+						 data-auto-close="outsideClick"
+						 data-is-open="vm.addTagTSDD.isOpen"
+						 style="float: right;padding-right: 5px;">
+				        <button type="button" 
+			        		data-uib-dropdown-toggle 
+			        		class="btn cs-btn-icon cs-bb ts-tag-dropdown" 
+			        		data-ng-disabled="vm.disableAddTag()">
+				        	<i class="fa fa-tag fa-flip-horizontal fa-fw"></i>
+				      	</button>
+				      	<ul class="dropdown-menu-right vdvc-ts-cust-dd-menu" data-uib-dropdown-menu role="menu">
+					        <li class="vdvc-drop-down-item" role="menuitem">
+					        	<span class="vdvc-drop-down-item">
+					        		<div class="col-xs-12" style="margin-bottom: 10px;">
+										<data-ui-select multiple data-ng-model="vm.selectedTags" data-tagging-label="(New Tag)" data-ng-disabled="disabled"
+										data-tagging="vm.tagTransform" data-on-remove = "vm.onRemoveTag($item)" data-on-select="vm.onSelectTag($item)" >
+								
+										    <data-ui-select-match >{{$item.TagName}}</data-ui-select-match>
+										    
+										    <data-ui-select-choices data-repeat="tag in vm.Alltags | filter:$select.search"
+										    data-refresh="vm.refreshTagInfo($select.search)" data-refresh-delay="500">
+										      <div data-ng-if="tag.isTag" data-ng-bind-html="(tag.TagName | highlight: $select.search) +' (new)'"></div>
+				     			   			  <div data-ng-if="!tag.isTag" data-ng-bind-html="tag.TagName | highlight: $select.search"></div>
+										    </data-ui-select-choices>
+										    
+										</data-ui-select>
+									</div>
+									<div class="col-xs-12 " style="text-align: right;">
+										<button class='btn vdvc-form-btn vdvc-form-btn-muted'
+											data-ng-click='vm.cancelAddTag($event)'>
+											CANCEL
+										</button>
+										<button class='btn vdvc-form-btn save-ts-tag' data-ng-click='vm.saveTag($event)'>SAVE</button>
+									</div>
+					        	</span>
+					        </li>
+					    </ul>
+				    </div>
+					<div class="vdvc-ts-tags-wrap">
+						<div class="vdvc-tag" 
+							data-ng-show="vm.activeTaskSpace" 
+							data-ng-repeat='tag in vm.activeTaskSpace.tags | limitTo : vm.tagLimit'>
+							<span style='width: 100%;display: inline-block;'>
+								<span class="tag-cls" data-ng-show="!vm.disableAddTag()">
+									<i class="fa fa-times-circle"  role="button" tabindex="0" data-ng-click='!vm.disableAddTag() && vm.unTag(tag,$event)'></i>
+								</span>
+								<span data-uib-popover="{{tag.TagName}}" 
+									data-popover-placement="auto"
+									data-popover-trigger="'outsideClick'" 
+									data-popover-append-to-body="true" 
+									class="ellipsis" 
+									style="display: block;">
+									{{tag.TagName}}
+								</span>
+							</span>
+						</div>
+						<div data-uib-dropdown
+							data-auto-close="outsideClick"
+							data-ng-show="vm.activeTaskSpace && vm.activeTaskSpace.tags.length > vm.tagLimit"
+							style="float: right;margin-left: -8px;">
+				        	<span data-uib-dropdown-toggle
+			      		   		style="vertical-align: middle;">
+				        		<i class="fa fa-ellipsis-h fa-fw" aria-hidden="true"></i>
+							</span>
+					      	<ul class="dropdown-menu-right vdvc-tag-list-drop-down" 
+					      		data-uib-dropdown-menu 
+					      		role="menu">
+						        <li class="vdvc-drop-down-item" 
+						        	role="menuitem">
+						        	<span class="vdvc-tag"
+						        		data-ng-repeat='tag in vm.activeTaskSpace.tags | after:vm.tagLimit'  
+										style="margin-top: 4px;">
+										<span style='width: 100%;display: inline-block;'>
+											<span class="tag-cls" data-ng-show="!vm.disableAddTag()">
+												<i class="fa fa-times-circle"  role="button" tabindex="0" data-ng-click='!vm.disableAddTag() && vm.unTag(tag,$event)'></i>
+											</span>
+											<span data-uib-popover="{{tag.TagName}}" 
+												data-popover-placement="auto" 
+												data-popover-trigger="'outsideClick'" 
+												data-popover-append-to-body="true" 
+												class="ellipsis" 
+												style="display: block;">
+												{{tag.TagName}}
+											</span>
+										</span>
+									</span>
+						        </li>
+						    </ul>
+						</div>
+					</div>
+			    </div>
+			</div>
+		</div>
+	</div>
+		<div class="full" data-ui-view data-name="content"></div>
+	</div>
+</div>

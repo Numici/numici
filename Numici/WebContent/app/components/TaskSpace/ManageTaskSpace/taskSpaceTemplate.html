@@ -1,0 +1,72 @@
+<div class="ts-min-crd-view" 
+	 data-ng-class="{'item-selected' : taskSpace.selected}">
+	<div class="row" >
+		<div class="checkbox  checkbox-circle crd-checkbox" 
+			 data-ng-class="{'checkbox-primary' : taskSpace.selected}"
+			 data-ng-show="vm.showGridCheckbox()">
+	       <input data-ng-class="{'first-tsg-checkbox' : $first}" data-ng-model="taskSpace.selected" type="checkbox" data-ng-change="vm.selectTaskSpace(taskSpace)">
+	       <label></label>
+	    </div>
+    </div>
+	<div class="row ts-min-crd-content ellipsis" 
+		 data-ng-click="vm.gotoTaskSpace(taskSpace,$event)"
+		 data-on-long-press="vm.onLongPress(taskSpace)"
+		 data-md-ink-ripple="#333">
+		<div class="row" style=" font-size: 14px;color:#000000;">
+			
+			<div class="col-xs-12 " 
+				data-tooltip-placement="auto top"
+				data-tooltip-append-to-body='true' 
+				data-uib-tooltip ="{{taskSpace.name}}">
+				{{taskSpace.name}}
+			</div>
+			<div class="col-xs-12  sub-head ellipsis" 
+				data-tooltip-placement="auto top"
+				data-tooltip-append-to-body='true' 
+				data-uib-tooltip ="{{taskSpace.tickers | join:', '}}">
+				{{taskSpace.tickers | join:', '}}
+			</div>
+			<div class="col-xs-12  sub-head ellipsis" 
+				data-ng-if="taskSpace.objects" 
+				data-tooltip-placement="auto top"
+				data-tooltip-append-to-body='true' 
+				data-uib-tooltip ="{{taskSpace.objects.length}} Documents">
+				{{taskSpace.objects.length}} Documents
+			</div>
+			<div class="col-xs-12  sub-head ellipsis" 
+				data-ng-if="!taskSpace.objects" 
+				data-tooltip-placement="auto top"
+				data-tooltip-append-to-body='true' 
+				data-uib-tooltip ="0 Documents">
+				0 Documents
+			</div>
+			<div class="col-xs-12  sub-head ellipsis" 
+				data-tooltip-placement="auto top"
+				data-tooltip-append-to-body='true' 
+				data-uib-tooltip ="{{taskSpace.createdDate | date:'medium'}}">
+				{{taskSpace.createdDate | date:'medium'}}
+			</div>
+			<div class="col-xs-12  sub-head ellipsis" 
+				data-tooltip-placement="auto top"
+				data-tooltip-append-to-body='true' 
+				data-uib-tooltip ="{{taskSpace.owner}}">
+				{{taskSpace.owner}}
+			</div>
+		</div>
+		
+		<div class="row vdvc-crd-tag-wrp">
+			<span data-ng-repeat='tag in taskSpace.tags | limitTo : 2' 
+				class="vdvc-card-tag" 
+				data-tooltip-placement="auto top" 
+				data-tooltip-append-to-body='true' 
+				data-uib-tooltip ="{{tag.TagName}}">
+				<span style='width: 100%;display: inline-block;'>
+					<span class="tag-cls">
+						<i class="fa fa-times-circle"  role="button" tabindex="0" data-ng-click='vm.unTag(tag,taskSpace,$event)'></i>
+					</span>
+					<span>{{tag.TagName}}</span>
+				</span>
+			</span>
+		</div>
+	</div>	   	
+</div>

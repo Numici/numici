@@ -1,0 +1,55 @@
+<form data-ng-submit="snc.ok()">
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-xs-12" data-ng-if="snc.sharedUserList.length > 0" style="padding: 0px 15px 15px;">
+				<span>Selected objects are successfully shared to <b>'{{snc.getDocSharedUsers()}}'</b> users</span>
+			</div>
+			<div class="col-xs-12" data-ng-if="snc.sharedUserList.length == 0 && snc.docSharedUserList.length > 0" style="padding: 0px 15px 15px;">
+				<span>Selected documents are successfully shared to <b>'{{snc.getDocSharedUsers()}}'</b> users</span>
+			</div>
+			<div class="col-xs-12" data-ng-if="snc.sharedUserList.length == 0 && snc.folderSharedUserList.length > 0" style="padding: 0px 15px 15px;">
+				<span>Selected folders are successfully shared to <b>'{{snc.getFolderSharedUsers()}}'</b> users</span>
+			</div>
+			<div class="col-xs-12" data-ng-if="snc.sharedUserList.length == 0 && snc.taskspaceSharedUserList.length > 0" style="padding: 0px 15px 15px;">
+				<span>Selected taskspaces are successfully shared to <b>'{{snc.getTaskspaceSharedUsers()}}'</b> users</span>
+			</div>
+			<div class="col-xs-12" data-ng-if="snc.sharedUserList.length == 0 && snc.otherOrgUsers.length > 0" style="padding: 0px 15px 15px;">
+				<span>Selected folders could not be shared to <b>'{{snc.getOtherOrgUsers()}}'</b> users, as they are from other organization.</span>
+			</div>
+			
+			<div class="row" data-ng-if="snc.action == 'CanNotShareToNonNumiciUsers' && snc.NonNumiciUsers.length > 0" style="padding: 0px 15px 15px;">
+				<div class="col-xs-12" style="padding: 0px;">
+					<span>Selected objects could not be shared to the below list of users as they are not NUMICI users. And you do not have privilages to invite a non-numici user.</span>
+				</div>
+				<div class="col-xs-12" style="padding: 0px;margin-left: 15px;width: calc(100% - 30px);height: 100px;overflow-y: auto;border: 1px solid #ccc;">
+					<div class="col-xs-12" data-ng-repeat="NonNumiciUser in snc.NonNumiciUsers">
+						<div class ="col-top-mrgn-5">
+							<label for="{{NonNumiciUser.loginId}}">{{NonNumiciUser.loginId}}</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" data-ng-if="snc.action == 'SharedToNonExistedUsers' && snc.NonNumiciUsers.length > 0" style="padding: 0px 15px 15px;">
+				<div class="col-xs-12" style="padding: 0px;">
+					<span>Selected objects could not be shared to the below list of users as they are not NUMICI users.</span>
+				</div>
+				<div class="col-xs-12" style="padding: 0px;margin-left: 15px;width: calc(100% - 30px);height: 100px;overflow-y: auto;border: 1px solid #ccc;">
+					<div class="col-xs-12" data-ng-repeat="NonNumiciUser in snc.NonNumiciUsers">
+						<div class ="checkbox col-top-mrgn-5">
+							<input id="{{NonNumiciUser.loginId}}" type="checkbox" data-ng-model="NonNumiciUser.selected" >
+							<label for="{{NonNumiciUser.loginId}}">{{NonNumiciUser.loginId}}</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12" data-ng-if="snc.action == 'SharedToNonExistedUsers' && snc.NonNumiciUsers.length > 0">
+				<span>Do you want to still share and invite the user to NUMICI application (select the users you wish to invite and click on 'SHARE' button)?</span>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-if="snc.action == 'SharedToNonExistedUsers'" data-ng-click="snc.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit" data-ng-if="snc.action == 'SharedToNonExistedUsers'" data-ng-disabled="snc.disableShare()">SHARE</button>
+		<button class="btn vdvc-form-btn" data-ng-if="snc.action != 'SharedToNonExistedUsers'" type="submit">OK</button>
+	</div>
+</form>

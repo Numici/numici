@@ -1,0 +1,84 @@
+<form data-ng-submit="toc.transferOwneship()">
+	<div class="modal-header" style="padding: 15px;">
+		<h3 class="modal-title">
+			Transfer Ownership
+		</h3>
+	</div>
+	<div class="modal-body share-doc-modal-body">
+		<div class="row">
+			<div class="col-xs-12" style="padding: 0px;">
+				<div class="col-xs-2" style="height: 34px;line-height: 34px;padding-left: 0px;">
+					FROM : 
+				</div>
+				<div class="col-xs-10" style="padding: 0px 5px;margin-bottom: 10px;height: 34px;line-height: 34px;background: #ccc;">
+					{{toc.loggedInUser}}
+				</div>
+			</div>
+			<div class="col-xs-12" style="padding: 0px;margin-bottom: 15px;">
+				<div class="col-xs-2" style="height: 34px;line-height: 34px;padding-left: 0px;">
+					TO : 
+				</div>
+				<div class="col-xs-10 vdvc-ms-wrap" style="padding: 0px;margin-bottom: 10px;">
+					<ui-select multiple limit="1" 
+							   data-ng-model="toc.userPerms.users"
+							   data-ng-disabled="toc.isFormSubmiting">
+						<ui-select-match placeholder="Select Users...">{{toc.getSelectedUserName($item)}}</ui-select-match>
+					    <ui-select-choices repeat="user.loginId as user in toc.Users | filter:{loginId:$select.search}">
+					      <div data-ng-if="user.firstName && user.firstName.length > 0" data-ng-bind-html="user.firstName+' '+ user.lastName | highlight: $select.search"></div>
+					      <small>
+					        {{user.loginId}}
+					      </small>
+					    </ui-select-choices>
+					</ui-select>
+				</div>
+			</div>
+			<div class="col-xs-12" style="padding: 0px;">
+				<div class="col-xs-6 vdvc-doc-sharable" style="padding-left: 0px;">
+					<div class="checkbox">
+						<input id="retainNoPerms" type="checkbox" data-ng-model="toc.retainNoPerms" data-ng-disabled="toc.isFormSubmiting">
+						<label for="retainNoPerms">
+							<i class="fa fa-share-alt" 
+								aria-hidden="true" 
+								style="position: absolute;top: -10px;left: -10px;">
+							</i>
+							<span>{{::toc.noPermsLable}}</span></label>
+					</div>
+				</div>
+				<div class="col-xs-4 doc-share-perms" style="padding: 0px;" data-ng-show="!toc.retainNoPerms">
+					<data-ui-select data-ng-model="toc.userPerms.grantedPerms[0]" 
+						data-search-enabled="false" 
+						data-on-select="toc.selectPerms($select.selected.name)" 
+						data-ng-disabled="toc.isFormSubmiting || toc.retainNoPerms">
+						<data-ui-select-match>{{$select.selected.displayName}}</data-ui-select-match>
+					    <data-ui-select-choices repeat="perm.name as perm in toc.permSet | highlight: $select.search">
+						    <span data-ng-bind-html="perm.displayName"></span>
+						</data-ui-select-choices>
+					</data-ui-select>
+				</div>
+				<div class="col-xs-2 vdvc-doc-sharable" data-ng-show="!toc.retainNoPerms">
+					<div class="checkbox">
+						<input id="PropagateShare" type="checkbox" data-ng-model="toc.propagateShare" data-ng-disabled="!toc.disablePropagateShare || toc.isFormSubmiting || toc.retainNoPerms">
+						<label for="PropagateShare">
+							<i class="fa fa-share-alt" 
+								aria-hidden="true" 
+								style="position: absolute;top: -10px;left: -10px;">
+							</i>
+							<span>{{::toc.sharePropagateLable}}</span></label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer" style="padding: 15px;">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" 
+			type="button" 
+			data-ng-click="toc.cancel()">
+			CANCEL
+		</button>
+		<button class="btn vdvc-form-btn" 
+			type="submit" 
+			data-ng-disabled="toc.userPerms.users.length == 0 || toc.isFormSubmiting">
+			TRANSFER
+		</button>
+	</div>
+</form>

@@ -1,0 +1,57 @@
+<div data-ng-show="isAnnotTagEdited[annotation.id]" class="col-xs-12" style="padding-right: 0px;margin-bottom: 10px;">
+	<div class="row" style="padding: 10px;border: 1px solid #069;">
+		<div class="col-xs-5" style="padding-left: 0px;">
+			<label class="col-xs-12" style="padding: 0px;">
+				Tag Name
+			</label>
+		    <div class="col-xs-12 ellipsis" 
+		    	data-tooltip-append-to-body='true' 
+		    	data-uib-tooltip ="{{editedAnnotTags[annotation.id].tags[0].TagName}}" 
+		    	style="padding: 0px 5px;background: #ccc;height: 33.34px;line-height: 33.34px;">
+		        {{editedAnnotTags[annotation.id].tags[0].TagName}}
+		    </div>
+		</div>
+		<div class="col-xs-7" style="padding: 0px;">
+			<label class="col-xs-12" style="padding: 0px;">
+				Tag Value
+			</label>
+		    <div class="col-xs-12" style="padding: 0px;">
+		        <div class="col-xs-12" style="padding: 0px;margin-bottom: 5px;">
+				    <data-ui-select multiple limit="1"
+				    	class="vdvc-edit-doc-tag-val-ui-select" 
+						data-ng-model="editedAnnotTagValues[annotation.id].tagValues" 
+						data-tagging-label="(New Tag)" 
+						data-search-enabled="searchInEditTag[annotation.id].enable" 
+						data-tagging="annotTagValueTransform" 
+						data-on-remove="onRemoveAnnotTagValue(annotation.id)" 
+						data-on-select="onSelectAnnotTagValue(annotation.id)">
+						<data-ui-select-match>{{$item.Value}}</data-ui-select-match>
+					    <data-ui-select-choices data-repeat="tag in allAnnotTagValues[annotation.id] | filter:$select.search"
+							data-refresh="refreshAnnotTagVlauesInfo(annotation.id,editedAnnotTags[annotation.id].tags[0].TagName,$select.search)" 
+							data-refresh-delay="500">
+					      	<div data-ng-if="tag.isTag" 
+					      		data-ng-bind-html="(tag.Value | highlight: $select.search) +' (new)'">
+					      	</div>
+							<div data-ng-if="!tag.isTag" 
+								data-ng-bind-html="tag.Value | highlight: $select.search">
+							</div>
+					    </data-ui-select-choices>
+					</data-ui-select>
+				</div>
+			    <div class="col-xs-12" style="padding: 0px;text-align: right;">
+					<button type="button" 
+						class="btn btn-xs vdvc-form-btn vdvc-form-btn-muted" 
+						data-ng-click="cancelEditTag($event,'Annot',annotation.id)">
+			          	<i class="fa fa-times" aria-hidden="true"></i>
+			        </button>
+			        <button type="button" 
+			        	class="btn btn-xs vdvc-form-btn" 
+			        	data-ng-click="saveEditedTag($event,'Annot',annotation.id)" 
+			        	data-ng-disabled="disableSaveEditTag('Annot',annotation.id)">
+			          	<i class="fa fa-check" aria-hidden="true"></i>
+			        </button>
+				</div>
+		    </div>
+		</div>
+	</div>
+</div>

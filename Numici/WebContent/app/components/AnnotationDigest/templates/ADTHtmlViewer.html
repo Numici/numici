@@ -1,0 +1,68 @@
+<div class="full">
+	<div class="full">
+		<div class="full" style="background: #fff;">
+			<div class="row full">
+				<div class="full" 
+					 data-ng-if="adhvc.loader"
+					 style="position: absolute;width: 100%;z-index: 2;background: #777777a1;">
+					 <div style="position: relative;height: 45px;line-height: 45px;text-align: center;color: #fff;background: #069;">
+					 	Loading ...
+					 </div>
+				</div>
+				<div class="col-xs-12" style="line-height: 50px; height: 50px;">
+					<div class="col-xs-8" style="font-size: 20px; color: #aaa;float: left;margin: 0px;">
+						<div style="width: 100%; height: 50px; line-height: 50px; float: left; margin-bottom: 30px;" contenteditable="false">
+							<a data-ng-href="{{adhvc.numiciLink}}" target="_blank" style="float: left; text-decoration: none !important;">
+								<img data-ng-src="{{adhvc.numiciImage}}"
+								     style="width: 30px; max-height: 30px; margin: 0px !important;">
+							</a>
+							<a data-ng-href="{{adhvc.numiciLink}}" target="_blank" role="button"
+								style="color: #069; font-size: 16px; font-weight: 500; margin-left: 6px; text-decoration: none !important;">
+								{{adhvc.numiciHeaderText}}</a>
+						</div>
+					</div>
+					<div class="col-xs-4" style="text-align: right;float: left;margin: 0px;z-index: 1;">
+						<button type="button" 
+							    class="btn " 
+							    data-ng-click="adhvc.updateDigest()"  
+								data-ng-if="adhvc.hasDigestUpdates"
+								data-tooltip-append-to-body="true" 
+								data-tooltip-placement="bottom"
+							    data-uib-tooltip="{{adhvc.digestUpdateTitle}}" 
+								style="padding: 3px; background: none;">
+								<i class="fa fa-refresh" aria-hidden="true" style="color: red;font-size: 23px;"></i>
+						</button>
+						<button type="button" 
+							id="publish-digest" 
+						    class="btn vdvc-form-btn dropdown-toggle" 
+						    data-ng-click="adhvc.shareDigestLink($event,'AnnotationDigest')" 
+							data-uib-dropdown-toggle 
+							data-ng-disabled="adhvc.disablePublish()"
+							style="padding: 7px; color: #fff;">
+							Publish
+						</button>
+						<button type="button" class="btn vdvc-nav-btn vdvc-doc-main-btn" 
+							id="digets-configuration-settings" 
+							data-ng-click="adhvc.annotationsDigest($event,'settings')"
+							data-tooltip-append-to-body="true" data-tooltip-placement="bottom"
+							data-uib-tooltip="View / edit digest configuration settings" 
+							aria-hidden="true">
+							<span class="fa fa-cog fa-fw" aria-hidden="true"></span>
+						</button>
+					</div> 
+				</div>
+				<div class="col-xs-12 digest-content-wrap">
+					<div id="digest-content" class="row full digest-content">
+						<div class="vdst full" style="background: #fff;padding: 8px 0px;"></div>
+					</div>
+				</div>
+				<button data-ng-click="adhvc.topFunction()" class="vdvc-scroll-top"
+					data-tooltip-append-to-body="true" 
+					data-tooltip-placement="top"
+					data-uib-tooltip="Go to top of the Digest">
+					<i class="fa fa-chevron-up" aria-hidden="true"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

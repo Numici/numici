@@ -1,0 +1,137 @@
+<div class="drc" data-ng-style="::digesMinMaxWidth()">
+	<div class="row" contenteditable="false">
+       	<div class="row digest-name" 
+        	data-ng-if="digestName.length>0" 
+        	style="font-size: 18px;color: #069;text-align: center;padding: 10px 0px;font-weight: bold;font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;">
+			{{digestName}}
+		</div>
+		<div class="row digest-description" 
+			data-ng-bind-html="description| to_trusted" 
+			data-ng-if="description.length>0" 
+			style="padding: 10px 0px;color: #24292e;font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;">
+			<!-- {{description}} -->
+		</div>
+    </div>
+<div class="row"
+	style="border-bottom: 1px solid #aaa;padding: 10px 0px;page-break-inside:avoid;"
+	data-ng-repeat="digest in ::digestData track by $index">
+	<div data-ng-attr-data-obj-id="digest.documentId"
+		 data-ng-attr-data-annot-id="digest.annotationId"></div>
+	<div class="row" contenteditable="false">
+		<div class="row" >
+			<div>
+				<h4 data-ng-style="::titleStyles()" 
+					data-ng-if="digestMetaInfoOptions.documentName">
+					<a data-ng-href="{{::digest.link}}" target="_blank"
+						data-tooltip-append-to-body="true"
+						data-uib-tooltip="{{::digest.displayName}}" role="button"
+						style="color: #069; text-decoration: none !important;">
+						{{::digest.displayName}} </a>
+				</h4>
+
+				<div class="row meta-info-description"
+					data-ng-if="digest.description"
+					data-ng-show="digestMetaInfoOptions.description">
+					{{::digest.description}}
+				</div>
+				<div class="row meta-info-publisher" data-ng-if="digest.website">
+					<span class="meta-info-publisher-name"
+						data-ng-show="digestMetaInfoOptions.websiteName"> 
+						<span class="name" data-ng-if="!digest.url"> {{::digest.website}} </span> 
+						<a data-ng-if="digest.url" class="name" data-ng-href="{{::digest.url}}"
+							target="_blank" data-tooltip-append-to-body="true"
+							data-uib-tooltip="{{::digest.url}}"
+							style="color: #069; text-decoration: none !important;">
+								{{::digest.website}} 
+						</a>
+					</span>
+				</div>
+				<div class="row" data-ng-if="digest.tags && digestMetaInfoOptions.documentTags">
+					<span data-ng-repeat="tag in ::digest.tags track by $index" style="display:inline-block; height: 25px;line-height: 25px;background: #069;padding:0px 10px;margin: 5px;color: #fff;">
+						{{tag}}
+					</span>
+				</div>
+			</div>	
+			<div style="margin: 10px 0px;">
+				<a data-ng-href="{{::digest.link}}" target="_blank">
+					<img class="image" 
+						 data-ng-src="{{::digest.imageUrl}}"
+						 align="middle"
+						 data-ng-if="digest.imageUrl && digestMetaInfoOptions.image" 
+						 style="width: 100%;
+						 		position: relative;
+							    display: block;
+					     		border: 2px solid #eee;
+								max-height: 339px;
+								object-fit: cover;
+								object-position: center top;"
+						 data-cke-real-node-type="1" 
+						 data-track-changes-ignore="true"
+						 data-cke-editable="false" 
+						 contenteditable="false" />
+				</a>
+			</div>
+		</div>
+
+		<div class="row" 
+			data-ng-repeat="annotation in ::digest.annotations track by $index"
+			style="padding: 10px 0px; clear: both;">
+			<div class="row">
+				<div style="border-left-width: 4px; border-left-color: #ffff00; border-left-style: solid; padding-left: 10px; position: relative;">
+					<div data-ng-if="::hasAnnotatedText(annotation)"
+									 data-ng-bind-html="::annotatedText(annotation)| to_trusted"></div>
+
+					<div data-ng-if="digestMetaInfoOptions.annotationUserName || digestMetaInfoOptions.annotationCreatedTime" 
+						style="font-size: 12px; color: #777;">
+						<span data-ng-if="digestMetaInfoOptions.annotationUserName"> 
+							{{::annotation.annotatedUserName}} 
+						</span> 
+						&nbsp; 
+						<span data-ng-if="digestMetaInfoOptions.annotationCreatedTime"> 
+							{{::createdDate(annotation.annotationCreatedTime)}} 
+						</span> 
+					</div>
+					<div class="row" data-ng-if="annotation.tags && digestMetaInfoOptions.tags">
+						<span data-ng-repeat="tag in ::annotation.tags track by $index" style="display:inline-block; height: 25px;line-height: 25px;background: #069;padding:0px 10px;margin: 5px;color: #fff;">
+							{{tag}}
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="padding: 0px 15px 0px 30px;">
+				<div data-ng-if="conv.comment && conv.comment.length > 0"
+					class="row"
+					data-ng-repeat="conv in ::annotation.conversation track by $index">
+					<div class="row" style="margin: 10px 0px;">
+						<img data-ng-src="{{::commentIconUrl}}" 
+							 data-cke-real-node-type="1"
+							 data-track-changes-ignore="true" 
+							 data-cke-editable="false"
+							 contenteditable="false"
+							 align="left"
+							 style="float: left; width: 20px; position:relative;top:5px;margin-right: 10px;">
+							
+							<comment-to-html data-comment="::conv.comment" data-annotation="::digest"></comment-to-html>
+							
+						<div data-ng-if="digestMetaInfoOptions.annotationUserName || digestMetaInfoOptions.annotationCreatedTime" 
+							style="font-size: 12px; color: #777; clear: both;">
+							<span data-ng-if="digestMetaInfoOptions.annotationUserName"> 
+								{{::conv.commentatorName}}
+							</span> 
+							&nbsp; 
+							<span data-ng-if="digestMetaInfoOptions.annotationCreatedTime"> 
+								{{::createdDate(conv.createdTime)}} 
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<div data-ng-attr-data-obj-id="digest.documentId"
+		 data-ng-attr-data-annot-id="digest.annotationId"></div>
+</div>
+</div>

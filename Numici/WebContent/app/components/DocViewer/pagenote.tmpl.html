@@ -1,0 +1,67 @@
+<div class="row vdvc_comment" id="page-note-wrap" data-ng-show="pagenoteInitiated">
+	<div class="col-xs-12" style="padding: 5px 15px;">
+		<!-- <div class="comment-conv-txt" 
+			data-e-class="vdvc-txtA" 
+			data-e-data-msd-elastic
+			data-e-form="editcommentForm"
+			data-e-data-ng-keypress="$event.stopPropagation();"
+			data-e-ng-click="$event.stopPropagation();" 
+			data-e-placeholder="Pagenote" 
+			data-editable-textarea="pagenoteText" 
+			data-e-rows="2" 
+			data-onbeforesave="addNewPageNote($data,editcommentForm)">
+			<span class="comment-conv-menu" style="position: absolute;top: 0;right: -5px;">
+				<span class="btn btn-xs fa fa-pencil" data-ng-click="!doc.perms.readonly && editcommentForm.$show();" data-ng-class="{'disabled': doc.perms.readonly}"></span>
+			</span> 
+		</div> -->
+		<div class='col-xs-12' style="padding:0px;margin-bottom: 5px;">
+			<textarea data-msd-elastic 
+				class="vdvc-txtA" 
+				rows="2" 
+				placeholder="Pagenote"
+				class="editor form-control"
+			 	data-ng-model="pagenote.text" 
+			 	style="overflow: hidden;overflow-wrap: break-word;resize: none;min-height: 66px;">
+			</textarea>
+		</div>
+		<div class="col-xs-12" style="padding:0px;">
+	        <div class="col-xs-12 comment-tag-wrap" style="padding:0px;margin-bottom: 5px;">
+	        	<data-ui-select multiple 
+		        	data-ng-attr-id="pagenote-tags" 
+					data-ng-model="selectedAnnotTags['pagenote']" 
+					data-tagging-label="(New Tag)" 
+					data-ng-disabled="isPagenoteConvDisabled()" 
+					data-tagging="tagTransform" 
+					data-on-select="onSelectAnnotTag($item,'pagenote')">
+					<data-ui-select-match placeholder="Tags">
+						<div class="selected-tag-name" 
+							style="margin-right: 15px;color: #333;">
+							{{showTagName($item)}}
+						</div>
+					</data-ui-select-match>
+					<data-ui-select-choices data-repeat="tag in Alltags | filter:$select.search "
+											data-refresh="refreshTagInfo($select.search)" 
+											data-refresh-delay="500"
+											data-ui-disable-choice="tagFilterSelected(tag,selectedAnnotTags['pagenote'])">
+					  <div data-ng-if="tag.isTag" data-ng-bind-html="(tag.TagName | highlight: $select.search) +' (new)'"></div>
+   			   			  <div data-ng-if="!tag.isTag" data-ng-bind-html="showTagName(tag) | highlight: $select.search"></div>
+					</data-ui-select-choices>
+				</data-ui-select>
+	        </div>
+	        <div data-ng-include-replace data-ng-include="'app/components/common/Tags/AddAndEditConvTags.temp.html'"></div>
+	        <div class="col-xs-12" style="padding:0px;">
+	        	<button type="button" 
+		        	class="btn btn-xs vdvc-form-btn vdvc-form-btn-muted pull-left" 
+		        	data-ng-click="cancelAddPageNote($event)">
+		          	CANCEL
+		        </button>
+		        <button type="button" 
+		        	class="btn btn-xs vdvc-form-btn pull-right" 
+		        	data-ng-disabled="isPagenoteConvDisabled()" 
+		        	data-ng-click="addNewPageNote()">
+		          	SAVE
+		        </button>
+	        </div>
+	    </div>
+	</div>
+</div>

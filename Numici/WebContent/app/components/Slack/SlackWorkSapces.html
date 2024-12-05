@@ -1,0 +1,51 @@
+<div class="container-fluid full">
+	<div style="height: 110px"></div>
+	<div class="row" style="min-height: calc(100% - 110px);">
+		 <div class="navbar-fixed-top second-navbar second-navbar-top dl-main-navbar">
+			<div class="col-xs-8 dlmn-l vdvc-slack-ws-heading">
+				Slack WorkSpaces
+			</div>
+			<div class="col-xs-4 dlmn-r">
+				<button type="button" 
+		      		    class="btn vdvc-nav-btn vdvc-doc-main-btn"
+		      		    data-ng-click="slkwsp.addToSlackWorkspace()"
+		      		    data-tooltip-append-to-body="true"
+		      		    data-tooltip-placement="bottom"
+		      		    data-uib-tooltip="Authorize Slack Workspace"> 
+		       		<span data-ng-if="::!deviceInfo.isTouch">AUTHORIZE SLACK WORKSPACE</span>
+		      	</button>
+			</div>		
+		 </div>
+		 <div class="row full">
+			<div class="row full">
+			 	<div class="col-xs-12 col-sm-4 col-md-3 col-lg-2"
+			 		 data-ng-repeat="(key,val) in slkwsp.workspaces track by key">
+			 		<div class="vdvc-slack-ws-card">
+				 		<div class="row">
+					 		<span class="vdvc-slack-config-btn" 
+					 			data-ng-click="slkwsp.manageSlackWorkSpace(key)">
+		 						<i class="fa fa-cog fa-fw"></i>
+		 					</span>
+		 					<span class="vdvc-slack-delete-btn" 
+					 			data-ng-click="slkwsp.deleteSlackWorkSpace(key,val)">
+		 						<i class="fa fa-trash fa-fw"></i>
+		 					</span>
+		 				</div>
+				 		<div class="row vdvc-slack-ws-info ellipsis">
+				 			<div class="col-xs-12">
+								<div class="crd-portfolio-icon">
+									<i class="slack-logo"></i>
+								</div>
+							</div>
+							<div class="col-xs-12" 
+								data-tooltip-append-to-body='true' 
+								data-uib-tooltip ="{{val}}">
+								{{val}}
+							</div>
+				 		</div>
+			 		</div>
+			 	</div>
+			</div>
+		</div>
+	</div>
+</div>

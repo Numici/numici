@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<display-name>VDVC</display-name>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<servlet>
+		<servlet-name>vidiviciService</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>com.vidivici.services;com.fasterxml.jackson.jaxrs.json </param-value>
+		</init-param>
+		<init-param>
+			<param-name>jersey.config.server.provider.classnames</param-name>
+			<param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>vidiviciService</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>AnnotatingWeb</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>com.annotateweb.services;com.fasterxml.jackson.jaxrs.json </param-value>
+		</init-param>
+		<init-param>
+			<param-name>jersey.config.server.provider.classnames</param-name>
+			<param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AnnotatingWeb</servlet-name>
+		<url-pattern>/annotateWebApi/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AnnotatingWebOauthService</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>com.annotateweb.oauth;com.fasterxml.jackson.jaxrs.json </param-value>
+		</init-param>
+		<init-param>
+			<param-name>jersey.config.server.provider.classnames</param-name>
+			<param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AnnotatingWebOauthService</servlet-name>
+		<url-pattern>/webMessageOauth/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>oauthService</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>com.vdvc.oauth;com.fasterxml.jackson.jaxrs.json </param-value>
+		</init-param>
+		<init-param>
+			<param-name>jersey.config.server.provider.classnames</param-name>
+			<param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>oauthService</servlet-name>
+		<url-pattern>/oauth/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>UploaderService</display-name>
+		<servlet-name>UploaderService</servlet-name>
+		<servlet-class>com.vidivici.services.UploaderService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploaderService</servlet-name>
+		<url-pattern>/Upload</url-pattern>
+	</servlet-mapping>
+	<context-param>
+		<param-name>uploadfolder</param-name>
+		<param-value>C:/UploadedFiles</param-value>
+	</context-param>
+
+	<servlet>
+		<servlet-name>NumiciApp</servlet-name>
+		<jsp-file>/appindex.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NumiciApp</servlet-name>
+		<url-pattern>/numiciapp</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>NumiciPublicApp</servlet-name>
+		<jsp-file>/publicappindex.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NumiciPublicApp</servlet-name>
+		<url-pattern>/numicipublicapp</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>redirect</servlet-name>
+		<jsp-file>/ViewComponents/RedirectView.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>redirect</servlet-name>
+		<url-pattern>/redirect</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PrivacyPolicy</servlet-name>
+		<jsp-file>/public/privacyAndPolicy.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PrivacyPolicy</servlet-name>
+		<url-pattern>/privacy-policy</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>HypothesisWelcome</servlet-name>
+		<jsp-file>/public/HypothesisWelcomeHelp.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HypothesisWelcome</servlet-name>
+		<url-pattern>/Welcome_extension_user</url-pattern>
+	</servlet-mapping>
+	<mime-mapping>
+		<extension>png</extension>
+		<mime-type>image/png</mime-type>
+	</mime-mapping>
+	<listener>
+		<listener-class>com.vdvc.webapp.listeners.StartupListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.vdvc.webapp.listeners.SessionAttrListener</listener-class>
+	</listener>
+	<session-config>
+		<session-timeout>600</session-timeout>
+		<tracking-mode>COOKIE</tracking-mode>
+	</session-config>
+
+
+	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>WARN</param-value>
+		</init-param>
+		<init-param>
+			<param-name>confPath</param-name>
+			<param-value>/WEB-INF/urlrewrite.xml</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+
+</web-app>

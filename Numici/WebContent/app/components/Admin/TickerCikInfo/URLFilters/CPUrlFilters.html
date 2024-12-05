@@ -1,0 +1,69 @@
+<div class="row">
+	<div class="col-xs-12">
+		<label class="tci-lbl">URL SOURCE</label>
+	</div>
+	<div class="col-xs-12">
+		<data-ui-select id="cp-url-source-filter" 
+			class="url-filter" 
+			data-ng-model="tci.query.cpURLSource" 
+			data-ng-disabled="tci.disableCompanyUrlsFilters" 
+			data-search-enabled="false" 
+			data-on-select="tci.setCPUrlCriteria()">
+			<data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+		    <data-ui-select-choices data-repeat="urlFilterSourceOption in tci.urlFilterCPSourceOptions | filter: $select.search">
+		      <div data-ng-if="$index < tci.urlFilterFixedSourceOptions.length" style="font-style: italic;">{{urlFilterSourceOption}}</div>
+		      <div data-ng-if="$index >= tci.urlFilterFixedSourceOptions.length" style="font-weight: bold;">{{urlFilterSourceOption}}</div>
+		    </data-ui-select-choices>
+		</data-ui-select>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<label class="tci-lbl">URL STATUS</label>
+	</div>
+	<div class="col-xs-12">
+		<data-ui-select id="cp-url-status-filter" 
+			class="url-filter" 
+			data-ng-model="tci.query.cpURLStatus" 
+			data-ng-disabled="tci.disableCompanyUrlsFilters" 
+			data-search-enabled="false" 
+			data-on-select="tci.setCPUrlCriteria()">
+			<data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+		    <data-ui-select-choices data-repeat="urlFilterStatusOption in tci.urlFilterStatusOptions | filter: $select.search">
+		      <div data-ng-if="$index < tci.urlFilterFixedStatusOptions.length" style="font-style: italic;">{{::urlFilterStatusOption}}</div>
+		      <div data-ng-if="$index >= tci.urlFilterFixedStatusOptions.length" style="font-weight: bold;">{{::urlFilterStatusOption}}</div>
+		    </data-ui-select-choices>
+		</data-ui-select>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<label class="tci-lbl">URL MODIFIED BY CURATOR</label>
+	</div>
+	<div class="col-xs-12">
+		<data-ui-select id="cp-url-curator-filter" 
+			class="url-filter" 
+			data-ng-model="tci.query.cpURLUpdatedByCurator" 
+			data-ng-disabled="tci.disableCompanyUrlsFilters" 
+			data-search-enabled="false" 
+			data-on-select="tci.setCPUrlCriteria()">
+			<data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+		    <data-ui-select-choices data-repeat="urlFilterCuratorOption in tci.urlFilterCuratorOptions | filter: $select.search">
+		      <div data-ng-if="$index < tci.urlFilterFixedCuratorOptions.length" style="font-style: italic;">{{::urlFilterCuratorOption}}</div>
+		      <div data-ng-if="$index >= tci.urlFilterFixedCuratorOptions.length" style="font-weight: bold;">{{::urlFilterCuratorOption}}</div>
+		    </data-ui-select-choices>
+		</data-ui-select>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<label class="tci-lbl">URL COMMENT</label>
+	</div>
+	<div class="col-xs-12">
+		<input type="text" class="form-control vdvc-input-txt" 
+		   id="cp-url-comment-filter" 
+		   data-ng-model="tci.query.cpURLComment" 
+		   data-ng-blur="tci.setCPUrlCriteria()" 
+		   autocomplete="off">
+	</div>
+</div>

@@ -1,0 +1,86 @@
+<form data-ng-submit="adhc.copyToClipboard()">
+	<div class="modal-header" style="padding: 10px 15px;">
+		<h4 class="modal-title">
+			Copy Annotation Digest <i class="fa fa-close"
+				style="float: right; color: #006699;" data-ng-click="adhc.cancel()"></i>
+		</h4>
+	</div>
+	<div class="modal-body share-doc-modal-body" style="display: flex;padding: 0px 5px;">
+		<div class="col-xs-12" 
+			data-ng-if="adhc.copyAs == 'formatted'" 
+			style="height: 445px;">
+			<div class="col-xs-12" style="height: calc(100% - 1px); padding: 0px;">
+				
+				<copy-as-formatted 
+					data-editor="adhc.editor"
+					data-copy-content="adhc.copyContent"
+					data-show-loader= "adhc.showLoader",
+					data-focus-content="adhc.focusContent"
+				>
+				</copy-as-formatted>
+				
+			</div>
+		</div>
+		<div class="col-xs-12"
+			data-ng-if="adhc.copyAs == 'plain'"
+			style="height: 445px; overflow: auto;">
+			<div class="form-group col-xs-12" style="height: calc(100% - 15px); padding: 0px;">
+				<copy-as-plain
+					data-copy-content-txt="adhc.copyContentTxt"
+					data-show-loader= "adhc.showLoader"
+				>
+				</copy-as-plain>	
+			</div>
+		</div>
+		<!-- <div class="col-xs-12"
+			data-ng-if="adhc.copyAs == 'html'"
+			style="height: 445px; overflow: auto;">
+			<div class="form-group col-xs-12" style="height: calc(100% - 15px); padding: 0px;">
+				
+				<copy-as-html
+					data-copy-content-ashtml="adhc.copyContentHtml"
+					data-show-loader= "adhc.showLoader"
+				>
+				</copy-as-html>
+				
+			</div>
+		</div> -->
+		<div class="col-xs-12 vdvc-ldr-spin-wrap" data-ng-show="adhc.showLoader" data-ng-class="{'full':adhc.showLoader}">
+	    	<div class="vdvc-loader-spin vdvc-v-align"></div>
+	    </div>
+	</div>
+	<div class="modal-footer" style="padding: 10px 15px;">
+		<div class="col-xs-12" style="padding: 0px;">
+			<div class="col-xs-8" style="text-align: left; padding: 0px;">
+				<div class="col-xs-12" style="padding: 0px;">
+					<div class="col-xs-4 radio radio-primary radio-inline"
+						style="margin: 7.5px 0px; height: 20px;">
+						<input type="radio" name="copyAs" data-ng-model="adhc.copyAs"
+							value="formatted"> <label class="cs-lbl">Formatted
+							Text</label>
+					</div>
+					<div class="col-xs-4 radio radio-primary radio-inline"
+						style="margin: 7.5px 0px; height: 20px;">
+						<input type="radio" name="copyAs" data-ng-model="adhc.copyAs"
+							value="plain"> <label class="cs-lbl">Plain Text</label>
+					</div>
+					<!-- <div class="col-xs-4 radio radio-primary radio-inline"
+						style="margin: 7.5px 0px; height: 20px;">
+						<input type="radio" name="copyAs" data-ng-model="adhc.copyAs"
+							value="html"> <label class="cs-lbl">HTML</label>
+					</div> -->
+				</div>
+			</div>
+			<div class="col-xs-4" style="float: right; padding-right: 0px;">
+				<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button"
+					data-ng-click="adhc.cancel()">CANCEL</button>
+				<span data-ng-show="::!deviceInfo.isSafari">
+					<button data-uib-tooltip="Copy to Clipboard"
+						class="btn vdvc-form-btn fa fa-clipboard" type="button"
+						data-ng-click="adhc.copyToClipboard()" style="height: 35px;">
+					</button>
+				</span> <span data-copy-link-help-style></span>
+			</div>
+		</div>
+	</div>
+</form>

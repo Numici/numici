@@ -1,0 +1,63 @@
+<div class="row full srch-pane-2-wrap adv-search-snippets" 
+	data-ng-show="showSnippetsOnMobile">
+	<div class="row srch-pane-2-hdr">
+		Matches Found {{snippets.length}}
+	</div>
+	<div data-three-pane-height 
+		class="col-xs-12 snippet-wrap srch-snippet-wrap" 
+	    data-ng-class="{'doc-opened':ShowToggleSnippetIconOnMobile}"
+	    style="position:relative;">
+		<div data-ng-if="!$last" 
+			class="col-xs-12 col-sm-12 col-md-12 col-lg-12 vdvc-snippet srch-snippet" 
+			data-ng-repeat="snippet in snippets track by $index" 
+			data-ng-click="selectSnippet($index,$event,snippet)" 
+			data-ng-class="{ active: $index == selectedSnippet}">
+			<span data-ng-bind-html="snippet.string | to_trusted"></span>
+		</div>
+		<div data-ng-if="$last" 
+			class="col-xs-12 col-sm-12 col-md-12 col-lg-12 vdvc-snippet srch-snippet" 
+			style="margin-bottom :0px;" 
+			data-ng-repeat="snippet in snippets track by $index" 
+			data-ng-click="selectSnippet($index,$event,snippet)" 
+			data-ng-class="{ active: $index == selectedSnippet }">
+			<span data-ng-bind-html="snippet.string | to_trusted"></span>
+		</div>
+	</div>
+</div>
+<span class="srch-float-btn toggle-snippet-btn" 
+	data-ng-click="toggleSnippetsOnMobile()" 
+	data-ng-show="ShowToggleSnippetIconOnMobile && showSnippetsOnMobile" 
+	style="font-size: 23px;position: absolute;"
+	data-ng-style="{top: '195px'}">
+	<span style="position: relative;">	
+		  <i class="fa fa-puzzle-piece" aria-hidden="true" style="
+		    font-size: 10px;
+		    left: 4px;
+		    margin-top: 15px;">
+		  </i>
+		  <i class="fa fa-angle-double-up" aria-hidden="true" style="
+		    font-size: 23px;
+		    position: absolute;
+		    left: -3px;
+		    top: -6px;">
+		  </i>
+	</span>
+</span>
+<span class="srch-float-btn toggle-snippet-btn" 
+	data-ng-click="toggleSnippetsOnMobile()" 
+	data-ng-show="ShowToggleSnippetIconOnMobile && !showSnippetsOnMobile" 
+	style="font-size: 23px;position: absolute;"
+	data-ng-style="{top: '40px'}">
+	<span style="position: relative;">	
+	  <i class="fa fa-puzzle-piece" aria-hidden="true" style="
+	    font-size: 10px;
+	    position: absolute;
+	    left: 3px;
+	    top: -4px;">
+	  </i>
+	  <i class="fa fa-angle-double-down" aria-hidden="true" style="
+	    font-size: 23px;
+	    margin-top: 8px;">
+	  </i>
+	</span>
+</span>

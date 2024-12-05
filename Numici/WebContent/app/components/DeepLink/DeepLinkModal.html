@@ -1,0 +1,69 @@
+<form data-ng-submit="dl.ok()">
+	<div class="modal-header">
+		<h3 class="modal-title">{{dl.modalTitle}}</h3>
+	</div>
+	<div class="modal-body" style="min-height: 120px;">
+		<div class="row" data-ng-show="!dl.isLinkCreated">
+			<div class="form-group col-xs-12">
+				<label for="title">Link Title</label>
+				<textarea class="vdvc-txtA" data-msd-elastic data-ng-model="dl.text"
+					placeholder="Title" autofocus></textarea>
+			</div>
+			<div class="form-group col-xs-12">
+				<div class="col-xs-12 checkbox col-top-mrgn-5">
+					<input id="private" type="checkbox" data-ng-model="dl.isPublic">
+					<label for="private">Public Link</label>
+				</div>
+				<span class="col-top-mrgn-5 text-danger" data-ng-show="dl.isPublic">
+					{{::dl.lnkPublicMsg}}
+				</span>
+			</div>
+		</div>
+		<div class="row" data-ng-show="dl.isLinkCreated">
+			<div class="row">
+				<div class="col-xs-6"><b>Link Type :</b></div>
+				<div class="col-xs-6">
+					<span>{{dl.linkInfo.linkType}}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<b>Link :</b>
+				</div>
+				<div class="col-xs-12">
+					<input type="text" 
+						   class="vdvc-input-txt" 
+						   data-ng-model="dl.linkInfo.url" 
+						   data-focus-on="dl.focusLink"
+						   data-select-on-focus 
+						   data-select-on-click
+						   readonly>
+				</div>
+				<div class="col-xs-12">
+					<span data-copy-link-help-style ></span>
+				</div>
+			</div>
+			<div class="row" style="font-size: 10px; color: #777;">
+				<div class="col-xs-12"><b>Note : </b>If you plan to share the deep link with other users, make sure the file is accessible to those users</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12"><b>Title :</b></div>
+				<div class="col-xs-12">
+					<span data-uib-tooltip="{{dl.linkInfo.text}}" >{{dl.linkInfo.text | truncate: 100: '...' }}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="dl.cancel()">CLOSE</button>
+		<button class="btn vdvc-form-btn" type="submit" data-ng-show="!dl.isLinkCreated">CREATE</button>
+		<button type="button"
+				class="btn vdvc-form-btn"
+				data-clipboard
+				data-ng-show="!dl.deviceInfo.isSafari && dl.isLinkCreated" 
+				data-supported="supported" 
+				data-text="dl.linkInfo.url" 
+				data-on-copied="dl.copySuccess()" 
+				data-on-error="dl.copyfail(err)">COPY LINK</button>
+	</div>
+</form>

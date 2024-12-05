@@ -1,0 +1,397 @@
+<div class="container-fluid full">
+	<div style="height: 60px;"></div>
+	<div class="row" data-ng-include data-src="'app/components/Admin/TickerCikInfo/TickerCikInfoFilters.html'"></div>
+	<div class="tci-results col-xs-12" 
+		data-ng-show="tci.tickerCikInfoList.length == 0" 
+		style="background: #fff;text-align: center;">
+	    <div style="
+		    margin-top: calc(25% - 100px);
+		    width: 100%;
+		    border: none;
+		    font-weight: bold;">
+		    No matched results found.
+		</div>
+	</div>
+	<div class="tci-results col-xs-12" data-ng-show="tci.tickerCikInfoList.length > 0">
+		<div class="rslts full" style="background: none;">
+			<div class="hdr" style="height: 60px;border: 1px solid #ccc;margin-bottom: 5px;background: #fff;color: #069;">
+				<div class="row">
+					<div style="padding: 5px;">Company Name</div>
+				</div>
+				<div class="row">
+					<div style="width: 30%; padding: 5px;float: left;">Cik</div>
+					<div style="width: 30%; padding: 5px;float: left;">Ticker</div>
+					<div style="width: 40%; padding: 5px;float: left;">Ticker Array</div>
+				</div>
+			</div>
+			<div class="rslt-list" style="height: calc(100% - 99px);overflow: auto;">
+				<div class="tci-card-view ellipsis" 
+				data-ng-click="tci.onTciSelect(tickerCikInfo)"
+				data-ng-class="{'selected' : tci.isSelected(tickerCikInfo)}"
+				data-ng-repeat="tickerCikInfo in tci.tickerCikInfoList">
+					<div class="row lbl">
+						<span data-tooltip-append-to-body='true' 
+						      data-uib-tooltip ="{{::tickerCikInfo.companyName}}"
+						      style="padding:0px 5px;">{{::tickerCikInfo.companyName}}</span>
+					</div>
+					<div class="row sub">
+						<div data-uib-tooltip="{{::tickerCikInfo.cik}}" 
+				   			data-tooltip-append-to-body="true" 
+							style="width: 30%; padding:0px 5px;float: left;">
+							{{::tickerCikInfo.cik}}
+						</div>
+						<div data-uib-tooltip="{{::tickerCikInfo.ticker}}" 
+				   			data-tooltip-append-to-body="true" 
+				   			style="width: 30%; padding:0px 5px;float: left;">
+				   			{{::tickerCikInfo.ticker}}
+				   		</div>
+						<div data-uib-tooltip="{{::tickerCikInfo.tickerArray}}" 
+				   			data-tooltip-append-to-body="true" 
+				   			style="width: 40%; padding:0px 5px;float: left;">
+				   			{{::tickerCikInfo.tickersArray | join:', '}}
+				   		</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group col-xs-12" style="padding: 0px;margin: 0px;">
+				<button class="btn vdvc-form-btn" 
+					  data-ng-click="tci.prev()"
+					  data-ng-disabled="tci.query.pageNo == 0" 
+					  style="width: 40px;float: left;padding: 6px;">
+					<i class="fa fa-angle-double-left fa-fw"></i>
+				</button>			
+				<span class="ellipsis" 
+					data-uib-tooltip="{{tci.resultCount.range}}" 
+			   		data-tooltip-append-to-body="true" 
+					style="width: calc(100% - 80px);float: left;text-align: center;font-weight: bold;height: 34px;line-height: 34px;">
+					{{tci.resultCount.range}}
+				</span>
+				<button class="btn vdvc-form-btn" 
+					  data-ng-click="tci.next()"
+					  data-ng-disabled="tci.tickerCikInfoList.length < tci.query.pageSize" 
+					  style="width: 40px;float: left;padding: 6px;">
+					<i class="fa fa-angle-double-right fa-fw"></i>
+				</button>
+			</div>
+		</div>
+		
+		<div class="details full">
+			<div class="row">
+				<div class="col-xs-12" style="font-size: 12px;">
+					<table class="table table-condensed table-borderless">
+						<tr data-ng-repeat="label in tci.detailsLbls track by $index">
+							<td class="col-md-4" style="max-width: 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+								<div style="max-height: 30px;" class="ellipsis">{{label.label}}</div>
+							</td>
+							<td class="col-md-1" style="max-width: 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">:</td>
+							<td class="col-md-7" style="max-width: 0;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+								<div data-ng-if="label.value == 'companyName' || label.value == 'externalCompanyName' || label.value == 'tickersArray'" 
+									data-uib-tooltip="{{tci.selctedTickerCikInfo[label.value] | join: ', '}}" 
+			   						data-tooltip-append-to-body="true" 
+			   						style="max-height: 30px;" class="ellipsis">
+			   						{{tci.selctedTickerCikInfo[label.value] | join: ", "}}
+			   					</div>
+								<div data-ng-if="label.value != 'companyName' && label.value != 'externalCompanyName' && label.value != 'tickersArray'" 
+									style="max-height: 30px;" class="ellipsis">
+									{{tci.selctedTickerCikInfo[label.value] | join: ", "}}
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+		    </div>
+			<div class="row" >
+				<div class="col-xs-12">
+					<div class="row">
+					    <div class="col-xs-6" style="padding-left:0px;">Company URL's</div>
+					    <div class="col-xs-6" style="padding-right:0px;">
+						    <span class="tci-add-new-url-btn" 
+						    	data-ng-show="tci.showAddNewCompanyUrlBtn()" 
+								data-ng-click="tci.showAddNewCUCard(tci.selctedTickerCikInfo.companyUrls)">
+								<i class="fa fa-plus fa-fw" aria-hidden="true"></i>
+							</span>
+						</div>
+			    	</div>
+					<div class="row">
+						<div class="tci-url-card-view" 
+							data-ng-show="tci.showAddNewCompanyUrlCard">
+							<div class="tci-url-card-row ellipsis">
+								<div style="width: 45px;float:left;padding-left: 10px;">
+									URL : 
+								</div>
+								<div class="col-xs-12" style="width: calc(100% - 45px);float:left;padding: 0px 10px 0px 0px;">
+									<input type="text" 
+										class="form-control vdvc-input-txt" 
+										data-ng-model="tci.newCompanyUrlInfo.urlvalue" 
+										autofocus 
+										autocomplete="off" 
+										style="height: 25px;">
+								</div>
+							</div>
+							<div class="tci-url-card-row">
+								<div class="col-xs-8" style="padding: 0px 10px;">
+									<div style="float:left;width: 65px;">URL Type : </div> 
+									<div style="float:left;width: calc(100% - 65px);">
+										<data-ui-select class="url-confirmed-dd" 
+											data-ng-model="tci.newCompanyUrlInfo.urltype" 
+											data-on-select="tci.refreshSource()" 
+											data-ng-disabled="disabled" 
+											data-search-enabled="false">
+											<data-ui-select-match >{{$select.selected.label}}</data-ui-select-match>
+										    <data-ui-select-choices data-repeat="urlUpdateTypeOption in tci.urlUpdateTypeOptions | filter: $select.search">
+										      {{urlUpdateTypeOption.label}}
+										    </data-ui-select-choices>
+										</data-ui-select>
+									</div>
+								</div>
+							</div>
+							<div class="tci-url-card-row">
+								<div class="col-xs-8" style="padding: 0px 10px;">
+									<div style="float:left;width: 65px;">Source : </div>
+									<div style="float:left;width: calc(100% - 65px);">
+										<data-ui-select class="url-confirmed-dd" 
+											data-uib-tooltip ="{{tci.newCompanyUrlInfo.urlsource}}" 
+											data-tooltip-append-to-body='true' 
+						      				data-ng-model="tci.newCompanyUrlInfo.urlsource">
+											<data-ui-select-match >{{$select.selected}}</data-ui-select-match>
+										    <data-ui-select-choices data-repeat="urlUpdateSourceOption in tci.getUrlUpdateSourceOptions(tci.newCompanyUrlInfo.urltype.value,$select.search) | filter: $select.search">
+										      {{urlUpdateSourceOption}}
+										    </data-ui-select-choices>
+										</data-ui-select>
+									</div>
+								</div>
+							</div>
+							<div class="tci-url-card-row">
+								<div class="col-xs-8" style="padding: 0px 10px;">
+									<div style="float:left;width: 65px;">Status : </div>
+									<div style="float:left;width: calc(100% - 65px);">
+										<data-ui-select class="url-confirmed-dd" 
+											data-ng-model="tci.newCompanyUrlInfo.urlstatus" 
+											data-ng-disabled="disabled" 
+											data-search-enabled="false">
+											<data-ui-select-match >{{$select.selected}}</data-ui-select-match>
+										    <data-ui-select-choices data-repeat="urlUpdateStatusOption in tci.urlUpdateStatusOptions | filter: $select.search">
+										      {{::urlUpdateStatusOption}}
+										    </data-ui-select-choices>
+										</data-ui-select>
+									</div>
+								</div>
+							</div>
+							<div style="float: left;width:100%;padding: 0px 10px;margin: 3px 0px 5px 0px;">
+								<div style="float:left;width: 65px;">Comment : </div>
+								<div style="float:left;width: calc(100% - 65px);">
+									<textarea data-ng-model="tci.newCompanyUrlInfo.comment" 
+										rows="2" 
+										cols="40" 
+										style="resize: none;width: 100%;">
+									</textarea>
+								</div>
+							</div>
+							<div class="row" style="margin-top: 5px;">
+								<div class="col-xs-12" style="padding: 0px 10px;text-align: right;">
+									<button type="button" 
+										class="btn vdvc-form-btn-muted"
+										data-ng-click="tci.cancelAddNewUrl()" 
+										style="padding: 5px;font-size: 12px;">
+										CANCEL
+									</button>
+									<button type="button" 
+										class="btn vdvc-form-btn" 
+										data-ng-click="tci.saveNewUrl()" 
+										data-ng-disabled="tci.newCompanyUrlInfo.urlvalue == null || tci.newCompanyUrlInfo.urlvalue == '' || !tci.validURL(tci.newCompanyUrlInfo.urlvalue)" 
+										style="padding: 5px;font-size: 12px;">
+										SAVE
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="tci-url-card-view" 
+							data-ng-repeat="companyUrlsInfo in tci.selctedTickerCikInfo.companyUrls track by $index" 
+						    data-ng-class="{'selected' : tci.isUrlSelected(companyUrlsInfo)}" 
+						    data-ng-click="tci.onUlrCardSelect(companyUrlsInfo)">
+							
+							<div class="tci-url-card-row ellipsis">
+								<div class="tci-card-actions" data-ng-show="tci.showUrlCardActions()" >
+									<span class="btn" 
+										data-ng-click="tci.editCompanyUrlsInfo(companyUrlsInfo)">
+										<i class="fa fa-pencil" aria-hidden="true"></i>
+									</span>
+									<span class="btn" 
+										data-ng-click="tci.deleteCompanyUrlsInfo(companyUrlsInfo)">
+										<i class="fa fa-trash-o" aria-hidden="true"></i>
+									</span>
+								</div>
+								<div class="col-xs-12" style="width: calc(100% - 55px);padding: 0px 10px;">
+									<a class="ellipsis" 
+										data-uib-tooltip="{{companyUrlsInfo.urlvalue}}" 
+			   							data-tooltip-append-to-body="true" 
+										data-ng-click="$event.stopPropagation()" 
+										data-ng-href="{{companyUrlsInfo.urlvalue}}" 
+										target="_blank" 
+										data-ng-show="!companyUrlsInfo.edited">
+										{{companyUrlsInfo.urlvalue}}
+									</a>
+									<input type="text" 
+										class="form-control vdvc-input-txt" 
+										data-ng-show="companyUrlsInfo.edited" 
+										data-ng-model="companyUrlsInfo.urlvalue" 
+										autofocus 
+										autocomplete="off" 
+										style="height: 25px;">
+								</div>
+							</div>
+							<div class="tci-url-card-row">
+								<div class="col-xs-6 ellipsis" style="padding: 0px 10px;">
+									<div style="float:left;width: 65px;">URL Type : </div>
+									<div data-uib-tooltip="{{companyUrlsInfo.urltype}}" 
+			   							data-tooltip-append-to-body="true" 
+			   							style="float:left;width: calc(100% - 65px);">
+			   							{{companyUrlsInfo.urltype}}
+			   						</div>
+								</div>
+								<div class="col-xs-6 ellipsis" style="padding: 0px 10px 0px 0px;">
+									<div style="float:left;width: 141px;">URL Modified By Curator : </div>
+									<div data-uib-tooltip="{{companyUrlsInfo.urlUpdatedByCurator}}" 
+			   							data-tooltip-append-to-body="true" 
+			   							style="float:left;width: calc(100% - 141px);font-size: 10px;font-weight: 900;">
+										{{companyUrlsInfo.urlUpdatedByCurator}}
+									</div>
+								</div>
+							</div>
+							<div class="tci-url-card-row">
+								<div class="col-xs-6" style="padding: 0px 10px;">
+									<div style="float:left;width: 50px;">Source : </div>
+									<div class="ellipsis" data-ng-show="!companyUrlsInfo.edited" 
+										style="float:left;width: calc(100% - 50px);">
+										{{companyUrlsInfo.urlsource}}
+									</div>
+									<div data-ng-show="companyUrlsInfo.edited" 
+										style="float:left;width: calc(100% - 50px);">
+										<data-ui-select class="url-confirmed-dd" 
+											data-uib-tooltip ="{{companyUrlsInfo.urlsource}}" 
+											data-tooltip-append-to-body='true' 
+											data-ng-model="companyUrlsInfo.urlsource">
+											<data-ui-select-match >{{$select.selected}}</data-ui-select-match>
+										    <data-ui-select-choices data-repeat="urlUpdateSourceOption in tci.getUrlUpdateSourceOptions(companyUrlsInfo.urltype,$select.search) | filter: $select.search">
+										      {{urlUpdateSourceOption}}
+										    </data-ui-select-choices>
+										</data-ui-select>
+									</div>
+								</div>
+								<div class="col-xs-6" style="padding: 0px 10px 0px 0px;">
+									<div style="float:left;width: 45px;">Status : </div>
+									<div class="ellipsis" data-ng-show="!companyUrlsInfo.edited" 
+										style="float:left;width: calc(100% - 45px);">
+										{{companyUrlsInfo.urlstatus}}
+									</div>
+									<div data-ng-show="companyUrlsInfo.edited" 
+										style="float:left;width: calc(100% - 45px);">
+										<data-ui-select class="url-confirmed-dd" 
+											data-ng-model="companyUrlsInfo.urlstatus" 
+											data-ng-disabled="disabled" 
+											data-search-enabled="false">
+											<data-ui-select-match >{{$select.selected}}</data-ui-select-match>
+										    <data-ui-select-choices data-repeat="urlUpdateStatusOption in tci.urlUpdateStatusOptions | filter: $select.search">
+										      {{::urlUpdateStatusOption}}
+										    </data-ui-select-choices>
+										</data-ui-select>
+									</div>
+									
+								</div>
+							</div>
+							<div class="tci-url-card-row ellipsis">
+								<div class="col-xs-6" style="padding: 0px 10px;">Created On : {{companyUrlsInfo.createdOn | date:'dd MMM yyyy'}}</div>
+								<div class="col-xs-6" style="padding: 0px 10px 0px 0px;">Modified On : {{companyUrlsInfo.modifiedOn | date:'dd MMM yyyy'}}</div>
+							</div>
+							
+							<div class="tci-url-card-row" data-ng-show="companyUrlsInfo.comment.length > 0 && !companyUrlsInfo.edited">
+								<div class="col-xs-12" style="padding: 0px 10px;">
+									<div style="float:left;width: 63px;">Comment : </div>
+									<div class="ellipsis" data-uib-tooltip ="{{companyUrlsInfo.comment}}" 
+										data-tooltip-append-to-body='true' 
+										style="float:left;width: calc(100% - 63px);">
+										{{companyUrlsInfo.comment}}
+									</div>
+								</div>
+							</div>
+							<div style="float: left;width:100%;padding: 0px 10px;margin: 0px 0px 5px 0px;" data-ng-show="companyUrlsInfo.edited">
+								<div style="float:left;width: 63px;">
+										Comment : 
+									</div>
+								<div style="float:left;width: calc(100% - 63px);">
+									<textarea data-ng-model="companyUrlsInfo.comment" 
+										rows="2" 
+										cols="40" 
+										style="resize: none;width: 100%;">
+									</textarea>
+								</div>
+							</div>
+							
+							<div class="row" data-ng-show="companyUrlsInfo.edited">
+								<div class="col-xs-12" style="padding: 0px 10px;text-align: right;">
+									<button type="button" 
+										class="btn vdvc-form-btn-muted"
+										data-ng-click="tci.cancelUrlEdit(companyUrlsInfo)" 
+										style="padding: 5px;font-size: 12px;">
+										CANCEL
+									</button>
+									<button type="button" 
+										class="btn vdvc-form-btn" 
+										data-ng-click="tci.saveEditedUrl(companyUrlsInfo)" 
+										data-ng-disabled="companyUrlsInfo.urlvalue == null || companyUrlsInfo.urlvalue == '' || !tci.validURL(companyUrlsInfo.urlvalue)" 
+										style="padding: 5px;font-size: 12px;">
+										SAVE
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="cont full">
+			<div class="row full" data-ng-class="{'isolate': tci.isolateCont}">
+				<div class="col-xs-12 vdvc-ldr-spin-wrap" data-ng-show="tci.loader" data-ng-class="{'full': tci.loader}">
+        			<div class="vdvc-loader-spin vdvc-v-align">
+        			</div>
+        		</div>
+				<div style="position:relative">	
+					<div class="row tci-cont-nav-bar">
+						<div class="col-xs-12">
+							<div class="navbar-right">
+								<span class="btn btn-xs vdvc-nav-btn fa fa-compress" 
+									data-ng-show="!tci.showExpButton" 
+									data-ng-click="tci.compressCont()" 
+									data-uib-tooltip="Compress" 
+									data-tooltip-placement="bottom" 
+									style="padding: 4.5px 5px;" 
+									role="button">
+								</span>
+								<span class="btn btn-xs vdvc-nav-btn fa fa-expand" 
+									data-ng-show="tci.showExpButton" 
+									data-ng-click="tci.expandCont()" 
+									data-uib-tooltip="Expand" 
+									data-tooltip-placement="bottom" 
+									style="padding: 4.5px 5px;" 
+									role="button">
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row full iframe-div">
+					<iframe id="tci-iframe" 
+						data-on-frame-loaded="tci.onLoad()"
+					    width="100%" 
+					    data-ng-src="{{tci.openCompanyUrl()}}" 
+					    sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-pointer-lock" 
+					    style="max-width: 100%;border: none;min-height: 100%;height: 100%;overflow: auto;background: #fff;">
+					</iframe>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>

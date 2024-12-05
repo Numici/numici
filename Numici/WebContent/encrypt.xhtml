@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:icecore="http://www.icefaces.org/icefaces/core"
+        xmlns:ace="http://www.icefaces.org/icefaces/components"
+        xmlns:ice="http://www.icesoft.com/icefaces/component"
+    >
+    <ui:composition template="/templates/login.xhtml">
+    	<ui:define name="mainbody">
+			<h:form id="changepwd" partialSubmit="true">
+				<table cellspacing="1" cellpadding="0" valign="middle">
+					<tr><td colspan="2">Last action status:
+					<ice:outputText id="error2" value="#{wftestController.statusMsg}" rendered="#{!empty wftestController.statusMsg}"/>
+					</td></tr>
+					<tr><td colspan="2"></td></tr>
+					<tr><td>Encrypt existing passwords</td><td><ice:commandButton id="btn0" value="Submit" action="#{wftestController.encryptPasswords}"/></td></tr>
+				</table>
+			</h:form>
+	</ui:define>
+	</ui:composition>
+</html>    

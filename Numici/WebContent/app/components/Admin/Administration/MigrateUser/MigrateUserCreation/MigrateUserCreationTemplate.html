@@ -1,0 +1,53 @@
+<form data-ng-submit="mucc.ok()">
+	<div class="modal-header" style="padding: 15px;">
+		<h3 class="modal-title">Migrate User</h3>
+	</div>
+	<div class="modal-body add-app-settings-modal-body">
+		<div class="row">
+			<div class="col-xs-12" style="margin-bottom: 15px;">
+				<label for="from-organization">From Organization</label> 
+				<data-ui-select id="from-organization" 
+					data-ng-model="mucc.migrateFromOrg" 
+					data-on-select="mucc.getMigrateOrgUsersList()" 
+					data-search-enabled="false">
+					<data-ui-select-match>{{$select.selected.name}}</data-ui-select-match>
+			    	<data-ui-select-choices data-repeat="migrateFromOrg in mucc.migrateFromOrgList">
+					       <div data-ng-bind-html="migrateFromOrg.name | highlight: $select.search"></div>
+					</data-ui-select-choices>
+			    </data-ui-select>
+			</div>
+			<div class="col-xs-12" style="margin-bottom: 15px;">
+				<label for="user">User</label> 
+				<data-ui-select id="user" 
+					data-ng-model="mucc.migrateUser" 
+					data-search-enabled="false" 
+					data-ng-disabled="mucc.disableMigrateUser()">
+					<data-ui-select-match>{{mucc.getSelectedUserName($select.selected)}}</data-ui-select-match>
+			    	<data-ui-select-choices data-repeat="migrateUser in mucc.migrateUsersList">
+						<div data-ng-bind-html="mucc.getSelectedUserName(migrateUser) | highlight: $select.search"></div>
+						<small>
+				        	{{migrateUser.loginId}}
+				      	</small>
+					</data-ui-select-choices>
+			    </data-ui-select>
+			</div>
+			<div class="col-xs-12">
+				<label for="to-organization">To Organization</label> 
+				<data-ui-select id="to-organization" 
+					data-ng-model="mucc.migrateToOrg" 
+					data-search-enabled="false" 
+					data-ng-disabled="mucc.disableMigrateToOrg()">
+					<data-ui-select-match>{{$select.selected.name}}</data-ui-select-match>
+			    	<data-ui-select-choices data-repeat="migrateToOrg in mucc.migrateToOrgList">
+					       <div data-ng-bind-html="migrateToOrg.name | highlight: $select.search"></div>
+					</data-ui-select-choices>
+			    </data-ui-select>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="mucc.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit" data-ng-disabled="mucc.validateMigrateUserFields()">MIGRATE</button>
+	</div>
+</form>
+

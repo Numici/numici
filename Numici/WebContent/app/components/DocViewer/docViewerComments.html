@@ -1,0 +1,98 @@
+<div class="col-xs-3 comment-wrap" data-ng-show="showComments" style="flex-grow: 1;transition: all 0s linear;">
+	<data-uib-tabset active="activeTab.index" justified="true" class="full">
+		<data-uib-tab index=1 heading="Annotations ({{docAnnotations.length}})" classes="full">
+			<div class="col-xs-12" data-ng-show="!hasSelectedAnnotations && !isDocInInbox" style="text-align: center;padding: 2px 0px;">
+				<button type="button" 
+					class="btn vdvc-nav-btn create-new-page-btn" 
+					data-ng-click="initPagenote()" 
+					data-uib-tooltip="Create Page Note" 
+					data-tooltip-placement="bottom" 
+					style="float: none;" 
+					data-ng-disabled="pagenoteInitiated">
+					<i class="fa fa-plus fa-fw" aria-hidden="true" style="margin-right: 5px;"></i>
+					Page Note
+				</button>
+			</div>
+			<div class="col-xs-12 full" style="padding: 0px;overflow-y: auto; overflow-x: hidden;"
+				data-in-view-container>
+				<div class="comment-in-wrp full" data-ng-show="hasSelectedAnnotations">
+					<div style="text-align: center; background: #aaa; color: #000; margin: 10px 20px; box-shadow: 0px 0px 10px 2px #aaa;font-weight: 700;padding: 10px 5px;"
+						data-ng-click="ShowAllAnnotations()">Show All Annotations</div>
+					<div data-ng-if="!selectedAnnotations || selectedAnnotations.length == 0" style="padding: 40px 15px;
+					    color: #ff0018;
+					    background: #fff;
+					    text-align: center;
+					    margin: auto 3px;">
+						Annotation is not found
+					</div>
+					<div class="row"
+						data-ng-repeat="annotation in selectedAnnotations track by annotation.id">
+						<vdvc-annotation></vdvc-annotation>
+					</div>
+				</div>
+				<div class="comment-in-wrp full" data-ng-hide="hasSelectedAnnotations">
+					<div id="doc-viewer-pagenote-wrap" data-ng-include="'app/components/DocViewer/pagenote.tmpl.html'"></div>
+					<!-- data-ng-repeat="annotation in docAnnotations  | limitTo : annotLimit : annotBegin track by $index"   -->
+					
+					<div class="row"
+						data-ng-repeat="annotation in docAnnotations | limitTo : annotLimit : annotBegin track by annotation.id">
+						<vdvc-annotation></vdvc-annotation>
+					</div>
+					<div class="row"
+					     data-ng-show="docAnnotations.length > annotLimit"
+					     data-in-view="$inview&&loadMoreAnnotations($inview)"
+					     style="padding: 15px;text-align: center;font-weight: 700;">
+						<div>Loading</div>
+						<div class="vdvc-loader"></div>
+					</div>
+				</div>
+			</div>
+		</data-uib-tab> 
+		<data-uib-tab index=2 data-ng-show="docOrphanAnnotations.length > 0">
+			<data-uib-tab-heading>
+		      	<span>Orphans ({{docOrphanAnnotations.length}})</span>
+		      	<span data-ng-click="showHelp('OrphanedAnnotations')" 
+					data-uib-tooltip="{{helpTitile}}" 
+					data-tooltip-placement="bottom" 
+					style="float: right;">
+					<i class="fa fa-info-circle fa-fw" 
+						aria-hidden="true" 
+						style="color: #999 !important;cursor: pointer;">
+					</i>
+				</span>
+		    </data-uib-tab-heading>
+			<div class="full" style="overflow-y: auto; overflow-x: hidden;"
+				data-in-view-container>
+				<div class="comment-in-wrp full" data-ng-show="hasSelectedOrphanAnnotations">
+					<div
+						style="text-align: center; background: #aaa; color: #000; margin: 10px 20px; box-shadow: 0px 0px 10px 2px #aaa;font-weight: 700;padding: 10px 5px;"
+						data-ng-click="ShowAllAnnotations()">Show All Annotations</div>
+					<div data-ng-if="!selectedOrphanAnnotations || selectedOrphanAnnotations.length == 0" style="padding: 40px 15px;
+					    color: #ff0018;
+					    background: #fff;
+					    text-align: center;
+					    margin: auto 3px;">
+						Annotation is not found
+					</div>
+					<div class="row"
+						data-ng-repeat="annotation in selectedOrphanAnnotations track by annotation.id">
+						<vdvc-annotation></vdvc-annotation>
+					</div>
+				</div>
+				<div class="comment-in-wrp full" data-ng-hide="hasSelectedOrphanAnnotations">
+					<div class="row"
+						data-ng-repeat="annotation in docOrphanAnnotations  | limitTo : orphanAnnotLimit track by annotation.id">
+						<vdvc-annotation></vdvc-annotation>
+					</div>
+					<div class="row"
+					     data-ng-show ="docOrphanAnnotations.length > orphanAnnotLimit"
+					     data-in-view="$inview&&loadMoreAnnotations($inview)"
+					     style="padding: 15px;text-align: center;font-weight: 700;">
+						<div>Loading</div>
+						<div class="vdvc-loader"></div>
+					</div>
+				</div>
+			</div>
+		</data-uib-tab> 
+	</data-uib-tabset>
+</div>

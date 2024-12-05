@@ -1,0 +1,54 @@
+<div class="full">
+	<div class="row navbar-fixed-top second-navbar second-navbar-top" >
+	 <div class="col-xs-12" style="padding-left: 30px;padding-right: 30px;">
+		<div class="row" style="border-bottom: 1px solid #ddd;height: 43px;">
+			<div class="col-xs-9" style="overflow: hidden;height: 50px;padding-left: 0px;"> 
+				<ul class="nav nav-tabs">
+					<li data-ng-class="[{active: active, disabled: disabled}]" class="nav-item " data-ng-repeat="tab in vm.taskSpaces | orderBy : 'orderNumber'" data-ng-click="vm.setActivateTaskSpace($event,tab)" role="button">
+					  <span class="nav-link task" role="button" tabindex="0">
+					  	<span class="task-hdr ng-binding">{{tab.name}}</span>
+					  	<span data-ng-controller="TaskSpaceNavController as vm">
+					  		<span class="fa-stack" data-ng-click="vm.TaskSpaceAction($event,'chageLayout')" role="button" tabindex="0">
+						      <i class="fa fa-columns task-actions"></i>
+						      <i class="fa-stack-text" style="font-size: 10px;">1</i>
+						    </span>
+					  		<span class="fa fa-table task-actions" aria-hidden="true" data-ng-click="vm.TaskSpaceAction($event,'chageLayout')" role="button" tabindex="0"></span>
+						  	<span class="fa fa-share-alt task-actions" aria-hidden="true" data-ng-click="vm.TaskSpaceAction($event,'shareTS')" role="button" tabindex="0"></span>
+						  	<span class="fa fa fa-times task-actions" aria-hidden="true" data-ng-click="vm.TaskSpaceAction($event,'close')" role="button" tabindex="0"></span>
+					  	</span>
+					  </span>
+				</ul>
+			</div>
+			<div class="col-xs-3" style="padding-top: 10px;padding-bottom: 10px;height: 50px;">
+				<div class="nav navbar-nav navbar-right nav-actions " data-ng-controller="TaskSpaceNavController as vm">
+						<button  type="button" 
+					      		   class="vdvc-nav-btn btn btn-sm" 
+					      		   data-ng-click="switchView()"
+					      		   style="" >
+					       	<i class="fa fa-comment-o"></i>
+					      </button>
+					      <button  type="button" 
+					      		   class="vdvc-nav-btn btn btn-sm" 
+					      		   data-ng-click="vm.TaskSpaceAction($event,'newTaskSpace')"
+					      		   style="" >
+					       	NEW TASKSPACE
+					      </button>
+					      <button  type="button" 
+					      		   class="btn vdvc-nav-btn btn-sm" 
+					      		   data-ng-click="vm.TaskSpaceAction($event,'manageTaskSpace')"
+					      		   style="border: none;padding: 2px;" >
+					       	<i class="fa fa-cog fa-2x"></i>
+					      </button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="tab-content col-xs-12 full" data-search-list-height>
+	   <div class="tab-pane full"
+	        data-ng-repeat="tab in tabset.tabs"
+	        data-ng-class="{active: tabset.active === tab.index}"
+	        data-uib-tab-content-transclude="tab">
+	   </div>
+</div>
+</div>

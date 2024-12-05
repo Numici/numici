@@ -1,0 +1,97 @@
+<div class="row" >
+		<div class=" navbar-fixed-top second-navbar" style="top:58px;background-color: #EEEEEE;padding: 0px;">
+			<div class="col-xs-8" style="padding-left: 30px;width: calc(100% - 275px);height: 50px;line-height: 50px;">
+				<div class="doc-path" style="font-size: 25px; color: rgba(51, 51, 51, 0.74);">
+					<!-- <span style="margin-right: 10px;float:left;"> DOCUMENTS> </span>  -->
+					<div data-ng-if="!userinfo.isGuestUser" data-ng-include="'app/components/Documents/DocHierarchyTemplate.html'"></div>
+				</div>
+			</div>
+			<div class="col-xs-4" 
+				style="width: 275px;padding: 0px;height: 50px;line-height: 50px;padding-right: 30px;">
+				    
+				<div data-ng-if="!userinfo.isGuestUser" class=" navbar-right" style="margin-right: 0px;">
+					
+					<a class="web-clip-source-url ellipsis" 
+					   data-ng-href="{{::doc.sourceUrl}}"
+					   target="_blank"
+					   data-uib-tooltip="{{::doc.sourceUrl}}" 
+					   data-tooltip-append-to-body="true" 
+					   data-tooltip-placement="left">
+					   	{{::doc.sourceHost}}
+					</a>
+					
+					<!-- <button type="button" 
+					        class="btn vdvc-nav-btn vdvc-doc-main-btn"
+							data-ng-show="DownloadBtn.show"  
+							data-ng-click='downLoad()' 
+							data-uib-tooltip="Download" 
+							data-tooltip-append-to-body="true" 
+							data-tooltip-placement="bottom" 
+							data-ng-disabled="!DownloadBtn.isEnabled">
+			       		<span class="fa fa-download fa-fw"></span>
+			      	</button> -->
+			      	
+			      	<button type="button"
+			      			data-ng-if="showShareBtn(doc)"  
+			      			class="btn vdvc-nav-btn vdvc-doc-main-btn"
+			      			data-ng-click="OpenShareDocModal()" 
+							data-uib-tooltip="Invite" 
+							data-tooltip-append-to-body="true" 
+							data-tooltip-placement="bottom">
+			       		<span class="fa fa-users fa-fw" ></span>
+			       	</button>
+			      	
+			      	<button type="button" 
+							class="btn vdvc-nav-btn vdvc-doc-main-btn close-doc-btn"
+							data-ng-click='closeDocument(doc)' 
+							data-uib-tooltip="Close" 
+							data-tooltip-append-to-body="true" 
+							data-tooltip-placement="bottom">
+			       		<span class="fa fa-remove fa-fw"></span>
+			       	</button>
+				
+					<!-- <ul class="nav navbar-nav side-nav icon-nav" style='margin: 0px;'>
+						<li>
+							<a class="web-clip-source-url ellipsis" 
+							   data-ng-href="{{::doc.sourceUrl}}"
+							   target="_blank"
+							   data-uib-tooltip="{{::doc.sourceUrl}}" 
+							   data-tooltip-append-to-body="true" 
+							   data-tooltip-placement="left">
+							   	{{::doc.sourceHost}}
+							</a>
+						</li>
+						<li data-md-ink-ripple="#fff" data-ng-if="DownloadBtn.show">
+							<span class="vdvc-menu-tool fa fa-download fa-fw" 
+								data-ng-click='DownloadBtn.isEnabled && downLoad()' 
+								data-uib-tooltip="Download" 
+								data-tooltip-append-to-body="true" 
+								data-tooltip-placement="bottom" 
+								style="width: 40px;height: 40px;">
+							</span>
+						</li>
+						<li data-ng-if="showShareBtn(doc)" 
+							data-md-ink-ripple="#fff">
+							<span class="vdvc-menu-tool fa fa-users fa-fw" 
+								data-ng-click="OpenShareDocModal()" 
+								data-uib-tooltip="Invite" 
+								data-tooltip-append-to-body="true" 
+								data-tooltip-placement="bottom" 
+								style="width: 40px;height: 40px;">
+							</span>
+						</li>
+						<li data-md-ink-ripple="#fff">
+							<span class="vdvc-menu-tool fa fa-remove fa-fw" 
+								data-ng-click='closeDocument(doc)' 
+								data-uib-tooltip="Close" 
+								data-tooltip-append-to-body="true" 
+								data-tooltip-placement="bottom" 
+								style="width: 40px;height: 40px;">
+							</span>
+						</li>
+					</ul> -->	
+			 	</div>
+			 </div>
+			 
+		</div>
+	</div>

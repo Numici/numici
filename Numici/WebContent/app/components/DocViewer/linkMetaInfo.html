@@ -1,0 +1,44 @@
+<div class="lnk-meta-info" data-ng-attr-id="{{ 'lnk-meta-info-'+ viewerId }}">
+	 
+	<div style="position: relative;top:35px;" data-ng-show="linkCrdInfo.showLoader">
+		<div class="vdvc-loader"></div>
+	</div>
+	<div style="position: absolute;top:35px;" data-ng-show="linkCrdInfo.showError">
+		<div style="color: #a94442;">{{linkCrdInfo.errorMsg}}</div>
+	</div>
+	<div data-ng-show="!linkCrdInfo.showLoader">
+		<div class="action-bar" data-ng-show="isDocOnEditMode()">
+			<div class="action btn btn-sm fa fa-chain-broken" data-ng-click="Unlink()"></div>
+		</div>
+		
+		<div class="row">{{linkCrdInfo.linkType}}</div>
+		<div class="row" data-ng-if="linkCrdInfo.showTitle == false">
+			<div class="ellipsis" data-uib-tooltip="{{linkCrdInfo.text.length > 0 ? linkCrdInfo.text : linkCrdInfo.url}}" >
+				<a class="deep-link" data-ng-href="{{linkCrdInfo.url}}" data-ng-attr-target="{{linkCrdInfo.target}}">
+			      {{linkCrdInfo.text.length > 0 ? linkCrdInfo.text : linkCrdInfo.url}}
+			    </a>
+			</div>
+		</div>
+		
+		<div class="row" data-ng-if="linkCrdInfo.showTitle == true">
+			<div class="ellipsis" data-uib-tooltip="{{linkCrdInfo.metaInfo.title}}" >
+				<a class="deep-link" data-ng-href="{{linkCrdInfo.url}}" data-ng-attr-target="{{linkCrdInfo.target}}" >
+			      {{linkCrdInfo.metaInfo.title}}
+			    </a>
+			</div>
+		</div>
+		<div class="row" data-ng-show="linkCrdInfo.metaInfo.description">
+			<div data-uib-tooltip="{{linkCrdInfo.metaInfo.description}}" >{{linkCrdInfo.metaInfo.description}}</div>
+		</div>
+		<div class="row" data-ng-show="linkCrdInfo.metaInfo.imageUrl">
+			<div>
+				<img data-ng-src="{{linkCrdInfo.metaInfo.imageUrl}}"  
+					 data-ng-attr-height="{{linkCrdInfo.metaInfo.ih}}" 
+					 data-ng-attr-width="{{linkCrdInfo.metaInfo.iw}}"
+					 style="max-width: 350px;max-height: 250px;">
+			</div>
+		</div>
+	</div>
+	
+	
+</div>

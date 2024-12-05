@@ -1,0 +1,100 @@
+<form data-ng-submit="saveSrchObj.saveCriteria()">
+	<div class="modal-header" >
+		<h3 class="modal-title">{{saveSrchObj.modalTitle}}</h3>
+	</div>
+	<div class="modal-body">
+		<div class='row'>
+			<div data-ng-show="userinfo.isSiteAdmin" 
+				class ="col-xs-12 checkbox col-top-mrgn-5 ss-dd-ele-smart-srch">
+				<input type="checkbox" data-ng-model="saveSrchObj.systemSearch">
+				<label class="cs-lbl">Smart Search</label>
+			</div>
+			<div class="col-xs-12 ss-dd-ele-cate">
+				<label class="cs-lbl"> Category </label>
+				<data-ui-select data-multiple
+					data-limit=1 
+					data-tagging
+					data-ng-model="saveSrchObj.group" 
+					data-tagging-label="(New Category)" 
+					data-ng-disabled="disabled" 
+					data-autofocus=true>
+					<data-ui-select-match >{{$item}}</data-ui-select-match>
+				    <data-ui-select-choices data-repeat="group in saveSrchObj.allGroups | filter:$select.search track by $index">
+				       {{group}}
+				    </data-ui-select-choices>
+				</data-ui-select>
+			</div>
+			<div class="col-xs-12 ss-dd-ele-scn">
+				<label class="cs-lbl" for="searchCriteria">Search Criteria Name</label>
+				<input type="text" 
+					id="searchCriteria" 
+					data-ng-model="saveSrchObj.criteriaName" 
+					data-focus-on="true" class='vdvc-input-txt'
+					data-ng-enter='saveSrchObj.saveCriteria($event)'>
+			</div>
+			<div class="col-xs-12">
+				<label class="col-xs-6" 
+					for="searchActions" 
+					style="padding: 0px;height: 34px;line-height: 34px;">Actions</label>
+				<div class="col-xs-6" 
+					style="padding: 0px;">
+					<button type="button" 
+						class='btn vdvc-form-btn' 
+						data-ng-click='saveSrchObj.addNewActions()' 
+						style="float:right;">
+						NEW
+					</button>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="ss-actions-list">
+					<div class="col-xs-12 ss-selected-action" 
+						data-ng-if="action.type == 'notify'" 
+						data-ng-repeat="action in saveSrchObj.selectedPostActions">
+						<div class="ss-selected-action-text ellipsis" 
+							data-uib-tooltip="{{saveSrchObj.getActionLabel(action)}}" 
+							data-tooltip-append-to-body="true">
+							{{saveSrchObj.getActionLabel(action)}}
+						</div>
+						<div class="ss-selected-action-remove" 
+							data-ng-click="saveSrchObj.removeSelectedAction(action)" 
+							role="button">
+							<i class="fa fa-times"></i>
+						</div>
+					</div>
+					<div class="col-xs-12" 
+						data-ng-if="action.type == 'addToTaskspace'" 
+						data-ng-repeat="action in saveSrchObj.selectedPostActions" 
+						style="padding: 0px;">
+						<div class="col-xs-12 ss-selected-action" 
+							data-ng-repeat="taskspace in action.taskspaces">
+							<div class="ss-selected-action-text ellipsis" 
+								data-ng-dblclick="saveSrchObj.editTaskspaceAction(action,taskspace)" 	
+								data-uib-tooltip="{{saveSrchObj.getActionLabel(action,taskspace)}}" 
+								data-tooltip-append-to-body="true">
+								{{saveSrchObj.getActionLabel(action,taskspace)}}
+							</div>
+							<div class="ss-selected-action-remove" 
+								data-ng-click="saveSrchObj.removeSelectedAction(action,taskspace)" 
+								role="button">
+								<i class="fa fa-times"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" 
+			class='btn vdvc-form-btn vdvc-form-btn-muted' 
+			data-ng-click='saveSrchObj.cancel()'>
+			CANCEL
+		</button>
+		<button type="submit" 
+			class='btn vdvc-form-btn' 
+			data-ng-disabled="saveSrchObj.enableSaveSearch(saveSrchObj.criteriaName)">
+			SAVE
+		</button>
+	</div>
+</form>

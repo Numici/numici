@@ -1,0 +1,249 @@
+<div class="container-fluid full">
+	<div style="height: 110px"></div>
+	<div class="col-xs-12" style="min-height: calc(100% - 110px);">
+	
+		 <div class="navbar-fixed-top second-navbar second-navbar-top dl-main-navbar">
+			<div class="col-xs-8 dlmn-l" style="font-size: 20px; color: rgba(51, 51, 51, 0.74);">
+				<!-- Slack Settings - <i class="fa slack-logo"></i> <i style="font-style: italic;">{{scc.config.teamName}}</i> -->
+				Slack - Numici Integration Settings
+			</div>	
+			<div class="col-xs-4 dlmn-r">
+				<button type="button" 
+		      		    class="btn vdvc-nav-btn vdvc-doc-main-btn"
+		      		    data-ng-click="scc.manageSlackWorkspaces()"
+		      		    data-tooltip-append-to-body="true"
+		      		    data-tooltip-placement="bottom"
+		      		    data-uib-tooltip="Close"> 
+		       		<i class="fa fa-times fa-fw"></i>
+		      	</button>
+			</div>	
+		 </div>
+		 <div class="col-xs-12 full" style="background: #fff;">
+			<div class="col-sm-12 col-lg-12 col-xs-12" style="margin: 20px auto;">
+			 	<div class="row">
+			        <div class="col-xs-2 ellipsis" 
+			        	data-tooltip-append-to-body="true" 
+	 					data-tooltip-placement="auto" 
+	 					data-uib-tooltip="{{::scc.config.slackUserName}}" 
+	 					style="padding : 0px;">
+	 					<label class="col-xs-12" style="padding : 0px;">Slack workspace</label>
+		            	<div class="col-xs-12" class="slack-workspace" style="padding : 0px;">{{::scc.config.teamName}}</div>
+		            </div>
+		            <div class="col-xs-2 ellipsis" 
+		            	data-tooltip-append-to-body="true" 
+	 					data-tooltip-placement="auto" 
+	 					data-uib-tooltip="{{::scc.showUserName()}}" 
+	 					style="padding : 0px;">
+	 					<label class="col-xs-12">Slack user name</label>
+		            	<div class="col-xs-12" class="slack-user-name">{{::scc.showUserName()}}</div>
+		            </div>
+		            <div class="col-xs-3 ellipsis" 
+		            	data-tooltip-append-to-body="true" 
+	 					data-tooltip-placement="auto" 
+	 					data-uib-tooltip="{{::scc.config.slackUserEMail}}" 
+	 					style="padding : 0px;">
+	 					<label class="col-xs-12">Slack user email</label>
+		            	<div class="col-xs-12" class="slack-user-email">{{::scc.config.slackUserEMail}}</div>
+		            </div>
+		            <div class="col-xs-3 ellipsis" 
+		            	data-tooltip-append-to-body="true" 
+	 					data-tooltip-placement="auto" 
+	 					data-uib-tooltip="{{::scc.config.userId}}" 
+	 					style="padding : 0px;">
+	 					<label class="col-xs-12">Numici login id</label>
+		            	<div class="col-xs-12" class="numici-user-id">{{::scc.config.userId}}</div>
+		            </div>
+		            <div class="col-xs-2" 
+		            	data-tooltip-append-to-body="true" 
+	 					data-tooltip-placement="auto" 
+	 					data-uib-tooltip="Direct Message Settings" 
+	 					style="padding : 0px;">
+	 					<label class="col-xs-12"></label>
+	 					<div class="col-xs-12" style="padding : 0px;">
+			            	<a data-ng-click="scc.toggleDirectMessageSettings()" 
+	 							style="cursor: pointer;text-decoration: none;">
+	 							<span>Direct Message Settings</span>
+	 							<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-class="{'fa-caret-up' : scc.showDirectMessageSettings, 'fa-caret-down': !scc.showDirectMessageSettings}">
+									</i>
+								</span>
+	 						</a>
+ 						</div>
+		            </div>
+	            </div>
+			 	<div class="row" data-ng-show="scc.dmConfigView && scc.showDirectMessageSettings" style="position: relative;">
+			 		<div class="col-xs-12">
+				 		<div class="row">
+					 		<div class="col-xs-12" style="margin: 20px auto;">
+					 			<div class ="col-xs-12 col-sm-12 col-md-6" 
+						 			 data-ng-repeat="config in scc.dmConfigView">
+						 			 <div class ="checkbox col-top-mrgn-5" >
+										<input type="checkbox" 
+											data-ng-model="scc.config.dmConfig[config.field]" 
+											data-ng-change="scc.onDmConfigChanged(config)">
+										<label>{{::config.label}}</label>
+									</div>
+								</div>
+					 		</div>
+					 	</div>
+					 	<button type="button" class="btn vdvc-form-btn pull-left" 
+					 			data-ng-disabled="scc.disableDmConfigSave" 
+					 			data-ng-click="scc.saveDmConfig()">
+					 		SAVE
+					 	</button>
+				 	</div>
+			 	</div>
+				<div class="row" style="margin: 15px 0px;height: 1px;border-bottom: 1px solid #ddd;"></div>
+				<div class="row" data-ng-show="scc.tsConfigView">
+			 		<div class="row" style="height: 30px;font-size: 18px;color: #069;line-height: 30px;">
+				 		Check events for which you want to receive Taskspace related events to the Channel
+				 	</div>
+				 	<div class="row" style="height: 40px;line-height: 40px;border-bottom: 2px solid #069;font-size: 16px;">
+		 				<div class="col-xs-12" 
+		 					 data-ng-repeat="hdr in scc.channelConfigHeaders" 
+		 					 data-ng-class="hdr.class" 
+		 					 data-ng-click="scc.sortByField(hdr)" 
+		 					 style="position: relative;" 
+		 					 data-tooltip-append-to-body="true" 
+				 			 data-tooltip-placement="auto" 
+				 			 data-uib-tooltip="{{::hdr.label}}">
+		 					<span class="ellipsis" style="position: absolute;left: 0;right: 0;">
+		 						{{::hdr.label}}
+		 					</span>
+		 					<span class="lv-sort-icon-wrap">
+								<i class="fa fa-fw" 
+									data-ng-show="hdr.value == scc.channelConfigField" 
+									data-ng-class="{'fa-caret-up' : !scc.channelConfigFieldDecending, 'fa-caret-down': scc.channelConfigFieldDecending}">
+								</i>
+							</span>
+		 				</div>
+		 				<div class="col-xs-12 col-sm-2" style="position: relative;">
+		 				</div>
+		 			</div>
+				 	<div class="row">
+				 		<div class="row" 
+				 			 data-ng-repeat="slackChannelConfig in scc.slackChannelConfigs"
+				 			 data-scroll-to-bookmark="{{slackChannelConfig.taskspaceId}}">
+				 			<div class="row" style="height: 42px;line-height: 40px;border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">
+				 				<div class="col-xs-12 col-sm-3" 
+				 					 style="position: relative;"
+				 					 data-tooltip-append-to-body="true" 
+				 					 data-tooltip-placement="auto" 
+				 					 data-uib-tooltip="{{slackChannelConfig.channelName}}">
+				 					<span class="ellipsis" style="position: absolute;left: 0;right: 0;">
+				 						 <span class="slack-logo" style="position: relative;">
+					 					  	 <i class="fa fa-lock" data-ng-if="slackChannelConfig.channelType == 'G'" 
+					 					  	    style="position: absolute;right: 3px;bottom: 0px;transform: scale(0.7);color: #069;">
+								 			</i> 
+								 		 </span>
+				 						{{slackChannelConfig.channelName}}
+				 					</span>
+				 				</div>
+				 				<div data-ng-if="!slackChannelConfig.isConfiguredWithTS" 
+				 					 class="col-xs-12 col-sm-4" 
+				 					 style="position: relative;"
+				 					 data-tooltip-append-to-body="true" 
+				 					 data-tooltip-placement="auto" 
+				 					 data-uib-tooltip="Connect">
+				 					<span class="ellipsis" style="position: absolute;left: 0;right: 0;">
+				 						<a data-ng-click="scc.openConfiguredWithTSModal(slackChannelConfig)" 
+				 							style="cursor: pointer;text-decoration: none;">
+				 							Connect
+				 						</a>
+				 					</span>
+				 				</div>
+				 				<div data-ng-if="slackChannelConfig.isConfiguredWithTS" 
+				 					 class="col-xs-12 col-sm-4" 
+				 					 style="position: relative;"
+				 					 data-tooltip-append-to-body="true" 
+				 					 data-tooltip-placement="auto" 
+				 					 data-uib-tooltip="{{slackChannelConfig.taskspaceName}}">
+				 					<span class="ellipsis" style="position: absolute;left: 0;right: 0;">
+				 						<a data-ui-sref="taskspace.list.task({tsId : slackChannelConfig.taskspaceId,tsc : slackChannelConfig.clientId})" 
+				 							style="text-decoration: none;">
+				 							{{slackChannelConfig.taskspaceName}}
+				 						</a>
+				 					</span>
+				 				</div>
+				 				<div class="col-xs-12 col-sm-3" 
+				 					style="position: relative;" 
+				 					data-tooltip-append-to-body="true" 
+		      		    			data-tooltip-placement="auto" 
+		      		    			data-uib-tooltip="{{slackChannelConfig.taskspaceOwner}}">
+		      		    			<span class="ellipsis" style="position: absolute;left: 0;right: 0;">
+				 						{{slackChannelConfig.taskspaceOwner}}
+				 					</span>
+				 				</div>
+				 				<div class="col-xs-12 col-sm-2">
+				 					<div class="row pull-right">
+				 						<button type="button" class="btn vdvc-form-btn" 
+				 								data-ng-if="scc.hasEditPermOnTs(slackChannelConfig)" 
+									 			data-ng-click="scc.editTsConfig(slackChannelConfig)"
+									 			data-ng-show="!scc.tsConfigObj[slackChannelConfig.channelId]" 
+									 			data-tooltip-append-to-body="true"
+		      		    						data-tooltip-placement="auto"
+		      		    						data-uib-tooltip="Edit" 
+		      		    						data-ng-disabled="scc.disableTsConfigEditBtn(slackChannelConfig)">
+									 		<i class="fa fa-pencil fa-fw"></i>
+									 	</button>
+									 	<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted vdvc-slack-ts-delete-btn" 
+			 								data-ng-if="scc.hasEditPermOnTs(slackChannelConfig)" 
+								 			data-ng-click="scc.deleteSlackTSConfig(slackChannelConfig)"
+								 			data-ng-show="!scc.tsConfigObj[slackChannelConfig.channelId]" 
+								 			data-tooltip-append-to-body="true"
+		      		    					data-tooltip-placement="auto"
+		      		    					data-uib-tooltip="Disconnect">
+									 		<i class="fa fa-trash fa-fw"></i>
+									 	</button>
+									 	<button type="button" class="btn vdvc-form-btn" 
+								 			data-ng-if="!scc.hasEditPermOnTs(slackChannelConfig) && slackChannelConfig.isConfiguredWithTS" 
+								 			data-ng-click="scc.viewTsConfig(slackChannelConfig)"
+								 			data-ng-show="!scc.tsConfigObj[slackChannelConfig.channelId]" 
+								 			data-tooltip-append-to-body="true"
+	      		    						data-tooltip-placement="auto" 
+		      		    					data-uib-tooltip="Show" 
+		      		    					data-ng-disabled="scc.disableTsConfigShowBtn(slackChannelConfig)">
+									 		<i class="fa fa-eye fa-fw"></i>
+									 	</button>
+									 	<button type="button" class="btn vdvc-form-btn" 
+								 			data-ng-if="scc.hasEditPermOnTs(slackChannelConfig)" 
+								 			data-ng-click="scc.saveTsConfig(slackChannelConfig)"
+								 			data-ng-show="scc.tsConfigObj[slackChannelConfig.channelId]" 
+								 			data-tooltip-append-to-body="true"
+		      		    					data-tooltip-placement="auto"
+		      		    					data-uib-tooltip="Save" 
+		      		    					data-ng-disabled="scc.disableTsConfigSaveBtn(slackChannelConfig)">
+									 		<i class="fa fa-floppy-o fa-fw"></i>
+									 	</button>
+									 	<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted vdvc-slack-ts-close-btn" 
+								 			data-ng-click="scc.cncelSaveTsConfig(slackChannelConfig)"
+								 			data-ng-show="scc.tsConfigObj[slackChannelConfig.channelId]"
+								 			data-tooltip-append-to-body="true"
+		      		    					data-tooltip-placement="auto"
+		      		    					data-uib-tooltip="Close">
+									 		<i class="fa fa-fw fa-times"></i>
+									 	</button>
+				 					</div>
+				 				</div>
+				 			</div>
+				 			<div class="row" data-ng-show="scc.tsConfigObj[slackChannelConfig.channelId]">
+				 				<div class="col-xs-12" style="margin: 20px auto;">
+						 			<div class ="col-xs-12 col-sm-12 col-md-6" 
+							 			 data-ng-repeat="config in scc.tsConfigView">
+							 			 <div class ="checkbox col-top-mrgn-5" >
+											<input type="checkbox" 
+												data-ng-model="slackChannelConfig[config.field]" 
+												data-ng-disabled="!scc.hasEditPermOnTs(slackChannelConfig)">
+											<label>{{::config.label}}</label>
+										</div>
+									</div>
+				 				</div>
+				 			</div>
+				 		</div>
+				 	</div>
+			 	</div>
+			</div>
+		</div>
+	</div>
+</div>

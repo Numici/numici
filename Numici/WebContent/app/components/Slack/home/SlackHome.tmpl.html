@@ -1,0 +1,113 @@
+<div class="container-fluid full">
+	<div class="row" style="position: relative;
+    top: 40px;
+    background: #fff;
+    box-shadow: 1px 5px 10px 5px #aaa;
+    margin: 15px;">
+		<!-- <div class="row" style="width: 70%;
+		    height: 300px;
+		    background: #fff;
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%,-50%);
+		    text-align: center;
+		    font-size: 18px;">
+			<div style="position: fixed;
+			    width: 100%;
+			    top: 50%;
+			    left: 0px;
+			    transform: translate(0%,-50%);">
+			    <div>{{shc.error}}</div>
+			    <div data-ng-if="shc.showLoginUrl" style="word-break: break-all;">
+			    	To Go To Login Page - <a data-ui-sref="login">click here</a>
+			    </div>
+			</div>
+		</div> -->
+		
+		
+		<div class="row alert alert-danger" data-ng-if="shc.showError" style="max-width: 1020px;margin: 30px auto;border-radius: 0px;text-align: center;">
+			<div style="font-size: 16px;">
+			 {{shc.error}}
+			</div>
+		</div>
+				
+		<div class="col-xs-12" style="display: flex;padding: 15px;">
+			<div class="col-xs-6">
+				<div class="row"  style="height: 450px;">
+					<div class="full" style="background-image: url('app/assets/images/analyst.jpg');background-size: 100% 100%;background-repeat: no-repeat;box-shadow: 5px 5px 10px 0px #000;border: 1px solid #fff;"></div>
+				</div>
+			</div>
+			<div class="col-xs-6" style="margin: auto;">
+				<div class="row" style="width:100%;margin-bottom: 30px;">
+					<p>Integrate Numici with Slack</p>
+				    <p>Highlight, annotate and converse in context in web pages and PDF documents.</p>
+				</div>
+				<div class="row" style="width:100%;">
+					<button type="button" class="btn vdvc-form-btn" data-ng-click="shc.addSlack($event)" style="font-size: 20px;border: 1px solid #fff;">
+				 		<i class="slack-logo"></i>  Add Slack
+				 	</button>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12" style="display: flex;padding: 15px;background-color: #eee;">
+			<div class="col-xs-6" style="margin: auto;">
+				<div class="row" style="font-size: 16px;color:#000;">
+				    <p>Numici offers Taskspace, essentially a workspace for the relevant documents for a specific task at hand, for example, writing a research report. As you read any document in Numici, you can highlight key information, take notes, and add tags for future discovery. You can Collaborate in Context - engage in conversations with your team around highlights and annotations.</p>
+					<p>With Slack integration turned on, the conversations and threads are transparently posted to the appropriate Slack channel, enabling an individual or a team to use standard Slack app to stay on top on conversations within Numici.</p>
+					<p>With Slack integration, the conversations and threads in numici are transparently posted to the appropriate Slack channel, enabling an individual or a team to use standard Slack app to stay on top on conversations within Numici.</p>
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="row" style="height: 450px;">
+					<div class="full" style="background-image: url('app/assets/images/Slack-taskspace.png');background-size: 100% 100%;background-repeat: no-repeat;box-shadow: 5px 5px 10px 0px #000;border: 1px solid #fff;"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12" style="display: flex;padding: 15px;">
+			<div class="col-xs-6">
+				<div class="row"  style="height: 450px;">
+					<div class="full" style="background-image: url('app/assets/images/searchOrFind.jpg');background-size: 100% 100%;background-repeat: no-repeat;box-shadow: 5px 5px 10px 0px #000;border: 1px solid #fff;"></div>
+				</div>
+			</div>
+			<div class="col-xs-6" style="margin: auto;">
+				<div class="row"  style="font-size: 16px;color:#000;">
+					<p>Search and open SEC filings for Twitter (ticker: TWTR) with numici</p>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="row" style="height: 450px;background-size: 100% 100%;background-repeat: no-repeat;max-width: 1020px;margin: 30px auto;background-image: url('app/assets/images/analyst.jpg');box-shadow: 5px 5px 10px 0px #000;border: 1px solid #fff;">
+			<div class="row full" style="text-align: center;position: relative;">
+				<div class="row" style="color: #fff;position: absolute;width:100%;top: 30px;">
+					<h3>Integrate Numici with Slack</h3>
+				    <h3>Highlight, annotate and converse in context in web pages and PDF documents.</h3>
+				</div>
+				<div class="row" style="position: absolute;width:100%;bottom: 50px;">
+					<button type="button" class="btn vdvc-form-btn" data-ng-click="shc.addSlack($event)" style="font-size: 20px;border: 1px solid #fff;">
+				 		<i class="fa slack-logo fa-fw"></i>  Add Slack
+				 	</button>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="max-width: 1020px;margin: 30px auto;">
+			<div class="row" style="font-size: 16px;color:#000;">
+			    <p>Numici offers Taskspace, essentially a workspace for the relevant documents for a specific task at hand, for example, writing a research report. As you read any document in Numici, you can highlight key information, take notes, and add tags for future discovery. You can Collaborate in Context - engage in conversations with your team around highlights and annotations.</p>
+				<p>With Slack integration turned on, the conversations and threads are transparently posted to the appropriate Slack channel, enabling an individual or a team to use standard Slack app to stay on top on conversations within Numici.</p>
+			</div>
+			<div class="row" style="height: 450px;margin: 30px auto;">
+				<div class="full" style="background-image: url('app/assets/images/Slack-taskspace.png');background-size: 100% 100%;background-repeat: no-repeat;box-shadow: 5px 5px 10px 0px #000;border: 1px solid #fff;"></div>
+			</div>
+			<div class="row"  style="font-size: 16px;color:#000;">
+				<p>With Slack integration, the conversations and threads in numici are transparently posted to the appropriate Slack channel, enabling an individual or a team to use standard Slack app to stay on top on conversations within Numici.</p>
+			</div>
+		</div>
+		<div class="row" style="max-width: 1020px;margin: 30px auto;">
+			<div class="row"  style="height: 450px;margin: 30px auto;">
+				<div class="full" style="background-image: url('app/assets/images/searchOrFind.jpg');background-size: 100% 100%;background-repeat: no-repeat;box-shadow: 5px 5px 10px 0px #000;border: 1px solid #fff;"></div>
+			</div>
+			<div class="row"  style="font-size: 16px;color:#000;">
+				<p>Search and open SEC filings for Twitter (ticker: TWTR) with numici</p>
+			</div>
+		</div> -->
+	</div>
+</div>

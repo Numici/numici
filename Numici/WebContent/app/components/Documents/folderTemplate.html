@@ -1,0 +1,75 @@
+<div class="min-crd-view" 
+	data-ng-class="{'item-selected' : folder.selected}"
+	data-uib-popover-template="linkUIProperties.templateUrl"
+	data-popover-is-open="folder.showLink"
+	data-popover-placement="auto bottom"
+	data-popover-trigger="linkUIProperties.trigger"
+	data-popover-class="docLinkInfo">
+	<span class="vdvc-folder-sync" 
+	 	data-ng-click="folder.isOwner && syncFolder(folder)"
+	 	data-ng-if="folder.isOwner && folder.isSyncedWithEvernote" 
+	 	data-tooltip-append-to-body='true' 
+	 	data-uib-tooltip ="Sync with Evernote Notebook">
+		<i class="fa fa-refresh" data-ng-class="{'owner' : folder.isOwner}"></i>
+    </span>
+	<div class="row" >
+		<div class="checkbox  checkbox-circle crd-checkbox" 
+			 data-ng-class="{'checkbox-primary' : folder.selected}"
+			 data-ng-show="showGridCheckbox()">
+	       <input data-ng-class="{'first-folder-checkbox' : $first}" data-ng-model="folder.selected" type="checkbox" data-ng-change="checkFolderOrFile(folder)">
+	       <label></label>
+	    </div>
+	    
+	    <span data-ng-if="folder.indexDocs == 'Yes' || folder.indexDocs == 'yes'"
+	          style="position: absolute;bottom: 20px;right: 50px;color: #069;">
+	      <i class="fa fa-list-ol fa-fw"></i>
+	    </span>
+    </div>
+    <span class="doc-link btn" 
+     	   data-ng-show="folder.isSharable" 
+     	   data-ng-class="{'disabled': !folder.isSharable}"
+    	   data-ng-click="folder.isSharable && getFolderLink(folder)">
+		<i class="fa fa-link"></i>
+    </span>
+    <span class="vdvc-private"
+    	  data-ng-click="folder.isOwner && switchPrivate(folder)">
+		<i class="fa fa-lock" data-ng-class="{'fa-lock': folder.private,'fa-unlock': !folder.private,'owner':folder.isOwner}"></i>
+    </span>
+    <span class="vdvc-external-folder-icon" data-ng-if="getFolderLogo(folder)">
+       <i data-ng-class="getFolderLogo(folder)"></i>
+    </span>
+	<div class="row min-crd-content ellipsis" 
+		 data-on-long-press="onLongPress(folder)" 
+		 data-ng-click="openDocument(folder)"
+		 data-md-ink-ripple="#333">
+		<div class="row" style=" font-size: 14px;color:#000000;margin-top: 30px;">
+			<div class="col-xs-12 "  style="text-align: center;">
+				<img alt="" data-ng-src="{{folder.isLink? 'assets/icons/folder-link.png':(isShared(folder)? 'assets/icons/folder-shared.png':'assets/icons/folder.png')}}" />
+			</div>
+			<div class="col-xs-12 "  style="text-align: center;" data-tooltip-append-to-body='true' data-uib-tooltip ="{{folder.name}}">
+				{{folder.name}}
+			</div>
+			<!-- <div class="col-xs-12  sub-head"  style="text-align: center;">
+				Last Updated: {{}}
+			</div> -->
+			<div class="col-xs-12  sub-head ellipsis"  style="text-align: center;color:#006699;" data-tooltip-append-to-body='true' data-uib-tooltip ="{{::folder.createdBy}}" >
+				{{folder.createdBy}}
+			</div>
+		</div>
+		
+		<div class="row vdvc-crd-tag-wrp">
+			<span data-ng-repeat='tag in folder.tags | orderBy: "TagName" | limitTo : 2' 
+			class="vdvc-card-tag"  
+			data-tooltip-append-to-body='true' 
+			data-uib-tooltip ="{{::tag.Value != null ? tag.TagName+' : '+tag.Value : tag.TagName}}" 
+			style="max-width: 39.333333% !important;margin-right: 12px !important;">
+				<span style='width: 100%;display: inline-block;'>
+					<span class="tag-cls">
+						<i class="fa fa-times-circle"  role="button" tabindex="0" data-ng-click='unTag(tag,folder,$event)'></i>
+					</span>
+					<span>{{::tag.Value != null ? tag.TagName+" : "+tag.Value : tag.TagName}}</span>
+				</span>
+			</span>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,10 @@
+<div class="full rootContainer">
+	<div data-ui-view data-name="nav"></div>
+	<div class="full" data-ui-view data-name="content"></div>
+	
+	<toaster-container data-toaster-options="{'toaster-id': 'top-full-width','animation-class': 'toast-top-full-width toast-top-center','prevent-duplicates':true}"></toaster-container>
+	<toaster-container data-toaster-options="{'toaster-id': 'top-center','animation-class':'toast-top-center','prevent-duplicates':true}"></toaster-container>
+	<toaster-container data-toaster-options="{'toaster-id': 'top-right','animation-class':'toast-cust-top','prevent-duplicates':true}"></toaster-container>
+	
+	<flash-message duration="5000" show-close="false" data-on-dismiss="onScheduleFlashClose(flash);"></flash-message>
+</div>

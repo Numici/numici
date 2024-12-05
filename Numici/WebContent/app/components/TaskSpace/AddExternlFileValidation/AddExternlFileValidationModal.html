@@ -1,0 +1,26 @@
+<form name="ConfirmSignedIn" style="display: inline-block;">
+	<div class="modal-body confirm-signed-in-mb">
+		<div class="col-xs-12 confirm-signed-in-content-wrap">
+			<div class="col-xs-12 get-extension-message" 
+				data-ng-bind-html="aefvc.AddExternlFileValidationMessage" style='text-align: center;'>
+			</div>
+		</div>
+		<div class="col-xs-12 confirm-signed-in-btn-group" style="text-align: right;">
+			<a class="btn vdvc-form-btn vdvc-form-btn-muted" 
+				type="button" 
+				data-ng-click="aefvc.selectedResponse('Cancel')">
+				Cancel
+			</a>
+			<a class="btn vdvc-form-btn" 
+				type="button" 
+				data-ng-click="aefvc.selectedResponse('Copy')">
+				Copy & Add
+			</a>
+			<a class="btn vdvc-form-btn" 
+				type="button" 
+				data-ng-click="aefvc.selectedResponse('Continue')">
+				Continue
+			</a>
+		</div>
+	</div>
+</form>

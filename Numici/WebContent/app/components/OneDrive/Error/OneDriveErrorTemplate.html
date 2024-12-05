@@ -1,0 +1,31 @@
+<div style="height: 65px"></div>
+<div class="container-fluid" style="height: calc(100% - 95px);">
+	<div class="col-xs-12" style="position: relative;height: calc(100% - 30px);padding: 0px;">
+		<div class="row alert alert-danger" style="width: 70%;
+			height: 300px;
+		    position: absolute;
+		    top: calc(50% - 30px);
+		    left: 50%;
+		    transform: translate(-50%,-50%);
+		    text-align: center;
+		    font-size: 18px;
+		    font-weight: 700;">
+		    <div class="col-xs-12" style="padding: 0px;">
+				<span class="close-onedrive-error-page" data-ng-click="oe.goToHome()" 
+					data-tooltip-append-to-body="true" 
+					data-tooltip-placement="bottom" 
+					data-uib-tooltip="Close" 
+					style="float: right;"> 
+		       		<i class="fa fa-times fa-fw"></i>
+		      	</span>
+			</div>
+			<span style="position: fixed;
+			    width: 100%;
+			    top: 50%;
+			    left: 0px;
+			    transform: translate(0%,-50%);" 
+			    data-ng-bind-html="oe.error | to_trusted">
+			</span>
+		</div>
+	</div>
+</div>

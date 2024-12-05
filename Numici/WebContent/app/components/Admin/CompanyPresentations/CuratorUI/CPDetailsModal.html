@@ -1,0 +1,48 @@
+<form data-ng-submit="cpd.cancel()">
+	<div class="modal-header">
+		<h4 class="modal-title ellipsis" style="height: 40px;line-height: 40px;">{{::cpd.title}}</h4>
+	</div>
+	
+	<div class="modal-body" style="min-height: 120px;max-height: 400px;overflow-y: auto;overflow-x: hidden;">
+		<div class="row" data-ng-show="cpd.cpObj.type == 'yes'">
+			<div style="font-size: 16px;font-weight: 700;">Company Doc</div>
+			<table class="table table-condensed" style="margin: 10px;">
+				<tbody>
+					<tr>
+					 	<td><span style="font-weight: bold;">Sub Category</span></td>
+					 	<td><span style="font-weight: bold;">:</span></td>
+					 	<td><span >{{::cpd.cpObj.subCategory}}</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="row">
+			<div style="font-size: 16px;font-weight: 700;">Attributes</div>
+			<table class="table table-condensed" style="margin: 10px;">
+				<tbody>
+					<tr data-ng-repeat="(af,av) in cpd.cpObj['attributes']">
+					 	<td><span style="font-weight: bold;">{{::af}}</span></td>
+					 	<td><span style="font-weight: bold;">:</span></td>
+					 	<td><span >{{::av}}</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="row" data-ng-show="cpd.cpObj.comments">
+			<div style="font-size: 16px;font-weight: 700;">Previous Comments</div>
+			<table class="table table-condensed" style="margin: 10px;">
+				<tbody>
+					<tr data-ng-repeat="cmtMap in cpd.cpObj.TypeCommentMap track by $index">
+					 	<td><span style="font-weight: bold;">{{::cmtMap.typ}}</span></td>
+					 	<td><span style="font-weight: bold;">:</span></td>
+					 	<td><span >{{::cmtMap.cmt}}</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+		
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn" type="submit">CLOSE</button>
+	</div>
+</form>

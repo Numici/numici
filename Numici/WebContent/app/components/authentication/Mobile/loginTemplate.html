@@ -1,0 +1,104 @@
+<div class="container-fluid login" style="position:relative;width: 100%;top: 0px;padding: 15px;display: block;">
+	<div class="row">
+		<div class="col-xs-12  col-sm-6">
+			<div class="row " style="font-size: 20px;text-align:center;">
+				<div class='col-xs-12 company-brand' style="height: 42px;margin-bottom: 23px;"><img src="/app/assets/icons/Numici-Logo-Long-In-Blue.png" alt="numici" style="height: 42px;"></div>
+				<!-- <div class="col-xs-12 ng-binding" style="font-size:1.5em;text-shadow: 1px 1px 4px rgba(3, 3, 3, 0.75);">numici</div> -->
+				<!-- <div class='col-xs-12'>{{::tagline.tag1}} </div>
+				<div class='col-xs-12'>{{::tagline.tag2}}</div> -->
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-5 app-col-pad-lr-0 login-card" style="border-radius: 50px;margin-bottom: 20px;">
+			<div class="row" style="padding: 1.5em;">
+				<!-- <div class="row app-col-pad-lr-0 dotted-w" style="font-size: 20px;">Sign in</div> -->
+				<div class="row">
+					<form class="form-horizontal" name="form" data-ng-submit="login()" role="form">
+					   <div data-ng-if="showLoginError" class="col-xs-12 error" style="padding-bottom: 0;">{{loginError}}</div>
+					   <div class="row user-credentials" style="font-size: 16px;">
+						   	 <div class="form-group username-group" style="margin-bottom: 0px;">
+						        <label for="username" class="col-sx-12 col-sm-3 col-sm-offset-1">User ID</label>
+						          <div class="col-sx-12 col-sm-8">
+						          	<input type="text" name="username" id="username" class="form-control" data-ng-model="credentials.username" data-ng-keyup="hideTextBoxIcon($event)" data-ng-change="hideUserIdTextBoxIcon()" required>
+						          </div>
+						    </div>
+						    <div class="form-group password-group" style="margin-bottom: 0px;">
+						        <label for="password" class="col-sx-12 col-sm-3 col-sm-offset-1">Password</label>
+						        <div class="col-sx-12 col-sm-8">
+						        	<input type="password" name="password" id="password" class="form-control" data-ng-model="credentials.password" data-ng-keyup="hideTextBoxIcon($event)" data-ng-change="hidePwdTextBoxIcon()" required>
+						        </div>  
+						    </div>
+						    <!-- <div class="form-group">
+						        <div class="col-sm-offset-4 col-xs-12">
+						            <div class="checkbox">
+						                <label data-ng-disabled="true" style="cursor: text;color: lightgrey;" aria-disabled="true" disabled="disabled"><input type="checkbox" data-ng-disabled="true" aria-disabled="true" disabled="disabled"> Remember me</label>
+						            </div>
+						        </div>
+						    </div> -->
+					   </div>
+					   <div class="row app-pad-top-1">
+						   	<div class="form-actions">
+						        <div class="col-xs-6 col-sm-5 app-col-pad-lr-0" data-ng-disabled="true" style="height: 28px;line-height: 28px;">
+						        	<a class="forgot-pwd" data-ng-click="openFPModal()">
+						        		Forgot Password ?
+						        	</a>
+						        </div>
+								<div class="col-xs-6 col-sm-7 app-col-pad-lr-0">
+									<button type="submit" class='btn sign-in-btn pull-right'>
+										SIGN IN
+									</button>
+								</div>
+						    </div>	
+					    </div>
+					 	<div class="row sign-in-divider" style="margin: 7.5px 0px;">OR</div>
+					  	<!-- <div class="row app-pad-top-2" style="text-align: center;">
+						   	<div class="form-actions">
+								<div class="col-xs-12"> <button class="btn m-login-btn-custom" data-ng-disabled="true" aria-disabled="true" disabled="disabled">SINGLE SIGN ON</button></div>
+						    </div>	
+					   	</div> -->
+					   	<div class="row extenal-sign-group">
+						   	<div class="col-xs-6 extenal-sign-label">
+					   			Sign in with 
+					   		</div>
+							<div class="col-xs-6 extenal-sign-btn-group"> 
+								<!-- <button class='btn btn-custom ' data-ng-disabled="true">SINGLE SIGN ON</button> -->
+								<div id="customGoogleSignIn" 
+							    	class="customGoogleSignIn" 
+							    	data-uib-tooltip="Google" 
+									data-tooltip-append-to-body='true' 
+									data-tooltip-placement="auto">
+							      	<span class="icon"></span>
+							    </div>
+							    <div class="customSlackSignIn" 
+									data-uib-tooltip="Slack" 
+									data-tooltip-append-to-body='true' 
+									data-tooltip-placement="auto" 
+									style="margin: 0px 10px;">
+							      	<a href="{{signInUrl}}">
+										<span class="icon"></span>
+									</a>
+							    </div>
+							</div>
+					   </div>
+					</form>
+				</div>
+				<div class="row sign-up-divider"></div>
+				<div class="row">
+					<div class="col-xs-7 new-to-numici-label" 
+						style="padding: 0px;text-align: center;"> 
+						New to {{::Company}} ?
+					</div>
+					<div class="col-xs-5" 
+						style="padding: 0px;text-align: center;"> 
+						<button type="button" 
+							class='btn register-btn' 
+							data-ng-click="openRegisterModal()" 
+							style="padding: 2px 10px;">
+							REGISTER
+						</button>
+					</div>
+					<div data-ng-if="showOriginalUriMsg" class="col-xs-12 original-uri-msg">After creating an account, click on link again</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

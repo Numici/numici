@@ -1,0 +1,152 @@
+<form data-ng-submit="atc.ok()">
+	<div class="modal-header" style="padding: 10px 15px;">
+		<div class="row">
+			<div class="col-xs-7" style="padding-left: 0px;">
+				<h3 class="modal-title">{{atc.headerLabel()}}</h3>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body" style="height: 300px;overflow: auto;background: #eee;">
+		<div class="row" style="margin-bottom: 5px;">
+			<div class="col-xs-5" style="padding-left: 0px;">
+				<span class="fldrs-hdr"> 
+					TASKSPACES 
+					<span>({{atc.getTSListCount()}})</span>
+				</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12" 
+				style="background: #fff;color: #069;padding: 5px 15px;" 
+				 data-ng-if="atc.taskspaces.length == 0">
+				Selected document is not associated with any taskspace.
+			</div>
+			<table id="associated-ts-table" class="table docTable fldrs-table" data-ng-if="atc.taskspaces.length > 0">
+				<thead >
+					<tr>
+						<th class="wraptext" 
+							data-ng-if="$first" 
+							data-ng-class="hdr.class" 
+							data-ng-repeat="hdr in atc.taskspacesListHeaders" 
+							data-ng-click="atc.sortByfield(hdr)">
+							<div class="row lv-th-ele-wrap">
+								<!-- <span class="lv-obj-icon-wrap">
+									<i class="fa fa-fw fa-book"></i>
+								</span> -->
+								<span data-uib-tooltip="{{hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == atc.tsField" 
+										data-ng-class="{'fa-caret-up' : !atc.tsFieldDecending , 'fa-caret-down': atc.tsFieldDecending}">
+									</i>
+								</span>
+							</div>
+						</th>
+						<th class="ellipsis" 
+							data-ng-if="!$first" 
+							data-ng-class="hdr.class" 
+							data-ng-repeat="hdr in atc.taskspacesListHeaders" 
+							data-ng-click="atc.sortByfield(hdr)">
+							<div class="row lv-th-ele-wrap">
+								<span data-uib-tooltip="{{hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == atc.tsField" 
+										data-ng-class="{'fa-caret-up' : !atc.tsFieldDecending , 'fa-caret-down': atc.tsFieldDecending}">
+									</i>
+								</span>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-if="atc.searchStringFilter(ts)" 
+						data-ng-repeat="ts in atc.taskspaces track by $index" 
+						class="ts-row">
+						<td data-ng-class="hdr.class" 
+							data-ng-if="$first" 
+							data-ng-repeat="hdr in atc.taskspacesListHeaders">
+							<div class="wraptext">
+								<div data-ng-if="atc.supportMultiSelectTaskspace" class="checkbox lv-cb-wrap" 
+									data-ng-click="$event.stopPropagation();">
+				               		<input type="checkbox" 
+				               			data-ng-model="ts.selected" 
+				               			data-ng-change="atc.selectNoteBookToSync(ts)">
+				               		<label class="lv-cb-label"></label>
+				            	</div>
+								<!-- <div class="lv-obj-icon-wrap" style="float: left;">
+									<i class="fa fa-fw fa-book"></i>
+								</div> -->
+								<div data-ng-switch="hdr.type" style="float: left;max-width: calc(100% - 60px);">
+									<div class="ellipsis">
+										<div data-ng-switch-when="text">
+											<a data-ng-if="hdr.value == 'name' && ts.hasPermission" 
+												data-ng-click="atc.goToDocument(ts)" 
+												data-uib-tooltip="{{ts[hdr.value]}}" 
+												data-tooltip-append-to-body="true" 
+												style="text-decoration: none;cursor: pointer">
+												{{ts[hdr.value]}}
+											</a>
+											<span data-ng-if="hdr.value == 'name' && !ts.hasPermission" 
+												data-uib-tooltip="Taskspace name is hidden because you are not a member" 
+												data-tooltip-append-to-body="true">
+												{{ts[hdr.value]}}
+											</span>
+											<span data-ng-if="hdr.value != 'name'" 
+												data-uib-tooltip="{{ts[hdr.value]}}" 
+												data-tooltip-append-to-body="true">
+												{{ts[hdr.value]}}
+											</span>
+										</div>
+										<div data-ng-switch-when="Date" 
+											data-uib-tooltip="{{ts[hdr.value] | date:'medium'}}" 
+											data-tooltip-append-to-body="true">
+											{{ts[hdr.value] | date:'medium'}}
+										</div>
+									</div>
+								</div>	
+							</div>
+						</td>
+						<td class="ellipsis" 
+							data-ng-if="!$first" 
+							data-ng-repeat="hdr in atc.taskspacesListHeaders">
+							<span class="row" 
+								data-ng-switch="hdr.type">
+								<span class="ellipsis">
+									<span data-ng-switch-when="text" 
+										data-uib-tooltip="{{ts[hdr.value]}}" 
+										data-tooltip-append-to-body="true">
+										{{ts[hdr.value]}}
+									</span>
+									<span data-ng-switch-when="Date" 
+										data-uib-tooltip="{{ts[hdr.value] | date:'medium'}}" 
+										data-tooltip-append-to-body="true">
+										{{ts[hdr.value] | date:'medium'}}
+									</span>
+								</span>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer" style="padding: 10px 15px;">
+		<!-- <div class="col-xs-6" style="padding: 0px;">
+			<button type="button" 
+				class="btn vdvc-form-btn" 
+				data-ng-click="atc.openCreateTaskSpaceModal('md')" 
+				style="float: left;">
+				  <span class="fa fa-plus"></span> NEW TASKSPACE
+			</button>
+		</div> -->
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="atc.cancel()">CLOSE</button>
+		<!-- <button class="btn vdvc-form-btn" type="submit">OK</button> -->
+	</div>
+</form>

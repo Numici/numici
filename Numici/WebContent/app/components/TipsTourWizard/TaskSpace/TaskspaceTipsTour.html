@@ -1,0 +1,34 @@
+<div class="tour-backdrop"></div>
+<span class="tt-{{ tttc.tipTour.arrow_placement }} tour-element-selection"></span>
+<div class="tour-tip">
+	<span class="tour-arrow tt-{{ tttc.tipTour.arrow_placement }}"></span>
+    <div class="col-xs-12 tour-content-wrapper">
+        <p data-ng-bind-html="tttc.tipTour.value | to_trusted"></p>
+        <div class="col-xs-12" style="padding: 0px;">
+        	<div class="col-xs-6" style="padding: 0px;">
+        		<a data-ng-if="tttc.showPrevBtn()" 
+		        	data-ng-click="tttc.previousTourTip(tttc.tipTour)" 
+		        	data-ng-bind="tttc.ttPrevLabel" 
+		        	class="btn tour-prev-tip">
+		        </a>
+        	</div>
+        	<div class="col-xs-6" style="padding: 0px;text-align: right;">
+        		<a data-ng-if="tttc.showNextBtn()" 
+		        	data-ng-click="tttc.nextTourTip(tttc.tipTour)" 
+		        	data-ng-bind="tttc.ttNextLabel" 
+		        	class="btn tour-next-tip">
+		        </a>
+		        <a data-ng-if="!tttc.showNextBtn()" 
+		        	data-ng-click="tttc.closeTour()" 
+		        	data-ng-bind="tttc.ttDoneLabel" 
+		        	class="btn tour-next-tip">
+		        </a>
+        	</div>
+        </div>
+        <a data-ng-click="!tttc.closeTour()" 
+        	class="tour-close-tip" 
+        	data-ng-if="tttc.showNextBtn()">
+        	&times;
+        </a>
+    </div>
+</div>

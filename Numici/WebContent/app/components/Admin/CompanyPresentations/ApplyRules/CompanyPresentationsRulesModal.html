@@ -1,0 +1,97 @@
+<div>
+	<div class="modal-header" style="padding: 10px;">
+		<h4>APPLY RULES</h4>
+	</div>
+	<div class="modal-body" style="height: 400px;display: inline-block;width: 100%;padding: 0px 15px;overflow: hidden;">
+		<div class="full">
+			<div class="col-sm-8 full">
+				<div class="row" style="height: 40px;line-height: 40px;">
+					RULES 
+					<span class="vdvc-error" style="padding-left: 10px;font-size: 12px;" data-ng-show="applyRuleCtrl.errorMsgs.ruleError">
+						{{::applyRuleCtrl.errorMsgs.ruleErrorMsg}}
+					</span>
+				</div>
+				<div class="row" style="height: calc(100% - 40px);overflow: auto;">
+					 <ol>
+		              <li data-ng-repeat="rule in applyRuleCtrl.cpRules track by $index" 
+		              	  data-drag="true" 
+		              	  data-drop="true"
+		              	  data-ng-model="applyRuleCtrl.cpRules" 
+		              	  data-jqyoui-droppable="{index: {{$index}}}" 
+		              	  data-jqyoui-draggable="{index: {{$index}}, insertInline: true}" 
+		              	  data-jqyoui-options="{revert: 'invalid',axis: 'y'}"
+		              	  class="cp-rule-item">
+		                <div class="full" style="float: left;width: 100%;position: relative;">
+		                	<div class="checkbox cp-checkboxe" style="line-height: 16px;
+    position: absolute;
+    right: 0px;
+    top: 50%;
+    margin: 0;
+    transform: translateY(-50%);">
+									<input type="checkbox" data-ng-model="rule.checked" >
+									<label class="cs-lbl"></label>
+							</div>
+		                	<div style="width: 25px;float: left;" class="full">
+		                		<i class="fa fa-arrows-v fa-fw" style="color: #aaa;"></i>
+		                	</div>
+		                	<div class="full" style="float: left;width: calc(100% - 25px);">
+		                		<div class="ellipsis row"
+		                		     style="height: 25px;line-height: 25px;"
+		                		     data-uib-tooltip ="{{rule.EsRule.ruleName}}"
+		                		     data-tooltip-append-to-body="true">
+		                			{{rule.EsRule.ruleName}}
+		                		</div>
+		                		<div class="ellipsis" 
+		                		     style="font-size: 12px;color: #666;height: 25px;line-height: 25px;" 
+		                		     data-uib-tooltip ="{{rule.QueryString}}"
+		                		     data-tooltip-append-to-body="true">
+		                			{{rule.QueryString}}
+		                		</div>
+		                	</div>
+		                </div>
+		              </li>
+		            </ol>
+				
+				
+				
+				
+				<!-- 	<div class="row" 
+					 data-ng-repeat="rule in applyRuleCtrl.cpRules track by $index"
+					 style="border: 1px solid #eee;margin: 5px 15px;height: 60px;">
+					<div class="checkbox cp-checkboxe" style="padding-left: 40px;margin: 5px 0px 0px 0px;">
+						<input type="checkbox" data-ng-model="rule.checked" >
+						<label class="cs-lbl">{{::rule.EsRule.ruleName}}</label>
+					</div>
+					<div class="ellipsis"
+						 data-uib-tooltip ="{{::rule.QueryString}}" 
+						 style="padding-left: 40px;height: 30px;line-height: 30px;font-size: 12px;color: #aaa;">
+						{{::rule.QueryString}}
+					</div>
+				</div> -->
+				</div>
+			</div>
+			<div class="col-sm-4 full">
+				<div class="row" style="height: 40px;line-height: 40px;">
+					DOC STATES
+					<span class="vdvc-error" style="padding-left: 10px;font-size: 12px;" data-ng-show="applyRuleCtrl.errorMsgs.docStateError">
+						{{::applyRuleCtrl.errorMsgs.docStateErrorMsg}}
+					</span>
+				</div>
+				<div class="row" 
+					 style="height: calc(100% - 40px);">
+					<div class="checkbox cp-checkboxe" 
+						 data-ng-repeat="state in applyRuleCtrl.docStates track by $index"
+						 style="padding-left: 40px;margin: 5px 0px;">
+						<input type="checkbox" data-ng-model="state.checked" >
+						<label class="cs-lbl">{{::state.label}}</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted" data-ng-click="applyRuleCtrl.cancel()">CANCEL</button>
+		<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted" data-ng-click="applyRuleCtrl.saveRulesOrder()">SAVE RULES ORDER</button>
+		<button type="button" class="btn vdvc-form-btn" data-ng-click="applyRuleCtrl.applySelectedRules()">SAVE & APPLY RULES</button>
+	</div>
+</div>

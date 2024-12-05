@@ -1,0 +1,37 @@
+<form name="verificationOtpSuccess" style="display: inline-block;">
+	<div class="modal-body col-xs-12 verification-otp-success-mb">
+		<div class="col-xs-12" style="padding: 0px;">
+			<div class="col-xs-12 verification-otp-success-content-wrap" 
+				style="max-height: 350px;overflow-y: auto;text-align:justify;border: 1px solid #ccc;padding: 10px 15px 0px;">
+				<div class="col-xs-12 verification-otp-response-message" 
+					data-ng-style="{'padding' : vosc.verifyOTPResponseMessage.length > 0 ? '19px 0px' : '0px'}">
+					{{vosc.verifyOTPResponseMessage}}
+				</div>
+				<div class="col-xs-12 get-extension-message" 
+					data-ng-bind-html="vosc.getExtensionMessage">
+				</div>
+			</div>
+			<div class="col-xs-12 verification-otp-success-btn-group" 
+				data-ng-style="{'padding' : vosc.beforeGoToHomePage ? '15px 0px' : '15px 0px 0px'}">
+				<a class="btn vdvc-form-btn vdvc-form-btn-muted" 
+					type="button" 
+					data-ng-click="vosc.skipGoToExtension()" 
+					style="float: right;">
+					I will do it later
+				</a>
+				<a class="btn vdvc-form-btn verify-btn" 
+					type="button" 
+					data-ng-click="vosc.goToExtension()">
+					Get Numici Extension
+				</a>
+			</div>
+			<div class="col-xs-12" data-ng-show="vosc.beforeGoToHomePage" style="padding: 0px;">
+				<div class ="checkbox" style="margin: 0px;">
+					<input type="checkbox" 
+						data-ng-model="vosc.doNotShow">
+					<label>Do not show this information again</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

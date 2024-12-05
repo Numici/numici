@@ -1,0 +1,172 @@
+	<div class="app-settings-container container-fluid full">
+		<div class="row full">
+			<div class="col-xs-12" style="height: 100px;">
+				<div class="col-xs-6" style="margin-top:15px;padding-left:0px;">
+					<div class="col-xs-12" style="padding-left:0px;margin-bottom: 5px;">
+						<label class="col-xs-4" for="key_type" style="line-height: 33px;padding-left:0px;">Organization</label> 
+						<div class="col-xs-8">
+							<data-ui-select id="key_type" 
+								data-ng-model="aps.selectedAppSettings" 
+								data-on-select="aps.getSelectedAppSettings()" 
+								data-search-enabled="false" 
+								data-ng-disabled="aps.isAppSettingsEdited">
+								<data-ui-select-match>{{$select.selected.typeFor}}</data-ui-select-match>
+						    	<data-ui-select-choices data-repeat="appSettings in aps.appSettingsList">
+								       <div data-ng-bind-html="appSettings.typeFor | highlight: $select.search"></div>
+								</data-ui-select-choices>
+						    </data-ui-select>
+						</div>
+					</div>
+					<div class="col-xs-12" style="padding-left:0px;margin-bottom: 5px;">
+						<label class="col-xs-4" style="line-height: 33px;padding-left:0px;">Organization Id</label>
+						<div class="col-xs-8">{{aps.selectedAppSettings.organizationId}}</div>
+					</div>
+				</div>
+				<div class="col-xs-6" 
+					data-ng-show="aps.selectedOrgUsersList.length > 0"
+					style="margin-top:15px;padding-left:0px;">
+					<div class="col-xs-12" style="padding-left:0px;margin-bottom: 5px;">
+						<label class="col-xs-4" for="key_user" style="line-height: 33px;padding-left:0px;">User</label> 
+						<div class="col-xs-8">
+							<data-ui-select id="key_user" 
+								data-ng-model="aps.selectedOrgUser" 
+								data-on-select="aps.getSelectedUserAppSettings()" 
+								data-search-enabled="false" 
+								data-ng-disabled="aps.isAppSettingsEdited">
+								<data-ui-select-match>{{aps.getSelectedUserName($select.selected)}}</data-ui-select-match>
+						    	<data-ui-select-choices data-repeat="OrgUser in aps.selectedOrgUsersList">
+								       <div data-ng-bind-html="aps.getSelectedUserName(OrgUser) | highlight: $select.search"></div>
+								</data-ui-select-choices>
+						    </data-ui-select>
+						</div>
+					</div>
+					<div class="col-xs-12" style="padding-left:0px;margin-bottom: 5px;">
+						<label class="col-xs-4" style="line-height: 33px;padding-left:0px;">User Id</label>
+						<div class="col-xs-8">{{aps.selectedOrgUser.userId}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="col-xs-6" style="padding-left:0px;">
+					<input type="text" 
+		        	   class="form-control vdvc-input-txt" 
+		        	   id="key_search"
+					   data-ng-model="aps.searchString" 
+					   placeholder='Key Search'>
+				</div>
+				<div class="col-xs-6" style="padding-left:0px;">
+					<span class="error" data-ng-show="aps.isAppSettingsEdited && aps.allInvalidAppSettingsList.length > 0">{{aps.allAppSettingsValidError}}</span>
+					<button type="button" 
+			      		class="btn vdvc-nav-btn" 
+			      		data-ng-show="aps.isAppSettingsEdited" 
+			      		data-ng-click="aps.cancelEditAppSettings()" 
+			      		style="float:right;margin-left: 5px;">
+			        	Cancel
+			      	</button>
+			      	<button type="button" 
+			      		class="btn vdvc-nav-btn" 
+			      		data-ng-show="aps.isAppSettingsEdited" 
+			      		data-ng-click="!aps.disableSaveAppSettingsBtn() && aps.saveAppSettings()" 
+			      		data-ng-disabled="aps.disableSaveAppSettingsBtn()" 
+			      		style="float:right;margin-left: 5px;">
+			        	Save
+			      	</button>
+			      	<button type="button" 
+			      		class="btn vdvc-nav-btn" 
+			      		data-ng-show="!aps.isAppSettingsEdited" 
+			      		data-ng-click="aps.editAppSettings()" 
+			      		style="float:right;margin-left: 5px;">
+			        	Edit
+			      	</button>
+			      	<button type="button" 
+			      		class="btn vdvc-nav-btn" 
+			      		data-ng-show="aps.selectedAppSettings.type == 'Organization' && !aps.isAppSettingsEdited" 
+			      		data-ng-click="aps.deleteAppSettings()" 
+			      		style="float:right;margin-left: 5px;">
+			        	Delete
+			      	</button>
+			      	<button type="button" 
+			      		class="btn vdvc-nav-btn" 
+			      		data-ng-show="aps.showAddSettingsForOrganizationBtn()" 
+			      		data-ng-click="aps.addSettingsForOrganization()" 
+			      		style="float:right;margin-left: 5px;">
+			        	Add Settings For Organization
+			      	</button>
+			      	<button type="button" 
+			      		class="btn vdvc-nav-btn" 
+			      		data-ng-show="aps.showAddSettingsForUserBtn()" 
+			      		data-ng-click="aps.addSettingsForUser()" 
+			      		style="float:right;margin-left: 5px;">
+			        	Add Settings For User
+			      	</button>
+				</div>
+				
+		    </div>
+		    <div class="col-xs-12" style="margin-top: 5px;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;height: calc(100% - 150px);overflow-y: auto;">
+				<table class="table system-preferences-table docTable" style="width: 100%;margin-bottom: 0px;">
+					<thead >
+						<tr style="height: 40px;">
+							<th>Key</th>
+							<th>Value</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-if="aps.hasShowPermission(key)" data-ng-repeat="(key, value) in aps.selectedAppSettingsCopy">
+							<td style="line-height: 33px;">{{key}}</td>
+							<td style="line-height: 33px;">
+								<div data-ng-show="!aps.isAppSettingsEdited && !aps.editedUserSettings[key].editable">
+									{{value}}
+								</div>
+								<div data-ng-if="aps.userSettingsTypes[key].fieldType == 'DropDown'" data-ng-show="aps.isAppSettingsEdited || aps.editedUserSettings[key].editable">
+									<data-ui-select data-ng-model="aps.selectedAppSettingsCopy[key]" data-search-enabled="false">
+										<data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+								    	<data-ui-select-choices data-repeat="configType in aps.getUserSettingsTypes(key).valuesType">
+										       <div data-ng-bind-html="configType | highlight: $select.search"></div>
+										</data-ui-select-choices>
+									</data-ui-select>
+								</div>
+								<div data-ng-if="aps.userSettingsTypes[key].fieldType == 'FreeText'" data-ng-show="aps.isAppSettingsEdited || aps.editedUserSettings[key].editable">
+									<input type="text" 
+						        	   class="form-control vdvc-input-txt" 
+						        	   data-ng-class="{'error' : !aps.validateAppSettingValue(key,aps.selectedAppSettingsCopy[key])}" 
+						        	   data-ng-model="aps.selectedAppSettingsCopy[key]" 
+						        	   data-ng-blur="aps.validateAppSettingValue(key,aps.selectedAppSettingsCopy[key])"  
+						        	   data-uib-tooltip="{{aps.userSettingsTypes[key].tooltip}}" 
+						               data-tooltip-placement="top" 
+						               data-tooltip-trigger="'mouseenter'">
+								</div>
+							</td>
+							<td style="line-height: 33px;">
+								<div class="col-xs-12">
+									<span class='fa fa-pencil-square-o fa-lg' 
+										  data-ng-show="!aps.editedUserSettings[key].editable" 
+										  data-tooltip-append-to-body="true" 
+										  data-tooltip-placement="bottom" 
+										  data-uib-tooltip="Edit" 
+										  data-ng-click="aps.editSingleAppSetting(key)">
+									</span>
+									
+									<span class='fa fa-floppy-o fa-lg'
+								  		  data-ng-show="aps.editedUserSettings[key].editable" 
+								  		  data-tooltip-append-to-body="true" 
+								  		  data-tooltip-placement="bottom" 
+								  		  data-uib-tooltip="Save" 
+								  		  data-ng-click="aps.saveSingleAppSetting(key)">
+									</span>
+									<span class='fa fa-times fa-lg'
+										  data-ng-show="aps.editedUserSettings[key].editable" 
+										  data-tooltip-append-to-body="true" 
+										  data-tooltip-placement="bottom" 
+										  data-uib-tooltip="Cancel" 
+										  data-ng-click="aps.cancelEditSingleAppSetting(key)">
+									</span>
+									
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>

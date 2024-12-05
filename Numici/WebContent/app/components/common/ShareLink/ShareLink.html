@@ -1,0 +1,252 @@
+<div class="share-link-modal-content" style="background: rgb(255, 255, 255);">
+	<div class="modal-header" style="padding: 0px 15px;">
+		<div class="row">
+			<div class="col-xs-12" style="padding: 0px; margin: 3px 0px;">
+				<div class="col-xs-10" style="padding: 0px;">
+					<span class="modal-title"
+						style="height: 35px; line-height: 35px; font-size: 18px; font-weight: 500;">
+						{{slc.getTitle()}} </span>
+				</div>
+				<div class="col-xs-2"
+					data-ng-controller="TsObjectController as tsobj"
+					style="padding: 0px; text-align: right;">
+					<a class="annotation-share-to-ext-dialog-target__icon"
+						style="color: #006699; text-decoration: none;"
+						data-ng-click="slc.annotationsDigestSettings(tsobj)"
+						data-uib-tooltip="Settings" data-tooltip-append-to-body='true'
+						data-tooltip-placement="auto"> <i class="fa fa-cog"></i>
+					</a> <a class="annotation-share-to-ext-dialog-target__icon"
+						style="padding-left: 5px;" data-ng-click="slc.cancel()"> <i
+						class="fa fa-close"></i>
+					</a>
+				</div>
+			</div>
+			<div class="col-xs-12" data-ng-show="slc.digestFor == 'AnnotationDigest'" style="padding: 0px; margin: 3px 0px;">
+				<div class="col-xs-12" style="padding: 0px;">
+					<div class="form-group row input-wrap"
+						style="margin: 3px 0px; padding: 0px;">
+						<label class="col-xs-2"
+							style="font-weight: normal; height: 35px; line-height: 35px; padding: 0px;">
+							Digest Name<i class="fa fa-asterisk text-danger" style="position: absolute;top: 5px;font-size: 8px;"></i>
+						</label>
+						<div class="col-xs-10" style="position: relative;padding: 0px;">
+							<div class="digest-name-div" 
+								data-ng-show="!slc.isDigestNameEdited" 
+								data-ng-click="slc.toggleEditDigestName()" 
+								style="height: 35px;line-height: 25px;padding: 5px 12px;border: 1px solid #ddd;cursor: text;background: #eee;">
+								{{slc.digestName}}
+							</div>
+							<div data-ng-show="slc.isDigestNameEdited" class="col-xs-12" style="padding: 0px;">
+								<input type="text" 
+									id="digest-name-textbox" 
+									class="vdvc-input-txt"
+									data-ng-model="slc.digestName"
+									data-ng-blur="slc.validateDigestName($event)" 
+									style="padding-right: 52px;">
+							</div>
+							<div data-ng-show="slc.isDigestNameEdited" style="position: absolute;top: 0px;right: 0px;padding: 0px;text-align: right;">
+								<button type="button" class="btn btn-xs vdvc-form-btn vdvc-form-btn-muted cancel-update-digest-name-btn" data-ng-click="slc.cancelEditDigestName()">
+						          	<i class="fa fa-times" aria-hidden="true"></i>
+						        </button>
+						        <button type="button" class="btn btn-xs vdvc-form-btn update-digest-name-btn" data-ng-click="slc.saveEditedDigestName()" data-ng-disabled="slc.disableSaveEditedDigestName()">
+						          	<i class="fa fa-check" aria-hidden="true"></i>
+						        </button>
+							</div>
+							<div class="row message error" data-ng-if="slc.digestNameError">{{slc.digestNameErrorMessage}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12" style="padding: 0px;">
+					<div class="form-group row input-wrap"
+						style="margin: 3px 0px; padding: 0px;">
+						<label class="col-xs-2" for="digestDescription"
+							style="font-weight: normal; height: 65px; line-height: 65px; padding: 0px;">
+							Description
+						</label>
+						<div class="col-xs-10" id="digestDescription" style="position: relative;padding: 0px;">
+							<div data-ng-show="!slc.isDigestDescriptionEdited" 
+								class="digest-description-div" 
+								data-ng-click="slc.toggleEditDigestDescription()" 
+								style="height: 65px;padding: 5px 10px;border: 1px solid #ddd;cursor: text;background: #eee;overflow-y: auto;">
+								{{slc.digestDescription}}
+							</div>
+							<div data-ng-show="slc.isDigestDescriptionEdited" class="col-xs-12" style="padding: 0px;">
+								<textarea data-msd-elastic class="vdvc-txtA" rows="2" 
+									id="digest-description-textarea" 
+									data-ng-model="slc.digestDescription" 
+									data-ng-blur="slc.validateDigestDescription($event)" 
+									style="border: 1px solid #ddd; overflow: hidden; overflow-wrap: break-word; resize: none; min-height: 65px; max-height: 66px; overflow-y: auto;padding-right: 52px;">
+								 </textarea>
+							</div>
+							<div data-ng-show="slc.isDigestDescriptionEdited" style="position: absolute;top: 0px;right: 0px;padding: 0px;text-align: right;">
+								<button type="button" class="btn btn-xs vdvc-form-btn vdvc-form-btn-muted cancel-update-digest-description-btn" data-ng-click="slc.cancelEditDigestDescription()">
+						          	<i class="fa fa-times" aria-hidden="true"></i>
+						        </button>
+						        <button type="button" class="btn btn-xs vdvc-form-btn update-digest-description-btn" data-ng-click="slc.saveEditedDigestDescription()" data-ng-disabled="slc.disableSaveEditedDigestDescription()">
+						          	<i class="fa fa-check" aria-hidden="true"></i>
+						        </button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12" style="padding: 0px; margin: 20px 0px;">
+				<div class="annotation-share-to-ext-dialog-target col-xs-12" 
+					data-ng-include="'app/components/common/ShareLink/ImportantShareOptions.html'" 
+					style="padding: 0px;">
+				</div>
+			</div>
+			<div class="col-xs-12" id="more_share_options">
+			  <div class="dropdown" 
+					data-uib-dropdown
+					is-open="slc.isMoreShareOptionsListOpen">
+			        <ul class="dropdown-menu">
+			          <li>
+			          	<div class="vdvc-more-tabs-menu-ele-grp col-xs-12" style="padding: 0px;">
+							<div data-ng-include="'app/components/common/ShareLink/UnImportantShareOptions.html'" 
+								class="col-xs-12" style="padding: 0px;display: flex;flex-direction: row;">
+							</div>
+						</div>
+			          </li>
+			        </ul>
+			  </div>
+			</div>
+			<div class="col-xs-12" style="padding: 0px; text-align: left;">
+				<div class="row publish-as-numici-note"
+					data-ng-show="slc.selectedPublishAsNote"
+					style="padding: 5px; border: 2px solid #ccc; margin-top: 5px; margin-bottom: 10px;">
+					<div class="col-xs-12" style="padding: 0px;">
+						<b>Publish As Numici Notes :</b>
+					</div>
+					<div class="form-group col-xs-12"
+						style="margin: 0px; padding: 0px;">
+						<label class="col-xs-3" for="selctedFolderForPublish"
+							style="height: 35px; line-height: 35px; font-weight: normal;">Folder</label>
+						<div class="col-xs-9" id="selctedFolderForPublish">
+							<div class="col-xs-9" style="padding: 0px; height: 25px;">
+								<ul class="nav navbar-nav ellipsis"
+									style="color: rgba(51, 51, 51, 0.74); float: left; line-height: 30px; width: 100%; max-width: 100%; margin: 0px;">
+									<li data-ng-if="fldr.root"
+										data-ng-repeat="fldr in slc.docHierarchy"
+										data-tooltip-append-to-body='true' data-uib-tooltip="Home"
+										data-tooltip-placement="bottom"
+										class="vdvc-breadcrumbs  ellipsis full"><span> <i
+											class="fa fa-home"></i>
+									</span></li>
+									<li data-ng-if="!fldr.root && !$last"
+										data-ng-repeat="fldr in slc.docHierarchy "
+										data-tooltip-append-to-body='true'
+										data-uib-tooltip="{{fldr.name}}"
+										data-tooltip-placement="bottom"
+										class="vdvc-breadcrumbs  ellipsis full"><span> <i
+											class="fa fa-folder-open-o" data-ng-show="!fldr.isDummy"></i>
+											{{::fldr.name}}
+									</span></li>
+									<li data-nv-set-rm-mxwidth="docHierarchy"
+										data-ng-if="!fldr.root && $last"
+										data-ng-repeat="fldr in slc.docHierarchy"
+										data-tooltip-append-to-body='true'
+										data-uib-tooltip="{{::fldr.name}}"
+										data-tooltip-placement="bottom"
+										class="vdvc-breadcrumbs  ellipsis full"><span> <i
+											class="fa fa-folder-open-o"></i> {{::fldr.name}}
+									</span></li>
+								</ul>
+							</div>
+							<div class="col-xs-3" style="padding: 0px;">
+								<button class="btn vdvc-form-btn" type="button"
+									data-ng-click="slc.BrowseFolders('lg')"
+									style="font-size: 12px; padding: 0px 5px; line-height: 25px; float: right;">
+									CHANGE</button>
+							</div>
+						</div>
+					</div>
+					<div class="form-group col-xs-12"
+						style="margin: 0px; padding: 0px;">
+						<label class="col-xs-3"
+							style="height: 35px; line-height: 35px; font-weight: normal;">File
+							Name</label>
+						<div class="col-xs-9">
+							<div class="col-xs-7" style="padding: 0px;">
+								<input type="text" class="vdvc-input-txt"
+									data-ng-model="slc.noteName">
+							</div>
+							<div class="col-xs-5" style="padding: 0px; text-align: right">
+								<button type="button"
+									class="btn vdvc-form-btn vdvc-form-btn-muted"
+									data-ng-click="slc.cancelsaveAsSelectedType('numicinote')">
+									CANCEL</button>
+								<button type="button" class="btn vdvc-form-btn"
+									data-ng-click="slc.saveHtmlAsSelectedType('numicinote')"
+									data-ng-disabled="slc.noteName.length == 0">SAVE</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row publish-as-pdf"
+					data-ng-show="slc.selectedPublishAsPdf"
+					style="padding: 5px; border: 2px solid #ccc; margin-top: 5px; margin-bottom: 10px;">
+					<div class="col-xs-12" style="padding: 0px;">
+						<b>Publish As Pdf :</b>
+					</div>
+					<div class="form-group col-xs-12"
+						style="margin: 0px; padding: 0px;">
+						<label class="col-xs-3"
+							style="font-weight: normal; height: 35px; line-height: 35px;">File
+							Name</label>
+						<div class="col-xs-9">
+							<div class="col-xs-7" style="padding: 0px;">
+								<input type="text" class="vdvc-input-txt"
+									data-ng-model="slc.pdfName">
+							</div>
+							<div class="col-xs-5" style="padding: 0px; text-align: right">
+								<button type="button"
+									class="btn vdvc-form-btn vdvc-form-btn-muted"
+									data-ng-click="slc.cancelsaveAsSelectedType('pdf')">
+									CANCEL</button>
+								<button type="button" class="btn vdvc-form-btn"
+									data-ng-click="slc.saveHtmlAsSelectedType('pdf')"
+									data-ng-disabled="slc.pdfName.length == 0">SAVE</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12" style="padding: 0px; margin: 5px 0px;">
+				<div class="col-xs-12"
+					data-ng-controller="TsObjectController as tsobj"
+					style="font-size: 10px; font-weight: normal; color: red;">
+					{{slc.getLinkTypeMsg(slc.linkType.type)}} <span
+						style='font-size: 12px;' class='digest-hyphen'> <a
+						data-ng-click="slc.changeLinkType(slc.linkType.type)"
+						class="annotation-share-to-ext-dialog-target__icon"
+						style="font-size: 12px; text-decoration: none; line-height: 1.5em;">
+							change to {{slc.getChangeToLinkType(slc.linkType.type)}} </a>
+					</span>
+				</div>
+				<div class="col-xs-12">
+					<label class="col-xs-3"
+						style="padding: 0px; font-weight: normal; height: 35px; line-height: 35px;">Shareable
+						Link</label>
+					<div class="input-group col-xs-9" style="float: left;">
+						<input type="text" class="vdvc-input-txt"
+							data-ng-model="slc.linkInfo.url" data-focus-on="slc.focusLink"
+							data-select-on-focus data-select-on-click readonly> <span
+							data-ng-show="::!deviceInfo.isSafari" class="input-group-btn"
+							style="font-size: 14px;">
+							<button data-uib-tooltip="Copy to Clipboard"
+								class="btn vdvc-form-btn fa fa-clipboard" type="button"
+								data-clipboard data-supported="supported"
+								data-text="slc.linkInfo.url" data-on-copied="slc.copySuccess()"
+								data-on-error="slc.copyFail(err)" style="height: 35px;">
+							</button>
+						</span> <span data-copy-link-help-style></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12 vdvc-ldr-spin-wrap" data-ng-show="slc.showLoader" data-ng-class="{'full':slc.showLoader}">
+    	<div class="vdvc-loader-spin vdvc-v-align"></div>
+    </div>
+</div>

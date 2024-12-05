@@ -1,0 +1,287 @@
+@import url("https://fonts.googleapis.com/css?family=Noto+Serif|Catamaran:700");
+
+.cke_editable {
+	font-family: "Noto Serif", serif;
+	color: #000;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased !important;
+	-moz-font-smoothing: antialiased !important;
+	text-rendering: optimizelegibility !important;
+	line-height: 1.58;
+	letter-spacing: .003em;
+}
+
+.cke_editable html, .cke_editable body, .cke_editable div,
+	.cke_editable span, .cke_editable applet, .cke_editable object,
+	.cke_editable iframe, .cke_editable h1, .cke_editable h2,
+	.cke_editable h3, .cke_editable h4, .cke_editable h5,
+	.cke_editable h6, .cke_editable p, .cke_editable blockquote,
+	.cke_editable pre, .cke_editable a, .cke_editable abbr,
+	.cke_editable acronym, .cke_editable address, .cke_editable big,
+	.cke_editable cite, .cke_editable code, .cke_editable del,
+	.cke_editable dfn, .cke_editable em, .cke_editable img,
+	.cke_editable ins, .cke_editable kbd, .cke_editable q,
+	.cke_editable s, .cke_editable samp, .cke_editable small,
+	.cke_editable strike, .cke_editable strong, .cke_editable sub,
+	.cke_editable sup, .cke_editable tt, .cke_editable var,
+	.cke_editable b, .cke_editable u, .cke_editable i,
+	.cke_editable center, .cke_editable dl, .cke_editable dt,
+	.cke_editable dd, .cke_editable ol, .cke_editable ul,
+	.cke_editable li, .cke_editable fieldset, .cke_editable form,
+	.cke_editable label, .cke_editable legend, .cke_editable table,
+	.cke_editable caption, .cke_editable tbody, .cke_editable tfoot,
+	.cke_editable thead, .cke_editable tr, .cke_editable th,
+	.cke_editable td, .cke_editable article, .cke_editable aside,
+	.cke_editable canvas, .cke_editable details, .cke_editable embed,
+	.cke_editable figure, .cke_editable figcaption,
+	.cke_editable footer, .cke_editable header, .cke_editable hgroup,
+	.cke_editable main, .cke_editable menu, .cke_editable nav,
+	.cke_editable output, .cke_editable ruby, .cke_editable section,
+	.cke_editable summary, .cke_editable time, .cke_editable mark,
+	.cke_editable audio, .cke_editable video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+.cke_editable article, .cke_editable aside, .cke_editable details,
+	.cke_editable figcaption, .cke_editable figure,
+	.cke_editable footer, .cke_editable header, .cke_editable hgroup,
+	.cke_editable main, .cke_editable menu, .cke_editable nav,
+	.cke_editable section {
+	display: block;
+}
+
+.cke_editable body {
+	line-height: 1;
+}
+
+.cke_editable ol, .cke_editable ul {
+	list-style: none;
+}
+
+.cke_editable blockquote, .cke_editable q {
+	quotes: none;
+}
+
+.cke_editable blockquote:before, .cke_editable blockquote:after,
+	.cke_editable q:before, .cke_editable q:after {
+	content: '';
+	content: none;
+}
+
+.cke_editable table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.cke_editable h1, .cke_editable h2, .cke_editable h3,
+	.cke_editable h4, .cke_editable h5, .cke_editable h6 {
+	margin-top: 1.3em;
+	margin-bottom: 1.3em;
+	margin-right: 0;
+	margin-left: 0;
+	font-family: "Catamaran", sans-serif;
+	font-weight: 700;
+	color: #222;
+}
+
+.cke_editable h1 {
+	font-size: 2.6em;
+}
+
+.cke_editable h2 {
+	font-size: 1.95em;
+}
+
+.cke_editable h3 {
+	font-size: 1.625em;
+}
+
+.cke_editable h4 {
+	font-size: 1.3em;
+}
+
+.cke_editable h5 {
+	font-size: 1.3em;
+}
+
+.cke_editable h6 {
+	font-size: 1.3em;
+}
+
+.cke_editable header {
+	padding-bottom: 1.3em;
+	margin-bottom: 1em;
+}
+
+.cke_editable header h1, .cke_editable header h2 {
+	margin: .5em 0;
+}
+
+.cke_editable header.center {
+	text-align: center;
+}
+
+.cke_editable header h2 {
+	color: #777;
+}
+
+.cke_editable a {
+	color: #069;
+}
+
+.cke_editable a:hover {
+	color: #222;
+	text-decoration: underline;
+}
+
+.cke_editable mark {
+	color: #555;
+	background-color: rgba(82, 232, 165, 0.3);
+}
+
+.cke_editable strong, .cke_editable b {
+	font-weight: 700;
+}
+
+.cke_editable em, .cke_editable i, .cke_editable cite,
+	.cke_editable blockquote, .cke_editable q {
+	font-style: italic;
+}
+
+.cke_editable small {
+	font-size: 0.78em;
+}
+
+.cke_editable big {
+	font-size: 1.56em;
+}
+
+.cke_editable abbr[title], .cke_editable acronym[title] {
+	text-decoration: underline dotted;
+}
+
+.cke_editable sup {
+	vertical-align: super;
+	font-size: 0.78em;
+}
+
+.cke_editable sub {
+	vertical-align: sub;
+	font-size: 0.78em;
+}
+
+.cke_editable u {
+	text-decoration: underline;
+}
+
+.cke_editable img {
+	max-width: 100%;
+	display: block;
+	margin: 1.3em auto;
+}
+
+.cke_editable img.big {
+	margin-top: 1.3em;
+	margin-bottom: 1.3em;
+	margin-right: 0;
+	margin-left: 0;
+	width: 120%;
+	margin-left: -10%;
+}
+
+.cke_editable p {
+	margin-top: 1.3em;
+	margin-bottom: 1.3em;
+	margin-right: 0;
+	margin-left: 0;
+	line-height: 1.58;
+	color: #000;
+	font-family: "Noto Serif", serif;
+}
+
+.cke_editable blockquote {
+	margin-top: 1.3em;
+	margin-bottom: 1.3em;
+	margin-right: 0;
+	margin-left: 0;
+	margin-left: 1.3em;
+	border-left: 0.325em solid #dddddd;
+	padding-left: 1.3em;
+}
+
+.cke_editable code {
+	background-color: #dddddd;
+	opacity: .9;
+	padding: 0.1625em 0.325em;
+	border-radius: 3px;
+}
+
+.cke_editable ul {
+	list-style: disc outside none;
+}
+
+.cke_editable ol {
+	list-style: decimal outside none;
+}
+
+.cke_editable li {
+	margin-top: 0.65em;
+	margin-bottom: 0.65em;
+	margin-right: 0;
+	margin-left: 0;
+	margin-left: 1.3em;
+}
+
+.cke_editable dl {
+	margin-top: 1.3em;
+	margin-bottom: 1.3em;
+	margin-right: 0;
+	margin-left: 0;
+}
+
+.cke_editable dl dt {
+	font-weight: 700;
+}
+
+.cke_editable dl dd {
+	margin-left: 1.3em;
+}
+
+.cke_editable dl dt+dd {
+	margin-bottom: 1.3em;
+}
+
+.cke_editable table {
+	text-align: center;
+	vertical-align: middle;
+	color: #222;
+}
+
+.cke_editable td, .cke_editable th {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #777;
+	padding: 0 1em;
+}
+
+.cke_editable th {
+	font-weight: 700;
+}
+
+.cke_editable thead th {
+	background-color: rgba(58, 83, 155, 0.7);
+}
+
+.cke_editable tbody tr:nth-child(even) {
+	background-color: rgba(58, 83, 155, 0.2);
+}
+
+.cke_editable.no-margin {
+	max-width: none;
+	margin: 0;
+}

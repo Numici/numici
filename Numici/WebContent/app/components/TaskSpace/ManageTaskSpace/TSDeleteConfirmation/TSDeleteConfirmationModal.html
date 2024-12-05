@@ -1,0 +1,83 @@
+<form>
+	<div class="modal-header" style="padding: 10px 15px;">
+		<h3 class="modal-title">
+			Confirm Delete Taskspaces
+		</h3>
+		<div class="row">
+			<div class="col-xs-12" 
+				style="padding: 0px;margin-bottom: 10px;">
+				Below are the list of Taskspaces
+			</div>
+		</div>
+	</div>
+	<div class="modal-body" style="padding: 10px 15px;max-height: 330px;overflow-y: auto;">
+		
+		<div class="row" data-ng-if="tsdcc.bothConnectedTSList.length > 0">
+			<div class="col-xs-12" 
+				style="padding: 0px;margin-bottom: 10px;">
+				Used in SavedSearch & connected to Slack Channel. If you delete the taskspace, Notifications matching the saved search will not be sent and the Conversations in Context(TM) links posted in Slack channel will not work and no new annotations or conversations can be posted to Slack Channel.
+			</div>
+			<div class="col-xs-12" style="margin-bottom: 15px;border: 1px solid #ccc;padding: 10px 15px;">
+				<div class="row" 
+					data-ng-repeat="connectedTS in tsdcc.bothConnectedTSList">
+					<div class="col-xs-12" style="padding: 0px;">
+						<div class ="checkbox col-top-mrgn-5">
+							<input id="{{connectedTS.id}}" type="checkbox" data-ng-model="connectedTS.forceDelete">
+							<label for="{{connectedTS.id}}">{{connectedTS.name}}</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" data-ng-if="tsdcc.searchConnectedTSList.length > 0">
+			<div class="col-xs-12" 
+				style="padding: 0px;margin-bottom: 10px;">
+				Used in SavedSearch. If you delete the taskspace, Notifications matching the saved search will not be sent.
+			</div>
+			<div class="col-xs-12" style="margin-bottom: 15px;border: 1px solid #ccc;padding: 10px 15px;">
+				<div class="row" 
+					data-ng-repeat="connectedTS in tsdcc.searchConnectedTSList">
+					<div class="col-xs-12" style="padding: 0px;">
+						<div class ="checkbox col-top-mrgn-5">
+							<input id="{{connectedTS.id}}" type="checkbox" data-ng-model="connectedTS.forceDelete">
+							<label for="{{connectedTS.id}}">{{connectedTS.name}}</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" data-ng-if="tsdcc.slackConnectedTSList.length > 0">
+			<div class="col-xs-12" 
+				style="padding: 0px;margin-bottom: 10px;">
+				connected to Slack Channel. If you delete the taskspace, the Conversations in Context(TM) links posted in Slack channel will not work and no new annotations or conversations can be posted to Slack Channel.
+			</div>
+			<div class="col-xs-12" style="margin-bottom: 15px;border: 1px solid #ccc;padding: 10px 15px;">
+				<div class="row" 
+					data-ng-repeat="connectedTS in tsdcc.slackConnectedTSList">
+					<div class="col-xs-12" style="padding: 0px;">
+						<div class ="checkbox col-top-mrgn-5">
+							<input id="{{connectedTS.id}}" type="checkbox" data-ng-model="connectedTS.forceDelete">
+							<label for="{{connectedTS.id}}">{{connectedTS.name}}</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer" style="padding: 10px 15px;">
+		<div class="row">
+			<div class="col-xs-12" 
+				style="padding: 0px;margin-bottom: 10px;">
+				Are you sure you want to delete the Taskspace (select the Taskspaces you wish to delete)?
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12" 
+				style="padding: 0px;">
+				<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="tsdcc.cancel()">CANCEL</button>
+				<button class="btn vdvc-form-btn" type="button" data-ng-click="tsdcc.skipTaskspaces()" data-ng-disabled="!tsdcc.disableRemoveAndDelete()">SKIP</button>
+				<button class="btn vdvc-form-btn" type="button" data-ng-click="tsdcc.removeAndDeleteTaskspaces()" data-ng-disabled="tsdcc.disableRemoveAndDelete()">DELETE</button>
+			</div>
+		</div>
+	</div>
+</form>

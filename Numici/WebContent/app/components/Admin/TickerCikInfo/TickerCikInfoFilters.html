@@ -1,0 +1,149 @@
+<div class="tci-filters col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<form role="form" data-ng-submit="tci.getTickerCikInfoList(true)">
+		<div class="row">
+			<div class="tci-filters-ele-group col-xs-12 col-sm-4 col-md-2 col-lg-2" 
+				data-uib-tooltip="COMPANY NAME" 
+				data-tooltip-append-to-body="true">
+				<input type="text" class="form-control vdvc-input-txt" 
+				   id="company-name" 
+				   data-ng-model="tci.query.companyName" 
+				   placeholder="COMPANY NAME" 
+				   autofocus 
+				   autocomplete="off">
+			</div>
+			<div class="tci-filters-ele-group col-xs-12 col-sm-4 col-md-2 col-lg-2" 
+				data-uib-tooltip="TICKER" 
+				data-tooltip-append-to-body="true" 
+				style="width: 100px;">
+				<input type="text" class="form-control vdvc-input-txt" 
+				   id="ticker" 
+				   data-ng-model="tci.query.ticker" 
+				   placeholder="TICKER" 
+				   autocomplete="off">
+			</div>
+			<div class="tci-filters-ele-group col-xs-12 col-sm-4 col-md-2 col-lg-2" 
+				data-uib-tooltip="COMPANY URLS" 
+				data-tooltip-append-to-body="true" 
+				style="width: 170px;">
+				<data-ui-select id="company-urls" 
+					data-ng-model="tci.query.companyUrls" 
+					data-ng-disabled="disabled" 
+					data-search-enabled="false" 
+					data-on-select="tci.enableCompanyUrlsFilters()">
+					<data-ui-select-match data-placeholder="COMPANY URLS">{{$select.selected}}</data-ui-select-match>
+				    <data-ui-select-choices data-repeat="companyUrlsFilterOption in tci.companyUrlsFilterOptions | filter: $select.search">
+				      <div style="font-style: italic;">{{::companyUrlsFilterOption}}</div>
+				    </data-ui-select-choices>
+				</data-ui-select> 
+			</div>
+			<div class="tci-filters-ele-group col-xs-12 col-sm-4 col-md-2 col-lg-2" 
+				style="width: 170px;">
+				<div class="row tci-url-criteria-dd" data-on-outside-custom-tci-dd-element-click="tci.closeHomeUrlFilterDD()">
+					<fieldset class="tci-url-criteria-dd-toggle" 
+						data-ng-class="{'selected' : tci.showHomeUrlFilter}" 
+						data-ng-click="tci.toggleHomeUrlFilter()"
+						data-uib-tooltip="{{tci.getHomeUrlTooltip()}}" 
+						data-tooltip-append-to-body="true" 
+						data-ng-disabled="tci.disableCompanyUrlsFilters">
+						<input type="text" class="ellipsis form-control tci-url-criteria-dd-toggle-input" 
+							data-ng-model="tci.hmUrlCriteria" 
+							placeholder="HOME URL" 
+							readonly>
+					</fieldset>
+					<div class='tci-url-criteria-custom-dd-r' 
+						data-ng-show="tci.showHomeUrlFilter">
+						<div class="arrow"></div>
+						<div class="url-filters" 
+							data-ng-include 
+							data-src="'app/components/Admin/TickerCikInfo/URLFilters/HomeUrlFilters.html'">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tci-filters-ele-group col-xs-12 col-sm-4 col-md-2 col-lg-2" 
+				style="width: 170px;">
+				<div class="row tci-url-criteria-dd" data-on-outside-custom-tci-dd-element-click="tci.closeIRUrlFilterDD()">
+					<fieldset class="tci-url-criteria-dd-toggle" 
+						data-ng-class="{'selected' : tci.showIRUrlFilter}" 
+						data-ng-click="tci.toggleIRUrlFilter()"
+						data-uib-tooltip="{{tci.getIRUrlTooltip()}}" 
+						data-tooltip-append-to-body="true" 
+						data-ng-disabled="tci.disableCompanyUrlsFilters">
+						<input type="text" class="ellipsis form-control tci-url-criteria-dd-toggle-input" 
+							data-ng-model="tci.irUrlCriteria" 
+							placeholder="IR URL" 
+							readonly>
+					</fieldset>
+					<div class='tci-url-criteria-custom-dd-r' 
+						data-ng-show="tci.showIRUrlFilter">
+						<div class="arrow"></div>
+						<div class="url-filters" 
+							data-ng-include 
+							data-src="'app/components/Admin/TickerCikInfo/URLFilters/IRUrlFilters.html'">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tci-filters-ele-group col-xs-12 col-sm-4 col-md-2 col-lg-2" 
+				style="width: 170px;">
+				<div class="row tci-url-criteria-dd" data-on-outside-custom-tci-dd-element-click="tci.closeCPUrlFilterDD()">
+					<fieldset class="tci-url-criteria-dd-toggle" 
+						data-ng-class="{'selected' : tci.showCPUrlFilter}" 
+						data-ng-click="tci.toggleCPUrlFilter()"
+						data-uib-tooltip="{{tci.getCPUrlTooltip()}}" 
+						data-tooltip-append-to-body="true" 
+						data-ng-disabled="tci.disableCompanyUrlsFilters">
+						<input type="text" class="ellipsis form-control tci-url-criteria-dd-toggle-input" 
+							data-ng-model="tci.cpUrlCriteria" 
+							placeholder="CP URL" 
+							readonly>
+					</fieldset>
+					<div class='tci-url-criteria-custom-dd-r' 
+						data-ng-show="tci.showCPUrlFilter">
+						<div class="arrow"></div>
+						<div class="url-filters" 
+							data-ng-include 
+							data-src="'app/components/Admin/TickerCikInfo/URLFilters/CPUrlFilters.html'">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tci-filters-ele-group col-xs-12 col-sm-4 col-md-2 col-lg-2" 
+				style="width: 170px;">
+				<div class="row tci-url-criteria-dd" data-on-outside-custom-tci-dd-element-click="tci.closePRUrlFilterDD()">
+					<fieldset class="tci-url-criteria-dd-toggle" 
+						data-ng-class="{'selected' : tci.showPRUrlFilter}" 
+						data-ng-click="tci.togglePRUrlFilter()"
+						data-uib-tooltip="{{tci.getPRUrlTooltip()}}" 
+						data-tooltip-append-to-body="true" 
+						data-ng-disabled="tci.disableCompanyUrlsFilters">
+						<input type="text" class="ellipsis form-control tci-url-criteria-dd-toggle-input" 
+							data-ng-model="tci.prUrlCriteria" 
+							placeholder="PR URL" 
+							readonly>
+					</fieldset>
+					<div class='tci-url-criteria-custom-dd-r' 
+						data-ng-show="tci.showPRUrlFilter">
+						<div class="arrow"></div>
+						<div class="url-filters" 
+							data-ng-include 
+							data-src="'app/components/Admin/TickerCikInfo/URLFilters/PRUrlFilters.html'">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div style="position: absolute;top: 0px;right: 15px;">
+				<button type="button" 
+					class="btn vdvc-form-btn-muted"
+					data-ng-click="tci.reset()">
+					<i class="fa fa-undo fa-fw"></i>
+				</button>
+				<button type="submit" 
+						class="btn vdvc-form-btn">
+					GO
+				</button>
+			</div>
+		</div>
+	</form>
+</div>

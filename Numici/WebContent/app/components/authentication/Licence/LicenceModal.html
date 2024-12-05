@@ -1,0 +1,24 @@
+<form data-ng-submit="la.ok()">
+	<div class="modal-header">
+		<h4 class="modal-title">BETA LICENSE AGREEMENT</h4>
+	</div>
+	<div class="modal-body">
+		<!-- <object width="800px" height="400px;" data="resources/js/init/Vidi Vici Technologies.pdf#view=FitH&toolbar=0&scrollbar=0"></object> -->
+		<div pdf-viewer
+					data-src="resources/js/init/Vidi Vici Technologies - Click thru beta trial agreement.pdf"
+					data-current-page="0"
+					data-initial-scale="1.5"
+					data-api="pdfViewerAPI"
+					data-render-text-layer="true" 
+					data-progress-callback="la.onPDFProgress(operation, state, value, total, message)" 
+					class="vdvc-pdf-viewer">
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="la.cancel()">DECLINE</button>
+		<button class="btn vdvc-form-btn" type="submit" >ACCEPT</button>
+	</div>
+	<div class="col-xs-12 vdvc-ldr-spin-wrap" data-ng-show="!la.isPdfIsRendered" data-ng-class="{'full':!la.isPdfIsRendered}">
+    	<div class="vdvc-loader-spin vdvc-v-align"></div>
+    </div>
+</form>

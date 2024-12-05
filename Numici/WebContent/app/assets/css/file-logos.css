@@ -1,0 +1,87 @@
+
+.fl {
+	display: inline-block;
+	background-position: center;
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+    float: left;
+    background-size: contain;
+}
+
+.fl-evernote{
+  background-image: url('../logos/externalfiles/evernote.png');
+}
+
+.fl-box{
+  background-image: url('../logos/externalfiles/box.png');
+}
+
+.fl-dropbox{
+  background-image: url('../logos/externalfiles/dropbox.png');
+}
+
+.fl-onedrive{
+  background-image: url('../logos/externalfiles/OneDrive.svg');
+}
+
+
+.fl-webclip{
+  background-image: url('../icons/file/webClip.png');
+}
+
+
+.fl-webResource{
+  background-image: url('../icons/file/web-resource.png');
+}
+
+
+
+.fl-txt{
+  background-image: url('../icons/file/text.svg');
+}
+
+.fl-globe{
+  background-image: url('../icons/file/globe.png');
+}
+
+
+.fl-sec{
+  background-image: url('../icons/file/sec.svg');
+}
+
+.fl-pdf{
+  background-image: url('../icons/file/pdf.png');
+}
+
+
+.fl-docx{
+  background-image: url('../icons/file/Word.svg');
+}
+
+
+.fl-ppt{
+  background-image: url('../icons/file/PowerPoint.svg');
+}
+
+
+.fl-img{
+  background-image: url('../icons/file/img.png');
+}
+
+.fl-chrome{
+  background-image: url('../icons/file/chrome.png');
+}
+
+
+.fl-email{
+  background-image: url('../icons/file/email.png');
+}
+
+.fl-xlx{
+  background-image: url('../icons/file/Excel.svg');
+}
+
+.fl-notes{
+  background-image: url('../icons/file/Numici Notes Logo - Blue on Yellow Notepad.png');
+}

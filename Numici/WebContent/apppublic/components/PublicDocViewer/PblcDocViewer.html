@@ -1,0 +1,152 @@
+<div class="container-fluid full" style="padding-top:110px;overflow: hidden;" id='vdvc_doc_viewer'>	
+	
+	<div class="row" >
+		<div class=" navbar-fixed-top second-navbar" 
+			 style="top:55px;background-color: #EEEEEE;line-height: 50px;padding: 0px;">
+			<div class=" col-xs-7" style="padding-left: 30px;">
+				<div class="doc-path ellipsis" style="font-size: 25px; color: rgba(51, 51, 51, 0.74);">
+					<span>{{::doc.docDisplayName}}</span>
+				</div>
+			</div>
+			<div class="col-xs-5" style="padding-right: 30px;text-align: right;">
+				<span data-ng-repeat="tag in docTags | limitTo:tagLimit"
+					class="vdvc-tag"
+					data-ng-class= "{ 'highlight': tag.isHighlighted }"> 
+						<span class="tag-cls" data-ng-show="!doc.perms.readonly"></span> 
+						<span class="ellipsis" 
+							data-tooltip-placement="auto"
+					  		data-uib-tooltip="{{showTagName(tag)}}"
+					  		data-tooltip-append-to-body='true'
+			 				style="display: block;">
+			 				{{showTagName(tag)}}
+			 			</span>
+				</span> 
+				<span class="dropdown" 
+					data-uib-dropdown
+					data-auto-close="outsideClick"
+					data-ng-show="docTags.length > tagLimit" style="margin-right: 10px;margin-left: -12px;">
+		        	<span data-uib-dropdown-toggle 
+		        		  data-ng-disabled="disabled"
+		        		  style="vertical-align: middle;">
+						<i class="fa fa-ellipsis-h fa-fw"></i>
+					</span>
+			      	<ul class="dropdown-menu dropdown-menu-right vdvc-tag-list-drop-down" data-uib-dropdown-menu role="menu" style="top: 25px;">
+				        <li class="vdvc-drop-down-item" 
+				        	role="menuitem">
+				        	<span class="vdvc-tag"
+				        		data-ng-repeat='tag in docTags | after:tagLimit'  
+								style="margin-top: 4px;">
+								<span style='width: 100%;display: inline-block;'>
+									<span class="tag-cls" data-ng-show="!doc.perms.readonly"></span>
+									<span class="ellipsis" 
+										data-tooltip-placement="auto"
+								  		data-uib-tooltip="{{showTagName(tag)}}"
+								  		data-tooltip-append-to-body='true'
+						 				style="display: block;">
+						 				{{showTagName(tag)}}
+						 			</span>
+								</span>
+							</span>
+				        </li>
+				    </ul>
+				</span>
+				<a data-ng-href="{{::doc.sourceUrl}}"
+				   target="_blank"
+				   data-uib-tooltip="{{::doc.sourceUrl}}" 
+				   data-tooltip-placement="left"
+				   style="text-decoration: none;">
+				   	{{::doc.sourceHost}}
+				</a>
+				<span class="btn btn-xs vdvc-nav-btn fa fa-comment-o" 
+					data-ng-click="toggleComments()" 
+					data-uib-tooltip="Show comments" 
+					data-tooltip-placement="bottom" 
+					data-ng-style="showComments && {'background-color':'#069','color':'#fff'}"
+					style="font-size: 1.3em;margin-left: 5px;" 
+					role="button" 
+					tabindex="0">
+				</span>
+			</div>	
+			
+		</div>
+	</div>
+	
+	
+	
+	<div class="col-xs-12" data-ng-show='showDoc' style="height: calc(100% - 10px);">
+		<div class="doc-viewr col-xs-12 full" 
+			data-ng-show='!showPdf' 
+			data-ng-attr-data-id="{{viewerId}}" 
+			style="padding: 0px 0px 0px 15px;">
+			<div class='row full'>
+				<div class="row full doc-container" style="padding-top: 0px;">
+					<div class="cke-wrap full"
+						 data-ng-class="showComments ? 'col-xs-9' : 'col-xs-12'" >
+						<form>
+							<textarea data-ng-attr-id="{{ 'editor-'+ viewerId }}"
+								style="display: none; width: 0px; overflow: auto;"
+								data-ng-model="content"></textarea>
+						</form>
+					</div>
+					<div data-ng-include-replace data-ng-include="'apppublic/components/PublicDocViewer/docViewerComments.html'"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="col-xs-12 full" data-ng-show='showPdf'>
+		<div class="row full pdf-wrap" data-ng-attr-data-id="{{viewerId}}">
+			<div id="loader" data-ng-show="isLoading">
+				<div class="pdf-progress-bar">
+					<span class='bar' data-ng-style='{width: downloadProgress + "%"}'>Loading...</span>
+				</div>
+			</div> 
+			<div class="row full">
+				<div class='row pdf-navbar'>
+					<div class="col-xs-12">
+						<div class="pdf-tools">
+							  <button data-ng-click="zoomIn()" class="btn btn-xs vdvc-icon-btn"><i class="fa fa-search-plus"></i></button>
+							  <button data-ng-click="fit()" class="btn btn-xs vdvc-icon-btn fa fa-arrows-alt"></button>
+							  <button data-ng-click="zoomOut()" class="btn btn-xs vdvc-icon-btn"><i class="fa fa-search-minus"></i></button>
+							  
+							  <button data-ng-click="goPrevious()" class="btn btn-xs vdvc-icon-btn"><i class="fa fa-arrow-left"></i></button>
+							  <span style="display: inline-block;    margin: 0px 30px 0px 0px;">
+							  	<input type="text" min=1 data-ng-model="pdfCurrentPage" data-ng-change="onPDFPageChanged()" class="vdvc-input-txt" 
+								  style="padding: 0px;border: none;width: 50px;text-align: end;line-height: 35px;" >
+								  <span style="display: inline-block;width: 50px;"> / {{pdfTotalPages}}</span>
+							  </span>
+							  <button data-ng-click="goNext()" class="btn btn-xs vdvc-icon-btn">
+							  	<i class="fa fa-arrow-right"></i>
+							  </button>
+						</div>
+					</div>
+				</div>
+				<div class="row full pdf-container" style="height: calc(100% - 50px) !important;">
+					<div data-ng-class="showComments ? 'col-xs-9' : 'col-xs-12'" class="full">
+						<div pdf-viewer
+							data-src="{{pdfURL}}"
+							data-current-page="pdfCurrentPage"
+							data-initial-scale="fit_width"
+							data-api="pdfViewerAPI"
+							data-pdf-app="pdfViewer"
+							data-render-text-layer="true"
+							data-progress-callback="onPDFProgress(operation, state, value, total, message)"
+							data-password-callback="onPDFPassword(reason)"
+							data-search-term="{{pdfSearchTerm}}"
+							data-annotations="pdfAnnotations" 
+							data-search-result-id="pdfSearchResultID"
+							data-search-num-occurences="pdfSearchNumOccurences"
+							data-annot-type="annotType" 
+							public-view="true"
+							id="content"
+							class="vdvc-pdf-viewer">
+						</div>
+					</div>
+					<div data-ng-include-replace data-ng-include="'apppublic/components/PublicDocViewer/pdfComments.tmpl.html'"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+

@@ -1,0 +1,23 @@
+<form name="MigrateUserActivityLogInfo">
+	<div class="modal-header" style="padding: 15px;">
+		<h3 class="modal-title">
+			<i style="font-size: 20px;font-weight: 400;">{{mualic.infoFor}}</i> Log Info
+			<i class="fa fa-times" style="float:right;color: #006699;" data-ng-click="mualic.close()" role="button" tabindex="0"></i>
+		</h3>
+	</div>
+	<div class="modal-body">
+		<div class="col-xs-12 migrate-user-activity-log-info-element" 
+			data-ng-bind-html="mualic.info">
+		</div>
+	</div>
+	<div class="modal-footer" style="padding: 15px;">
+		<button type="button"
+				class="btn vdvc-form-btn vdvc-form-btn-muted"
+				data-clipboard
+				data-supported="supported" 
+				data-text="mualic.info" 
+				data-on-copied="mualic.copySuccess()" 
+				data-on-error="mualic.copyFail(err)">COPY TO CLIPBOARD</button>
+	</div>
+</form>
+

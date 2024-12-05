@@ -1,0 +1,18 @@
+<form data-ng-submit="aiec.ok()">
+	<div class="modal-body share-doc-modal-body">
+		<div class="col-xs-12">
+			<div class="form-group row input-wrap" style="margin: 10px 0px;padding: 0px;color: #f44336;">
+				<span>{{aiec.ActionItemsError}}</span>
+			</div>
+			<div class="form-group row input-wrap" style="margin: 10px 0px;padding: 0px;color: #069;">
+				<span>Still do you want to proceed or not?</span>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="col-xs-12" style="padding: 0px;">
+			<button class="btn vdvc-form-btn" type="submit" style="float: right;margin-left: 5px;">OK</button>
+			<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="aiec.cancel()" style="float: right;margin-left: 5px;">CANCEL</button>
+		</div>
+	</div>
+</form>

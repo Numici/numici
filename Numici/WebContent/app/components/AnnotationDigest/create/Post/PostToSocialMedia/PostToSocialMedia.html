@@ -1,0 +1,373 @@
+<div class="modal-header"><h3 class="modal-title">Share on {{ptsmc.mediaChannel}}</h3></div>
+<div class="modal-body" style="max-height: 440px; padding: 5px 15px;">
+	<div class="row">
+		<div class="col-xs-12" data-ng-show="ptsmc.authEnabled" >
+			<div class="form-group row input-wrap" style="margin: 3px 0px;padding: 0px;line-height: 40px;">
+				<label class="col-xs-1" 
+					style="font-weight: normal;height: 35px;line-height: 35px;padding: 0px;">
+					Title
+				</label>
+				<div class="col-xs-11" style="position: relative;">
+					 <input type="text" 
+					 	class="vdvc-input-txt" 
+					 	data-ng-disabled="true"
+					 	data-ng-model="ptsmc.DigestInfo.title">
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12" data-ng-show="ptsmc.mediaChannel != 'Notion'">
+			<div class="form-group row input-wrap" style="margin: 3px 0px;padding: 0px;">
+				<label class="col-xs-1" for="digestDescription" style="font-weight: normal;height: 200px;line-height: 201px;padding: 0px;">
+					Post
+				</label>
+				<div class="col-xs-11" id="digestDescription" style="position: relative;">
+					 <div class="col-xs-12" style="border: 2px solid rgb(221, 221, 221);padding: 0px;overflow-y: auto;" data-ng-style="{'max-height' : ptsmc.mediaChannel == 'Teams' ? '225px' : '250px'}">
+					 	<textarea data-msd-elastic 
+						 	class="vdvc-txtA" 
+							rows="2" 
+							data-ng-disabled="ptsmc.article" 
+						 	data-ng-model="ptsmc.DigestInfo.shareCommentary" 
+						 	data-ng-keyup="ptsmc.checkShareCommentaryCharLimit($event)" 
+						 	data-ng-cut="ptsmc.checkShareCommentaryCharLimit($event)" 
+						 	data-ng-style="{'max-height' : (ptsmc.mediaChannel == 'LinkedIn' || ptsmc.mediaChannel == 'Teams') ? '' : '201px','overflow-y' : (ptsmc.mediaChannel == 'LinkedIn' || ptsmc.mediaChannel == 'Teams') ? 'hidden' : 'auto'}" 
+						 	style="border: 0px;overflow: hidden;overflow-wrap: break-word;resize: none;min-height: 200px;">
+						 </textarea>
+						 <div class="col-xs-12" data-ng-if="ptsmc.DigestInfo.annotatedImgUrl.length > 0 && (ptsmc.mediaChannel == 'LinkedIn' || ptsmc.mediaChannel == 'Teams')" style="padding:0px; margin-top: 5px;">
+							<img alt="Annotated Image Url" data-ng-src="{{::ptsmc.DigestInfo.annotatedImgUrl}}" style="max-width: 100%;height: 100%;">
+						 </div>
+					 </div>
+					 
+					 <div class="col-xs-12" 
+					 	data-ng-if="ptsmc.shareCommentaryNumiciMktMsg.length > 0" 
+					 	data-ng-bind-html="ptsmc.shareCommentaryNumiciMktMsg" 
+					 	style="margin-top: 5px;">
+					 </div>
+					 <div class="col-xs-12" data-ng-show="ptsmc.shareCommentaryTextRemaining < 0" style="padding: 0px;">
+					 	<div class="col-xs-10" 
+					 		style="padding-left: 0px;color: #a94442;">
+					 		<i class="fa fa-exclamation-circle" style="margin-right: 5px;"></i>
+					 		You have exceeded the maximum character limit ({{ptsmc.shareCommentaryMaxTextLen}})
+					 	</div>
+					 	<div class="col-xs-2" 
+					 		style="padding: 0px;color: #a94442;float: right;text-align: right;">
+					 		{{ptsmc.shareCommentaryTextRemaining}}
+					 	</div>
+					 </div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12" data-ng-show="ptsmc.authEnabled && ptsmc.mediaChannel == 'LinkedIn'">
+			<div class="form-group row input-wrap" style="margin: 0px;padding: 0px;line-height: 40px;">
+				<label class="col-xs-1" for="sortField" style="font-weight: normal;height: 35px;line-height: 35px;padding: 0px;">
+					Visibility
+				</label>
+				<div id="sortField" class="col-xs-5" style="position: relative;">
+					<data-ui-select 
+							class="search-ticker-ui-select" 
+							data-ng-disabled="ptsmc.article" 
+							data-ng-model="ptsmc.visibilityOption" 
+							data-search-enabled="false">
+						<data-ui-select-match data-placeholder="VISIBILITY">
+				    		<span>
+								{{$select.selected.label}}
+				    		</span>
+				    	</data-ui-select-match>
+				    	<data-ui-select-choices
+				    		data-repeat="visibilityOption in ptsmc.visibilityOptionList | filter:$select.search track by $index" position='up'>
+					      	<div class="tickers_choices_list">
+					      		<div class="tcl_cik" 
+					      			data-ng-bind-html="visibilityOption.label | highlight: $select.search">
+					      		</div>
+					      	</div>
+					    </data-ui-select-choices>
+					</data-ui-select>
+				</div>
+			</div>
+		</div>
+		<div class="row" data-ng-show="ptsmc.authEnabled && ptsmc.mediaChannel == 'Notion'">
+			<div class="col-xs-12" data-ng-show="ptsmc.notionUserObjsTreeList && ptsmc.notionUserObjsTreeList.length > 0">
+				<div class="form-group row input-wrap"
+					style="margin: 5px 0px 0px 0px;padding: 0px;line-height: 40px;">
+					<label class="col-xs-1" for="sortField" 
+						style="font-weight: normal;height: 35px;line-height: 35px;padding: 0px;">
+						Object
+					</label>
+					<div id="sortField" class="col-xs-11" style="position: relative;">
+						<data-ui-select class="search-ticker-ui-select" 
+							data-ng-disabled="ptsmc.article" 
+							data-ng-model="ptsmc.notionUserObjTree" 
+							data-search-enabled="false">
+							<data-ui-select-match data-placeholder="DATABASE">
+					    		<span>
+									{{$select.selected.title}}
+					    		</span>
+					    	</data-ui-select-match>
+					    	<data-ui-select-choices data-repeat="notionUserObjTree in ptsmc.notionUserObjsTreeList | filter:$select.search track by $index"
+					    		style="position: absolute; overflow-y: scroll; max-height: 200px;"
+					    		position='up'>
+						      	<div class="tickers_choices_list">
+						      		<div class="tcl_cik" 
+ 						      			ng-style="{'padding-left': (notionUserObjTree.level*15) + 'px'}"
+						      			data-ng-bind-html="notionUserObjTree.title | highlight: $select.search">
+						      		</div>
+						      	</div>
+						    </data-ui-select-choices>
+						</data-ui-select>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12" data-ng-show="ptsmc.notionUserObjsTreeList && ptsmc.notionUserObjsTreeList.length == 0">
+				<div class="form-group row input-wrap"
+						style="margin: 5px 0px 0px 0px;padding: 0px;line-height: 40px; color:red;">
+					<label class="col-xs-12" for="sortField" 
+						style="font-weight: normal;height: 35px;line-height: 35px;padding: 0px;">
+							No Object to select - please check the pages Allowed to Numici for access
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="row" data-ng-show="ptsmc.authEnabled && ptsmc.mediaChannel == 'Slack'">
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap"
+					style="margin: 0px; padding: 0px; line-height: 40px;">
+					<label class="col-xs-1" for="sortField"
+						style="font-weight: normal; height: 35px; line-height: 35px; padding: 0px;">
+						Post to </label>
+					<div id="sortField" class="col-xs-4" style="position: relative;">
+						<data-ui-select class="search-ticker-ui-select"
+							data-ng-model="ptsmc.postToSlackOption"
+							data-on-select="ptsmc.getSlackUserPostToChannelsList()"
+							data-search-enabled="false"> <data-ui-select-match
+							data-placeholder="POSTTO"> <span>
+							{{$select.selected.label}} </span> </data-ui-select-match> <data-ui-select-choices
+							data-repeat="postToSlackOption in ptsmc.postToSlackOptionList | filter:$select.search track by $index"
+							position='up'>
+						<div class="tickers_choices_list">
+							<div class="tcl_cik"
+								data-ng-bind-html="postToSlackOption.label | highlight: $select.search">
+							</div>
+						</div>
+						</data-ui-select-choices> </data-ui-select>
+					</div>
+					<div class="col-xs-2" style="position: relative;"></div>
+					<label class="col-xs-1" for="sortField"
+						style="font-weight: normal; height: 35px; line-height: 35px; padding: 0px;">
+						Workspace </label>
+					<div id="sortField" class="col-xs-4" style="position: relative;">
+						<data-ui-select class="search-ticker-ui-select"
+							data-ng-model="ptsmc.slackUserWorkspaces"
+							data-on-select="ptsmc.getSlackUserWorkSpaceChannels()"
+							data-search-enabled="false"> <data-ui-select-match
+							data-placeholder="SLACKUSERWORKSPACES"> <span>
+							{{$select.selected.value}} </span> </data-ui-select-match> <data-ui-select-choices
+							data-repeat="slackUserWorkspaces in ptsmc.slackUserWorkspacesList | filter:$select.search track by $index"
+							position='up'>
+						<div class="tickers_choices_list">
+							<div class="tcl_cik"
+								data-ng-bind-html="slackUserWorkspaces.value | highlight: $select.search">
+							</div>
+						</div>
+						</data-ui-select-choices> </data-ui-select>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap"
+					style="margin: 5px 0px 0px 0px; padding: 0px; line-height: 40px;">
+					<label class="col-xs-1" for="sortField"
+						style="font-weight: normal; height: 35px; line-height: 35px; padding: 0px;">
+						Channel </label>
+					<div id="sortField" class="col-xs-11" style="position: relative;">
+						<data-ui-select class="search-ticker-ui-select"
+							data-ng-model="ptsmc.slackUserWorkspaceChannels" multiple
+							style="padding: 3px 3px 3px;" data-search-enabled="true">
+						<data-ui-select-match> <span
+							data-uib-tooltip="{{$item.channelName}}"
+							data-tooltip-placement="auto" data-tooltip-append-to-body="true">
+							<i class="fa fa-hashtag" data-ng-if="$item.channelType == 'C'">
+						</i> <i class="fa fa-lock" data-ng-if="$item.channelType == 'G'"> </i>
+							<i class="fa fa-user"
+							data-ng-if="$item.channelType == 'im'"
+							style="padding: 1px 4px; border: 1px solid; border-radius: 5px; background: #fff; color: #069; font-size: 12px; position: relative;">
+						</i> <span class="fa fa-user"
+							data-ng-if="$item.channelType == 'mpim'"
+							style="padding: 1px 4px; border: 1px solid; border-radius: 5px; background: #fff; color: #069; font-size: 12px; position: relative;">
+								<i class="fa"
+								style="position: absolute; right: -6px; bottom: -7px; transform: scale(0.7); font-weight: bolder; color: black; padding: 1px 4px; border: 1px solid; border-radius: 5px; background: #ddd; font-size: 12px;">
+									{{$item.channelMembersLen}} </i>
+						</span> {{$item.channelName | truncate: 20: '...'}}
+						</span> </data-ui-select-match> <data-ui-select-choices
+							data-repeat="slackUserWorkspaceChannels in ptsmc.slackUserWorkspaceChannelsList | filter:$select.search track by $index"
+							position='up'>
+						<div class="tickers_choices_list">
+							<div data-uib-tooltip="{{slackUserWorkspaceChannels.channelName}}"
+								data-tooltip-placement="auto" data-tooltip-append-to-body="true">
+								<span class="fa fa-hashtag"
+									data-ng-if="slackUserWorkspaceChannels.channelType == 'C'"
+									style="position: relative; width: 14px;"> </span> <span
+									class="fa fa-lock"
+									data-ng-if="slackUserWorkspaceChannels.channelType == 'G'"
+									style="position: relative; width: 14px; font-size: 16px;">
+								</span>
+								<span class="fa fa-user"
+									data-ng-if="slackUserWorkspaceChannels.channelType == 'im'"
+									style="padding: 1px 4px; border: 1px solid; border-radius: 5px; background: #fff; color: #069; font-size: 20px; position: relative;">
+								</span>
+								<span class="fa fa-user"
+									data-ng-if="slackUserWorkspaceChannels.channelType == 'mpim'"
+									style="padding: 1px 4px; border: 1px solid; border-radius: 5px; background: #fff; color: #069; font-size: 20px; position: relative;">
+									<i class="fa"
+									style="position: absolute; right: -6px; bottom: -8px; transform: scale(0.7); font-weight: bolder; color: black; padding: 1px 4px; border: 1px solid; border-radius: 5px; background: #ddd; font-size: 17px;">
+										{{slackUserWorkspaceChannels.channelMembersLen}} </i>
+								</span> <span
+									ng-bind-html="slackUserWorkspaceChannels.channelName | truncate: 25: '...' | highlight: $select.search"></span>
+							</div>
+						</div>
+						</data-ui-select-choices> </data-ui-select>
+					</div>
+				</div>
+				<div class="col-xs-12" style="margin: 0px; padding: 0px;">
+					<div class="col-xs-1" style="position: relative;"></div>
+					<div class="col-xs-6"
+						data-ng-show="ptsmc.postToSlackOption.value ==  'SlackUser' && ptsmc.slackUserWorkspaceChannels.length > 1">
+						<div class="checkbox" style="margin-top: 2px;">
+							<input type="checkbox" data-ng-model="ptsmc.postAsGroup">
+							<label class="cs-lbl">Post as group</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" data-ng-show="ptsmc.authEnabled && ptsmc.mediaChannel == 'Webex'">
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap"
+					style="margin: 0px; padding: 0px; line-height: 40px;">
+					<label class="col-xs-1" for="sortField"
+						style="font-weight: normal; height: 35px; line-height: 35px; padding: 0px;">
+						Post to </label>
+					<div id="sortField" class="col-xs-5" style="position: relative;">
+						<data-ui-select class="search-ticker-ui-select"
+							data-ng-model="ptsmc.postToWebexOption"
+							data-on-select="ptsmc.getWebexUserRoomsList()"
+							data-search-enabled="false"> <data-ui-select-match
+							data-placeholder="POSTTO"> <span>
+							{{$select.selected.label}} </span> </data-ui-select-match> <data-ui-select-choices
+							data-repeat="postToWebexOption in ptsmc.postToWebexOptionList | filter:$select.search track by $index"
+							position='up'>
+						<div class="tickers_choices_list">
+							<div class="tcl_cik"
+								data-ng-bind-html="postToWebexOption.label | highlight: $select.search">
+							</div>
+						</div>
+						</data-ui-select-choices> </data-ui-select>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap"
+					style="margin: 5px 0px 0px 0px; padding: 0px; line-height: 40px;">
+					<label class="col-xs-1" for="sortField"
+						style="font-weight: normal; height: 35px; line-height: 35px; padding: 0px;">
+						Space </label>
+					<div id="sortField" class="col-xs-11" style="position: relative;">
+						<data-ui-select class="search-ticker-ui-select" 
+							data-ng-model="ptsmc.webexUserRooms" 
+							data-search-enabled="false">
+							<data-ui-select-match data-placeholder="DATABASE">
+					    		<span>
+									{{$select.selected.title}}
+					    		</span>
+					    	</data-ui-select-match>
+					    	<data-ui-select-choices data-repeat="webexUserRooms in ptsmc.webexUserRoomsList | filter:$select.search track by $index"
+					    		style="position: absolute; overflow-y: scroll; max-height: 200px;"
+					    		position='up'>
+						      	<div class="tickers_choices_list">
+						      		<div class="tcl_cik" 
+						      			data-ng-bind-html="webexUserRooms.title | highlight: $select.search">
+						      		</div>
+						      	</div>
+						    </data-ui-select-choices>
+						</data-ui-select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" data-ng-show="ptsmc.authEnabled && ptsmc.mediaChannel == 'Teams'">
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap"
+					style="margin: 0px; padding: 0px; line-height: 40px;">
+					<label class="col-xs-1" for="sortField"
+						style="font-weight: normal; height: 35px; line-height: 35px; padding: 0px;">
+						Team </label>
+					<div id="sortField" class="col-xs-4" style="position: relative;">
+						<data-ui-select class="search-ticker-ui-select"
+							data-ng-model="ptsmc.teamsUserTeams"
+							data-on-select="ptsmc.getTeamsUserTeamChannels()"
+							data-search-enabled="false"> <data-ui-select-match
+							data-placeholder="TEAMSUSERTEAMS"> <span>
+							{{$select.selected.name}} </span> </data-ui-select-match> <data-ui-select-choices
+							data-repeat="teamsUserTeams in ptsmc.teamsUserTeamsList | filter:$select.search track by $index"
+							position='up'>
+						<div class="tickers_choices_list">
+							<div class="tcl_cik"
+								data-ng-bind-html="teamsUserTeams.name | highlight: $select.search">
+							</div>
+						</div>
+						</data-ui-select-choices> </data-ui-select>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap"
+					style="margin: 5px 0px 0px 0px; padding: 0px; line-height: 40px;">
+					<label class="col-xs-1" for="sortField"
+						style="font-weight: normal; height: 35px; line-height: 35px; padding: 0px;">
+						Channel </label>
+					<div id="sortField" class="col-xs-11" style="position: relative;">
+						<data-ui-select class="search-ticker-ui-select"
+							data-ng-model="ptsmc.teamsUserTeamChannels" multiple
+							style="padding: 3px 3px 3px;" data-search-enabled="true">
+						<data-ui-select-match> <span
+							data-uib-tooltip="{{$item.name}}"
+							data-tooltip-placement="auto" data-tooltip-append-to-body="true">
+							{{$item.name | truncate: 20: '...'}}
+						</span> </data-ui-select-match> <data-ui-select-choices
+							data-repeat="teamsUserTeamChannels in ptsmc.teamsUserTeamChannelsList | filter:$select.search track by $index"
+							position='up'>
+						<div class="tickers_choices_list">
+							<div data-uib-tooltip="{{teamsUserTeamChannels.name}}"
+								data-tooltip-placement="auto" data-tooltip-append-to-body="true">
+								<span
+									ng-bind-html="teamsUserTeamChannels.name | truncate: 25: '...' | highlight: $select.search"></span>
+							</div>
+						</div>
+						</data-ui-select-choices> </data-ui-select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer" style="padding: 10px 15px;border-top: 3px solid rgb(204, 204, 204);">
+	<div class="row"
+		data-ng-show="!ptsmc.article">
+	    <button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted" data-ng-click="ptsmc.cancel()">CANCEL</button>
+		<button type="button" 
+			class="btn vdvc-form-btn" 
+			data-ng-click="ptsmc.postSocialMediaArticle()" 
+			data-ng-disabled="ptsmc.DigestInfo.digestName.length == 0 || ptsmc.DigestInfo.digestDescription.length == 0 || ptsmc.shareCommentaryTextRemaining < 0 || (ptsmc.mediaChannel == 'Slack' && ptsmc.slackUserWorkspaceChannels.length == 0) || (ptsmc.mediaChannel == 'Teams' && ptsmc.teamsUserTeamChannels.length == 0) || (ptsmc.mediaChannel == 'Notion' && ptsmc.notionUserObjsTreeList.length == 0) || (ptsmc.mediaChannel == 'Webex' && ptsmc.webexUserRooms.length == 0)">
+			POST
+		</button>
+	</div>
+	<div class="row" data-ng-show="ptsmc.article.length > 0">
+		<div class="col-xs-6"
+			style="padding: 5px;border: 2px solid #ccc;text-align: left;">
+			<div data-ng-show="ptsmc.article.length > 0" class="col-xs-12" style="padding: 0px;">
+				<b>{{ptsmc.message}}</b> - <a data-ng-href="{{::ptsmc.article}}" target="_blank">View Post</a>
+			</div>
+		</div>
+		<div class="col-xs-6">
+		    <button type="button" class="btn vdvc-form-btn  vdvc-form-btn-muted" data-ng-click="ptsmc.close()">CLOSE</button>
+		</div>
+	</div>
+</div>

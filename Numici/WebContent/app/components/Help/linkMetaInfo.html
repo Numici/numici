@@ -1,0 +1,37 @@
+<div class="lnk-meta-info" data-ng-attr-id="{{ 'help-link-meta-info' }}">
+	 
+	<div style="position: relative;top:35px;" data-ng-show="vm.linkCrdInfo.showLoader">
+		<div class="vdvc-loader"></div>
+	</div>
+	<div style="position: absolute;top:35px;" data-ng-show="vm.linkCrdInfo.showError">
+		<div style="color: #a94442;">{{vm.linkCrdInfo.errorMsg}}</div>
+	</div>
+	<div data-ng-show="!vm.linkCrdInfo.showLoader">
+		<div class="row">{{vm.linkCrdInfo.linkType}}</div>
+		<div class="row" data-ng-if="vm.linkCrdInfo.showTitle == false">
+			<div class="ellipsis" data-uib-tooltip="{{vm.linkCrdInfo.text}}" >
+				<a class="deep-link" data-ng-href="{{vm.linkCrdInfo.url}}" data-ng-attr-target="{{vm.linkCrdInfo.target}}">
+			      {{vm.linkCrdInfo.text}}
+			    </a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="ellipsis" data-uib-tooltip="{{vm.linkCrdInfo.metaInfo.title}}" >
+				<a class="deep-link" data-ng-href="{{vm.linkCrdInfo.url}}" data-ng-attr-target="{{vm.linkCrdInfo.target}}" >
+			      {{vm.linkCrdInfo.metaInfo.title}}
+			    </a>
+			</div>
+		</div>
+		<div class="row">
+			<div data-uib-tooltip="{{vm.linkCrdInfo.metaInfo.description}}" >{{vm.linkCrdInfo.metaInfo.description}}</div>
+		</div>
+		<div class="row" data-ng-show="vm.linkCrdInfo.metaInfo.imageUrl">
+			<div>
+				<img data-ng-src="{{vm.linkCrdInfo.metaInfo.imageUrl}}"  
+					 data-ng-attr-height="{{vm.linkCrdInfo.metaInfo.ih}}" 
+					 data-ng-attr-width="{{vm.linkCrdInfo.metaInfo.iw}}"
+					 style="max-width: 350px;max-height: 250px;">
+			</div>
+		</div>
+	</div>
+</div>

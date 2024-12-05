@@ -1,0 +1,96 @@
+<div class="row full pdf-viewr" data-ng-attr-data-id="{{viewerId}}" style="position: relative;">
+	<div id="loader" data-ng-show="isLoading">
+		<div class="pdf-progress-bar">
+			<span class='bar' data-ng-style='{width: downloadProgress + "%"}'>Loading...</span>
+		</div>
+	</div> 
+	<div class="row full pdf-wrap">
+		<div class='row pdf-navbar' style="width: 100%;">
+			<div data-ng-include-replace data-ng-include data-src="getPdfViewerSecondaryNavBar()"></div>
+		</div>
+		<div class="row pdf-container">
+			<div data-ng-class="showComments ? 'col-xs-9' : 'col-xs-12'" class="full">
+				<div 
+				    pdf-viewer
+					data-src="{{pdfURL}}"
+					data-current-page="pdfCurrentPage"
+					data-initial-scale="1.0"
+					data-api="pdfViewerAPI"
+					data-pdf-app="pdfViewer"
+					data-render-text-layer="true"
+					data-progress-callback="onPDFProgress(operation, state, value, total, message)"
+					data-password-callback="onPDFPassword(reason)"
+					data-search-term="{{pdfSearchTerm}}"
+					
+					data-annotations="pdfAnnotations"
+					data-snippets="snippetMatches"
+					data-deep-links="docDeepLinks"
+					
+					data-public-view="false"
+					data-doc-in-inbox="{{isDocInInbox}}" 
+					data-tool-bar-tooltip="getPDFToolTip(key)"
+					
+					data-save-annotation="addAnnotation(data,type,saveResolve)"
+					data-save-screenshot="createScreenshot(data,type,saveResolve)"
+					data-search-result-id="pdfSearchResultID"
+					data-search-num-occurences="pdfSearchNumOccurences"
+					data-annot-type="annotType" 
+					data-perms = "doc.perms" 
+					data-is-ts-context = "isTSContext()"
+					id="content"
+					class="vdvc-pdf-viewer">
+				</div>
+			</div>
+			
+		    <div data-ng-include-replace data-ng-include="'app/components/DocViewer/pdfComments.tmpl.html'"></div>
+		    
+		</div>
+		<div class="pdf-link-info" data-on-outside-element-click="hidePdfLinkInfo()" style="padding: 15px 5px;">
+			<span style="position: absolute;
+			    right: 0;
+			    padding: 0px 5px;
+			    top: 0px;
+			    color: #777;">
+				<span class='fa fa-trash-o btn btn-sm'
+					  data-ng-click="deletePdfLink(linkInfo)"
+					  style="font-size: 1em;padding: 5px;">
+				</span>
+			</span>
+			<div class="row" style="padding: 3px 0px;">
+				<span data-uib-tooltip="{{linkInfo.text}}" >{{linkInfo.text | truncate: 100: '...' }}</span>
+			</div>
+			<div class="row" style="padding: 3px 0px; font-size: 10px; color: #777;">
+				<span style="padding-right: 5px;">{{linkInfo.linkCreatedTime | date:'medium' }} </span>
+				<span style="padding: 0px 5px;border-left:1px solid #777;">{{linkInfo.linkType}}</span>
+			</div>	
+			<div class="row" style="padding: 3px 0px;">
+				<div class="input-group" >
+			      <input type="text" 
+					   class="vdvc-input-txt" 
+					   data-ng-model="linkInfo.url" 
+					   data-focus-on="linkInfo"
+					   data-select-on-focus 
+					   data-select-on-click
+					   readonly>
+			      <span data-ng-show="::!deviceInfo.isSafari" class="input-group-btn" style="font-size: 14px;">
+			        <button data-uib-tooltip="Copy to Clipboard" 
+			        		class="btn vdvc-form-btn fa fa-clipboard" 
+			        		type="button"
+			        		data-clipboard
+							data-supported="supported" 
+							data-text="linkInfo.url" 
+							data-on-copied="copySuccess()" 
+							data-on-error="copyfail(err)" 
+							style="font-size: 1.5em;">
+					</button>
+			      </span>
+			      <span data-copy-link-help-style ></span>
+				</div>
+			</div>
+			<div class="row" style="padding: 3px 0px; font-size: 10px; color: #777;">
+				<b>Note : </b>If you plan to share the deep link with other users, make sure the file is accessible to those users
+			</div>
+		</div>
+	</div>
+</div>
+	

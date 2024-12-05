@@ -1,0 +1,854 @@
+<div class="digest-settings-modal-content">
+	<div class="modal-header" style="padding: 0px 15px;">
+		<div class="row">
+			<div class="col-xs-12" style="padding: 0px; margin: 3px 0px;">
+				<div class="col-xs-11" style="padding: 0px;">
+					<span class="modal-title"
+						style="height: 35px; line-height: 35px; font-size: 18px; font-weight: 500;">
+						{{ad.getTitle()}} </span>
+				</div>
+				<div class="col-xs-1" data-ng-show="ad.showLinkUi()"
+					style="padding: 0px; text-align: right;">
+					<button type="button" class="btn vdvc-form-btn"
+						data-ng-if="ad.showPreview() "
+						data-ng-click="ad.saveAsSelectedType('preview')"
+						data-tooltip-append-to-body="true" data-tooltip-placement="auto"
+						data-uib-tooltip="Preview">
+						<i class="fa fa-eye" aria-hidden="true"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="row" data-ng-show="ad.showLinkUi()">
+			<div class="col-xs-12" style="padding: 0px; margin: 3px 0px;">
+				<div class="col-xs-2" style="margin-bottom: 0px;">
+					<label class="cs-lbl" style="margin: auto; font-weight: normal;">LINK
+						TYPE </label>
+				</div>
+				<div class="col-xs-10" style="padding-left: 22px;">
+					<div class="radio radio-primary radio-inline"
+						style="margin-bottom: 0px;">
+						<input type="radio" name="linkType"
+							data-ng-model="ad.linkType.type" value="Public"> <label
+							class="cs-lbl">Public</label>
+					</div>
+					<div class="radio radio-primary radio-inline"
+						style="margin-bottom: 0px;">
+						<input type="radio" name="linkType"
+							data-ng-model="ad.linkType.type" value="Private"> <label
+							class="cs-lbl">Private</label>
+					</div>
+					<div class="col-xs-12" style="font-size: 12px; padding: 0px;">
+						<span data-ng-if="ad.linkType.type == 'Public'">
+							{{ad.getLinkTypeMsg("Public")}} </span> <span
+							data-ng-if="ad.linkType.type == 'Private'">
+							{{ad.getLinkTypeMsg("Private")}} </span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" data-ng-show="ad.showTargetLinkOption()"
+			style="margin-top: 10px;">
+			<div class="col-xs-2" style="margin-bottom: 0px;">
+				<label class="cs-lbl"
+					style="margin: auto; font-weight: normal; padding-right: 0px;">LINK
+					TAKES TO</label>
+			</div>
+			<div class="col-xs-10" style="padding-left: 22px;">
+				<div class="radio radio-primary radio-inline">
+					<input type="radio" name="targetType"
+						data-ng-model="ad.linkTarget.target" value="Document"> <label
+						class="cs-lbl">This Document with Annotations</label>
+				</div>
+				<div class="radio radio-primary radio-inline">
+					<input type="radio" name="targetType"
+						data-ng-model="ad.linkTarget.target" value="Digest"> <label
+						class="cs-lbl">Digest of Annotations in this Document</label>
+				</div>
+			</div>
+		</div>
+		<div class="row"
+			data-ng-show="ad.showPublishAs() && ad.digestFor == 'DigestDocument'"
+			style="text-align: center; padding: 10px 0px 2px; font-style: italic; font-size: 16px;">
+			<a data-ng-click="ad.toggleSettings()" style="text-decoration: none;">
+				{{ad.showSettings ? "Hide settings" : "Show settings"}} <i
+				class="fa"
+				data-ng-class="{'fa-angle-double-up' : ad.showSettings, 'fa-angle-double-down' : !ad.showSettings}"
+				aria-hidden="true" style="font-weight: bolder; padding-left: 5px;"></i>
+			</a>
+		</div>
+	</div>
+	<div class="modal-body" data-ng-show="ad.showSettings"
+		style="max-height: 300px; overflow: auto; border-top: 3px solid rgb(204, 204, 204);">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap"
+					style="margin: 3px 0px; padding: 0px;">
+					<label class="col-xs-2"
+						style="font-weight: normal; height: 35px; line-height: 35px; padding: 0px;">
+						Digest Name<i class="fa fa-asterisk text-danger"></i>
+					</label>
+					<div class="col-xs-10" style="position: relative;">
+						<input type="text" class="vdvc-input-txt"
+							data-ng-disabled="ad.digestFor == 'DigestDocument'"
+							data-ng-model="ad.digestName"
+							data-ng-blur="ad.validateDigestName()">
+						<div class="row message error" data-ng-if="ad.digestNameError">{{ad.digestNameErrorMessage}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap"
+					style="margin: 3px 0px; padding: 0px;">
+					<label class="col-xs-2" for="digestDescription"
+						style="font-weight: normal; height: 65px; line-height: 65px; padding: 0px;">Description</label>
+					<div class="col-xs-10" id="digestDescription"
+						style="position: relative;">
+						<textarea data-msd-elastic class="vdvc-txtA" rows="2"
+							data-ng-model="ad.digestDescription"
+							style="border: 2px solid #ddd; overflow: hidden; overflow-wrap: break-word; resize: none; min-height: 65px; max-height: 66px; overflow-y: auto;">
+						 </textarea>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<label class="col-xs-2" for="digestDescription"
+					style="font-weight: normal; padding: 0px;margin: 3px 0px;" 
+					data-ng-style="{'height' : ad.hasBannerImage() ? '60px' : '34px','line-height' : ad.hasBannerImage() ? '60px' : '34px'}">
+					Banner Image
+				</label>
+				<div class="col-xs-4" 
+					style="margin: 3px 0px; padding: 0px;">
+					<div class="col-xs-12" style="position: relative;">	
+						<img data-ng-if="ad.hasBannerImage()" data-ng-src="{{ad.bannerImg}}" style="height: 60px;width: 90px;"/>
+						<button class="btn uploadBannerImageBtn ng-hide" type="button" 
+							data-ngf-select="ad.uploadBannerImage($files, $invalidFiles)" 
+							data-ngf-pattern="'image/*'" data-ngf-accept="'image/*'" 
+							data-ngf-max-size="{{ad.bannerImageMaxSize}}">
+							UPLOAD
+						</button>
+						<button class="btn vdvc-form-btn upload-btn" 
+							type="button" data-ng-click="ad.uploadImage()">
+							{{ad.hasBannerImage() ? "Replace" : "Upload"}}
+						</button>
+					</div>
+				</div>
+				<div class="col-xs-6" 
+					style="margin: 3px 0px;">
+					<div class="checkbox" data-ng-style="{'margin' : ad.hasBannerImage() ? '20px 0px' : '5px 0px'}">
+						<input type="checkbox" 
+							data-ng-model="ad.useBannerImg" data-ng-disabled="!ad.hasBannerImage()">
+						<label class="cs-lbl">Use Banner Image</label>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12"
+				data-ng-show="ad.digestFor != 'DigestDocument'">
+				<div class="row" style="height: 30px; line-height: 30px;">FILTER
+					CONTENT IN DIGEST</div>
+				<div class="col-xs-12" style="padding: 0px;">
+					<div class="col-xs-12 col-sm-6 input-wrap"
+						style="padding: 5px 15px 7.5px;">
+						<label for="cmtfrom" style="font-weight: normal;">From
+							Date</label>
+						<div id="cmtfrom" style="position: relative;">
+							<input type="text" class="vdvc-input-txt"
+								data-uib-datepicker-popup data-is-open="ad.StartDt.opened"
+								data-datepicker-options="ad.dateOptions"
+								data-date-disabled="disabled(date, mode)"
+								data-show-button-bar='false'
+								data-ng-model='ad.filterOptions.startDate'
+								data-ng-click="ad.startDtOpen($event)" 
+								style="height: 34px;" 
+								data-ng-blur="ad.applyDateRange()"/>
+								<i class="fa fa-calendar"
+									style='position: absolute; right: 10px; top: 17px; color: #999; font-size: 20px; transform: translateY(-50%);'
+									data-ng-click="ad.startDtOpen($event)">
+								</i>
+								<span class="cust_time_frame_to_errmsg">{{ad.custStartDateErrMsg}}</span>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 input-wrap"
+						style="padding: 5px 15px 7.5px;">
+						<label for="cmtTO" style="font-weight: normal;">To Date</label>
+						<div id="cmtTO" style="position: relative;">
+							<input type="text" class="vdvc-input-txt"
+								data-uib-datepicker-popup data-is-open="ad.EndDt.opened"
+								data-datepicker-options="ad.dateOptions"
+								data-date-disabled="disabled(date, mode)"
+								data-show-button-bar='false'
+								data-ng-model='ad.filterOptions.endDate'
+								data-ng-click="ad.endDtOpen($event)" 
+								style="height: 34px;"  
+								data-max-date="ad.dateOptions.maxDate" 
+								data-ng-blur="ad.applyDateRange()"/>
+								<i class="fa fa-calendar"
+									style='position: absolute; right: 10px; top: 17px; color: #999; font-size: 20px; transform: translateY(-50%);'
+									data-ng-click="ad.endDtOpen($event)">
+								</i>
+								<span class="cust_time_frame_to_errmsg">{{ad.custEndDateErrMsg}}</span>
+						</div>
+					</div>
+					<div data-ng-show="ad.tsSections.length > 0" class="col-xs-12 col-sm-12 input-wrap"
+						style="padding: 7.5px 15px 10px;">
+						<label for="sections" style="font-weight: normal;">Section(s)</label>
+						<div id="sections" style="position: relative;">
+							<data-ui-select multiple id="TS_SECTIONS" 
+								data-ng-model="ad.filteredSections" 
+								sortable="true" 
+								data-on-select="ad.onSelectSection($item)" 
+								data-on-remove="ad.onRemoveSection($item)">
+								<data-ui-select-match data-amar="ni"> 
+									<span data-uib-tooltip="{{$item.name}}">
+										{{$item.name | truncate: 30: '...'}}
+									</span>
+								</data-ui-select-match> 
+								<data-ui-select-choices data-repeat="tsSection in ad.tsSections | filter:$select.search track by $index">
+									<div data-ng-bind-html="tsSection.name | highlight: $select.search"></div>
+								</data-ui-select-choices> 
+							</data-ui-select>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-12 input-wrap"
+						style="padding: 7.5px 15px 10px;">
+						<label for="tags" style="font-weight: normal;">Tag(s)</label>
+						<div id="tags" style="position: relative;">
+							<data-ui-select multiple id="TAGS"
+								data-ng-model="ad.filterOptions.multiTags" sortable="true">
+							<data-ui-select-match data-amar="ni"> <span
+								data-uib-tooltip="{{ad.showTagName($item)}}">{{ad.showTagName($item)
+								| truncate: 10: '...'}}</span></data-ui-select-match> <data-ui-select-choices
+								data-repeat="tag in ad.tags | filter:$select.search track by $index"
+								data-refresh="ad.refreshTagInfo($select.search)"
+								data-refresh-delay="500">
+							<div
+								data-ng-bind-html="ad.showTagName(tag) | highlight: $select.search"></div>
+							</data-ui-select-choices> </data-ui-select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-12">
+				<div class="row">SELECT INFORMATION TO DISPLAY IN DIGEST</div>
+				<div class="col-xs-12">
+					<div class="row" style="padding: 0px; margin: 5px 0px;">ANNOTATIONS</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox" data-ng-class="{'error' : !ad.isAnnotationOptionSelected}">
+								<input type="checkbox" 
+									data-ng-model="ad.filterOptions.highlights.myHighlights" 
+									data-ng-change="ad.validateAnnotationSelection()">
+								<label class="cs-lbl">My Highlights</label>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox" data-ng-class="{'error' : !ad.isAnnotationOptionSelected}">
+								<input type="checkbox"
+									data-ng-model="ad.filterOptions.annotations.myAnnotations" 
+									data-ng-change="ad.validateAnnotationSelection()">
+								<label class="cs-lbl">My Comments</label>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4" style="margin-top: -10px;">
+							<div id="sortField">
+								<data-ui-select id="digest-annotation-style-setting"
+									class="search-ticker-ui-select"
+									data-ng-model="ad.filterOptions.displayRepliesOption"
+									data-search-enabled="false"> <data-ui-select-match
+									data-placeholder="Display Replies"> <span>
+									{{$select.selected.label}} </span> </data-ui-select-match> <data-ui-select-choices
+									data-repeat="displayRepliesOption in ad.displayRepliesOptionList | filter:$select.search track by $index">
+								<div class="tickers_choices_list">
+									<div class="tcl_cik"
+										data-ng-bind-html="displayRepliesOption.label | highlight: $select.search">
+									</div>
+								</div>
+								</data-ui-select-choices> </data-ui-select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox" data-ng-class="{'error' : !ad.isAnnotationOptionSelected}">
+								<input type="checkbox"
+									data-ng-model="ad.filterOptions.highlights.sharedHighlights" 
+									data-ng-change="ad.validateAnnotationSelection()">
+								<label class="cs-lbl">Highlights by other users</label>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox" data-ng-class="{'error' : !ad.isAnnotationOptionSelected}">
+								<input type="checkbox"
+									data-ng-model="ad.filterOptions.annotations.sharedAnnotations" 
+									data-ng-change="ad.validateAnnotationSelection()">
+								<label class="cs-lbl">Comments by other users</label>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox">
+								<input type="checkbox"
+									data-ng-model="ad.digestMetaInfoOptions.annotationLink">
+								<label class="cs-lbl">Link</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox">
+								<input type="checkbox"
+									data-ng-model="ad.digestMetaInfoOptions.annotationUserName">
+								<label class="cs-lbl">Creator Name</label>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox">
+								<input type="checkbox"
+									data-ng-model="ad.digestMetaInfoOptions.annotationCreatedTime">
+								<label class="cs-lbl">Modified Time</label>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox">
+								<input type="checkbox"
+									data-ng-model="ad.digestMetaInfoOptions.tags"> <label
+									class="cs-lbl">Tags</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="row" style="padding: 0px; margin: 5px 0px;">DOCUMENT
+						INFORMATION</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox">
+								<input type="checkbox"
+									data-ng-model="ad.digestMetaInfoOptions.documentName">
+								<label class="cs-lbl">Name</label>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox">
+								<input type="checkbox"
+									data-ng-model="ad.digestMetaInfoOptions.description"> <label
+									class="cs-lbl">Description</label>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox">
+								<input type="checkbox"
+									data-ng-model="ad.digestMetaInfoOptions.documentLink">
+								<label class="cs-lbl">Link</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox">
+								<input type="checkbox"
+									data-ng-model="ad.digestMetaInfoOptions.websiteName"> <label
+									class="cs-lbl">Website Publisher Name</label>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox">
+								<input type="checkbox"
+									data-ng-model="ad.digestMetaInfoOptions.image"> <label
+									class="cs-lbl">Image</label>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-4">
+							<div class="checkbox">
+								<input type="checkbox"
+									data-ng-model="ad.digestMetaInfoOptions.documentTags">
+								<label class="cs-lbl">Tags</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="col-xs-12 col-sm-12">
+				<div class="row">SPECIFY HOW CONTENT IS STRUCTURED</div>
+				<div class="col-xs-12" style="padding: 0px;">
+					<div class="col-xs-12 col-sm-6 form-group row input-wrap" style="padding: 5px 15px;">
+						<label class="cs-lbl" for="sortField" style="font-weight: normal;">GROUP BY</label>
+						<div id="sortField">
+							<data-ui-select  
+									class="search-ticker-ui-select" 
+									data-ng-model="ad.sortByOption" 
+									data-search-enabled="false"
+									data-on-select="ad.onGroupSelection($item, $model)">
+								<data-ui-select-match data-placeholder="GROUP BY">
+						    		<span>
+						    			{{$select.selected.label}}
+						    		</span>
+						    	</data-ui-select-match>
+						    	<data-ui-select-choices
+						    		data-repeat="group in ad.groupByOptionList | filter:$select.search track by $index" position='up'>
+							      	<div class="tickers_choices_list">
+							      		<div class="tcl_cik" 
+							      			data-ng-bind-html="group.label | highlight: $select.search">
+							      		</div>
+							      	</div>
+							    </data-ui-select-choices>
+							</data-ui-select>
+						</div>
+					</div>
+					<div class="col-xs-12 col-sm-6 form-group row input-wrap" style="padding: 5px 15px;">
+						<label class="cs-lbl" for="sortField" style="font-weight: normal;">TEMPLATES</label>
+						<div id="sortField">
+							<data-ui-select  
+									class="search-ticker-ui-select" 
+									data-ng-model="ad.selectedTemplate" 
+									data-search-enabled="false">
+								<data-ui-select-match data-placeholder="TEMPLATE">
+						    		<span>
+						    			{{$select.selected.name}}
+						    		</span>
+						    	</data-ui-select-match>
+						    	<data-ui-select-choices
+						    		data-repeat="templte in ad.templates | filter:$select.search track by $index" position='up'>
+							      	<div class="tickers_choices_list">
+							      		<div class="tcl_cik" 
+							      			data-ng-bind-html="templte.name | highlight: $select.search">
+							      		</div>
+							      	</div>
+							    </data-ui-select-choices>
+							</data-ui-select>
+						</div>
+					</div>
+				</div>
+			</div> -->
+			<div class="col-xs-12 col-sm-12">
+				<div class="row">SPECIFY HOW CONTENT IS STRUCTURED</div>
+				<div class="col-xs-12" style="padding: 0px;">
+					<div class="row" data-ng-show="ad.digestFor != 'DigestDocument'">
+						<div class="col-xs-4 input-wrap"
+							style="padding: 5px 15px 7.5px;">
+							<label class="cs-lbl" for="sortField"
+								style="font-weight: normal;">Group By</label>
+							<div id="sortField">
+								<data-ui-select class="search-ticker-ui-select"
+									data-ng-model="ad.groupByOption" data-search-enabled="false"
+									data-on-select="ad.onGroupSelection($item, $model)">
+								<data-ui-select-match data-placeholder="GROUP BY">
+								<span> {{$select.selected.label}} </span> </data-ui-select-match> <data-ui-select-choices
+									data-repeat="group in ad.groupByOptionList | filter:$select.search track by $index">
+								<div class="tickers_choices_list">
+									<div class="tcl_cik"
+										data-ng-bind-html="group.label | highlight: $select.search">
+									</div>
+								</div>
+								</data-ui-select-choices> </data-ui-select>
+							</div>
+						</div>
+						<div class="col-xs-4 input-wrap"
+							data-ng-show="ad.showIncludeDocsWithoutAnnField"
+							style="padding: 5px 0px 7.5px 15px;">
+							<label class="cs-lbl" for="sortField"
+								style="font-weight: normal;height: 20px"></label>
+							<div class="checkbox" style="margin-bottom: 0px;">
+								<input type="checkbox"
+									data-ng-model="ad.includeDocsWithoutAnn"> <label
+									class="cs-lbl">Include Docs Without Annotations</label>
+							</div>
+						</div>
+						<div class="col-xs-4 input-wrap"
+							data-ng-show="ad.showIncludeDocsWithoutAnySectionField"
+							style="padding: 5px 0px 7.5px 15px;">
+							<label class="cs-lbl" for="sortField"
+								style="font-weight: normal;height: 20px"></label>
+							<div class="checkbox" style="margin-bottom: 0px;" 
+								data-uib-tooltip="{{ad.filteredSections.length > 0 ? 'When filtering by section, select < No Section > in the filter' : ''}}">
+								<input type="checkbox" 
+									data-ng-model="ad.includeDocsWithoutSection" 
+									data-ng-disabled="ad.filteredSections.length > 0">
+								<label class="cs-lbl">
+									Include Docs Not in Any Section
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="row" data-ng-show="ad.digestFor != 'DigestDocument' && (ad.groupByOption.value == 'section' || ad.groupByOption.value == 'document')">
+						<div class="col-xs-4 input-wrap"
+							style="padding: 7.5px 15px;">
+							<label class="cs-lbl" for="sortField"
+								style="font-weight: normal;">Sort By</label>
+							<div id="sortField">
+								<data-ui-select class="search-ticker-ui-select"
+									data-ng-model="ad.sortByOption" data-search-enabled="false"
+									data-on-select="ad.onSortByOptionSelection($item, $model)">
+									<data-ui-select-match data-placeholder="SORT BY">
+									<span> {{$select.selected.label}} </span>
+									</data-ui-select-match> 
+										<data-ui-select-choices data-repeat="sortByOption in ad.sortByOptionList | filter:$select.search track by $index">
+										<div class="tickers_choices_list">
+											<div class="tcl_cik"
+												data-ng-bind-html="sortByOption.label | highlight: $select.search">
+											</div>
+										</div>
+									</data-ui-select-choices>
+								</data-ui-select>
+							</div>
+						</div>
+						<div class="col-xs-4 input-wrap"
+							data-ng-show="ad.showEditDocOrder"
+							style="padding: 7.5px 15px;padding-right: 0px;">
+							<label class="cs-lbl" for="sortOrderField"
+								style="font-weight: normal;height: 14px"></label>
+							<div id="editDocOrder">
+								<button type="button" class="btn vdvc-form-btn"
+									data-ng-click="ad.editDocOrder()">
+									Sort Order
+								</button>
+							</div>
+						</div>
+						<div class="col-xs-4 input-wrap"
+							data-ng-show="ad.showSortOrderOption"
+							style="padding: 7.5px 15px;padding-right: 0px;">
+							<label class="cs-lbl" for="sortOrderField"
+								style="font-weight: normal;height: 14px"></label>
+							<div id="sortOrderField">
+								<data-ui-select class="search-ticker-ui-select"
+									data-ng-model="ad.sortOrderOption" data-search-enabled="false">
+									<data-ui-select-match data-placeholder="SORT ORDER">
+									<span> {{$select.selected.label}} </span>
+									</data-ui-select-match> 
+										<data-ui-select-choices data-repeat="sortOrderOption in ad.sortOrderOptionList | filter:$select.search track by $index">
+										<div class="tickers_choices_list">
+											<div class="tcl_cik"
+												data-ng-bind-html="sortOrderOption.label | highlight: $select.search">
+											</div>
+										</div>
+									</data-ui-select-choices>
+								</data-ui-select>
+							</div>
+						</div>
+					</div>
+					<div class="row" data-ng-show="ad.digestFor != 'DigestDocument'">
+						<div class="col-xs-4" style="padding: 7.5px 15px;">
+							<label class="cs-lbl" for="tblcontents"
+								style="font-weight: normal;">Include Table of Contents</label>
+							<div id="tblcontents">
+								<data-ui-select class="search-ticker-ui-select"
+									data-ng-model="ad.tableOfContents" data-search-enabled="false"
+									data-on-select="ad.onTableOfContentsSelection($item, $model)">
+								<data-ui-select-match data-placeholder="Table of Contents">
+								<span> {{$select.selected.label}} </span> </data-ui-select-match> <data-ui-select-choices
+									data-repeat="table in ad.tableOfContentsUIOptions | filter:$select.search track by $index">
+								<div class="tickers_choices_list">
+									<div class="tcl_cik"
+										data-ng-bind-html="table.label | highlight: $select.search">
+									</div>
+								</div>
+								</data-ui-select-choices> </data-ui-select>
+							</div>
+						</div>
+						<div class="col-xs-4 input-wrap"
+							data-ng-show="ad.showTableOfContentsHeadingField"
+							style="padding: 7.5px 15px;">
+							<label class="cs-lbl" for="tbc-h" style="font-weight: normal;">Table
+								of Contents Heading</label>
+							<div>
+								<input type="text" class="vdvc-input-txt"
+									data-ng-model="ad.tableOfContentsHeading"
+									placeholder="Table of Contents">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-4 input-wrap"
+							style="padding: 7.5px 15px;">
+							<label class="cs-lbl" for="sortField"
+								style="font-weight: normal;">Annotation Style</label>
+							<div id="sortField">
+								<data-ui-select id="digest-annotation-style-setting"
+									class="search-ticker-ui-select"
+									data-ng-model="ad.displayOrderOption"
+									data-search-enabled="false"> <data-ui-select-match
+									data-placeholder="Display Order"> <span>
+									{{$select.selected.label}} </span> </data-ui-select-match> <data-ui-select-choices
+									data-repeat="displayOrderOption in ad.displayOrderOptionList | filter:$select.search track by $index"
+									position='up'>
+								<div class="tickers_choices_list">
+									<div class="tcl_cik"
+										data-ng-bind-html="displayOrderOption.label | highlight: $select.search">
+									</div>
+								</div>
+								</data-ui-select-choices> </data-ui-select>
+							</div>
+						</div>
+						<div class="col-xs-4" style="padding: 7.5px 15px;">
+							<label class="cs-lbl" for="sortField"
+								style="font-weight: normal;">Highlight Border</label>
+							<div id="sortField">
+								<data-ui-select id="digest-border-setting"
+									class="search-ticker-ui-select"
+									data-ng-model="ad.enableBorderOption"
+									data-search-enabled="false"> 
+									<data-ui-select-match data-placeholder="BORDER"> 
+										<span data-ng-style="{'color' : $select.selected.value,'background-color' : $select.selected.value}" 
+											style="width: 100%;"> {{$select.selected.label}} 
+										</span> 
+									</data-ui-select-match> 
+									<data-ui-select-choices data-repeat="borderOption in ad.enableBorderOptionList | filter:$select.search track by $index" 
+										position='up'>
+										<div class="tickers_choices_list" 
+											ng-style="{'color' : borderOption.value,'background-color' : borderOption.value}">
+											<div class="tcl_cik"
+												data-ng-bind-html="borderOption.label | highlight: $select.search">
+											</div>
+										</div>
+									</data-ui-select-choices> 
+								</data-ui-select>
+							</div>
+						</div>
+						<div class="col-xs-4 input-wrap"
+							style="padding: 7.5px 15px;">
+							<label class="cs-lbl" for="sortField"
+								style="font-weight: normal;">Document Image Position</label>
+							<div id="sortField">
+								<data-ui-select class="search-ticker-ui-select"
+									data-ng-model="ad.imagePositionOption"
+									data-search-enabled="false"> 
+									<data-ui-select-match data-placeholder="DOCUMENT IMAGE POSITION">
+										<span> {{$select.selected.label}} </span> 
+									</data-ui-select-match> 
+									<data-ui-select-choices data-repeat="imagePositionOption in ad.imagePositionOptionList | filter:$select.search track by $index" 
+										position='up'>
+										<div class="tickers_choices_list">
+											<div class="tcl_cik"
+												data-ng-bind-html="imagePositionOption.label | highlight: $select.search">
+											</div>
+										</div>
+									</data-ui-select-choices> 
+								</data-ui-select>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer"
+		style="padding: 10px 15px; border-top: 3px solid rgb(204, 204, 204);">
+		<div class="row" data-ng-if="ad.showLinkUi()">
+			<div class="col-xs-12" style="padding: 0px;">
+				<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted"
+					data-ng-if="ad.showLinkUi() && ad.isDigestLinkExists()"
+					data-ng-click="ad.deleteDigestLink()" style="float: left;">
+					DELETE</button>
+				<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted"
+					data-ng-click="ad.cancel()">CLOSE</button>
+				<button type="button" class="btn vdvc-form-btn"
+					data-ng-if="ad.showLinkUi() && ad.isDigestLinkExists()"
+					data-ng-click="ad.updateDigestLink()"
+					data-ng-disabled="ad.digestName.length == 0 || !ad.isSettingsChanged() || !ad.isValidDateFilter() || !ad.isAnnotationOptionSelected">
+					SAVE</button>
+
+<!-- 				<button type="button" class="btn vdvc-form-btn"
+					data-ng-if="(ad.digestFor == 'DigestDocument') && !ad.isDigestLinkExists()"
+					data-ng-click="ad.createDocSharableLink()"
+					data-ng-disabled="ad.digestName.length == 0 || !ad.isValidDateFilter()">CREATE</button>
+
+				<button type="button" class="btn vdvc-form-btn"
+					data-ng-if="(ad.digestFor == 'AnnotationDigest') && !ad.isDigestLinkExists()"
+					data-ng-click="ad.createDigestLink()"
+					data-ng-disabled="ad.digestName.length == 0 || !ad.isValidDateFilter()">CREATE</button>
+
+				<div class="dropup" data-uib-dropdown
+					data-tooltip-placement="auto top"
+					data-uib-tooltip="{{adv.publishToolTipText}}"
+					data-tooltip-class="ts-tab-tooltip"
+					data-tooltip-append-to-body='true'
+					data-ng-show="ad.showPublishAs()" style="display: inline-block;">
+					<button type="button" class="btn vdvc-form-btn dropdown-toggle"
+						data-uib-dropdown-toggle
+						data-ng-disabled="ad.digestName.length == 0 || !ad.isValidDateFilter()"
+						style="padding: 6px; color: #fff;">
+						PUBLISH AS <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu-right vdvc-more-dd" data-uib-dropdown-menu
+						role="menu" aria-labelledby="createNew" style="min-width: 150px;">
+						<li class="vdvc-drop-down-item new-taskspace" role="menuitem"
+							data-ng-click="ad.checkAndPublishAsSelectedType('numicinote')">
+							<div class="vdvc-drop-down-item">NUMICI NOTES</div>
+						</li>
+						<li class="vdvc-divider"></li>
+						<li class="vdvc-drop-down-item open-manage-ts" role="menuitem"
+							data-ng-click="ad.checkAndPublishAsSelectedType('pdf')">
+							<div class="vdvc-drop-down-item">PDF</div>
+						</li>
+						<li class="vdvc-divider"></li>
+						<li class="vdvc-drop-down-item open-manage-ts" role="menuitem"
+							data-ng-click="ad.checkAndPublishAsSelectedType('email')">
+							<div class="vdvc-drop-down-item">EMAIL</div>
+						</li>
+						<li class="vdvc-divider"></li>
+						<li class="vdvc-drop-down-item open-manage-ts" role="menuitem"
+							data-ng-click="ad.checkAndPublishAsSelectedType('AnnotationDigest')">
+							<div class="vdvc-drop-down-item">SHAREABLE LINK</div>
+						</li>
+					</ul>
+				</div> -->
+			</div>
+<!--		<div class="col-xs-12" style="padding: 0px; text-align: left;">
+				<div class="row"
+					data-ng-show="(ad.digestFor == 'AnnotationDigest' || ad.digestFor == 'DigestDocument') && ad.selectedPublishAsNote"
+					style="padding: 5px; border: 2px solid #ccc; margin-top: 5px;">
+					<div class="col-xs-12" style="padding: 0px;">
+						<b>Publish As Numici Notes :</b>
+					</div>
+					<div class="form-group col-xs-12"
+						style="margin: 0px; padding: 0px;">
+						<label class="col-xs-2" for="selctedFolderForPublish"
+							style="height: 35px; line-height: 35px; font-weight: normal;">Folder</label>
+						<div class="col-xs-10" id="selctedFolderForPublish">
+							<div class="col-xs-9" style="padding: 0px; height: 25px;">
+								<ul class="nav navbar-nav ellipsis"
+									style="color: rgba(51, 51, 51, 0.74); float: left; line-height: 30px; width: 100%; max-width: 100%; margin: 0px;">
+									<li data-ng-if="fldr.root"
+										data-ng-repeat="fldr in ad.docHierarchy"
+										data-tooltip-append-to-body='true' data-uib-tooltip="Home"
+										data-tooltip-placement="bottom"
+										class="vdvc-breadcrumbs  ellipsis full"><span> <i
+											class="fa fa-home"></i>
+									</span></li>
+									<li data-ng-if="!fldr.root && !$last"
+										data-ng-repeat="fldr in ad.docHierarchy "
+										data-tooltip-append-to-body='true'
+										data-uib-tooltip="{{fldr.name}}"
+										data-tooltip-placement="bottom"
+										class="vdvc-breadcrumbs  ellipsis full"><span> <i
+											class="fa fa-folder-open-o" data-ng-show="!fldr.isDummy"></i>
+											{{::fldr.name}}
+									</span></li>
+									<li data-nv-set-rm-mxwidth="docHierarchy"
+										data-ng-if="!fldr.root && $last"
+										data-ng-repeat="fldr in ad.docHierarchy"
+										data-tooltip-append-to-body='true'
+										data-uib-tooltip="{{::fldr.name}}"
+										data-tooltip-placement="bottom"
+										class="vdvc-breadcrumbs  ellipsis full"><span> <i
+											class="fa fa-folder-open-o"></i> {{::fldr.name}}
+									</span></li>
+								</ul>
+							</div>
+							<div class="col-xs-3" style="padding: 0px;">
+								<button class="btn vdvc-form-btn" type="button"
+									data-ng-click="ad.BrowseFolders('lg')"
+									style="font-size: 12px; padding: 0px 5px; line-height: 25px; float: right;">
+									CHANGE</button>
+							</div>
+						</div>
+					</div>
+					<div class="form-group col-xs-12"
+						style="margin: 0px; padding: 0px;">
+						<label class="col-xs-2"
+							style="height: 35px; line-height: 35px; font-weight: normal;">File
+							Name</label>
+						<div class="col-xs-10">
+							<div class="col-xs-9" style="padding: 0px;">
+								<input type="text" class="vdvc-input-txt"
+									data-ng-model="ad.noteName">
+							</div>
+							<div class="col-xs-3" style="padding: 0px; text-align: right">
+								<button type="button"
+									class="btn vdvc-form-btn vdvc-form-btn-muted"
+									data-ng-click="ad.cancelsaveAsSelectedType('numicinote')"
+									data-ng-disabled="ad.pdfName.length == 0">CANCEL</button>
+								<button type="button" class="btn vdvc-form-btn"
+									data-ng-click="ad.saveAsSelectedType('numicinote')"
+									data-ng-disabled="ad.noteName.length == 0">SAVE</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row"
+					data-ng-show="(ad.digestFor == 'AnnotationDigest' || ad.digestFor == 'DigestDocument') && ad.selectedPublishAsPdf"
+					style="padding: 5px; border: 2px solid #ccc; margin-top: 5px;">
+					<div class="col-xs-12" style="padding: 0px;">
+						<b>Publish As Pdf :</b>
+					</div>
+					<div class="form-group col-xs-12"
+						style="margin: 0px; padding: 0px;">
+						<label class="col-xs-2"
+							style="font-weight: normal; height: 35px; line-height: 35px;">File
+							Name</label>
+						<div class="col-xs-10">
+							<div class="col-xs-9" style="padding: 0px;">
+								<input type="text" class="vdvc-input-txt"
+									data-ng-model="ad.pdfName">
+							</div>
+							<div class="col-xs-3" style="padding: 0px; text-align: right">
+								<button type="button"
+									class="btn vdvc-form-btn vdvc-form-btn-muted"
+									data-ng-click="ad.cancelsaveAsSelectedType('pdf')"
+									data-ng-disabled="ad.pdfName.length == 0">CANCEL</button>
+								<button type="button" class="btn vdvc-form-btn"
+									data-ng-click="ad.saveAsSelectedType('pdf')"
+									data-ng-disabled="ad.pdfName.length == 0">SAVE</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row"
+					data-ng-show="ad.digestFor != 'DigestDocument' && ad.showLinkUi() && ad.linkInfo.url && (ad.selectedPublishAsLink || ad.showdocLink)"
+					style="padding: 5px; border: 2px solid #ccc; margin-top: 5px;">
+					<div class="col-xs-12" style="padding: 0px;">
+						<b>Shareable Link :</b>
+					</div>
+					<div class="col-xs-12" style="padding: 0px;">
+						<label class="col-xs-2"
+							style="font-weight: normal; height: 35px; line-height: 35px;">Link</label>
+						<div class="input-group col-xs-7" style="float: left;">
+							<input type="text" class="vdvc-input-txt"
+								data-ng-model="ad.linkInfo.url" data-focus-on="ad.focusLink"
+								data-select-on-focus data-select-on-click readonly> <span
+								data-ng-show="::!deviceInfo.isSafari" class="input-group-btn"
+								style="font-size: 14px;">
+								<button data-uib-tooltip="Copy to Clipboard"
+									class="btn vdvc-form-btn fa fa-clipboard" type="button"
+									data-clipboard data-supported="supported"
+									data-text="ad.linkInfo.url" data-on-copied="ad.copySuccess()"
+									data-on-error="ad.copyFail(err)" style="height: 35px;">
+								</button>
+							</span> <span data-copy-link-help-style></span>
+						</div>
+						<div class="annotation-share-to-ext-dialog-target col-xs-3">
+							<span class="annotation-share-to-ext-dialog-target__label">Share
+								On:</span> <a data-ng-click="ad.ShareOnSocialMedia('Twitter')"
+								target="_blank" title="Share on Twitter"
+								class="annotation-share-to-ext-dialog-target__icon"
+								rel="noopener"> <i class="fa fa-twitter" aria-hidden="true"></i>
+							</a> <a data-ng-click="ad.ShareOnSocialMedia('Facebook')"
+								target="_blank" title="Share on Facebook"
+								class="annotation-share-to-ext-dialog-target__icon"
+								rel="noopener"> <i class="fa fa-facebook-square"
+								aria-hidden="true"></i>
+							</a> <a data-ng-click="ad.ShareOnSocialMedia('LinkedIn')"
+								target="_blank" title="Share on LinkedIn"
+								class="annotation-share-to-ext-dialog-target__icon"
+								rel="noopener" style="line-height: 33px;"> <i
+								class="fa fa-linkedin" aria-hidden="true"></i>
+							</a> <a data-ng-click="ad.ShareOnSocialMedia('WhatsApp')"
+								target="_blank" title="Share on Whatsapp"
+								class="annotation-share-to-ext-dialog-target__icon"
+								rel="noopener"> <i class="fa fa-whatsapp" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div> -->
+		</div>
+		<div class="col-xs-12" data-ng-show="ad.digestFor == 'settings'">
+			<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted"
+				data-ng-if="ad.digestFor == 'settings'" data-ng-click="ad.cancel()">
+				CLOSE</button>
+			<button type="button" class="btn vdvc-form-btn"
+				data-ng-if="ad.digestFor == 'settings'" data-ng-click="ad.ok(true)"
+				data-ng-disabled="ad.digestName.length == 0 || !ad.isValidDateFilter() || !ad.isDigestSettingsChanged() || !ad.isAnnotationOptionSelected">SAVE</button>
+		</div>
+	</div>
+</div>

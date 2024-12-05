@@ -1,0 +1,85 @@
+<div class="row full" style="position: relative;text-align: center;">
+	<div style="position: absolute;
+		    min-width: 50%;
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%,-50%);
+		    background: #fff;
+		    border: 1px solid #ddd;padding: 15px;">
+		   <!--  <div class="row">
+		    	<span class="btn vdvc-form-btn" style="float: right;" data-ng-click="cp.renderView()">Refresh</span>
+		    </div> -->
+		   <div style="text-align: left;">
+			   	<table class="table table-condensed table-borderless">
+			   		<tbody>
+			   			<tr>
+			   				<td>APPLYING RULES</td>
+			   				<td>:</td>
+			   				<td>
+			   					<div>
+			   						<span style="padding-right: 20px;">
+			   							{{cp.ruleEngineStatus.ruleEngineData.status}}
+			   						</span>
+			   						<span data-ng-hide="cp.ruleEngineStatus.isComplete" style="position: relative;">
+					        			<span class="vdvc-loader-spin" style="width: 20px;height: 20px;border-bottom: 3px solid #3498db;">
+					        			</span>
+					        		</span>
+			   					</div>
+			   				</td>
+			   			</tr>
+			   			<tr>
+			   				<td>SUBMITTED AT</td>
+			   				<td>:</td>
+			   				<td>{{cp.ruleEngineStatus.ruleEngineData.submittedAt | date:'medium'}}</td>
+			   			</tr>
+			   			<tr>
+			   				<td>STARTED AT</td>
+			   				<td>:</td>
+			   				<td>{{cp.ruleEngineStatus.ruleEngineData.startedAt | date:'medium'}}</td>
+			   			</tr>
+			   			<tr>
+			   				<td>COMPLETED AT</td>
+			   				<td>:</td>
+			   				<td>{{cp.ruleEngineStatus.ruleEngineData.completedAt | date:'medium'}}</td>
+			   			</tr>
+			   			<tr>
+			   				<td>RULE COUNT</td>
+			   				<td>:</td>
+			   				<td>{{cp.ruleEngineStatus.ruleEngineData.ruleCount}}</td>
+			   			</tr>
+			   			<tr>
+			   				<td>YES COUNT</td>
+			   				<td>:</td>
+			   				<td>{{cp.ruleEngineStatus.ruleEngineData.yesCount}}</td>
+			   			</tr>
+			   			<tr>
+			   				<td>NO COUNT</td>
+			   				<td>:</td>
+			   				<td>{{cp.ruleEngineStatus.ruleEngineData.noCount}}</td>
+			   			</tr>
+			   			<tr>
+			   				<td>MAY BE COUNT</td>
+			   				<td>:</td>
+			   				<td>{{cp.ruleEngineStatus.ruleEngineData.maybeCount}}</td>
+			   			</tr>
+			   			<tr>
+			   				<td>ERROR</td>
+			   				<td>:</td>
+			   				<td>{{cp.ruleEngineStatus.ruleEngineData.error}}</td>
+			   			</tr>
+			   			<tr data-ng-show="cp.ruleEngineStatus.isComplete">
+			   				<td></td>
+			   				<td></td>
+			   				<td>
+			   					<span class="btn vdvc-form-btn" style="float: right;" data-ng-click="cp.markRuleStatusReviewed()">
+			   						MARK AS REVIEWED
+			   					</span>
+			   				</td>
+			   			</tr>
+			   		</tbody>
+			   </table>
+		   </div>
+		    
+	</div>
+
+</div>

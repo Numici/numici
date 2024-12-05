@@ -1,0 +1,48 @@
+<div class="link-info" style="padding: 15px 5px;">
+	<span style="position: absolute;
+    right: 0;
+    padding: 0px 5px;
+    top: 0px;
+    color: #777;">
+		<!-- <span class='fa fa-pencil btn btn-sm' 
+			  data-ng-click="deleteLink()"
+			  style="font-size: 1em;padding: 5px;"></span> -->
+		<span class='fa fa-trash-o btn btn-sm'
+			  data-ng-click="deleteLink(linkInfo)"
+			  style="font-size: 1em;padding: 5px;"></span>
+	</span>	
+	<div class="row" style="padding: 3px 0px;">
+		<span data-uib-tooltip="{{linkInfo.text}}" >{{linkInfo.text | truncate: 100: '...' }}</span>
+	</div>
+	
+	<div class="row" style="padding: 3px 0px; font-size: 10px; color: #777;">
+		<span style="padding-right: 5px;">{{linkInfo.linkCreatedTime | date:'medium' }} </span>
+		<span style="padding: 0px 5px;border-left:1px solid #777;">{{linkInfo.linkType}}</span>
+	</div>		
+	<div class="row" style="padding: 3px 0px;">
+		<div class="input-group" >
+	      <input type="text" 
+			   class="vdvc-input-txt" 
+			   data-ng-model="linkInfo.url" 
+			   data-focus-on="linkInfo"
+			   data-select-on-focus 
+			   data-select-on-click
+			   readonly>
+	      <span data-ng-show="::!deviceInfo.isSafari" class="input-group-btn" style="font-size: 14px;">
+	        <button data-uib-tooltip="Copy to Clipboard" 
+	        		class="btn vdvc-form-btn fa fa-clipboard" 
+	        		type="button"
+	        		data-clipboard
+					data-supported="supported" 
+					data-text="linkInfo.url" 
+					data-on-copied="copySuccess()" 
+					data-on-error="copyfail(err)">
+			</button>
+	      </span>
+	      <span data-copy-link-help-style ></span>
+		</div>
+	</div>
+	<div class="row" style="padding: 3px 0px; font-size: 10px; color: #777;">
+		<b>Note : </b>If you plan to share the deep link with other users, make sure the file is accessible to those users
+	</div>
+</div>

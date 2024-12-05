@@ -1,0 +1,55 @@
+<form data-ng-submit="auc.ok()">
+	<div class="modal-header" style="padding: 15px;">
+		<h3 class="modal-title">{{auc.isInEditMode ? "Edit":(auc.isInViewMode ? "View" : "Add New")}} User</h3>
+	</div>
+	<div class="modal-body add-app-settings-modal-body">
+		<div class="row">
+			<div class="col-xs-12">
+				<div data-ng-show="userField.show" class="row" data-ng-repeat="userField in auc.userFieldsModel" style="margin-bottom: 10px;">
+					<label class="col-xs-12 col-sm-4 ellipsis" 
+						for="{{userField.key}}" 
+						data-tooltip-append-to-body="true"
+  		    			data-tooltip-placement="auto"
+  		    			data-uib-tooltip="{{userField.label}}" 
+  		    			style="padding: 0px;text-align: right;height: 28px;line-height: 28px;font-size: 12px;">
+  		    			{{userField.label}}
+  		    			<i data-ng-if="userField.required" 
+  		    				class="fa fa-asterisk text-danger" 
+  		    				style="font-size: 8px; vertical-align: super;">
+  		    			</i>
+  		    		</label>
+				    <div data-ng-if="userField.type == 'text' || userField.type == 'number' || userField.type == 'password'" class="col-xs-12 col-sm-8" style="padding: 0px 0px 0px 15px;">
+				        <input type="{{userField.type}}" 
+				        	   class="form-control vdvc-input-txt" 
+				        	   id="{{userField.key}}" 
+							   data-ng-model="userField.value"  
+							   data-ng-disabled="{{userField.disable}}" 
+							   style="height: 28px;" 
+							   autocomplete="{{'new-'+userField.key}}">
+				    </div>
+				    <div data-ng-if="userField.type == 'select'" class="col-xs-12 col-sm-8" style="padding: 0px 0px 0px 15px;">
+					    <data-ui-select id="{{userField.key}}" 
+							data-ng-model="userField.value" 
+							data-search-enabled="false" 
+							data-ng-disabled="{{userField.disable}}">
+							<data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+					    	<data-ui-select-choices data-repeat="userRole in auc.getDDOptionsForSelect(userField.key)">
+							       <div data-ng-bind-html="userRole | highlight: $select.search"></div>
+							</data-ui-select-choices>
+					    </data-ui-select>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="col-xs-7 error">
+			<span data-ng-show="auc.showErrorMessage">{{auc.errorMessage}}</span>
+		</div>
+		<div class="col-xs-5">
+			<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="auc.cancel()">CANCEL</button>
+			<button class="btn vdvc-form-btn" type="submit" data-ng-disabled="auc.validateUserFields()">SAVE</button>
+		</div>
+	</div>
+</form>
+

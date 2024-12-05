@@ -1,0 +1,156 @@
+<div class="col-xs-12 full taskContainer" style="padding: 0px;">
+	 <div class="full" data-ng-show="vm.currentLayout == 'Single'">
+	      	<div class="col-xs-8 full" 
+	      		 data-ng-controller="TsObjectController as tsobj"
+	      		 data-ng-init="tsobj.focusedObj='One'" 
+	      		 style="padding: 10px 15px;">
+	        	<div class="full row"
+	        		 data-drop="true"
+	        		 data-ng-model="tsobj.droppedObj"
+	        		 data-jqyoui-options="tsobj.objDropUIOptions"
+	        		 data-jqyoui-droppable="{onDrop : 'tsobj.onObjDrop'}"
+	        		 style="background: #fff">
+	        		 
+	        		<div class="col-xs-12 ts-drp-area">
+	        			<div class="drp vdvc-v-align">
+	        				 Drop Here
+	        			</div>
+	        		</div>
+	        		<!-- <div class="full row" data-ng-class="{'isolate': vm.isolateDoc}" data-ui-view data-name="object1"></div> -->
+	        		<div class="full row" 
+	        			 data-ng-include
+	        			 data-ng-class="{'isolate': vm.isolateDoc}"
+	        			 data-src="'app/components/TaskSpace/docViewer.html'"></div>
+	        	</div>
+	        </div>
+	        <div class="col-xs-4 full" style="padding: 0px;">
+	        	<div class="full col-xs-12" style="overflow: scroll;" data-ui-sortable="vm.sortableOptions" data-ng-model="vm.taskSpace.objects">
+	        		<div class="col-xs-12 ts-card-wrap" data-ng-repeat="TsObj in vm.taskSpace.objects">
+	        			<div class="row ts-card" 
+	        				 data-scroll-if="TsObj.objectId == vm.taskSpaceState.focusObject1"
+	        				 data-drag="true" 
+	        				 data-jqyoui-options="vm.objDragUIOptions "
+	        				 data-jqyoui-draggable="{index: {{$index}}, 
+	        				 						 placeholder: 'keep',
+	        				 						 onStart:'vm.onObjDragStart(TsObj)',
+	        				 						 insertInline:false}" 
+	        				 data-ng-class="{'current_ts_doc': TsObj.objectId == vm.taskSpaceState.focusObject1}"
+	        				 data-ng-model="vm.taskSpace.objects">
+	        				
+	        				<div class="col-xs-12 ts-name vdvc-v-align">{{TsObj.name}}</div>
+	        			</div>
+	        			<span class="ts-card-actn">
+	        				<span class="fa fa-exchange fa-rotate-90 task-actions sort-obj"></span>
+	        				<span data-ng-if="vm.taskSpace.permissions.edit" class="fa fa-times task-actions"  data-ng-click="vm.removeTsObj($event,TsObj)" ></span>
+						  	<!-- <span class="fa fa-expand  task-actions"  data-ng-click="vm.TaskSpaceAction($event,'close')" ></span> -->
+	        			</span>
+	        			
+	        		</div>
+	        		<div class="col-xs-12" data-ng-repeat="TsObj in vm.dummyTSObjList | orderBy : 'name' track by $index">
+	        			<div class="row ts-card" data-ng-click=" vm.taskSpace.permissions.edit && vm.addObjectToTS()">
+	        				
+	        				<div class="col-xs-12 ts-name  vdvc-v-align">
+	        					<div class="fa fa-plus-circle" 
+	        						 data-ng-style="{color: vm.taskSpace.permissions.edit ? '#006699' : '#999' }"
+	        						 style="font-size: 30px;"></div>
+	        					<div>{{TsObj.name}}</div>
+	        				</div>
+	        			</div>
+	        		</div>
+	        	</div>
+	        </div>
+	  </div>
+	  
+	 <div class="full" data-ng-show="vm.currentLayout == 'Double'">
+	      	<div class="row" data-auto-height>
+	      		<div class="col-xs-6 full" 
+	      			 data-ng-controller="TsObjectController as tsobj"
+	      			 data-ng-init="tsobj.focusedObj='One'" 
+	      			 style="padding: 10px 15px;">
+		        	<div class="full row"
+		        		 data-drop="true"
+		        		 data-ng-model="tsobj.droppedObj"
+		        		 data-jqyoui-options="tsobj.objDropUIOptions"
+		        		 data-jqyoui-droppable="{onDrop : 'tsobj.onObjDrop'}"
+		        		 style="background: #fff">
+		        		 
+		        		<div class="col-xs-12 ts-drp-area">
+		        			<div class="drp vdvc-v-align">
+		        				 Drop Here
+		        			</div>
+		        		</div>
+		        		<div class="full row" 
+		        			 data-ng-include
+		        			 data-ng-class="{'isolate': tsobj.isolateDoc}"
+		        			 data-src="'app/components/TaskSpace/docViewer.html'"></div>
+		        	</div>
+		        </div>
+		        <div class="col-xs-6 full" 
+		        	 data-ng-controller="TsObjectController as tsobj"
+		        	 data-ng-init="tsobj.focusedObj='Two'" 
+		        	 style="padding: 10px 5px;">
+		        	<div class="full row"
+		        		 data-drop="true"
+		        		 data-ng-model="tsobj.droppedObj"
+		        		 data-jqyoui-options="tsobj.objDropUIOptions"
+		        		 data-jqyoui-droppable="{onDrop : 'tsobj.onObjDrop'}"
+		        		 style="background: #fff">
+		        		 
+		        		<div class="col-xs-12 ts-drp-area">
+		        			<div class="drp vdvc-v-align">
+		        				 Drop Here
+		        			</div>
+		        		</div>
+		        		<div class="full row" 
+		        			 data-ng-include
+		        			 data-ng-class="{'isolate': tsobj.isolateDoc}"
+		        			 data-src="'app/components/TaskSpace/docViewer.html'"></div>
+		        	</div>
+		        </div>
+	      	</div>
+	      	
+	        <div class="row" style="padding: 0px;height: 170px;margin: 0px 15px;">
+	        	<div class="row" style="overflow-x: scroll;white-space: nowrap;" data-ui-sortable="vm.sortableOptions" data-ng-model="vm.taskSpace.objects">
+	        		<div class="ts-card-wrap" data-ng-repeat="TsObj in vm.taskSpace.objects" 
+	        			 style="width: 300px;margin: 0px 5px;position: relative;display: inline-block;">
+	        			<div class="row ts-card" 
+	        				 data-scroll-if="TsObj.objectId == vm.taskSpaceState.focusObject1"
+	        				 data-drag="true" 
+	        				 data-jqyoui-options="vm.objDragUIOptions "
+	        				 data-jqyoui-draggable="{index: {{$index}}, 
+	        				 						 placeholder: 'keep',
+	        				 						 onStart:'vm.onObjDragStart(TsObj)',
+	        				 						 insertInline:false}" 
+	        				 data-ng-class="{'current_ts_doc': TsObj.objectId == vm.taskSpaceState.focusObject1}"
+	        				 data-ng-model="vm.taskSpace.objects">
+	        				
+	        				<div class="col-xs-12 ts-name vdvc-v-align">{{TsObj.name}}</div>
+	        			</div>
+	        			<span class="ts-card-actn">
+	        				<span class="fa fa-exchange fa-rotate-90 task-actions sort-obj"></span>
+	        				<span data-ng-if="vm.taskSpace.permissions.edit" class="fa fa-times task-actions"  data-ng-click="vm.removeTsObj($event,TsObj)" ></span>
+						  	<!-- <span class="fa fa-expand  task-actions"  data-ng-click="vm.TaskSpaceAction($event,'close')" ></span> -->
+	        			</span>
+	        			
+	        		</div>
+	        		<div class="" data-ng-repeat="TsObj in vm.dummyTSObjList | orderBy : 'name' track by $index" 
+	        			 style="width: 300px;margin: 0px 5px;position: relative;display: inline-block;">
+	        			<div class="row ts-card" data-ng-click=" vm.taskSpace.permissions.edit && vm.addObjectToTS()">
+	        				
+	        				<div class="col-xs-12 ts-name  vdvc-v-align">
+	        					<div class="fa fa-plus-circle" 
+	        						 data-ng-style="{color: vm.taskSpace.permissions.edit ? '#006699' : '#999' }"
+	        						 style="font-size: 30px;"></div>
+	        					<div>{{TsObj.name}}</div>
+	        				</div>
+	        			</div>
+	        		</div>
+	        	</div>
+	        </div>
+	  </div>
+	  
+	   <span data-ng-if="vm.taskSpace.objects.length >= 3 && vm.taskSpace.permissions.edit"
+	        	  data-ng-click="vm.addObjectToTS()"
+	        	  class="add-ts-btn fa fa-plus-circle"></span> 
+</div>
+

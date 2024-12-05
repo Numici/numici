@@ -1,0 +1,78 @@
+<div class="container-fluid full">
+	<div class="col-xs-12" style="padding-bottom: 10px;">
+		<div class="col-xs-12 col-sm-6 slack-workspaces">
+			<div class="second-navbar second-navbar-top dl-main-navbar">
+				<div class="col-xs-12" style="padding-left: 0px;font-size: 20px; color: rgba(51, 51, 51, 0.74);">
+					Manage Slack Notifications
+				</div>	
+			 </div>
+			 <div data-ng-if="!mswc.slackWorkspaces" 
+    		 	class="col-xs-12" 
+    		 	style="padding: 10px 15px;background: #fff;width: fit-content;">
+    		 	You are not connected to any slack workspace
+    		 </div>
+			 <div data-ng-if="mswc.slackWorkspaces" 
+    		 	class="col-xs-12" 
+    		 	style="padding-bottom: 15px;background: #fff;width: fit-content;">
+	   			<div class="row">
+					<table class="table vdvc-slack-ws-table">
+						<thead>
+							<tr>
+								<th class="wraptext ellipsis">
+									<div class="row lv-th-ele-wrap">
+										<span data-uib-tooltip="Workspace Name" 
+											data-tooltip-append-to-body="true">
+											Workspace Name
+										</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody style="visibility: collapse;">
+							<tr data-ng-repeat="(key,val) in mswc.slackWorkspaces track by key">
+								<td class="wraptext ellipsis">
+									<a class="ellipsis" 
+										data-ng-click="mswc.goSlackSettings(key)" 
+										data-uib-tooltip="{{val}}" 
+										data-tooltip-append-to-body="true" 
+										style="cursor: pointer;text-decoration: none;">
+										{{val}}
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div data-ntf-settings-height class="row"style="max-height: 120px;overflow-y: auto;">
+					<table class="table vdvc-slack-ws-table">
+						<thead style="visibility: collapse;">
+							<tr>
+								<th class="wraptext ellipsis">
+									<div class="row lv-th-ele-wrap">
+										<span data-uib-tooltip="Workspace Name" 
+											data-tooltip-append-to-body="true">
+											Workspace Name
+										</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="(key,val) in mswc.slackWorkspaces track by key">
+								<td class="wraptext ellipsis">
+									<a class="ellipsis" 
+										data-ng-click="mswc.goSlackSettings(key)" 
+										data-uib-tooltip="{{val}}" 
+										data-tooltip-append-to-body="true" 
+										style="cursor: pointer;text-decoration: none;">
+										{{val}}
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+	   		 </div>
+		</div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<form data-ng-submit="box.revokeAuthPerms()" class="box-config-form">
+	<div class="modal-header" style="padding: 10px 30px;">
+		<h4 class="modal-title">
+			Box Config
+			<i class="fa fa-close" style="float:right;color: #006699;" data-ng-click="box.cancel()"></i>
+		</h4>
+	</div>
+	<div class="modal-body ">
+		<div class="col-xs-12" data-ng-if="box.boxConfig.inSync" style="color: green;text-align: center;font-weight: bold;">
+			Synchronization is in progress
+		</div>
+		<div class="row" style="height: 40px;line-height: 40px;margin: 10px;">
+			<div class="col-xs-6">Numici User</div>
+			<div class="col-xs-6">{{::box.boxConfig.userId}}</div>
+		</div>
+		
+		<div class="row" style="height: 40px;line-height: 40px;margin: 10px;">
+			<div class="col-xs-6">Box User Name</div>
+			<div class="col-xs-6">{{::box.boxConfig.name}}</div>
+		</div>
+		
+		<div class="row" style="height: 40px;line-height: 40px;margin: 10px;">
+			<div class="col-xs-6">Box User Email</div>
+			<div class="col-xs-6 box-user-email">{{::box.boxConfig.boxEMail}}</div>
+		</div>
+	
+		<div class="col-xs-12" style="margin-left: 10px;">
+			<div class ="checkbox">
+				<input type="checkbox" data-ng-model="box.postComments" data-ng-change="box.postCommentOnChange()">
+				<label class="cs-lbl">Post Comments</label>
+			</div>
+		</div>
+	
+	</div>
+	<div class="modal-footer">
+		<div class="col-xs-12" style="padding: 0px;">
+			<div class="col-xs-6" style="float: right;padding-right: 0px;">
+				<button class="btn vdvc-form-btn vdvc-form-btn-muted" 
+				        type="button" 
+				        data-ng-click="box.cancel()" >CLOSE</button>
+				<button class="btn vdvc-form-btn" 
+					    type="submit" >REVOKE</button>
+			</div>
+		</div>
+		
+	</div>
+
+</form>

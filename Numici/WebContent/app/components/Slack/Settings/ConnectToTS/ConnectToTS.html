@@ -1,0 +1,100 @@
+<form>
+	<div class="modal-header" style="padding: 15px;">
+		<h4 class="modal-title">
+			Select all channels where you want to enable conversations to be extended into documents and web pages shared in the channel. For each selected channel, Numici creates an associated Taskspace
+		</h4>
+	</div>
+	<div class="modal-body" style="height: 300px;overflow: auto;background: #eee;">
+		<div class="row" style="height: 40px;line-height: 40px;border-bottom: 2px solid #069;font-size: 16px;">
+			<div class="col-xs-12" 
+				 data-ng-repeat="hdr in ctc.connectToTSHeaders" 
+				 data-ng-if="$first" 
+				 data-ng-click="ctc.sortByField(hdr)" 
+				 style="position: relative;padding: 0px;line-height: 1.42857143;margin-top: 10px;" 
+				 data-tooltip-append-to-body="true" 
+	 			 data-tooltip-placement="auto" 
+	 			 data-uib-tooltip="{{::hdr.label}}" 
+	 			 data-ng-class="{'col-sm-12' : !ctc.showTaskspaceName, 'col-sm-6' : ctc.showTaskspaceName}">
+				<span class="checkbox lv-cb-wrap" 
+					data-ng-click="$event.stopPropagation();">
+               		<input type="checkbox" 
+               			data-ng-model="ctc.checkAllChannels.selected" 
+               			data-ng-change="ctc.selectAllChannels()">
+               		<label class="head-cb-lable lv-cb-label"></label>
+            	</span>
+				<span class="ellipsis">
+					{{::hdr.label}}
+				</span>
+				<span class="lv-sort-icon-wrap">
+					<i class="fa fa-fw" 
+						data-ng-show="hdr.value == ctc.connectToTSField" 
+						data-ng-class="{'fa-caret-up' : !scc.connectToTSFieldDecending, 'fa-caret-down': scc.connectToTSFieldDecending}">
+					</i>
+				</span>
+			</div>
+			<div class="col-xs-12 col-sm-6" 
+				 data-ng-repeat="hdr in ctc.connectToTSHeaders" 
+				 data-ng-if="!$first" 
+				 data-ng-click="ctc.sortByField(hdr)" 
+				 style="position: relative;line-height: 1.42857143;margin-top: 10px;" 
+				 data-tooltip-append-to-body="true" 
+	 			 data-tooltip-placement="auto" 
+	 			 data-uib-tooltip="{{::hdr.label}}" 
+	 			 data-ng-show="ctc.showTaskspaceName">
+				<span class="ellipsis">
+						{{::hdr.label}}
+				</span>
+			</div>
+		</div>
+		<div class="row" >
+			<div class="col-xs-12" 
+				data-ng-repeat="slackChannelConfig in ctc.slackChannelsConfigInfo" 
+				data-ng-if="!slackChannelConfig.isConfiguredWithTS" 
+				data-scroll-to-bookmark="{{slackChannelConfig.channelId}}">
+				<div class="row" style="height: 42px;line-height: 40px;border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;padding: 0px;">
+					<div class="col-xs-12" 
+						 data-ng-repeat="hdr in ctc.connectToTSHeaders" 
+						 data-ng-if="$first" 
+	 					 style="position: relative;line-height: 1.42857143;margin-top: 10px;"
+	 					 data-tooltip-append-to-body="true" 
+	 					 data-tooltip-placement="auto" 
+	 					 data-uib-tooltip="{{slackChannelConfig[hdr.value]}}" 
+	 					 data-ng-class="{'col-sm-12' : !ctc.showTaskspaceName, 'col-sm-6' : ctc.showTaskspaceName}">
+	 					<span class="checkbox lv-cb-wrap" 
+							data-ng-click="$event.stopPropagation();">
+		               		<input type="checkbox" 
+		               			data-ng-model="slackChannelConfig.selected" 
+		               			data-ng-change="ctc.checkSlackChannelConfig(slackChannelConfig)">
+		               		<label class="lv-cb-label"></label>
+		            	</span>
+	 					<span class="ellipsis">
+	 					   <span class="slack-logo" style="position: relative;">
+	 					  	 <i class="fa fa-lock" data-ng-if="slackChannelConfig.channelType == 'G'" 
+	 					  	    style="position: absolute;right: 3px;bottom: 0px;transform: scale(0.7);color: #069;">
+				 			</i> 
+				 		   </span>
+	 						{{slackChannelConfig[hdr.value]}}
+	 					</span>
+	 				</div>
+	 				<div class="col-xs-12 col-sm-6" 
+	 					 data-ng-repeat="hdr in ctc.connectToTSHeaders" 
+	 					 data-ng-if="!$first" 
+	 					 style="position: relative;line-height: 1.42857143;margin-top: 10px;"
+	 					 data-tooltip-append-to-body="true" 
+	 					 data-tooltip-placement="auto" 
+	 					 data-uib-tooltip="{{slackChannelConfig[hdr.value]}}" 
+	 					 data-ng-show="ctc.showTaskspaceName">
+	 					<span class="ellipsis">
+	 						<input id="TaskspaceName" type="text" data-ng-model="slackChannelConfig[hdr.value]" data-ng-disabled="!ctc.isTaskspaceNameEditable" class='vdvc-input-txt'>
+	 					</span>
+	 				</div>
+ 				</div>
+ 			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button data-ng-if="ctc.showSkipBtn()" class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="ctc.skip()">SKIP</button>
+		<button data-ng-if="!ctc.showSkipBtn()" class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="ctc.skip()">CANCEL</button>
+		<button data-ng-if="!ctc.showSkipBtn()" class="btn vdvc-form-btn" type="button" data-ng-click="ctc.connect()" data-ng-disabled='ctc.disableConnect()'>CONNECT</button>
+	</div>
+</form>

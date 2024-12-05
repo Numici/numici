@@ -1,0 +1,24 @@
+<form>
+	<div class="modal-header">
+		<div class="row">
+			<div class="col-xs-6">
+				<h3 class="modal-title">File Exists</h3>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-xs-12">
+				<span>The {{vm.targetFldr._type}} "<b>{{vm.targetFldr.name}}</b>" already has a {{vm.item._type}} named "<b>{{vm.item.name}}</b>". Do you want to replace the file?</span>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="button" data-ng-click="vm.replaceAllDocs()">REPLACE ALL</button>
+		<button class="btn vdvc-form-btn" type="button" data-ng-click="vm.skipAllDocs()">SKIP ALL</button>
+		<button class="btn vdvc-form-btn" type="button" data-ng-click="vm.replaceDoc()">REPLACE</button>
+		<button class="btn vdvc-form-btn" type="button" data-ng-click="vm.skipDoc()">SKIP</button>
+	</div>
+
+</form>

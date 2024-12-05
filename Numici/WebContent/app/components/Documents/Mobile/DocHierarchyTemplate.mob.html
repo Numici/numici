@@ -1,0 +1,109 @@
+<!-- <ul  class="nav navbar-nav ellipsis dh">
+				 		
+	<li data-ng-if="doc.root" 
+		data-ng-repeat="doc in docHierarchy" 
+		data-tooltip-append-to-body="true" 
+		data-uib-tooltip="Home"
+		data-tooltip-placement="bottom"
+		class="vdvc-breadcrumbs ellipsis full">
+	  <span  >
+         <a class="" data-ui-sref="docs({ folderId: doc.id })" style="color: rgba(51, 51, 51, 0.74);">
+           <i class="fa fa-home"></i>
+         </a> 
+       </span>
+	</li>
+	<li data-ng-if="doc.trash" 
+		data-ng-repeat="doc in docHierarchy" 
+		data-tooltip-append-to-body="true" 
+		data-uib-tooltip="Trash"
+		data-tooltip-placement="bottom"
+		class="vdvc-breadcrumbs ellipsis full">
+	  <span  >
+         <a href="#" data-ng-click="openDocument(doc,$event)" style="color: rgba(51, 51, 51, 0.74);">
+           <i class="fa fa-trash-o"></i> {{::doc.name}}
+         </a> 
+       </span>
+	</li>
+	<li data-ng-if="!doc.root && !doc.trash && doc._type=='Folder'" 
+		data-ng-repeat="doc in docHierarchy" 
+		data-tooltip-append-to-body ="true"  
+		data-uib-tooltip="{{doc.name}}" data-tooltip-placement="bottom"
+		class="vdvc-breadcrumbs ellipsis full">
+	   <span>
+         <a href="#" data-ng-click="openDocument(doc,$event)" style="color: rgba(51, 51, 51, 0.74);">
+         	 <i class="fa fa-folder-open-o" data-ng-show="!doc.isDummy"></i> {{::doc.name}}
+         </a> 
+       </span> 
+	</li>
+	
+	<li data-nv-set-rm-mxwidth ="docHierarchy"
+		data-ng-if="!doc.root && !doc.trash && doc._type=='Document'"  
+		data-ng-repeat="doc in docHierarchy" 
+		data-tooltip-append-to-body="true" 
+		data-uib-tooltip="{{doc.displayName || doc.name}}" 
+		data-tooltip-placement="bottom" 
+		class="vdvc-breadcrumbs ellipsis full">
+	   <span>							
+       	  <span style="color: rgba(51, 51, 51, 0.74);">
+       	  	<i class="fa" data-ng-class="{'fa-file-text-o': !doc.global , 'fa-globe': doc.global}"></i> {{doc.displayName || doc.name}}
+       	  </span>
+       	</span>
+	</li>
+</ul>  -->
+
+
+
+
+
+<span data-ng-if="doc.root && $last" 
+	  data-ng-repeat="doc in docHierarchy | limitTo:-2 " 
+	  data-tooltip-append-to-body ="true"  
+	  data-uib-tooltip="Home" 
+	  data-tooltip-placement="bottom"
+	  class="ellipsis full col-xs-2"
+	  style="max-width: 30px;">
+        <span>
+         <a href="#" data-ng-click="openDocument(doc,$event)" style="color: rgba(51, 51, 51, 0.74);">
+         	  <i class="fa fa-home"></i>
+         </a> 
+       </span> 
+</span>
+
+<span data-ng-if="!$last" 
+	  data-ng-repeat="doc in docHierarchy | limitTo:-2 " 
+	  data-tooltip-append-to-body ="true"  
+	  data-uib-tooltip="Home" 
+	  data-tooltip-placement="bottom"
+	  class="ellipsis full col-xs-2"
+	  style="max-width: 30px;">
+        <span>
+         <a href="#" data-ng-click="openDocument(doc,$event)" style="color: rgba(51, 51, 51, 0.74);">
+         	  <i class="fa fa-arrow-left fa-fw"></i>
+         </a> 
+       </span> 
+</span>
+
+<span data-ng-if="doc.trash && $last" 
+	  data-ng-repeat="doc in docHierarchy | limitTo:-2 " 
+	  data-tooltip-append-to-body ="true"  
+	  data-uib-tooltip="Home" 
+	  data-tooltip-placement="bottom"
+	  class="ellipsis full col-xs-10">
+        <span>
+         <a href="#" data-ng-click="openDocument(doc,$event)" style="color: rgba(51, 51, 51, 0.74);">
+         	  <i class="fa fa-trash-o"></i> {{::doc.name}}
+         </a> 
+       </span> 
+</span>
+
+<span data-ng-if="!doc.root && !doc.trash && $last" 
+	  data-ng-repeat="doc in docHierarchy | limitTo:-2 " 
+	  data-tooltip-append-to-body ="true"  
+	  data-uib-tooltip="{{doc.name}}" data-tooltip-placement="bottom"
+	  class="ellipsis full col-xs-10">
+        <span>
+         <a href="#" data-ng-click="openDocument(doc,$event)" style="color: rgba(51, 51, 51, 0.74);">
+         	 {{::doc.name}}
+         </a> 
+       </span> 
+</span>

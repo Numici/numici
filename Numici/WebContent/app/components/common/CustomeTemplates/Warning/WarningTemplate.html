@@ -1,0 +1,17 @@
+<div class="modal-header" data-ng-show="::wc.enableHeader">
+	<h4 class="modal-title">
+		{{::wc.title}}
+	</h4>
+</div>
+<div class="modal-body" >
+	<span style="padding:10px;">	
+		<i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>
+	</span> 
+	<span>
+		{{::wc.message}}
+	</span>
+	
+</div>
+<div class="modal-footer" data-ng-show="::wc.enableFooter">
+    <button class="btn btn-primary" data-ng-click="wc.ok()">Ok</button>
+</div>

@@ -1,0 +1,197 @@
+<div class="container-fluid full">
+	<div data-ng-if="mnc.uiForManageNotifications" style="height: 55px"></div>
+	<div class="col-xs-12" style="padding-bottom: 10px;">
+		<div class="col-xs-12 col-sm-7 ntf-settings">
+			<div class="second-navbar second-navbar-top dl-main-navbar">
+				<div class="col-xs-6" style="padding-left: 0px;font-size: 20px; color: rgba(51, 51, 51, 0.74);">
+					Notification Settings
+				</div>	
+				<div class="col-xs-6" style="padding-left: 0px;text-align: center;">
+					<button type="button" 
+			      		class="btn vdvc-nav-btn" 
+			      		data-ng-show="mnc.isNtfSettingsEdited" 
+			      		data-ng-click="mnc.cancelEditNtfSettings()" 
+			      		style="margin-left: 5px;">
+			        	Cancel
+			      	</button>
+			      	<button type="button" 
+			      		class="btn vdvc-nav-btn" 
+			      		data-ng-show="mnc.isNtfSettingsEdited" 
+			      		data-ng-click="!mnc.disableSaveNtfSttingsBtn() && mnc.saveNtfSettings()" 
+			      		data-ng-disabled="mnc.disableSaveNtfSttingsBtn()" 
+			      		style="margin-left: 5px;">
+			        	Save
+			      	</button>
+			      	<button type="button" 
+			      		class="btn vdvc-nav-btn" 
+			      		data-ng-show="!mnc.isNtfSettingsEdited" 
+			      		data-ng-click="mnc.editNtfSettings()" 
+			      		style="margin-left: 5px;">
+			        	Edit
+			      	</button>
+				</div>	
+			 </div>
+			 <div class="col-xs-12" style="padding-bottom: 15px;background: #fff;">
+			 	<div class="row">
+				 	<table class="table vdvc-ntf-settings-table">
+						<thead>
+							<tr>
+								<th class="wraptext ellipsis">Notification Event</th>
+								<th class="wraptext" 
+									data-ng-repeat="notificationSentTo in mnc.notificationSentToListModal" 
+									style="text-align: center;">
+									<div class="row">
+										<span class="checkbox lv-cb-wrap" data-uib-tooltip="{{::notificationSentTo.label}}" 
+											data-tooltip-append-to-body="true"  
+											data-ng-click="$event.stopPropagation();" 
+											style="padding: 0;width: calc(100% - 25px);">
+											<input type="checkbox" 
+					               			data-ng-model="notificationSentTo.selectAll" 
+					               			data-ng-change="mnc.selectAllNotificationsSentTo(notificationSentTo)" 
+					               			data-ng-disabled="!mnc.isNtfSettingsEdited">
+											<label class="head-cb-lable lv-cb-label">
+												<div class="ellipsis">{{::notificationSentTo.label}}</div>
+											</label>
+										</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody style="visibility: collapse;">
+							<tr data-ng-repeat="notificationEvent in mnc.notificationEventListModal">
+								<td class="wraptext ellipsis">
+									<span class="ellipsis" 
+										data-uib-tooltip="{{notificationEvent.label}}" 
+										data-tooltip-append-to-body="true">
+										{{notificationEvent.label}}
+									</span>
+								</td>
+								<td class="wraptext" 
+									data-ng-repeat="notificationSentTo in mnc.notificationSentToListModal" 
+									style="text-align: center;">
+									<span class="checkbox lv-cb-wrap" 
+										data-ng-click="$event.stopPropagation();">
+					               		<input type="checkbox" 
+					               			data-ng-disabled="true">
+					               		<label class="lv-cb-label"></label>
+					            	</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div data-ntf-settings-height class="row" style="max-height: 250px;overflow-y: auto;">
+					<table class="table vdvc-ntf-settings-table">
+						<thead style="visibility: collapse;">
+							<tr>
+								<th class="wraptext ellipsis">Notification Event</th>
+								<th class="wraptext ellipsis" 
+									data-ng-repeat="notificationSentTo in mnc.notificationSentToListModal" 
+									style="text-align: center;">
+									<div class="row">
+										<span data-uib-tooltip="{{::notificationSentTo.label}}" 
+											data-tooltip-append-to-body="true">
+											{{::notificationSentTo.label}}
+										</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="notificationEvent in mnc.notificationEventListModal">
+								<td class="wraptext ellipsis">
+									<span class="ellipsis" 
+										data-uib-tooltip="{{notificationEvent.label}}" 
+										data-tooltip-append-to-body="true">
+										{{notificationEvent.label}}
+									</span>
+								</td>
+								<td class="wraptext" 
+									data-ng-repeat="notificationSentTo in mnc.notificationSentToListModal" 
+									style="text-align: center;">
+									<span data-ng-if="mnc.showNtfSettingsCB(notificationSentTo,notificationEvent)" class="checkbox lv-cb-wrap" 
+										data-ng-click="$event.stopPropagation();">
+					               		<input type="checkbox" 
+					               			data-ng-model="notificationSentTo[notificationEvent.field]" 
+					               			data-ng-change="mnc.selectNotificationSentTo(notificationSentTo)" 
+					               			data-ng-disabled="!mnc.isNtfSettingsEdited">
+					               		<label class="lv-cb-label"></label>
+					            	</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+	    		</div>
+	    	</div>
+    	</div>
+    	<!-- <div class="col-xs-12 col-sm-6 slack-workspaces">
+	    	<div class="second-navbar second-navbar-top dl-main-navbar">
+	    		<div class="col-xs-12" style="padding-left: 0px;font-size: 20px; color: rgba(51, 51, 51, 0.74);">
+	    			Manage Slack Notifications
+	    		</div>
+	    	</div>
+	    	<div data-ng-if="mnc.slackWorkspaces" 
+	    		class="col-xs-12" 
+	    		style="padding-bottom: 15px;background: #fff;width: fit-content;">
+	   			<div class="row">
+					<table class="table vdvc-slack-ws-table">
+						<thead>
+							<tr>
+								<th class="wraptext ellipsis">
+									<div class="row lv-th-ele-wrap">
+										<span data-uib-tooltip="Workspace Name" 
+											data-tooltip-append-to-body="true">
+											Workspace Name
+										</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody style="visibility: collapse;">
+							<tr data-ng-repeat="(key,val) in mnc.slackWorkspaces track by key">
+								<td class="wraptext ellipsis">
+									<a class="ellipsis" 
+										data-ng-click="mnc.goSlackSettings(key)" 
+										data-uib-tooltip="{{val}}" 
+										data-tooltip-append-to-body="true" 
+										style="cursor: pointer;text-decoration: none;">
+										{{val}}
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div data-ntf-settings-height class="row"style="max-height: 120px;overflow-y: auto;">
+					<table class="table vdvc-slack-ws-table">
+						<thead style="visibility: collapse;">
+							<tr>
+								<th class="wraptext ellipsis">
+									<div class="row lv-th-ele-wrap">
+										<span data-uib-tooltip="Workspace Name" 
+											data-tooltip-append-to-body="true">
+											Workspace Name
+										</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="(key,val) in mnc.slackWorkspaces track by key">
+								<td class="wraptext ellipsis">
+									<a class="ellipsis" 
+										data-ng-click="mnc.goSlackSettings(key)" 
+										data-uib-tooltip="{{val}}" 
+										data-tooltip-append-to-body="true" 
+										style="cursor: pointer;text-decoration: none;">
+										{{val}}
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+	   		</div>
+   		</div> -->
+   	</div>
+</div>

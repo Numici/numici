@@ -1,0 +1,30 @@
+<div class='vdvc-file-progress col-xs-12 col-md-6' 
+	data-ng-show="showProgress">
+	<div class="progress-bar-header">
+		<div class="row">
+			<div class="col-xs-6 pbh-l"></div>
+			<div class="col-xs-6 pbh-r">
+				<span class="fa fa-close pbh-close-icon" 
+					data-ng-click='closeProgress()'>
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="progress-bar-body">
+		<div class='row' data-ng-repeat="f in multiFiles" style="padding: 10px 0px;border-bottom: 1px solid #ddd;">
+		  <div class='col-xs-12 ellipsis'>
+		  	{{::f.name}} {{::errFile.name}} {{::errFile.$error}} {{::errFile.$errorParam}}
+		  </div>
+		  <div class='row' >
+		  	<span class="col-xs-3 f-progress-l" 
+		  		data-ng-bind="f.progress + '%'">
+		  	</span>
+		    <span class="col-xs-9 f-progress-r">
+		        <span class='vdvc-progress-bar' 
+		        	style="display:block;width:{{f.progress}}%;">
+		        </span>
+		    </span> 
+		  </div>
+	  	</div>
+  	</div>
+ </div>

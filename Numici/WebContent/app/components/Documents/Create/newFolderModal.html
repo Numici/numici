@@ -1,0 +1,35 @@
+<form data-ng-submit="vm.ok()">
+	<div class="modal-header">
+		<h3 class="modal-title">New Folder</h3>
+	</div>
+	<div class="modal-body" style="min-height: 120px;">
+		<span style="color: #bd362f;font-weight:bold;">{{vm.errMsg}}</span>
+		<div class="row" style="margin-bottom: 5px;">
+			<label class="col-xs-12 col-sm-3">Folder Name: </label>
+		    <div class="col-xs-12 col-sm-9">
+		        <input type="text" 
+		        	   class="form-control vdvc-input-txt" 
+		        	   data-ng-model='vm.folderName' 
+		        	   placeholder='Folder Name' 
+		        	   style="margin-top:5px;" autocomplete="off" autofocus>
+		    </div>
+		</div>
+		<div class="row" >
+			<div class="col-xs-12 col-sm-3"></div>
+			<div class="col-xs-12 col-sm-9">
+				<div class ="checkbox col-top-mrgn-5">
+					<input id="private" type="checkbox" data-ng-model="vm.isPrivate" >
+					<label for="private">Private</label>
+				</div>
+			    <!-- <div class ="col-xs-12 checkbox col-top-mrgn-5">
+					<input id="readOnly" type="checkbox" data-ng-model="vm.isEditable" >
+					<label for="readOnly">Read Only</label>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit">CREATE</button>
+	</div>
+</form>

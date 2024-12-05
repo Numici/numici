@@ -1,0 +1,43 @@
+<form>
+	<div class="modal-header">
+		<div class="row">
+			<h3 class="modal-title">Confirm Action on Organization & User AppSettings</h3>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-xs-12" style="margin-bottom: 10px;">
+				<span>Would you like to update the existing AppSetting value?</span>
+			</div>
+		</div>
+		<div class="row" data-ng-show="appSettingType == 'System'">
+			<div class="col-xs-12 col-sm-1"></div>
+			<div class="col-xs-12 col-sm-11">
+				<div class="checkbox" style="margin-bottom: 0px;">
+					<input type="checkbox" 
+						name="actionOnUpdateAllOrgs" 
+					   	data-ng-model="updateAllOrgs" 
+					   	data-ng-change="onUpdateAllOrgsChange()">
+					<label class="cs-lbl">Update AppSetting for all Organizations</label>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-2" data-ng-show="appSettingType == 'System'"></div>
+			<div class="col-xs-12 col-sm-1" data-ng-show="appSettingType == 'Organization'"></div>
+			<div class="col-xs-12 col-sm-10">
+				<div class="checkbox" style="margin-bottom: 0px;">
+					<input type="checkbox" 
+						name="actionOnUpdateAllOrgUsers" 
+					   	data-ng-model="updateAllOrgUsers" 
+					   	data-ng-disabled="disableUpdateAllOrgUsers()">
+					<label class="cs-lbl">Update AppSetting for all Organization Users</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="button" data-ng-disabled="disableConfirm()" data-ng-click="ok()">UPDATE</button>
+	</div>
+</form>

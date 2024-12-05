@@ -1,0 +1,121 @@
+<form data-ng-submit="vm.ok()">
+	<div class="modal-header" style="padding: 10px 15px;">
+		<h3 class="modal-title">{{vm.getMoveObjectTitle()}}</h3>
+	</div>
+	<div class="modal-body" style="background: #eee;">
+		<div class="row" style="margin-bottom: 15px;">
+			<div class="col-xs-12" style="padding: 0px;">
+				<div class="col-xs-2" style="height: 34px;line-height: 34px;padding: 0px;">
+					FROM : 
+				</div>
+				<div class="col-xs-8" style="padding: 0px 5px;margin-bottom: 10px;height: 34px;line-height: 34px;background: #ccc;">
+					{{vm.fromTaskspace.name}}
+				</div>
+			</div>
+			<div class="col-xs-12" style="padding: 0px;">
+				<div class="col-xs-3" style="height: 34px;line-height: 34px;padding-left: 0px;"></div>
+				<div class="col-xs-8" style="padding: 0px 5px;margin-bottom: 10px;height: 34px;line-height: 34px;background: #ccc;">
+					{{vm.fromSection.name}}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12" style="padding: 0px;">
+				<div class="col-xs-2" style="height: 34px;line-height: 34px;padding: 0px;">
+					TO : 
+				</div>
+				<div class="col-xs-8 vdvc-ms-wrap" style="margin-bottom: 10px;padding: 0px;">
+					<data-ui-select class="move-obj-target-ts-ui-select"
+						data-ng-model="vm.targetTS" 
+						data-on-select="vm.onTargetTSSelection($item, $model)">
+						<data-ui-select-match data-placeholder="Select Taskspace">
+							<span> {{$select.selected.name}} </span> 
+						</data-ui-select-match> 
+						<data-ui-select-choices data-repeat="taskspace in vm.taskspaceList | filter:{name:$select.search}" 
+							data-ui-disable-choice="!taskspace.permissions.edit">
+							<div class="ellipsis">
+								<div data-ng-bind-html="taskspace.name | highlight: $select.search" 
+									data-tooltip-append-to-body='true' 
+						      		data-uib-tooltip={{taskspace.name}} 
+									data-tooltip-placement="auto top">
+								</div>
+						      	<!-- <small data-tooltip-append-to-body='true' 
+						      		data-uib-tooltip={{taskspace.owner}} 
+									data-tooltip-placement="auto top"
+									style="padding:0px;">
+						        	{{taskspace.owner}}
+						      	</small> -->
+							</div>
+						</data-ui-select-choices> 
+					</data-ui-select>
+				</div>.
+				<div class="col-xs-1" style="padding: 0px 0px 0px 5px;height: 34px;line-height: 34px;">
+					<button type="button" 
+						class="btn vdvc-nav-btn" 
+						data-ng-click="vm.newTaskSpace()" 
+						data-tooltip-append-to-body="true" 
+						data-tooltip-placement="bottom" 
+						data-uib-tooltip="New Taskspace" 
+						style="width: 28px;height: 28px;line-height: 28px;padding: 0px 5px;">
+						<span class="fa fa-fw fa-plus"></span>
+					</button>
+				</div>
+			</div>
+			<div class="col-xs-12" style="padding: 0px;">
+				<div class="col-xs-3" style="height: 34px;line-height: 34px;padding-left: 0px;"></div>
+				<div class="col-xs-8 vdvc-ms-wrap" 
+					data-ng-show="vm.showAddSectionBtn()" 
+					style="padding: 0px;margin-bottom: 10px;">
+					<button type="button" 
+						class="btn vdvc-nav-btn" 
+						data-ng-click="vm.addSectionToTS()"
+						style="width: 150px;">
+						<span class="fa fa-fw fa-plus"></span> Add Section
+					</button>
+				</div>
+				<div class="col-xs-8 vdvc-ms-wrap" 
+					data-ng-show="!vm.showAddSectionBtn()" 
+					style="padding: 0px;margin-bottom: 10px;">
+					<data-ui-select class="move-obj-target-ts-section-ui-select"
+						data-ng-model="vm.targetTSSection">
+						<data-ui-select-match data-placeholder="Select Section">
+							<span> {{$select.selected.name}} </span> 
+						</data-ui-select-match> 
+						<data-ui-select-choices data-repeat="tsSection in vm.targetTS.sections | filter:{name:$select.search}">
+							<div class="ellipsis">
+								<div data-ng-bind-html="tsSection.name | highlight: $select.search" 
+									data-tooltip-append-to-body='true' 
+						      		data-uib-tooltip={{tsSection.name}} 
+									data-tooltip-placement="auto top">
+								</div>
+						      	<!-- <small data-tooltip-append-to-body='true' 
+						      		data-uib-tooltip={{tsSection.description}} 
+									data-tooltip-placement="auto top"
+									style="padding:0px;">
+						        	{{tsSection.description}}
+						      	</small> -->
+							</div>
+						</data-ui-select-choices> 
+					</data-ui-select>
+				</div>
+				<div class="col-xs-1" 
+					data-ng-show="!vm.showAddSectionBtn()" 
+					style="padding: 0px 0px 0px 5px;height: 34px;line-height: 34px;">
+					<button type="button" 
+						class="btn vdvc-nav-btn" 
+						data-ng-click="vm.addSectionToTS()" 
+						data-tooltip-append-to-body="true" 
+						data-tooltip-placement="bottom" 
+						data-uib-tooltip="New Section" 
+						style="width: 28px;height: 28px;line-height: 28px;padding: 0px 5px;">
+						<span class="fa fa-fw fa-plus"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer" style="padding: 10px 15px;">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit" data-ng-disabled='vm.disableMove()'>MOVE</button>
+	</div>
+</form>

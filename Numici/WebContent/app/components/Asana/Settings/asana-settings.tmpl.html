@@ -1,0 +1,139 @@
+<div class="container-fluid full">
+	<div style="height: 110px"></div>
+	<div class="col-xs-12" style="min-height: calc(100% - 110px);">
+	
+		 <div class="navbar-fixed-top second-navbar second-navbar-top dl-main-navbar">
+			<div class="col-xs-8 dlmn-l" style="font-size: 20px; color: rgba(51, 51, 51, 0.74);">
+				Asana - Numici Integration Settings
+			</div>	
+			<div class="col-xs-4 dlmn-r">
+				
+			</div>	
+		 </div>
+		 <div class="col-xs-12 full" style="background: #fff;">
+			<div class="col-sm-12 col-lg-12 col-xs-12" style="margin: 20px auto;">
+			 	<div class="row">
+			        <div class="col-xs-3 ellipsis" 
+			        	data-tooltip-append-to-body="true" 
+	 					data-tooltip-placement="auto" 
+	 					data-uib-tooltip="{{::asc.config.name}}" 
+	 					style="padding : 0px;">
+	 					<label class="col-xs-12" style="padding : 0px;">Asana Profile</label>
+		            	<div class="col-xs-12" class="slack-workspace" style="padding : 0px;">{{::asc.config.name}}</div>
+		            </div>
+		            <div class="col-xs-3 ellipsis" 
+		            	data-tooltip-append-to-body="true" 
+	 					data-tooltip-placement="auto" 
+	 					data-uib-tooltip="{{::asc.config.asanaEmail}}" 
+	 					style="padding : 0px;">
+	 					<label class="col-xs-12">Asana Owner</label>
+		            	<div class="col-xs-12" class="slack-user-name">{{::asc.config.asanaEmail}}</div>
+		            </div>
+		             <div class="col-xs-3 ellipsis" 
+		            	data-tooltip-append-to-body="true" 
+	 					data-tooltip-placement="auto" 
+	 					data-uib-tooltip="Revoke" 
+	 					style="padding : 0px;">
+	 					<button class="btn vdvc-form-btn" 
+	 						    type="button"
+	 						    data-ng-click="asc.revokeAuthPerms()">
+	 						    Revoke
+	 					</button>
+		            </div>
+	            </div>
+			 
+				<div class="row" style="margin: 15px 0px;height: 1px;border-bottom: 1px solid #ddd;"></div>
+				<div class="row">
+			 		<!-- <div class="row" style="height: 30px;font-size: 18px;color: #069;line-height: 30px;">
+				 		Check events for which you want to receive Taskspace related events to the Channel
+				 	</div> -->
+				 	<div class="row" style="height: 40px;line-height: 40px;border-bottom: 2px solid #069;font-size: 16px;">
+		 				<div class="col-xs-12" 
+		 					 data-ng-repeat="hdr in asc.settingsHeaders" 
+		 					 data-ng-class="hdr.class" 
+		 					 data-ng-click="asc.sortByField(hdr)" 
+		 					 style="position: relative;" 
+		 					 data-tooltip-append-to-body="true" 
+				 			 data-tooltip-placement="auto" 
+				 			 data-uib-tooltip="{{::hdr.label}}">
+		 					<span class="ellipsis" style="position: absolute;left: 0;right: 0;">
+		 						{{::hdr.label}}
+		 					</span>
+		 					<span class="lv-sort-icon-wrap">
+								<i class="fa fa-fw" 
+									data-ng-show="hdr.value == asc.projectConfigField" 
+									data-ng-class="{'fa-caret-up' : !asc.projectConfigFieldDecending, 'fa-caret-down': asc.projectConfigFieldDecending}">
+								</i>
+							</span>
+		 				</div>
+		 				<div class="col-xs-12 col-sm-2" style="position: relative;">
+		 				</div>
+		 			</div>
+				 	<div class="row">
+				 		<div class="row" 
+				 			 data-ng-repeat="project in asc.projects">
+				 			<div class="row" style="height: 42px;line-height: 40px;border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">
+				 				<div class="col-xs-12 col-sm-3" 
+				 					 style="position: relative;"
+				 					 data-tooltip-append-to-body="true" 
+				 					 data-tooltip-placement="auto" 
+				 					 data-uib-tooltip="{{project.name}}">
+				 					<span class="ellipsis" style="position: absolute;left: 0;right: 0;">
+				 						{{project.name}}
+				 					</span>
+				 				</div>
+				 				<div data-ng-if="!project.taskspace" 
+				 					 class="col-xs-12 col-sm-4" 
+				 					 style="position: relative;"
+				 					 data-tooltip-append-to-body="true" 
+				 					 data-tooltip-placement="auto" 
+				 					 data-uib-tooltip="Connect">
+				 					<span class="ellipsis" style="position: absolute;left: 0;right: 0;">
+				 						<a data-ng-click="asc.connect(project)" 
+				 							style="cursor: pointer;text-decoration: none;">
+				 							Connect
+				 						</a>
+				 					</span>
+				 				</div>
+				 				<div data-ng-if="project.taskspace" 
+				 					 class="col-xs-12 col-sm-4" 
+				 					 style="position: relative;"
+				 					 data-tooltip-append-to-body="true" 
+				 					 data-tooltip-placement="auto" 
+				 					 data-uib-tooltip="{{project.taskspace.taskspaceName}}">
+				 					<span class="ellipsis" style="position: absolute;left: 0;right: 0;">
+				 						<a data-ui-sref="taskspace.list.task({tsId : project.taskspace.taskspaceId,tsc : project.taskspace.clientId})" 
+				 							style="text-decoration: none;">
+				 							{{project.taskspace.taskspaceName}}
+				 						</a>
+				 					</span>
+				 				</div>
+				 				<!-- <div class="col-xs-12 col-sm-3" 
+				 					style="position: relative;" 
+				 					data-tooltip-append-to-body="true" 
+		      		    			data-tooltip-placement="auto" 
+		      		    			data-uib-tooltip="{{project.taskspace.taskspaceOwner}}">
+		      		    			<span class="ellipsis" style="position: absolute;left: 0;right: 0;">
+				 						{{project.taskspace.taskspaceOwner}}
+				 					</span>
+				 				</div> -->
+				 				<div class="col-xs-12 col-sm-2">
+				 					<div class="row pull-right">
+									 	<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted vdvc-slack-ts-delete-btn" 
+								 			data-ng-click="asc.disconnect(project)"
+								 			data-ng-show="project.taskspace" 
+								 			data-tooltip-append-to-body="true"
+		      		    					data-tooltip-placement="auto"
+		      		    					data-uib-tooltip="Disconnect">
+									 		<i class="fa fa-trash fa-fw"></i>
+									 	</button>
+				 					</div>
+				 				</div>
+				 			</div>
+				 		</div>
+				 	</div>
+			 	</div>
+			</div>
+		</div>
+	</div>
+</div>

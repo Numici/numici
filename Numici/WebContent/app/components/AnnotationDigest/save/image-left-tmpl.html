@@ -1,0 +1,70 @@
+<table data-docInfo="" border="0" width="610" style="width: 610px;max-width: 100%;min-width: 100%;">
+	<tr>
+		<td data-ng-if="digest.imageUrl && digestMetaInfoOptions.image"
+			width="210" style="width: 210px;">
+			<div>
+				<a data-ng-href="{{::digest.link}}" target="_blank"> <img
+					data-ng-src="{{::digest.imageUrl}}" align="left"
+					style="width: 100%; display: block; max-height: 139px; object-fit: cover; object-position: center top;"
+					data-ng-style="::altImageStyles(digest)"
+					data-cke-real-node-type="1" data-track-changes-ignore="true"
+					data-cke-editable="false" contenteditable="true" width="200"
+					height="139" 
+					onerror="this.parentElement.parentElement.parentElement.style.display='none';"/>
+				</a>
+			</div>
+		</td>
+		<td data-ng-attr-width="{{digest.imageUrl && digestMetaInfoOptions.image ? '400' : '610'}}" 
+		    data-ng-style="{width: digest.imageUrl && digestMetaInfoOptions.image ? '400px' : '610px'}">
+			<div class="content" data-ng-style="{margin: digest.imageUrl && digestMetaInfoOptions.image ? '1em' : '1em 0em'}">
+				<h4 data-ng-style="::titleStyles()"
+					style="display: table; color: #069;"
+					data-ng-if="digestFor != 'DigestDocument' && digestMetaInfoOptions.documentName">
+					<span data-ng-if="tableOfContents == 'withIndex'"
+						style="display: table-cell; padding-right: 15px; font-size: 0.8em; word-break: keep-all;">
+						{{digest.diIndex}} </span> <span
+						style="display: table-cell; word-break: break-word;"> <a
+						data-ng-href="{{::digest.link}}" target="_blank"
+						data-tooltip-append-to-body="true"
+						data-uib-tooltip="{{::digest.displayName}}" role="button"
+						style="color: #069; text-decoration: none !important;">
+							{{::digest.displayName}} </a> <!-- <digest-link-to-table-of-contents
+							data-ng-if="tableOfContents && tableOfContents != 'notInclude'"
+							table-id="digest_table_of_contents">
+						</digest-link-to-table-of-contents> -->
+					</span>
+				</h4>
+
+				<div class="markdown-body row meta-info-description"
+					data-ng-if="digest.description && digestMetaInfoOptions.description" 
+					data-ng-bind-html="digest.description | to_trusted" 
+					data-ng-style="{'margin': digestFor == 'DigestDocument' ? '1em 0em 0em' : '0em'}">
+					<!-- {{::digest.description}} -->
+				</div>
+				<div class="markdown-body row meta-info-note-content"
+					data-ng-if="digest.documentType == 'Notes' && digest.content" 
+					data-ng-bind-html="digest.content | to_trusted" 
+					data-ng-style="{'margin': digestFor == 'DigestDocument' ? '1em 0em 0em' : '0em'}">
+				</div>
+				<div class="row meta-info-publisher" data-ng-if="digest.website">
+					<span class="meta-info-publisher-name"
+						data-ng-if="digestMetaInfoOptions.websiteName"> <span
+						class="name" data-ng-if="!digest.url"> {{::digest.website}}
+					</span> <a data-ng-if="digest.url" class="name"
+						data-ng-href="{{::digest.url}}" target="_blank"
+						data-tooltip-append-to-body="true"
+						data-uib-tooltip="{{::digest.url}}"
+						style="color: #069; text-decoration: none !important;">
+							{{::digest.website}} </a>
+					</span>
+				</div>
+				<div class="row"
+					data-ng-if="digest.tags && digestMetaInfoOptions.documentTags">
+					<span data-ng-repeat="tag in ::digest.tags track by $index"
+						style="display: inline-block; height: 25px; line-height: 25px; background: #069; padding: 0px 10px; margin: 5px; color: #fff;">
+						{{tag}} </span>
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>

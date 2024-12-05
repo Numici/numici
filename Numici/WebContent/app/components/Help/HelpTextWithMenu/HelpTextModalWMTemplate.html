@@ -1,0 +1,138 @@
+<div class="modal-header">
+	<div class="col-xs-11">
+		
+	</div>
+	<div class="col-xs-1">
+		<i class="fa fa-close" data-ng-click="vm.cancel()" style="float: right;color: #006699;"></i>
+	</div>
+</div>
+<div class="modal-body">
+	<div class="col-xs-3 help-menu-side-bar full" style="border-bottom: 1px solid #ccc;position: relative;padding: 0px 0px 30px;">
+		<div class="vdvc-find-help-topic">
+	  		<input type="text" 
+	  			style="height: 30px;" 
+	  			placeholder="Find Help Topic" 
+	  			class="vdvc-input-txt" 
+	  			data-ng-model="vm.helpTopicSearchTxt" 
+	  			data-ng-keyup="vm.searchHelpTopic($event)">
+    	</div>
+		<data-build-version></data-build-version>
+		<div class="row help-menu-listing">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 full">
+				<div class="panel panel-default full" style="margin: 0px;overflow: auto;">
+					<div class="panel-body nested-accordion">
+						<div class="row mt-10">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<script type="text/ng-template" id="panelTitle">
+										<h4 class="panel-title" data-ng-if="topic.context">								
+											<a data-toggle="collapse" 
+												data-parent="#{{ 'level' + $index +'accordion'}}" 
+												data-ng-click="vm.collapsePanel(topic)" 
+												class="collapsed">
+												<div class="accordian-text">
+													{{topic.title}}
+												</div>
+												<div class="accordian-arrow">
+													<i class="fa fa-angle-down" aria-hidden="true" data-ng-if="!topic.collapsed"></i>
+													<i class="fa fa-angle-up" aria-hidden="true" data-ng-if="topic.collapsed"></i>
+												</div> 
+											</a>
+										</h4>
+										<h4 class="panel-title" data-ng-if="!topic.context">								
+											<a data-ng-click="vm.openHelpTopic(topic)">
+												<div class="accordian-text">
+													{{topic.title}}
+												</div>
+											</a>
+										</h4>
+									</script>
+								<script type="text/ng-template" id="panelTextBody">
+										<div class="panel-body">
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" 
+												data-ng-bind-html="topic.helpText"> 
+											</div>
+										</div>
+									</script>
+								<script type="text/ng-template" id="panelGroup">
+    									<div class="panel-group" data-ng-attr-id="{{ 'level' + $parent.$index +''+ $index +'accordion'}}" data-ng-repeat="topic in topic.topics">
+											<div class="panel panel-default">
+												<div class="panel-heading" 
+													data-ng-include="'panelTitle'" 
+													data-ng-class="{'selected' : topic.title == vm.selectedTopic.title}">
+												</div>	
+												<div data-ng-if="topic.context" 
+													class="panel-collapse collapse" 
+													data-ng-class="{'in' : topic.collapsed}">
+													<div class="panel-body">
+														<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" 
+															data-ng-include="'panelGroup'"> 
+														</div>
+													</div>
+												</div>											
+											</div>
+										</div>
+									</script>
+								<div class="row current-help-topic" data-ng-if="vm.stateHelpTopics.currentStateHelpTopics.topics.length > 0" style="border-bottom: 2px solid #eee;margin-bottom: 15px;">
+									<div class="context-heading">
+										{{vm.stateHelpTopics.currentStateHelpTopics.title}}
+									</div>
+									<div class="panel-group" data-ng-attr-id="{{ 'level' + $index +'accordion'}}" data-ng-repeat="topic in vm.stateHelpTopics.currentStateHelpTopics.topics">
+										<div class="panel panel-default">
+											<div class="panel-heading" 
+												data-ng-include="'panelTitle'" 
+												data-ng-class="{'selected': topic.title == vm.selectedTopic.title}">
+											</div>	
+											<div data-ng-if="topic.context" 
+												class="panel-collapse collapse" 
+												data-ng-class="{'in' : topic.collapsed}">
+												<div class="panel-body">
+													<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" 
+														data-ng-include="'panelGroup'"> 
+													</div>
+												</div>
+											</div>											
+										</div>
+									</div>
+								</div>
+								
+								<div class="row other-help-topics" 
+									data-ng-repeat="topic in vm.stateHelpTopics.otherHelpTopics">
+									<div class="context-heading" 
+										data-ng-if="topic.context">
+										{{topic.title}}
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" 
+										data-ng-if="topic.context" 
+										data-ng-include="'panelGroup'"> 
+									</div>
+									<div class="panel-group" data-ng-if="!topic.context">
+										<div class="panel panel-default">
+											<div class="panel-heading" 
+												data-ng-include="'panelTitle'" 
+												data-ng-class="{'selected': topic.title == selectedHelpTopic.title}">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="doc-viewr help-text-doc-viewer col-xs-9 full" style="border-bottom: 1px solid #ccc;padding: 0px;">
+		<div class='row full'>
+			<div class="row full">
+				<div class="cke-wrap col-xs-12 full">
+					<form>
+						<textarea id="help-text-editor"
+							style="display: none; width: 0px; overflow: auto;position:absolute;top:-500px;"
+							data-ng-model="vm.content"></textarea>
+					</form>
+				</div>
+				<div data-ng-include-replace data-ng-include="'app/components/Help/linkMetaInfo.html'"></div>
+			</div>
+		</div>
+	</div>
+</div>

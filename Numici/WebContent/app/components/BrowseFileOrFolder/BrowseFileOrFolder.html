@@ -1,0 +1,391 @@
+<form data-ng-submit="vm.ok()">
+	<div class="modal-header" style="height: 50px;padding: 10px 0px;">
+		<div class="col-xs-8">
+			<ul class="nav navbar-nav ellipsis" style="font-size: 20px; color: rgba(51, 51, 51, 0.74);float: left;line-height: 30px;width:100%;max-width:100%;height:35px;margin-left: 0px;">
+			 					 		
+		 		<li data-ng-if="fldr.root" 
+		 			data-ng-repeat="fldr in vm.fldrHierarchy " 
+		 			data-tooltip-append-to-body='true' 
+		 			data-uib-tooltip="Home" 
+		 			data-tooltip-placement="bottom"
+		 			class="vdvc-breadcrumbs  ellipsis full">
+		 		  	<span data-ng-click="vm.openFolder(fldr)" data-ng-class="{'fldr-slct':vm.selectedObjectList[0].id == fldr.id}">
+				         <i class="fa fa-home"></i>
+			       	</span>
+		 		</li>
+		 		
+		 		<li data-ng-if="!fldr.root && !$last"  
+		 			data-ng-repeat="fldr in vm.fldrHierarchy " 
+		 			data-tooltip-append-to-body='true' 
+		 			data-uib-tooltip="{{fldr.name}}" 
+		 			data-tooltip-placement="bottom"
+		 			class="vdvc-breadcrumbs  ellipsis full">
+		 		  	<span data-ng-click="vm.openFolder(fldr)" data-ng-class="{'fldr-slct':vm.selectedObjectList[0].id == fldr.id}">
+			         	<i class="fa fa-folder-open-o" data-ng-show="!fldr.isDummy"></i> {{::fldr.name}}
+			       	</span>
+		 		</li>
+		 		
+		 		<li data-nv-set-rm-mxwidth="vm.fldrHierarchy" 
+		 			data-ng-if="!fldr.root && $last"  
+		 			data-ng-repeat="fldr in vm.fldrHierarchy" 
+		 			data-tooltip-append-to-body="true" 
+		 			data-uib-tooltip="{{::fldr.name}}"
+		 			data-tooltip-placement="bottom" 
+		 			class="vdvc-breadcrumbs ellipsis full">
+		 		  	<span data-ng-class="{'fldr-slct':vm.selectedObjectList[0].id == fldr.id}">
+			         	<i class="fa fa-folder-open-o"></i> {{::fldr.name}}
+			       	</span> 
+		 		</li>
+			</ul>
+		</div>
+		<div class="col-xs-4" style="padding-left: 0px;" data-ng-show="vm.resourceAction == 'addToTS' && vm.tsSectionsList.length > 0">
+			<label for="ts-section" style="width: 70px;float: left;line-height: 33px;">SECTION : </label> 
+			<data-ui-select id="ts-section" 
+				data-ng-model="vm.selectedTSSection" 
+				data-search-enabled="false" 
+				style="width: calc(100% - 70px);float: left;">
+				<data-ui-select-match>{{$select.selected.name}}</data-ui-select-match>
+		    	<data-ui-select-choices data-repeat="tsSection in vm.tsSectionsList">
+					<div data-ng-bind-html="tsSection.name | highlight: $select.search"></div>
+				</data-ui-select-choices>
+		    </data-ui-select>
+		</div>
+	</div>
+	<div class="modal-body" style="height: 300px;overflow: auto;background: #eee;">
+		<!-- <div class="col-sm-6 col-xs-12" data-ng-repeat="folder in vm.foldersList"  data-ng-click="vm.openFolder(folder)" style="padding: 5px;">
+			<div class="col-xs-12 folder fldr-bar">
+				<div class="col-xs-2" style="padding: 0px">
+					<span class="fa fa-folder-o" style="position: absolute;top: 6px;font-size: 30px;color: #aaa;"></span>
+					<span class="fa fa-user" data-ng-show="!folder.isOwner" style="position: absolute;left: 15px;top: 15px;font-size: 11px;color: #aaa;"></span>
+				</div>
+				<div class="col-xs-10 ellipsis" data-uib-tooltip="{{::folder.name}}" data-tooltip-append-to-body='true'>{{::folder.name}}</div>
+			</div>
+		</div> 
+		
+		<div class="col-sm-6 col-xs-12" data-ng-repeat="doc in vm.docsList" style="padding: 5px;">
+			<div class="col-xs-12 document fldr-bar" 
+				 data-ng-click="vm.selectDoc(doc)"
+				 data-ng-class="{'fldr-slct':doc.selected}" >
+				<div class="col-xs-2" style="padding: 0px">
+					<span class="fa" data-ng-class="vm.getFileIcon(doc.name)" style="position: absolute;top: 6px;font-size: 30px;color: #aaa;"></span>
+					<span class="fa fa-user" data-ng-show="!doc.perms.owner" style="position: absolute;left: -4px;top: 22px;font-size: 15px;color: #999;"></span>
+				</div>
+				<div class="col-xs-10 ellipsis" data-uib-tooltip="{{::doc.displayName}}" data-tooltip-append-to-body='true'>{{::doc.displayName}}</div>
+			</div>
+		</div>  -->
+		
+		<div class="row" data-ng-if="vm.foldersList.length>0" style="margin-bottom: 5px;">
+			<div class="col-xs-5" style="padding-left: 0px;">
+				<span class="fldrs-hdr"> 
+					FOLDERS 
+					<span>({{vm.getFolderListCount()}})</span>
+				</span>
+			</div>
+			<div class="col-xs-7" style="padding:0px;">
+				<div class="col-xs-2" style="width: 30px;float: right;padding: 0px;">
+					<div class="table-col-con-dd" 
+						data-uib-dropdown 
+						data-auto-close="outsideClick">
+						<button  type="button" 
+		      		   			 class="btn vdvc-nav-btn vdvc-doc-main-btn"
+		      		   			 data-uib-dropdown-toggle 
+		      		   			 data-ng-disabled="disabled" >
+					    	<i class="fa fa-ellipsis-h fa-rotate-90 fa-fw"></i>
+					    </button>
+					    <ul data-uib-dropdown-menu class="dropdown-menu-right" role="menu" aria-labelledby="single-button">
+					        <li role="menuitem" data-ng-class="{active : hdr.checked}" data-ng-repeat="hdr in vm.fldrlistHeaders" data-ng-click="vm.selectColumn(hdr,vm.fldrlistHeaders)">
+					        	<div class="vdvc-drop-down-item">{{hdr.label}}</div>
+					        	<div data-ng-if="!$last" class="vdvc-divider"></div>
+					        </li>
+					    </ul>
+				    </div>
+				</div>
+				<div class="col-xs-10" style="padding:0px 5px 0px 0px;width: calc(100% - 30px);float: right;">
+					<input type="text" 
+		        	   class="form-control vdvc-input-txt" 
+		        	   data-ng-model="vm.fileOrFolderSearchString"  
+					   placeholder='Find Folder / Document'>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<table id="folders-table" class="table docTable fldrs-table" data-ng-show="vm.foldersList.length>0">
+				<thead >
+					<tr>
+						<th class="wraptext" 
+							data-ng-if="hdr.checked && $first" 
+							data-ng-class="hdr.class" 
+							data-ng-repeat="hdr in vm.fldrlistHeaders" 
+							data-ng-click="vm.sortByfield(hdr,'folder')">
+							<div class="row lv-th-ele-wrap">
+								<span data-ng-if="vm.supportMultiSelectFolder" class="head-cb checkbox lv-cb-wrap" 
+									data-ng-click="$event.stopPropagation();">
+				               		<input type="checkbox" 
+				               			data-ng-model="vm.checkAllFolders.selected" 
+				               			data-ng-change="(vm.enableAction == 'Folder' || vm.enableAction == 'Any') && vm.selectAllFolders()">
+				               		<label class="head-cb-lable lv-cb-label"></label>
+				            	</span>
+								<span class="lv-obj-icon-wrap">
+									<i class="fa fa-fw fa-folder-o lv-folder-icon"></i>
+								</span>
+								<span data-uib-tooltip="{{::hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{::hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == vm.fldrField" 
+										data-ng-class="{'fa-caret-up' : !vm.fldrFieldDecending , 'fa-caret-down': vm.fldrFieldDecending}">
+									</i>
+								</span>
+							</div>
+						</th>
+						<th class="ellipsis" 
+							data-ng-if="hdr.checked && !$first" 
+							data-ng-class="hdr.class" 
+							data-ng-repeat="hdr in vm.fldrlistHeaders" 
+							data-ng-click="vm.sortByfield(hdr,'folder')">
+							<div class="row lv-th-ele-wrap">
+								<span data-uib-tooltip="{{::hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{::hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == vm.fldrField" 
+										data-ng-class="{'fa-caret-up' : !vm.fldrFieldDecending , 'fa-caret-down': vm.fldrFieldDecending}">
+									</i>
+								</span>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-if="!folder.trash && vm.fileOrFolderSearchFilter(folder)"
+						data-ng-repeat="folder in vm.foldersList track by folder.id" 
+						data-ng-dblclick="!vm.disableFolder(folder) && vm.resourceAction != 'addToTS' && vm.openFolder(folder)" 
+						data-ng-click="((vm.enableAction == 'Folder' || vm.enableAction == 'Any') && !vm.supportMultiSelectFolder && !vm.disableFolder(folder) && vm.selectDocOrFolder(folder)) || (!vm.disableFolder(folder) && vm.resourceAction == 'addToTS' && vm.openFolder(folder))" 
+						data-on-long-press="((vm.enableAction == 'Folder' || vm.enableAction == 'Any') && !vm.supportMultiSelectFolder && !vm.disableFolder(folder) && vm.selectDocOrFolder(folder)) || (!vm.disableFolder(folder) && vm.resourceAction == 'addToTS' && vm.openFolder(folder))" 
+						data-ng-class="{'link-folder-selected' : folder.selected,'disable-link-folder' : vm.disableFolder(folder)}" 
+						class="fldr-row">
+						<td class="wraptext" 
+							data-ng-if="hdr.checked && $first" 
+							data-ng-repeat="hdr in vm.fldrlistHeaders">
+							<span data-ng-if="vm.supportMultiSelectFolder" class="checkbox lv-cb-wrap" 
+								data-ng-click="$event.stopPropagation();">
+			               		<input type="checkbox" 
+			               			data-ng-model="folder.selected" 
+			               			data-ng-change="(vm.enableAction == 'Folder' || vm.enableAction == 'Any') && !vm.disableFolder(folder) && vm.selectDocOrFolder(folder)">
+			               		<label class="lv-cb-label"></label>
+			            	</span>
+							<div class="lv-obj-img-wrap">
+								<img class="lv-obj-img" 
+									alt="" 
+									data-ng-src="{{folder.isLink? 'assets/icons/folder-link.png':(vm.isShared(folder)? 'assets/icons/folder-shared.png':'assets/icons/folder.png')}}" />
+							</div>
+							<span class="ellipsis" 
+								data-uib-tooltip="{{folder[hdr.DValue]}}" 
+								data-tooltip-append-to-body="true">
+								{{folder[hdr.DValue]}}
+							</span>
+						</td>
+						<td class="ellipsis" 
+							data-ng-if="hdr.checked && !$first" 
+							data-ng-repeat="hdr in vm.fldrlistHeaders">
+							<span class="row">
+								<span class="ellipsis" 
+									data-uib-tooltip="{{folder[hdr.DValue]}}" 
+									data-tooltip-append-to-body="true">
+									{{folder[hdr.DValue]}}
+								</span>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="row" data-ng-if="vm.docsList.length>0" style="margin-bottom: 5px;">
+			<div class="col-xs-10" style="padding-left: 0px;">
+				<span class="files-hdr"> 
+					FILES 
+					<span>({{vm.getDocsListCount()}})</span>
+				</span>
+			</div>
+			<div class="col-xs-2">
+				<div class="table-col-con-dd" 
+					data-uib-dropdown 
+					data-auto-close="outsideClick">
+					<button  type="button" 
+	      		   			 class="btn vdvc-nav-btn vdvc-doc-main-btn"
+	      		   			 data-uib-dropdown-toggle 
+	      		   			 data-ng-disabled="disabled" >
+				    	<i class="fa fa-ellipsis-h fa-rotate-90 fa-fw"></i>
+				    </button>
+				    <ul data-uib-dropdown-menu class="dropdown-menu-right" role="menu" aria-labelledby="single-button">
+				        <li role="menuitem" data-ng-class="{active : hdr.checked}" data-ng-repeat="hdr in vm.doclistHeaders" data-ng-click="vm.selectColumn(hdr,vm.doclistHeaders)">
+				        	<div class="vdvc-drop-down-item">{{hdr.label}}</div>
+				        	<div data-ng-if="!$last" class="vdvc-divider"></div>
+				        </li>
+				    </ul>
+			    </div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<table id="docs-table" class="table docTable files-table" data-ng-show="vm.docsList.length>0"> 
+				<thead>
+					<tr>
+						<th class="wraptext" 
+							data-ng-class="hdr.class" 
+							data-ng-if="hdr.checked && $first" 
+							data-ng-repeat="hdr in vm.doclistHeaders" 
+							data-ng-click="vm.sortByfield(hdr,'doc')">
+							<div class="row lv-th-ele-wrap">
+								<span data-ng-if="vm.supportMultiSelectDoc" class="head-cb checkbox lv-cb-wrap" 
+									data-ng-click="$event.stopPropagation();">
+				               		<input type="checkbox" 
+				               			data-ng-model="vm.checkAllDocs.selected" 
+				               			data-ng-change="(vm.enableAction == 'Document' || vm.enableAction == 'Any') && vm.selectAllDocs()">
+				               		<label class="head-cb-lable lv-cb-label"></label>
+				            	</span>
+								<span class="lv-obj-icon-wrap">
+									<i class="fa fa-file-text-o lv-hdr-file-icon"></i>
+								</span>
+								<span class="ellipsis" 
+									data-uib-tooltip="{{::hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{::hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == vm.docField" 
+										data-ng-class="{'fa-caret-up' : !vm.docFieldDecending , 'fa-caret-down': vm.docFieldDecending }">
+									</i>
+								</span>
+							</div>
+						</th>
+						<th class="ellipsis" 
+							data-ng-class="hdr.class" 
+							data-ng-if="hdr.checked && !$first" 
+							data-ng-repeat="hdr in vm.doclistHeaders" 
+							data-ng-click="vm.sortByfield(hdr,'doc')">
+							<div class="row lv-th-ele-wrap">
+								<span class="ellipsis" 
+									data-uib-tooltip="{{::hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{::hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == vm.docField" 
+										data-ng-class="{'fa-caret-up' : !vm.docFieldDecending , 'fa-caret-down': vm.docFieldDecending }">
+									</i>
+								</span>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-if="vm.fileOrFolderSearchFilter(doc)" 
+						data-ng-repeat="doc in vm.docsList track by doc.id" 
+						data-ng-click="(!vm.supportMultiSelectDoc || vm.resourceAction == 'addToTS') && !vm.disableDocument(doc) && vm.selectDocOrFolder(doc)" 
+						data-on-long-press="(!vm.supportMultiSelectDoc || vm.resourceAction == 'addToTS') && !vm.disableDocument(doc) && vm.selectDocOrFolder(doc)" 
+						data-ng-class="{'link-folder-selected' : doc.selected,'disable-link-folder' : vm.disableDocument(doc)}"
+						class="doc-row">
+						<td data-ng-class="hdr.class" 
+							data-ng-if="hdr.checked && $first" 
+							data-ng-repeat="hdr in vm.doclistHeaders">
+							<div class="wraptext">
+								<div data-ng-if="vm.supportMultiSelectDoc" class="checkbox lv-cb-wrap" 
+									data-ng-click="$event.stopPropagation();" style="float: left;">
+				                	<input type="checkbox" 
+				                		data-ng-model="doc.selected" 
+				                		data-ng-change="!vm.disableDocument(doc) && vm.selectDocOrFolder(doc)">
+				                	<label class="lv-cb-label"></label>
+				            	</div>
+								<div class="lv-obj-icon-wrap" style="float: left;">
+									<span class="lv-file-icon">
+										<i data-ng-class="vm.getFileIcon(doc)"></i>
+									</span>
+									<span class="lv-shrd-file-icon" 
+										data-ng-show="doc.shared">
+										<i class="fa fa-user"></i>
+									</span>
+								</div>
+								<div data-ng-switch="hdr.type" style="float: left;max-width: calc(100% - 60px);">
+									<div class="ellipsis">
+										<div data-ng-switch-when="text" 
+											data-uib-tooltip="{{doc[hdr.DValue]}}" 
+											data-tooltip-append-to-body="true">
+											{{doc[hdr.DValue]}}
+										</div>
+										<div data-ng-switch-when="Date" 
+											data-uib-tooltip="{{::doc[hdr.DValue] | date:'medium'}}" 
+											data-tooltip-append-to-body="true">
+											{{::doc[hdr.DValue] | date:'medium'}}
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+						<td class="ellipsis" 
+							data-ng-class="hdr.class" 
+							data-ng-if="hdr.checked && !$first" 
+							data-ng-repeat="hdr in vm.doclistHeaders">
+							<span class="row" 
+								data-ng-switch="hdr.type">
+								<span class="ellipsis" data-ng-if="hdr.DValue == 'docType'">
+									<span class="ellipsis" data-set-doc-type data-type="{{doc[hdr.DValue]}}">
+										<!-- {{doc[hdr.DValue]}} -->
+									</span>
+								</span>
+								<span class="ellipsis" data-ng-if="hdr.DValue != 'docType'">
+									<span data-ng-switch-when="text" 
+										data-uib-tooltip="{{doc[hdr.DValue]}}" 
+										data-tooltip-append-to-body="true">
+										{{doc[hdr.DValue]}}
+									</span>
+									<span data-ng-switch-when="Date" 
+										data-uib-tooltip="{{::doc[hdr.DValue] | date:'medium'}}" 
+										data-tooltip-append-to-body="true">
+										{{::doc[hdr.DValue] | date:'medium'}}
+									</span>
+								</span>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="col-xs-6" style="padding-left: 0px;">
+			<button type="button" 
+				class="btn vdvc-form-btn" 
+				data-ng-click="vm.OpenFolderModal()" 
+				style="float: left;" 
+				data-ng-show="vm.showDocsButton('researchView_AddFolder') && !vm.popupForAddToTaskspace()" 
+				data-ng-disabled="vm.disableDocsButton('researchView_AddFolder')">
+				  <span class="fa fa-plus"></span> NEW FOLDER
+			</button>
+			<button type="button" 
+				class="btn vdvc-form-btn" 
+				data-ng-click="vm.OpenNoteModal()" 
+				style="float: left;" 
+				data-ng-show="vm.showDocsButton('researchView_AddDocument') && !vm.popupForAddToTaskspace()" 
+				data-ng-disabled="vm.disableDocsButton('researchView_AddDocument')">
+				  <span class="fa fa-plus"></span> NEW DOCUMENT
+			</button>
+			<button type="button" 
+				class="btn vdvc-form-btn" 
+				data-ng-click="vm.OpenUploadModal('uploadDocOptions_ClientSystem')" 
+				style="float: left;" 
+				data-ng-show="vm.showDocsButton('researchView_Upload') && !vm.popupForAddToTaskspace()" 
+				data-ng-disabled="vm.disableDocsButton('researchView_Upload')">
+	        	<span>UPLOAD</span>
+	        </button>
+		</div>
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit" data-ng-disabled='vm.disableSubmitBtn()'>{{::vm.submitLable}}</button>
+	</div>
+</form>

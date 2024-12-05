@@ -1,0 +1,66 @@
+
+<div class="row" data-ng-if="tableOfContents && tableOfContents != 'notInclude'"
+	data-ng-attr-id="{{tableId}}"
+	style="border-bottom: 1px solid #aaa;padding-bottom: 20px;">
+	<div style="font-size: 18px; color: #069; padding: 10px 0px; font-weight: bold; font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;">
+		{{title}}
+	</div>
+
+	<div data-ng-if="groupBy == 'taghierarchical'">
+		<div style="margin-left: 30px;">
+			<div data-ng-repeat="gpDigest in ::digestData track by $index"
+				 contenteditable="false"
+				 style="color: #069; font-size: 18px;">
+				<div data-ng-style="::getTblOfContListStyles()">
+					<span data-ng-if="tableOfContents == 'withIndex'"
+					      data-ng-style="::getTblOfContIndexStyles()">
+						{{gpDigest.diIndex}}
+					</span>
+					<span data-ng-style="::getTblOfContLableStyles()">
+						<a data-ng-href="#{{getTagAsID(gpDigest.tagName)}}"
+						   data-ng-style="::getTblOfContLinkStyles()">{{::gpDigest.tagValLable}}</a>
+					</span>
+				</div>
+				<div  style="margin-left: 30px;">
+					<div data-ng-repeat="entries in ::gpDigest.entries track by $index"
+					    data-ng-if="::entries.tagValLable"
+					    data-ng-style="::getTblOfContListStyles()">
+					    <span data-ng-if="tableOfContents == 'withIndex'" 
+					          data-ng-style="::getTblOfContIndexStyles()">
+					    	{{gpDigest.diIndex}}.{{entries.diIndex}}
+					    </span>
+						<span data-ng-style="::getTblOfContLableStyles()">
+							<a data-ng-href="#{{getTagAsID(entries.tagValue)}}"
+							   data-ng-style="::getTblOfContLinkStyles()">
+								{{::entries.tagValLable}} 
+							</a>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div data-ng-if="groupBy == 'tag'">
+		<div style="margin-left: 30px;">
+			<div data-ng-repeat="gpDigest in ::digestData track by $index"
+			     contenteditable="false">
+				<div data-ng-repeat="entries in ::gpDigest.entries track by $index" 
+				    data-ng-if="::entries.tagValLable"
+				    style="color: #069; font-size: 18px;display:table;">
+				    <span  data-ng-if="tableOfContents == 'withIndex'" 
+				           data-ng-style="::getTblOfContIndexStyles()">
+				    	{{entries.diIndex}}
+				    </span>
+					<span data-ng-style="::getTblOfContLableStyles()">
+						<a data-ng-href="#{{getTagAsID(entries.tagValue)}}"
+						   data-ng-style="::getTblOfContLinkStyles()">
+							{{::entries.tagValLable}}
+						</a>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

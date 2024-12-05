@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:icecore="http://www.icefaces.org/icefaces/core"
+        xmlns:ace="http://www.icefaces.org/icefaces/components"
+        xmlns:ice="http://www.icesoft.com/icefaces/component"
+    >
+    <h:head>
+        <title>Vidi Vici Technologies</title>
+        <ice:outputStyle href="./xmlhttp/css/rime/rime.css" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/pepper-grinder/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css"
+		href="./resources/css/styles.css" />
+		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+		<script type="text/javascript" src="resources/js/init/BEAFinancialData.js"></script>
+		<script type="text/javascript" src="resources/js/init/BLSFinancialData.js"></script>
+		<script type="text/javascript" src="resources/js/init/AppKeyValuesData.js"></script>
+		<script type="text/csv" src="resources/js/init/CikToTickerMapping.csv"></script>
+    </h:head>
+    <h:body style="height:600px;">
+<script type="text/javascript" language="JavaScript">
+// <![CDATA[
+            
+            
+      var _protocol=window.location.protocol;
+		var _host=window.location.host;
+		var _baseUrl=_protocol+"//" +_host+"/api/";
+		
+		var AjaxPost=function(url,input,success,failure){
+			var fullUrl = _baseUrl + url;
+			var io = null;
+			if ("string" == typeof(input)) { io = input; }
+			else { io = JSON.stringify(input); }
+			$.ajax({
+				type : 'POST',
+				contentType : 'application/json',
+				url : fullUrl,
+				dataType : "json",
+				data : io,
+				success : function(result, textStatus, jqXHR) {
+					if ("function" == typeof success) {
+						success(result);
+					}
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					if ("function" == typeof failure) {
+						
+					}
+				}
+			});
+		};
+		
+/* 		var AjaxGet= function(url,success, error) {
+			var fullUrl = current.baseUrl + url;
+			$.ajax({
+				type : 'GET',
+				contentType : 'application/json',
+				url : fullUrl,
+				dataType : "json",
+				success : function(result, textStatus, jqXHR) {
+					console.log('Result for GET URL: '+fullUrl);
+					console.log(result);
+					if ("function" == typeof success) {
+						success(result);
+					}
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					current.showMessage('error: ' + textStatus);
+					if ("function" == typeof error) {
+						error();
+					}
+				}
+			});
+		}; */
+		
+jQuery(document).ready(function(){
+	jQuery("#wftestForm\\:btn23").prop('disabled',true);
+	jQuery("#secFiling").on("change",function(event){
+		var year = jQuery(this).val();
+		if(typeof year == "string" && year.trim() !='') {
+			jQuery("#wftestForm\\:btn23").prop('disabled',false);
+		}else {
+			jQuery("#wftestForm\\:btn23").prop('disabled',true);
+		}
+	});
+	
+	jQuery("#wftestForm\\:btn23").on("click",function(){
+		var year = jQuery("#secFiling").val();
+		var postdata = {"filingsFromYear": parseInt(year)};
+		AjaxPost("importSECFiling/processFilingInfoInitialLoad",JSON.stringify(postdata),function(result){
+			if(result.Status) {
+				alert("Successfully Processed SEC filing Information");
+			}else {
+				alert(result.Message);
+			}
+		},function(){
+			alert("Resource not found");
+		});
+	});
+	
+	jQuery("#wftestForm\\:btn16").on("click",function(){
+		
+		AjaxPost("importBEAFinData/getBEAFinDataCollection",'{"dataSetName":"GDPBYINDUSTRY"}',function(result){
+			if(result.Data.length == "0") {
+				AjaxPost("importBEAFinData/addBEAFinDataCollection",vdvcInitData["BEAFinancialData"],function(result){
+					if(result.Status) {
+						/* Util.showMessage("Successfully created the BEA Financial Data Collection"); */
+						alert("Successfully created the BEA Financial Data Collection");
+					}
+				});
+			} else {
+				/* Util.showMessage("BEA Financial Data Collection already had data; Please drop the collection for reimporting"); */
+				alert("BEA Financial Data Collection already have data; Please drop the collection for Re-importing");
+			}
+		});
+	});	
+	
+	jQuery("#wftestForm\\:btn18").on("click",function(){
+		
+		AjaxPost("importBLSFinData/getBLSFinDataCollection",'{"dataSetName":"CPIAllUrbanConsumers"}',function(result){
+			if(result.Data.length == "0") {
+				AjaxPost("importBLSFinData/addBLSFinDataCollection",vdvcInitBLSData["BLSFinancialData"],function(result){
+					if(result.Status) {
+						alert("Successfully created the BLS Financial Data Collection");
+					}
+				});
+			} else {
+				alert("BLS Financial Data Collection already have data; Please drop the collection for Re-importing");
+			}
+		});
+	});	
+	
+/* 	jQuery("#wftestForm\\:btn24").on("click",function(){
+		
+		AjaxGet("appKeyValue/list/all",function(result){
+			if(result.Data.length == "0") {
+				AjaxPost("appKeyValue/saveAppKeyValueBulkLoadOverwrite",vdvcInitKeyValuesData["AppKeyValuesData"],function(result){
+					if(result.Status) {
+						alert("Successfully created the App Key Values Data Collection");
+					}
+				});
+			} else {
+				alert("App Key Values Data Collection already have data; Please drop the collection for Re-importing");
+			}
+		});
+	});	 */
+	
+	jQuery("#wftestForm\\:btn24").on("click",function(){
+		
+		AjaxPost("appKeyValue/saveAppKeyValueBulkLoadOverwrite",vdvcInitKeyValuesData["AppKeyValuesData"],function(result){
+			if(result.Status) {
+				alert("Successfully created the App Key Values Data Collection");
+			}
+		});
+	});	
+	
+	jQuery("#wftestForm\\:btn26").on("click",function(){
+		
+		AjaxPost("importSECFiling/processCikTickerMapping",'{"cikCollectionName":"SECCikData"}',function(result){
+			if(result.Status) {
+				alert("Successfully updated the CIK to Ticker Mapping");
+			}
+		});
+	});	
+	
+}); 
+
+var loginTimer;
+var interval=600000;
+
+function sessionExpiryHandler() {
+	console.log("Timer fired - redirecting to login.jsf");
+	window.location = './login.jsf';
+}
+
+ function initSessionExpiry() {
+	 if ( document.getElementById('form1:interval') ) {
+		 interval =  document.getElementById('form1:interval').value;
+		 console.log('Interval is found');
+	 } else {
+		 interval = 11*60;
+		 console.log('Hidden field not found');
+	 }
+	 interval = interval - 30;
+	 interval = interval  * 1000;
+	 setInterval(function(){ sessionExpiryHandler(); }, interval); }
+
+//]]>
+ </script>
+    		<h:form id="form1">
+    			<ice:inputHidden id="interval" value="#{session.maxInactiveInterval}"></ice:inputHidden>
+    		</h:form>
+    	<table width="100%" style="border-spacing:0;"><tr>
+    		<td class="header" align="left" width="35%">Vidi Vici Technologies</td>
+    		<td class="userinfo" align="right" width="65%"><ice:panelGroup rendered="#{loginBean.loggedIn}">Welcome #{loginBean.displayName}. Your are #{loginBean.userRole}</ice:panelGroup></td>
+    	</tr></table>
+    <!--  	<ui:insert name="topmenu">
+	    	<div class="topMenu">
+    			<ui:include src="/menu/default.xhtml"/>
+    		</div>
+    	</ui:insert> -->
+    	<div>
+	    			<center>
+						<table height="400px" width="75%"><tr>
+							<td align="center" style="vertical-align:middle;">
+    							<ui:insert name="mainbody"/>
+    						</td></tr>
+    					</table>
+	    			</center>
+    	</div>
+    	<div class="footer">
+    		Copyright &copy; 2014 Vidi Vici Technologies, Inc.
+    	</div>
+<script type="text/javascript" language="JavaScript">
+// <![CDATA[
+            initSessionExpiry();
+//]]>
+ </script>
+    </h:body>
+</html>    

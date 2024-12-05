@@ -1,0 +1,49 @@
+<div>
+	<div class="modal-header" style="padding: 15px;">
+		<h4>Company Doc: {{mrkcp.includeVal}}</h4>
+	</div>
+	<div class="modal-body cp-rules" style="max-height: 500px;display: inline-block;width: 100%;padding: 0px 15px;">
+		<div class="row" data-ng-show="::!mrkcp.showTypes()" style="padding: 15px;">
+			Do you want save changes ?
+		</div>
+		<div class="row" data-ng-show="::mrkcp.showTypes()" style="height: 90px;">
+			<div class="col-xs-12 col-sm-6" style="padding: 0px;">
+				<ul class="list-unstyled">
+				  <li><b>Document Type</b>
+				  	<ul class="list-unstyled" style="padding-left: 20px;">
+				      <li data-ng-repeat="docTypes in mrkcp.docTypes">
+				      	<div  class ="radio radio-info ">
+							<input type="radio"
+								   data-ng-model="mrkcp.docTypSelcted"
+								   data-ng-value="docTypes.value"
+								   data-ng-change="mrkcp.onDocTypeChange()">
+							<label class="cs-lbl">{{::docTypes.label}}</label>
+						</div>
+				      </li>
+				    </ul>
+				  </li>
+				</ul>
+			</div>
+			<div data-ng-show="mrkcp.showDocSubTypes" class="col-xs-12 col-sm-6" style="padding: 0px;">
+				<ul class="list-unstyled">
+				  <li><b>Document SubType</b>
+				  	<ul class="list-unstyled" style="padding-left: 20px;">
+				      <li data-ng-repeat="subType in mrkcp.subTypes">
+				      	<div  class ="radio radio-info ">
+							<input type="radio"
+								   data-ng-model="mrkcp.subTypSelcted"
+								   data-ng-value="subType.value">
+							<label class="cs-lbl">{{::subType.label}}</label>
+						</div>
+				      </li>
+				    </ul>
+				  </li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted" data-ng-click="mrkcp.cancel()">CANCEL</button>
+		<button type="button" class="btn vdvc-form-btn" data-ng-click="mrkcp.ok()">{{mrkcp.saveBtnLable}}</button>
+	</div>
+</div>

@@ -1,0 +1,42 @@
+<form>
+	<div class="modal-header">
+		<div class="row">
+			<h3 class="modal-title">Confirm Action on Annotations</h3>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-xs-12" style="margin-bottom: 10px;">
+				<span>What would you like to do with annotations present in the document?</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-1"></div>
+			<div class="col-xs-12 col-sm-11">
+				<div class="radio radio-info" style="margin-bottom: 0px;">
+					<input type="radio" 
+						name="actionOnAnnotations" 
+					   	data-ng-model="moveWithAnnotations.option"
+					   	value="empty">
+					<label class="cs-lbl">Leave the annotations in the original document (document context)</label>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-1"></div>
+			<div class="col-xs-12 col-sm-11">
+				<div class="radio radio-info" style="margin-bottom: 0px;">
+					<input type="radio" 
+						name="actionOnAnnotations" 
+					   	data-ng-model="moveWithAnnotations.option"
+					   	value="move">
+					<label class="cs-lbl">Move annotations to taskspace document (taskspace context)</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="button" data-ng-disabled="disableConfirm()" data-ng-click="ok()">SUBMIT</button>
+	</div>
+</form>

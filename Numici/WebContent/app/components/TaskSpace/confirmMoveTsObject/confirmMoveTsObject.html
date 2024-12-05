@@ -1,0 +1,42 @@
+<form>
+	<div class="modal-header">
+		<div class="row">
+			<h3 class="modal-title">Confirm Move Document</h3>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-xs-12" style="margin-bottom: 10px;">
+				<span>Move document to</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-1"></div>
+			<div class="col-xs-12 col-sm-11">
+				<div class="radio radio-info" style="margin-bottom: 0px;">
+					<input type="radio" 
+						name="actionOnDocumementMove" 
+					   	data-ng-model="moveDocumentTo.option"
+					   	value="taskspace">
+					<label class="cs-lbl">another Taskspace</label>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-1"></div>
+			<div class="col-xs-12 col-sm-11">
+				<div class="radio radio-info" style="margin-bottom: 0px;">
+					<input type="radio" 
+						name="actionOnDocumementMove" 
+					   	data-ng-model="moveDocumentTo.option"
+					   	value="section">
+					<label class="cs-lbl">another Section</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="button" data-ng-disabled="disableConfirm()" data-ng-click="ok()">SUBMIT</button>
+	</div>
+</form>

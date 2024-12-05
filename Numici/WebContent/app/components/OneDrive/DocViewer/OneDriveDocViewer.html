@@ -1,0 +1,29 @@
+<div class='row full'  id='od_doc_viewer'>
+	<div class="row" >
+		<div class=" navbar-fixed-top second-navbar" style="top:55px;background-color: #EEEEEE;padding: 0px;">
+			<div class="col-xs-12" style="padding-left: 0px;">
+				<div class="doc-path" style="font-size: 25px; color: rgba(51, 51, 51, 0.74);">
+					<ul  class="nav navbar-nav ellipsis dh">
+						<li data-tooltip-append-to-body="true" 
+							data-uib-tooltip="OneDrive"
+							data-tooltip-placement="bottom"
+							class="vdvc-breadcrumbs ellipsis full">
+						  <span  style="color: rgba(51, 51, 51, 0.74);">
+					         <i class="fa fa-cloud"> OneDrive</i>
+					       </span>
+						</li>
+						<li data-tooltip-append-to-body="true" 
+							data-uib-tooltip="{{::ODDV.doc.name}}"
+							data-tooltip-placement="bottom"
+							class="vdvc-breadcrumbs ellipsis full">
+						  <span  style="color: rgba(51, 51, 51, 0.74);">
+					         <i class="fa" data-ng-class="::ODDV.doc.icon"></i> {{::ODDV.doc.name}}
+					       </span>
+						</li>
+					</ul> 
+				</div>
+			</div>	
+		</div>
+	</div>
+	<div class="full od-doc-content" style="background: #fff;"></div>
+</div>

@@ -1,0 +1,42 @@
+<form data-ng-submit="dropbox.revokeAuthPerms()" class="box-config-form">
+	<div class="modal-header" style="padding: 10px 30px;">
+		<h4 class="modal-title">
+			DropBox Config
+			<i class="fa fa-close" style="float:right;color: #006699;" data-ng-click="dropbox.cancel()"></i>
+		</h4>
+	</div>
+	<div class="modal-body ">
+		<div class="col-xs-12" data-ng-if="dropbox.config.inSync" style="color: green;text-align: center;font-weight: bold;">
+			Synchronization is in progress
+		</div>
+		
+		<div class="row" style="height: 40px;line-height: 40px;margin: 10px;">
+			<div class="col-xs-6">Numici User</div>
+			<div class="col-xs-6">{{::dropbox.config.userId}}</div>
+		</div>
+		
+		<div class="row" style="height: 40px;line-height: 40px;margin: 10px;">
+			<div class="col-xs-6">DropBox User Name</div>
+			<div class="col-xs-6">{{::dropbox.config.name}}</div>
+		</div>
+		
+		<div class="row" style="height: 40px;line-height: 40px;margin: 10px;">
+			<div class="col-xs-6">DropBox User Email</div>
+			<div class="col-xs-6 box-user-email">{{::dropbox.config.dropBoxEMail}}</div>
+		</div>
+	
+	</div>
+	<div class="modal-footer">
+		<div class="col-xs-12" style="padding: 0px;">
+			<div class="col-xs-6" style="float: right;padding-right: 0px;">
+				<button class="btn vdvc-form-btn vdvc-form-btn-muted" 
+				        type="button" 
+				        data-ng-click="dropbox.cancel()" >CLOSE</button>
+				<button class="btn vdvc-form-btn" 
+					    type="submit" >REVOKE</button>
+			</div>
+		</div>
+		
+	</div>
+
+</form>

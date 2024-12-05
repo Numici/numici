@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:icecore="http://www.icefaces.org/icefaces/core"
+        xmlns:ace="http://www.icefaces.org/icefaces/components"
+        xmlns:ice="http://www.icesoft.com/icefaces/component"
+    >
+ 	<ui:composition template="/templates/main.xhtml">
+	 	<ui:define name="mainbody">
+	 	<h:form id="configSSOForm">
+	 	<ice:panelGroup style="margin-left:20px;margin-top:20px">
+		 	<div class="sectionTitle">SAML Configuration</div>
+			<table>
+				<tr>
+					<td colspan="2"><ice:messages style="color:red"/><ice:outputText value="SAML Configuration updated." style="color:green;" rendered="#{organizationController.status eq 1}"/> </td>
+				</tr>
+				<tr>
+					<td align="left">Organization:</td>
+					<td><ice:outputText value="#{organizationController.organizationBean.name}" align="left"/></td>		 		
+				</tr>
+				<tr>
+					<td align="left" colspan="2"><span style="font-weight:bold;">Identity Provider (IdP) Configuration:</span></td>
+				</tr>
+				<tr>
+					<td align="left">Name:<span style="color:red;">*</span></td>
+					<td><ice:inputText value="#{organizationController.organizationBean.ssoIdpName}" align="left" size="80"/></td>		 		
+				</tr>
+				<tr>
+					<td align="left">Entity ID:<span style="color:red;">*</span></td>
+					<td><ice:inputText value="#{organizationController.organizationBean.ssoAppEntityId}" align="left" size="80"/></td>		 		
+				</tr>
+				<tr>
+					<td align="left">Login URL:<span style="color:red;">*</span></td>
+					<td><ice:inputText value="#{organizationController.organizationBean.ssoLoginUrl}" align="left" size="80"/></td>		 		
+				</tr>
+				<tr>
+					<td align="left">Logout URL:</td>
+					<td><ice:inputText value="#{organizationController.organizationBean.ssoLogoutUrl}" align="left" size="80"/></td>		 		
+				</tr>
+				<tr>
+					<td align="left">Automatically create users:</td>
+					<td><ice:selectBooleanCheckbox value="#{organizationController.organizationBean.ssoAutoProvision}" align="left" /></td>		 		
+				</tr>
+				<tr>
+					<td align="left" colspan="2">X509 Certificate:<span style="color:red;">*</span></td>
+				</tr>
+				<tr>
+					<td align="left" colspan="2"><ice:inputTextarea value="#{organizationController.organizationBean.ssoX509Cert}" cols="100" rows="8"/></td>		 		
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td><ice:commandButton value="Submit" actionListener="#{organizationController.updateOrgSSO}"/></td>		 		
+				</tr>
+				<tr>
+					<td align="left" colspan="2"><span style="font-weight:bold;">Service Provider (SP) Configuration:</span></td>
+				</tr>
+				<tr>
+					<td align="left">Assertion consume URL:</td>
+					<td><ice:outputText value="#{organizationController.samlACSUrl}" align="left"/></td>		 		
+				</tr>
+				<tr>
+					<td align="left">Logout consumer URL:</td>
+					<td><ice:outputText value="#{organizationController.samlLogoutUrl}" align="left"/></td>		 		
+				</tr>
+				<tr>
+					<td align="left">Login URL:</td>
+					<td><ice:outputText value="#{organizationController.samlLoginUrl}" align="left"/></td>		 		
+				</tr>
+			</table>
+	 	</ice:panelGroup>
+	 	</h:form>
+ 		</ui:define>
+ 	</ui:composition>
+</html>    

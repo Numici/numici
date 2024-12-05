@@ -1,0 +1,30 @@
+<div class="container">
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+		<div class="navbar-header col-sm-6">
+			<button type="button" class="navbar-toggle" data-ng-click="vm.isCollapsed = !vm.isCollapsed">
+				<span class="sr-only">Toggle navigation</span> 
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<span class="navbar-brand">
+				<!-- {{vm.Company}} -->
+				<img src="/app/assets/icons/Numici-Logo-Long-In-Blue.png" alt="numici">
+			</span>
+		</div>
+		<div class="navbar-right col-sm-6" data-ng-if="!vm.hasSession && vm.currentState != 'slacksignincb'" style="padding: 8px;">
+			
+			<!-- <a class="btn btn-primary" 
+				data-ui-sref="login" 
+				style="float: right;font-size: 15px !important;margin-right: 40px;">
+				GO TO LOGIN
+			</a>
+			
+			<a class="btn btn-primary" 
+				data-ng-click="vm.openRegisterModal()"
+				style="float: right;font-size: 15px !important;margin-right: 10px;">
+				Get free Numici account
+			</a> -->
+		</div>
+	</nav>	
+</div>

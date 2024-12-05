@@ -1,0 +1,560 @@
+<div class="container-fluid full dl-container">
+	<div id="nav-bar-height-div" style="height: 110px"></div>
+	<div class="row">
+		<div class="navbar-fixed-top second-navbar second-navbar-top dl-main-navbar">
+			<div class="col-xs-9 dlmn-l" style="width: calc(100% - 300px);">
+			 	<div data-ng-include="'app/components/Documents/DocHierarchyTemplate.html'"></div>
+			</div>
+			<div class="col-xs-3 dlmn-r" style="width: 300px;text-align: right;">
+				<button type="button" 
+					data-ng-show="docsButton('researchView_SwitchCardListView').show" 
+					class="btn vdvc-nav-btn vdvc-doc-main-btn" 
+		      		data-ng-class="{'vdvc-menu-disabled':!docsButton('researchView_SwitchCardListView').isEnabled}" 
+		      		data-ng-click="docsButton('researchView_SwitchCardListView').isEnabled && switchView()" 
+		      		data-tooltip-append-to-body="true" 
+		      		data-tooltip-placement="bottom" 
+		      		data-uib-tooltip="Switch to {{view == 'List' ? 'Grid view' : 'List view'}}">
+		       		<span class="fa fa-th-large fa-fw" data-ng-class="view == 'List' ? 'fa-th-large' : 'fa-list-ul'"></span>
+		      	</button>
+		      	<button data-ng-show="docsButton('researchView_TrashFolder').show" 
+		      		   type="button" 
+		      		   class="btn vdvc-nav-btn vdvc-doc-main-btn" 
+		      		   data-ng-class="{'vdvc-menu-disabled':!docsButton('researchView_TrashFolder').isEnabled}" 
+		      		   data-ng-click="docsButton('researchView_TrashFolder').isEnabled && openTrash()"
+		      		   data-tooltip-append-to-body="true"
+		      		   data-tooltip-placement="bottom"
+		      		   data-uib-tooltip="Trash">
+		       		<i class="fa fa-trash-o fa-fw"></i> 
+		       		<span data-ng-if="::!deviceInfo.isTouch">{{docsButton('researchView_TrashFolder').label}}</span>
+		      	</button>
+		      	<div class="create-new-dd" data-uib-dropdown>
+			      	<button type="button" 
+			      		id="createNew" 
+			      		class="btn vdvc-nav-btn vdvc-doc-main-btn createNew" 
+			      		data-uib-dropdown-toggle 
+			      		data-ng-if="::!deviceInfo.isTouch" 
+			      		data-ng-show="docsButton('researchView_AddDocument').show || docsButton('researchView_AddFolder').show || docsButton('researchView_AddLinkFolder').show || docsButton('researchView_Upload').show" 
+			      		data-ng-disabled="disabled">
+			        	NEW <span class="caret"></span>
+			      	</button>
+			      
+			      	<button type="button" 
+			      		id="createNew" 
+			      		class="btn vdvc-nav-btn vdvc-doc-main-btn createNew" 
+			      		data-uib-dropdown-toggle 
+			      		data-ng-if="::deviceInfo.isTouch" 
+			      		data-ng-show="docsButton('researchView_AddDocument').show || docsButton('researchView_AddFolder').show || docsButton('researchView_AddLinkFolder').show || docsButton('researchView_Upload').show" 
+			      		data-ng-disabled="disabled">
+			        	<i class="fa fa-plus fa-fw"></i>
+			      	</button>
+			      
+			      	<ul class="vdvc-more-dd dropdown-menu-right" 
+			      		data-uib-dropdown-menu 
+			      		aria-labelledby="createNew"
+			      		role="menu"
+			      		style="min-width: 145px;">
+				        <li data-ng-show="docsButton('researchView_AddDocument').show" 
+				        	class="createNotes" 
+				        	data-ng-class="{'vdvc-menu-disabled':!docsButton('researchView_AddDocument').isEnabled}" 
+				        	data-ng-click="docsButton('researchView_AddDocument').isEnabled && OpenNoteModal()"
+				        	role="menuitem">
+				        	<div class="vdvc-drop-down-item">{{docsButton('researchView_AddDocument').label}}</div>
+				        </li>
+				        <li data-ng-show="docsButton('researchView_AddFolder').show" class="vdvc-divider"></li>
+				        <li data-ng-show="docsButton('researchView_AddFolder').show" 
+				        	class="createFolder" 
+				        	data-ng-class="{'vdvc-menu-disabled':!docsButton('researchView_AddFolder').isEnabled}" 
+							data-ng-click="docsButton('researchView_AddFolder').isEnabled && OpenFolderModal()"
+							role="menuitem">
+				        	<div class="vdvc-drop-down-item">{{docsButton('researchView_AddFolder').label}}</div>
+				        </li>
+				        <li data-ng-show="docsButton('researchView_AddLinkFolder').show" class="vdvc-divider"></li>
+				        <li data-ng-show="docsButton('researchView_AddLinkFolder').show" 
+				        	class="createFolder" 
+				        	data-ng-class="{'vdvc-menu-disabled':!docsButton('researchView_AddLinkFolder').isEnabled}" 
+							data-ng-click="docsButton('researchView_AddLinkFolder').isEnabled && OpenLinkFolderModal('lg')"
+							role="menuitem">
+				        	<div class="vdvc-drop-down-item">{{docsButton('researchView_AddLinkFolder').label}}</div>
+				        </li>
+				        <li data-ng-show="docsButton('researchView_Upload').show" class="vdvc-divider"></li>
+				        <li data-ng-show="docsButton('researchView_Upload').show" 
+				        	class="uploadFiles" 
+				        	data-ng-class="{'vdvc-menu-disabled':disableDocsButton('researchView_Upload')}" 
+				        	data-ng-click="!disableDocsButton('researchView_Upload') && OpenUploadDocModal('uploadDocOptions_ClientSystem')"
+				        	role="menuitem">
+					        	<div class="vdvc-drop-down-item">{{docsButton('researchView_Upload').label}}</div>
+				        </li>
+				        <li class="ng-hide">
+				        	<button class="btn uploadFromClientBtn" type="button" 
+								data-ngf-select="UploadFilesToExternalApps($files, $invalidFiles)" 
+								data-ngf-multiple="true">
+								UPLOAD
+							</button>
+				        </li>
+			      	</ul>
+		      	</div>
+				<button data-ng-show="docsButton('researchView_OpenSEC').show" 
+					    class="btn vdvc-nav-btn vdvc-doc-main-btn" 
+					    data-ng-class="{'vdvc-menu-disabled':!docsButton('researchView_OpenSEC').isEnabled}" 
+					    data-ng-click="docsButton('researchView_OpenSEC').isEnabled && OpenImportSECFilingModal('lg')" 
+					    data-btn-role="navbutton">
+					  <i data-ng-if="::!deviceInfo.isTouch">{{docsButton('researchView_OpenSEC').label}}</i>
+					  <i data-ng-if="::deviceInfo.isTouch" class="fa fa-stack-text">{{docsButton('researchView_OpenSEC').label.split(" ")[0]}}</i>
+			    </button>
+				
+			</div>		
+		</div>
+		<div data-ng-show="checkedItems.length > 0"
+			 class="navbar-fixed-top second-navbar second-navbar-top dl-action-navbar">
+			<div class="col-xs-4 vdvc-vl-50 dlan-l">
+			 	<span class="sic-wrap">
+			 		<span class="sic"><b>{{checkedItems.length}}</b></span>
+			 		<span>Selected</span>
+			 	</span>
+			 	<button type="button" 
+			 		    class="btn vdvc-doc-btn dsa-btn"
+			 		    data-ng-click="unselectAll($event)"
+			 		    data-tooltip-append-to-body="true" 
+				  		data-tooltip-placement="bottom" 
+				  		data-uib-tooltip="Deselect all">
+			 		<i class="fa fa-close fa-fw"></i>
+			 		<!-- <span data-ng-if="::!deviceInfo.isTouch">Deselect all</span> -->
+			 	</button>
+			</div>
+		
+			<div class="col-xs-8 dlan-r">
+				<button type="button" 
+						data-ng-if="key != 'AddToTaskspace' && key != 'AssociatedTaskspace' && key != 'TransferOwnership'" 
+		  				class="btn vdvc-doc-btn {{key}}" 
+		  				data-ng-repeat="(key, docAction) in docActionProps" 
+		  				data-ng-show="docAction.show" 
+		  				data-tooltip-append-to-body="true" 
+		  				data-tooltip-placement="bottom" 
+		  				data-uib-tooltip="{{docAction.title}}" 
+		  				data-ng-click="executeDocAction(docAction.title)">
+			  		<i class='fa {{docAction.class}} fa-fw'></i> 
+			  		<!-- <span data-ng-if="!deviceInfo.isTouch">{{docAction.title}}</span> -->
+			    </button>
+			    <button type="button" 
+			    		data-ng-if="key == 'AddToTaskspace'" 
+		  				class="btn vdvc-doc-btn {{key}}" 
+		  				data-ng-repeat="(key, docAction) in docActionProps" 
+		  				data-ng-show="docAction.show" 
+		  				data-tooltip-append-to-body="true" 
+		  				data-tooltip-placement="bottom" 
+		  				data-uib-tooltip="{{docAction.title}}" 
+		  				data-ng-click="executeDocAction(docAction.title)">
+			  		<i class='fa {{docAction.class}} fa-fw' style="vertical-align: bottom;"></i> 
+			  		<i class="fa fa-plus fa-fw" 
+			  			style="position: absolute;top: 0;font-size: 12px;margin-left: -10px;margin-top: 15px;">
+					</i>
+			    </button>
+			    <button type="button" 
+			    		data-ng-if="key == 'AssociatedTaskspace'" 
+		  				class="btn vdvc-doc-btn {{key}}" 
+		  				data-ng-repeat="(key, docAction) in docActionProps" 
+		  				data-ng-show="docAction.show" 
+		  				data-tooltip-append-to-body="true" 
+		  				data-tooltip-placement="bottom" 
+		  				data-uib-tooltip="{{docAction.title}}" 
+		  				data-ng-click="executeDocAction(docAction.title)">
+			  		<i class='fa {{docAction.class}} fa-fw' style="vertical-align: bottom;"></i> 
+			  		<i class="fa fa-list-ul fa-fw" 
+			  			style="position: absolute;top: 0;font-size: 12px;margin-left: -12px;margin-top: 15px;">
+					</i>
+			    </button>
+			    <button type="button" 
+			    		data-ng-if="key == 'TransferOwnership'" 
+		  				class="btn vdvc-doc-btn {{key}}" 
+		  				data-ng-repeat="(key, docAction) in docActionProps" 
+		  				data-ng-show="docAction.show" 
+		  				data-tooltip-append-to-body="true" 
+		  				data-tooltip-placement="bottom" 
+		  				data-uib-tooltip="{{docAction.title}}" 
+		  				data-ng-click="executeDocAction(docAction.title)">
+			  		<i class="fa fa-user fa-fw" 
+			  			style="position: absolute;top: 19px;font-size: 12px;margin-left: -10px;">
+					</i>
+			  		<i class='fa {{docAction.class}} fa-fw'></i> 
+			  		<i class="fa fa-user fa-fw" 
+			  			style="position: absolute;top: 19px;font-size: 12px;right: 30px;">
+					</i>
+			    </button>
+			</div>		
+		</div>
+	</div>
+	
+	<div data-set-content-container-height="Documents" 
+		id="vdvc-content-wrap" 
+		class="row" 
+		data-ng-if="view == 'Grid'" 
+		style="overflow-y: auto;">
+		<div class="row" >
+		<div class="col-xs-12" data-ng-if="folders.length>0">
+				<span class="fldrs-hdr"> FOLDERS  <span>({{folders.length}})</span> </span>
+		</div>
+		</div>	
+		
+		<div class="row" >
+			<div data-scroll-to-current-folder
+				 data-ng-if="!folder.trash"
+				 data-folder-card 
+				 data-ng-repeat ="folder in folders | orderBy : 'name' | limitTo:folderlimit track by folder.id"
+				 class="col-xs-12 col-sm-4 col-md-3 col-lg-2 fldr-card" 
+				 data-is-current-folder="{{folder.isCurrentFolder}}">
+			</div>
+		</div>
+		<div class="row" data-ng-if="folders.length > 6">
+			<div class="col-xs-12 fldr-file-divider">
+				<button class="sub-head btn show-more-btn" 
+					data-ng-click="incrementFolderLimit()" 
+				 	data-btn-role="showMore">
+				 	<span class="smb-label">{{btnlable}}</span>
+				 	<span class="fa fa-fw" 
+				 		data-ng-class="btnlable== 'SHOW MORE'  ? 'fa-angle-down' : 'fa-angle-up'">
+				 	</span>
+				</button>
+			</div>
+		</div>	
+		
+		<div class="row" >
+			<div class="col-xs-12" data-ng-if="docs.length>0">
+				<span class="files-hdr">
+					FILES 
+					<span>({{docs.length}})</span> 
+				</span>
+			</div>
+			<div data-doc-card  
+				 class='col-xs-12 col-sm-4 col-md-4 col-lg-15 file-card' 
+				 data-ng-repeat="doc in docs | orderBy : 'doc.displayName' track by doc.id">
+			</div>
+		</div>
+	</div>
+	
+	<div data-set-content-container-height="Documents" 
+		id="vdvc-content-wrap" 
+		class="col-xs-12 lv-container" 
+		data-ng-if="view == 'List' && (folders.length>0 || docs.length>0)" 
+		style="overflow-y: auto;">
+		<div class="row" data-ng-if="folders.length>0">
+			<div class="col-xs-10" style="padding-left: 0px;">
+				<span class="fldrs-hdr"> 
+					FOLDERS 
+					<span>({{folders.length}})</span>
+				</span>
+			</div>
+			<div class="col-xs-2" style="padding-right: 0px;">
+				<div class="table-col-con-dd" 
+					data-uib-dropdown 
+					data-auto-close="outsideClick">
+					<button  type="button" 
+	      		   			 class="btn vdvc-nav-btn vdvc-doc-main-btn"
+	      		   			 data-uib-dropdown-toggle 
+	      		   			 data-ng-disabled="disabled" >
+				    	<i class="fa fa-ellipsis-h fa-rotate-90 fa-fw"></i>
+				    </button>
+				    <ul data-uib-dropdown-menu class="dropdown-menu-right" role="menu" aria-labelledby="single-button">
+				        <li role="menuitem" data-ng-class="{active : hdr.checked}" data-ng-repeat="hdr in fldrlistHeaders" data-ng-click="selectColumn(hdr,fldrlistHeaders)">
+				        	<div class="vdvc-drop-down-item">{{hdr.label}}</div>
+				        	<div data-ng-if="!$last" class="vdvc-divider"></div>
+				        </li>
+				    </ul>
+			    </div>
+			</div>
+		</div>
+		<div class="row">
+			<table class="table docTable fldrs-table" data-ng-show="folders.length>0">
+				<thead >
+					<tr>
+						<th class="wraptext" 
+							data-ng-if="hdr.checked && $first" 
+							data-ng-class="hdr.class" 
+							data-ng-repeat="hdr in fldrlistHeaders" 
+							data-ng-click="sortByfield(hdr,'folder')">
+							<div class="row lv-th-ele-wrap">
+								<span class="head-cb checkbox lv-cb-wrap" 
+									data-ng-click="$event.stopPropagation();">
+				               		<input type="checkbox" 
+				               			data-ng-model="checkAllFolders.selected" 
+				               			data-ng-change="selectAllFolders()">
+				               		<label class="head-cb-lable lv-cb-label"></label>
+				            	</span>
+				            	<span class="lv-obj-icon-wrap">
+									<i class="fa fa-fw fa-folder-o lv-folder-icon"></i>
+								</span>
+
+								<span data-uib-tooltip="{{::hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == fldrField" 
+										data-ng-class="{'fa-caret-up' : !fldrFieldDecending , 'fa-caret-down': fldrFieldDecending}">
+									</i>
+								</span>
+							</div>
+						</th>
+						<th class="ellipsis" 
+							data-ng-if="hdr.checked && !$first" 
+							data-ng-class="hdr.class" 
+							data-ng-repeat="hdr in fldrlistHeaders" 
+							data-ng-click="sortByfield(hdr,'folder')">
+							<div class="row lv-th-ele-wrap">
+								<span data-uib-tooltip="{{::hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == fldrField" 
+										data-ng-class="{'fa-caret-up' : !fldrFieldDecending , 'fa-caret-down': fldrFieldDecending}">
+									</i>
+								</span>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-if="!fldr.trash"
+						data-ng-repeat="fldr in folders track by fldr.id" 
+						data-ng-click="openDocument(fldr)"
+						data-on-long-press="onLongPress(fldr)"
+						data-ng-class="{'item-selected' : fldr.selected}">
+						<td class="wraptext" 
+							data-ng-if="hdr.checked && $first" 
+							data-ng-repeat="hdr in fldrlistHeaders">
+							<span class="checkbox lv-cb-wrap" 
+								data-ng-click="$event.stopPropagation();">
+			               		<input type="checkbox" 
+			               			data-ng-model="fldr.selected" 
+			               			data-ng-change="checkFolderOrFile(fldr)">
+			               		<label class="lv-cb-label"></label>
+			            	</span>
+			            	<span class="lv-obj-img-wrap">
+								<img class="lv-obj-img" 
+									alt="" 
+									data-ng-src="{{fldr.isLink? 'assets/icons/folder-link.png':(isShared(fldr)? 'assets/icons/folder-shared.png':'assets/icons/folder.png')}}" />
+							</span>
+							<span class="lv-obj-icon-wrap">
+								<span class="lv-folder-icon">
+									<i data-ng-class="getFolderLogo(fldr)"></i>
+								</span>
+							</span>
+							<span data-ng-if="fldr.indexDocs == 'Yes' || fldr.indexDocs == 'yes'"
+							      style="margin-right: 5px;color: #069;">
+							      <i class="fa fa-list-ol fa-fw"></i>
+							</span>
+							<span class="ellipsis" 
+								data-uib-tooltip="{{fldr[hdr.DValue]}}" 
+								data-tooltip-append-to-body="true">
+								{{fldr[hdr.DValue]}}
+							</span>
+						</td>
+						<td class="ellipsis" 
+							data-ng-if="hdr.checked && !$first" 
+							data-ng-repeat="hdr in fldrlistHeaders">
+							<span class="row">
+								<span class="ellipsis" 
+									data-uib-tooltip="{{fldr[hdr.DValue]}}" 
+									data-tooltip-append-to-body="true">
+									{{fldr[hdr.DValue]}}
+								</span>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="row" data-ng-if="docs.length>0">
+			<div class="col-xs-10" style="padding-left: 0px;">
+				<span class="files-hdr"> 
+					FILES 
+					<span>({{docs.length}})</span>
+				</span>
+			</div>
+			<div class="col-xs-2" style="padding-right: 0px;">
+				<div class="table-col-con-dd" 
+					data-uib-dropdown 
+					data-auto-close="outsideClick">
+					<button  type="button" 
+	      		   			 class="btn vdvc-nav-btn vdvc-doc-main-btn"
+	      		   			 data-uib-dropdown-toggle 
+	      		   			 data-ng-disabled="disabled" >
+				    	<i class="fa fa-ellipsis-h fa-rotate-90 fa-fw"></i>
+				    </button>
+				    <ul data-uib-dropdown-menu class="dropdown-menu-right" role="menu" aria-labelledby="single-button">
+				        <li role="menuitem" data-ng-class="{active : hdr.checked}" data-ng-repeat="hdr in doclistHeaders" data-ng-click="selectColumn(hdr,doclistHeaders)">
+				        	<div class="vdvc-drop-down-item">{{hdr.label}}</div>
+				        	<div data-ng-if="!$last" class="vdvc-divider"></div>
+				        </li>
+				    </ul>
+			    </div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<table class="table docTable files-table" data-ng-show="docs.length>0"> 
+				<thead>
+					<tr>
+						<th class="wraptext" 
+							data-ng-class="hdr.class" 
+							data-ng-if="hdr.checked && $first" 
+							data-ng-repeat="hdr in doclistHeaders" 
+							data-ng-click="sortByfield(hdr,'doc')">
+							<div class="row lv-th-ele-wrap">
+								<span class="head-cb checkbox lv-cb-wrap" 
+									data-ng-click="$event.stopPropagation();">
+				               		<input type="checkbox" 
+				               			data-ng-model="checkAllDocs.selected" 
+				               			data-ng-change="selectAllDocs()">
+				               		<label class="head-cb-lable lv-cb-label"></label>
+				            	</span>
+				           	 	<span class="lv-obj-icon-wrap">
+									<i class="fa fa-file-text-o lv-hdr-file-icon"></i>
+								</span>
+
+								<span class="ellipsis" 
+									data-uib-tooltip="{{::hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == docField" 
+										data-ng-class="{'fa-caret-up' : !docFieldDecending , 'fa-caret-down': docFieldDecending }">
+									</i>
+								</span>
+							</div>
+						</th>
+						<th class="ellipsis" 
+							data-ng-class="hdr.class" 
+							data-ng-if="hdr.checked && !$first" 
+							data-ng-repeat="hdr in doclistHeaders" 
+							data-ng-click="sortByfield(hdr,'doc')">
+							<div class="row lv-th-ele-wrap">
+								<span class="ellipsis" 
+									data-uib-tooltip="{{::hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == docField" 
+										data-ng-class="{'fa-caret-up' : !docFieldDecending , 'fa-caret-down': docFieldDecending }">
+									</i>
+								</span>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="doc in docs track by doc.id" 
+						data-ng-click="openDocument(doc)"
+						data-on-long-press="onLongPress(doc)"
+						data-ng-class="{'item-selected' : doc.selected}">
+						<td data-ng-class="hdr.class" 
+							data-ng-if="hdr.checked && $first" 
+							data-ng-repeat="hdr in doclistHeaders">
+							<div class="wraptext">
+								<span class="checkbox lv-cb-wrap" 
+									data-ng-click="$event.stopPropagation();">
+				                	<input type="checkbox" 
+				                		data-ng-model="doc.selected" 
+				                		data-ng-change="checkFolderOrFile(doc)">
+				                	<label class="lv-cb-label"></label>
+				            	</span>
+				            	<span class="lv-obj-icon-wrap">
+									<span class="lv-file-icon">
+										<i data-ng-class="getFileIcon(doc)"></i>
+									</span>
+									<span class="lv-shrd-file-icon" 
+										data-ng-show="doc.shared">
+										<i class="fa fa-user"></i>
+									</span>
+								</span>
+								<span class="lv-obj-icon-wrap">
+									<span class="lv-file-icon">
+										<i data-ng-class="getDocLogo(doc)"></i>
+									</span>
+								</span>
+								<span data-ng-switch="hdr.type">
+									<span class="ellipsis">
+										<span data-ng-switch-when="text" 
+											data-uib-tooltip="{{doc[hdr.DValue]}}" 
+											data-tooltip-append-to-body="true">
+											{{doc[hdr.DValue]}}
+										</span>
+										<span data-ng-switch-when="Date" 
+											data-uib-tooltip="{{::doc[hdr.DValue] | date:'medium'}}" 
+											data-tooltip-append-to-body="true">
+											{{::doc[hdr.DValue] | date:'medium'}}
+										</span>
+									</span>
+								</span>
+							</div>
+						</td>
+						<td class="ellipsis" 
+							data-ng-class="hdr.class" 
+							data-ng-if="hdr.checked && !$first" 
+							data-ng-repeat="hdr in doclistHeaders">
+							<span class="row" 
+								data-ng-switch="hdr.type">
+								<span class="ellipsis" data-ng-if="hdr.DValue == 'docType'">
+									<span class="ellipsis" data-set-doc-type data-type="{{doc[hdr.DValue]}}">
+										<!-- {{doc[hdr.DValue]}} -->
+									</span>
+								</span>
+								<span class="ellipsis" data-ng-if="hdr.DValue != 'docType'">
+									<span data-ng-switch-when="text" 
+										data-uib-tooltip="{{doc[hdr.DValue]}}" 
+										data-tooltip-append-to-body="true">
+										{{doc[hdr.DValue]}}
+									</span>
+									<span data-ng-switch-when="Date" 
+										data-uib-tooltip="{{::doc[hdr.DValue] | date:'medium'}}" 
+										data-tooltip-append-to-body="true">
+										{{::doc[hdr.DValue] | date:'medium'}}
+									</span>
+								</span>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<div class='vdvc-file-progress' 
+		data-ng-show="showProgress">
+		<div class="progress-bar-header">
+			<div class="row">
+				<div class="col-xs-6 pbh-l"></div>
+				<div class="col-xs-6 pbh-r">
+					<span class="fa fa-close pbh-close-icon" 
+						data-ng-click='closeProgress()'>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="progress-bar-body">
+			<div class='row' data-ng-repeat="f in multiFiles">
+			  
+			  <div class='col-xs-12 ellipsis'>
+			  	{{::f.name}} {{::errFile.name}} {{::errFile.$error}} {{::errFile.$errorParam}}
+			  </div>
+			  <div class='row' >
+			  	<span class="col-xs-3 f-progress-l" 
+			  		data-ng-bind="f.progress + '%'">
+			  	</span>
+			    <span class="col-xs-9 f-progress-r">
+			        <span class='vdvc-progress-bar' 
+			        	style="display:block;width:{{f.progress}}%;">
+			        </span>
+			    </span> 
+			  </div>
+		  	</div>
+	  	</div>
+  	</div>   
+</div>

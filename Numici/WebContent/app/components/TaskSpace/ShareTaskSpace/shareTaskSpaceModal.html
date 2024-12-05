@@ -1,0 +1,272 @@
+<form data-ng-submit="vm.ok()">
+	<div class="modal-header" style="padding: 15px;">
+		<h3 class="modal-title">
+			Invite to Taskspace
+			<i class="fa fa-close" style="float:right;color: #006699;" data-ng-click="vm.cancel()"></i>
+		</h3>
+	</div>
+	<div class="modal-body share-doc-modal-body">
+			<div class="form-group">
+				<div class="col-xs-12" style="padding: 0px;color: #bd362f;">
+					{{vm.errorMessage}}
+				</div>
+				<div class="row" style="margin-bottom: 15px;">
+					<div class="col-xs-8 col-sm-7 vdvc-ms-wrap" style="padding-left: 0px;margin-bottom: 10px;">
+						<data-ui-select multiple 
+							data-ng-if="vm.user_ShareObjAcrossOrg=='Yes'"
+						   	data-ng-model="vm.userPerms.users" 
+						   	data-tagging="vm.tagTransform" 
+						   	data-on-select="vm.checkIsInvalidUser($select.selected.loginId)" 
+						   	data-on-remove="vm.checkIsInvalidUser($select.selected.loginId)" 
+						   	sortable="true" 
+						   	autofocus="true" 
+						   	data-ng-disabled="vm.permChanged || vm.isFormSubmiting">
+							<data-ui-select-match placeholder="Select Users...">{{vm.getSelectedUserName($item)}}</data-ui-select-match>
+						    <data-ui-select-choices repeat="user.loginId as user in vm.Users | filter:{hasPermission:false,loginId:$select.search}">
+						      <div data-ng-if="user.firstName && user.firstName.length > 0" data-ng-bind-html="user.firstName+' '+ user.lastName | highlight: $select.search"></div>
+						      <small>
+						        {{user.loginId}}
+						      </small>
+						    </data-ui-select-choices>
+						</data-ui-select>
+						
+						<data-ui-select multiple 
+							data-ng-if="vm.user_ShareObjAcrossOrg=='No'"
+						   	data-ng-model="vm.userPerms.users" 
+						   	data-ng-disabled="vm.permChanged || vm.isFormSubmiting">
+							<data-ui-select-match placeholder="Select Users...">{{vm.getSelectedUserName($item)}}</data-ui-select-match>
+						    <data-ui-select-choices repeat="user.loginId as user in vm.Users | filter:{hasPermission:false,loginId:$select.search}">
+						      <div data-ng-if="user.firstName && user.firstName.length > 0" data-ng-bind-html="user.firstName+' '+ user.lastName | highlight: $select.search"></div>
+						      <small>
+						        {{user.loginId}}
+						      </small>
+						    </data-ui-select-choices>
+						</data-ui-select>
+					</div>
+					<div class="col-xs-3 col-sm-3 doc-share-perms" style="padding: 0px;">
+						<data-ui-select data-ng-model="vm.userPerms.grantedPerms[0]" 
+							data-search-enabled="false" 
+							data-on-select="vm.selectPerms($select.selected.name)" 
+							data-ng-disabled="vm.permChanged || vm.isFormSubmiting">
+							<!-- <data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+						    <data-ui-select-choices data-repeat="perm in vm.permSet">
+						      <div data-ng-bind-html="perm | highlight: $select.search"></div>
+						    </data-ui-select-choices> -->
+						    <data-ui-select-match>{{$select.selected.displayName}}</data-ui-select-match>
+						    <data-ui-select-choices repeat="perm.name as perm in vm.permSet | highlight: $select.search">
+							    <span data-ng-bind-html="perm.displayName"></span>
+							</data-ui-select-choices>
+						</data-ui-select>
+					</div>
+					<div class="col-xs-1 col-sm-2 vdvc-doc-sharable">
+						<div class="checkbox">
+							<input id="PropagateShare" type="checkbox" data-ng-model="vm.propagateShare" data-ng-disabled="!vm.disablePropagateShare || vm.permChanged || vm.isFormSubmiting">
+							<label for="PropagateShare">
+								<i class="fa fa-share-alt" 
+									aria-hidden="true" 
+									style="position: absolute;top: -10px;left: -10px;">
+								</i>
+								<span>{{::vm.sharePropagateLable}}</span></label>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12" style="padding: 0px;">
+					<table class='table table-condensed' style="margin-bottom: 0px;">
+						<tr>
+							<td class="col-xs-6 col-sm-6" style="border-top: 0px;"><b>Manage Users</b></td>
+							<td class="col-xs-3 col-sm-3" style="border-top: 0px;"></td>
+							<td class="col-xs-2 col-sm-2" style="border-top: 0px;"><b>{{::vm.sharePropagateLable}}</b></td>
+							<td class="col-xs-1 col-sm-1" style="border-top: 0px;"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-xs-12" style="max-height:150px;overflow: auto;padding: 0px;">
+					<table class='table table-condensed'>
+						<tr data-ng-if="vm.items.length == 1" >
+							<td class="col-xs-6 col-sm-6 cell-vm" 
+								data-uib-tooltip="{{vm.items[0].owner}}" 
+	       					  	data-tooltip-placement="top"  
+	       					  	data-tooltip-append-to-body="true"
+	       					  	style="border-top: 0px;">
+	       					  	{{vm.items[0].owner}}
+	       					</td>
+							<td class="col-xs-3 col-sm-3 cell-vm" style="border-top: 0px;">Owner</td>
+							<td class="col-xs-2 col-sm-2 cell-vm" style="border-top: 0px;"><b></b></td>
+							<td class="col-xs-1 col-sm-1 cell-vm" style="border-top: 0px;"></td>
+						</tr>
+						<tr data-ng-if="vm.items.length == 1 && colbrtr.userType != 'Guest' && colbrtr.userType != 'Provisional'" data-ng-repeat='colbrtr in vm.sharedWithModel'>
+						  <td class="col-xs-6 col-sm-6 cell-vm" 
+						  	  data-uib-tooltip="{{colbrtr.displayName}}" 
+	       					  data-tooltip-placement="top"  
+	       					  data-tooltip-append-to-body="true">
+	       					  {{colbrtr.userId}}
+	       				  </td>
+						  <td class="col-xs-3 col-sm-3 cell-vm cust-ui-select-wrp" style="padding: 0px;">
+						  	<data-ui-select data-ng-show = "!vm.isLoggedInUser(colbrtr.userId)" 
+						  			   data-ng-model="colbrtr.permissions"  
+						  			   search-enabled="false" 
+						  			   append-to-body="true" 
+						  			   data-on-select="vm.permsEdited()" 
+						  			   data-ng-disabled="vm.isUserSelected() || vm.isFormSubmiting">
+					
+							    <!-- <data-ui-select-match >{{$select.selected}}</data-ui-select-match>
+							    
+							    <data-ui-select-choices repeat="perm in vm.permSet | filter: $select.search">
+							      <div data-ng-bind-html="perm | highlight: $select.search"></div>
+							    </data-ui-select-choices> -->
+							    <data-ui-select-match>{{$select.selected.displayName}}</data-ui-select-match>
+							    <data-ui-select-choices repeat="perm.name as perm in vm.permSet | highlight: $select.search">
+								    <span data-ng-bind-html="perm.displayName"></span>
+								</data-ui-select-choices>
+							    
+							</data-ui-select>
+							<span style="padding-left: 10px;line-height: 2.5;" data-ng-show = "vm.isLoggedInUser(colbrtr.userId)">{{colbrtr.permissions}}</span>
+						  </td>
+						  <td class="col-xs-2 col-sm-2 checkbox cell-vm" style="padding-left: 20px;text-align: center;">
+						  	<span>
+							  	<input type="checkbox" data-ng-model="colbrtr.propagateShare" data-ng-change="vm.permsEdited()" data-ng-disabled="vm.disableSharableForManaged(colbrtr) || vm.isUserSelected() || vm.isFormSubmiting">
+								<label></label>
+							</span>
+						  </td>
+						  <td class="col-xs-1 col-sm-1 cell-vm cell-hm ">
+							<span data-ng-show = "vm.isTsSharable(vm.items[0]) && !vm.isLoggedInUser(colbrtr.userId)" data-ng-click="vm.revokePermissions(colbrtr)" class="rm-perms" role="button" data-ng-disabled="vm.isFormSubmiting"><i class='fa fa-times'></i></span>
+						  </td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-xs-12" data-ng-show="vm.showGuestUsersList()" style="padding: 0px;">
+					<table class='table table-condensed' style="margin-bottom: 0px;">
+						<tr>
+							<td class="col-xs-6 col-sm-6" style="border-top: 0px;"><b>Manage Guest Users</b></td>
+							<td class="col-xs-3 col-sm-3" style="border-top: 0px;"></td>
+							<td class="col-xs-2 col-sm-2" style="border-top: 0px;"><b>{{::vm.sharePropagateLable}}</b></td>
+							<td class="col-xs-1 col-sm-1" style="border-top: 0px;"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-xs-12" data-ng-show="vm.showGuestUsersList()" style="max-height:150px;overflow: auto;padding: 0px;">
+					<table class='table table-condensed'>
+						<tr data-ng-if="vm.items.length == 1 && colbrtr.userType == 'Guest'" data-ng-repeat='colbrtr in vm.sharedWithModel'>
+						  <td class="col-xs-6 col-sm-6 cell-vm" 
+						  	  data-uib-tooltip="{{colbrtr.displayName}}" 
+	       					  data-tooltip-placement="top"  
+	       					  data-tooltip-append-to-body="true">
+	       					  {{colbrtr.userId}}
+	       				  </td>
+						  <td class="col-xs-3 col-sm-3 cell-vm cust-ui-select-wrp" style="padding: 0px;">
+						  	<data-ui-select data-ng-show = "!vm.isLoggedInUser(colbrtr.userId)" 
+						  			   data-ng-model="colbrtr.permissions"  
+						  			   search-enabled="false" 
+						  			   append-to-body="true" 
+						  			   data-on-select="vm.permsEdited()" 
+						  			   data-ng-disabled="vm.isUserSelected() || vm.isFormSubmiting">
+					
+							    <!-- <data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+							    
+							    <data-ui-select-choices repeat="perm in vm.permSet | filter: $select.search">
+							      <div data-ng-bind-html="perm | highlight: $select.search"></div>
+							    </data-ui-select-choices> -->
+							    <data-ui-select-match>{{$select.selected.displayName}}</data-ui-select-match>
+							    <data-ui-select-choices repeat="perm.name as perm in vm.permSet | highlight: $select.search">
+								    <span data-ng-bind-html="perm.displayName"></span>
+								</data-ui-select-choices>
+							    
+							</data-ui-select>
+							<span style="padding-left: 10px;line-height: 2.5;" data-ng-show = "vm.isLoggedInUser(colbrtr.userId)">{{colbrtr.permissions}}</span>
+						  </td>
+						  <td class="col-xs-2 col-sm-2 checkbox cell-vm" style="padding-left: 20px;text-align: center;">
+						  	<span>
+							  	<input type="checkbox" data-ng-model="colbrtr.propagateShare" data-ng-change="vm.permsEdited()" data-ng-disabled="vm.disableSharableForManaged(colbrtr) || vm.isUserSelected() || vm.isFormSubmiting">
+								<label></label>
+							</span>
+						  </td>
+						  <td class="col-xs-1 col-sm-1 cell-vm cell-hm ">
+							<span data-ng-show = "vm.isTsSharable(vm.items[0]) && !vm.isLoggedInUser(colbrtr.userId)" data-ng-click="vm.revokePermissions(colbrtr)" class="rm-perms" role="button" data-ng-disabled="vm.isFormSubmiting"><i class='fa fa-times'></i></span>
+						  </td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-xs-12" data-ng-show="vm.showProUsersList()" style="padding: 0px;">
+					<table class='table table-condensed' style="margin-bottom: 0px;">
+						<tr>
+							<td class="col-xs-6 col-sm-6" style="border-top: 0px;"><b>Manage Provisional Users</b></td>
+							<td class="col-xs-3 col-sm-3" style="border-top: 0px;"></td>
+							<td class="col-xs-2 col-sm-2" style="border-top: 0px;"><b>{{::vm.sharePropagateLable}}</b></td>
+							<td class="col-xs-1 col-sm-1" style="border-top: 0px;"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-xs-12" data-ng-show="vm.showProUsersList()" style="max-height:150px;overflow: auto;padding: 0px;">
+					<table class='table table-condensed'>
+						<tr data-ng-if="vm.items.length == 1 && colbrtr.userType == 'Provisional'" data-ng-repeat='colbrtr in vm.sharedWithModel'>
+						  <td class="col-xs-6 col-sm-6 cell-vm" 
+						  	  data-uib-tooltip="{{colbrtr.displayName}}" 
+	       					  data-tooltip-placement="top"  
+	       					  data-tooltip-append-to-body="true">
+	       					  {{colbrtr.userId}}
+	       				  </td>
+						  <td class="col-xs-3 col-sm-3 cell-vm cust-ui-select-wrp" style="padding: 0px;">
+						  	<data-ui-select data-ng-show = "!vm.isLoggedInUser(colbrtr.userId)" 
+						  			   data-ng-model="colbrtr.permissions"  
+						  			   search-enabled="false" 
+						  			   append-to-body="true" 
+						  			   data-on-select="vm.permsEdited()" 
+						  			   data-ng-disabled="vm.isUserSelected() || vm.isFormSubmiting">
+					
+							    <!-- <data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+							    
+							    <data-ui-select-choices repeat="perm in vm.permSet | filter: $select.search">
+							      <div data-ng-bind-html="perm | highlight: $select.search"></div>
+							    </data-ui-select-choices> -->
+							    <data-ui-select-match>{{$select.selected.displayName}}</data-ui-select-match>
+							    <data-ui-select-choices repeat="perm.name as perm in vm.permSet | highlight: $select.search">
+								    <span data-ng-bind-html="perm.displayName"></span>
+								</data-ui-select-choices>
+							    
+							</data-ui-select>
+							<span style="padding-left: 10px;line-height: 2.5;" data-ng-show = "vm.isLoggedInUser(colbrtr.userId)">{{colbrtr.permissions}}</span>
+						  </td>
+						  <td class="col-xs-2 col-sm-2 checkbox cell-vm" style="padding-left: 20px;text-align: center;">
+						  	<span>
+							  	<input type="checkbox" data-ng-model="colbrtr.propagateShare" data-ng-change="vm.permsEdited()" data-ng-disabled="vm.disableSharableForManaged(colbrtr) || vm.isUserSelected() || vm.isFormSubmiting">
+								<label></label>
+							</span>
+						  </td>
+						  <td class="col-xs-1 col-sm-1 cell-vm cell-hm ">
+							<span data-ng-show = "vm.isTsSharable(vm.items[0]) && !vm.isLoggedInUser(colbrtr.userId)" data-ng-click="vm.revokePermissions(colbrtr)" class="rm-perms" role="button" data-ng-disabled="vm.isFormSubmiting"><i class='fa fa-times'></i></span>
+						  </td>
+						</tr>
+					</table>
+				</div>
+			</div>
+	</div>
+	<div class="modal-footer" style="padding: 15px;">
+		<div class="col-xs-12" style="padding: 0px;margin-top: 15px;">
+			<div data-ng-show="vm.showTransferTSOwnershipBtn()" 
+				class="col-xs-6" 
+				style="padding: 0px;">
+				<button class="btn vdvc-form-btn" 
+					type="button" 
+					data-ng-click="vm.transferTSOwnership()" 
+					data-ng-disabled="vm.isFormSubmiting" 
+					style="float: left;">
+					TRANSFER OWNERSHIP
+				</button>
+			</div>
+			<div data-ng-show="vm.permChanged" class="col-xs-6" style="float: left; padding: 0px;line-height: 34px;color: #006699;">You have made changes to permissions.</div>
+			<div class="col-xs-6" style="float: right;padding-right: 0px;">
+				<button data-ng-show = "!vm.permChanged && !vm.properTiesForm.$visible" 
+					class="btn vdvc-form-btn" 
+					type="submit" 
+					data-ng-disabled="vm.userPerms.users.length == 0 || vm.isFormSubmiting || vm.hasInvalidUser" 
+					style="float: right;">
+					SHARE
+				</button>
+				<button data-ng-show = "vm.permChanged" class="btn vdvc-form-btn" type="submit" style="float: right;" data-ng-disabled="vm.isFormSubmiting">SAVE CHANGES</button>
+				<button data-ng-show = "vm.permChanged" class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancelChangePermissions()" style="float: right;">CANCEL</button>
+			</div>
+		</div>
+		
+	</div>
+
+</form>

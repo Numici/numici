@@ -1,0 +1,23 @@
+<form name="ConfirmSignedIn" style="display: inline-block;">
+	<div class="modal-body confirm-signed-in-mb">
+		<div class="col-xs-12 confirm-signed-in-content-wrap">
+			<div class="col-xs-12 get-extension-message" 
+				data-ng-bind-html="csc.confirmSignedInMessage" style='text-align: center;'>
+			</div>
+		</div>
+		<div class="col-xs-12 confirm-signed-in-btn-group">
+			<a class="btn vdvc-form-btn vdvc-form-btn-muted" 
+				type="button" 
+				data-ng-click="csc.selectResponse('skipAndGotoRoot')" 
+				style="float: left;">
+				Skip & Goto Active Session
+			</a>
+			<a class="btn vdvc-form-btn" 
+				type="button" 
+				data-ng-click="csc.selectResponse('logoutAndContinue')" 
+				style="float: right;">
+				Logout & Continue
+			</a>
+		</div>
+	</div>
+</form>

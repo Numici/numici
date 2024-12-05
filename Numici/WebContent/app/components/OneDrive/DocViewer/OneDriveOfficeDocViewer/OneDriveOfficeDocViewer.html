@@ -1,0 +1,10 @@
+<div class="row full" data-ng-attr-data-id="{{OODV.oneDriveDoc.id}}">
+	<div class="col-xs-12 vdvc-ldr-spin-wrap" data-ng-show="OODV.loader" data-ng-class="{'full':OODV.loader}">
+   		<div class="vdvc-loader-spin vdvc-v-align"></div>
+   	</div>
+	<iframe data-on-frame-loaded="OODV.onLoad()" 
+			data-styles-src="/app/components/OneDrive/DocViewer/OneDriveOfficeDocViewer/styles.css"
+		    width="100%" 
+		    data-ng-src="{{trustSrc(OODV.docUrl)}}" 
+		    style="max-width: 100%;border: none;min-height: 100%;height: 100%;overflow: auto;"></iframe>
+</div>

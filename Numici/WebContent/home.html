@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vidi Vici Technologies</title>
+
+<link href="resources/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+
+<link
+	href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<link rel="stylesheet" href="resources/css/custom.css?20151009"></link>
+<link rel="stylesheet" type="text/css" href="resources/css/local.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/jquery.contextMenu.css" />
+<style type="text/css">
+
+div[vdvc-context="models"] .context-menu { 
+   display: block !important;
+}
+
+.v-n-content{
+ overflow:hidden;
+}
+
+.row.v-n-content * {
+  font-size: .8em !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  color : gray !important;
+}
+
+.file-upload {
+	font-size: 2px;
+}
+
+.vdvc-c-m {
+	width:250px;
+	height:300px;
+	overflow: auto;
+	background-color: red;
+}
+.vdvc-txt-wrap {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.mdl-ft, .vapp-ft, .card-ft{
+	padding: 3px;
+	color: white;
+	display: none;
+}
+
+.mdl-ft .btn, .vapp-ft .btn {
+	color: white;
+	background-color: rgb(66, 133, 244);
+}
+.subheader {
+	
+  margin-top: 4px;
+  color: black;
+  padding-top: 8px;
+  height: 40px;
+  background-color: rgb(250, 250, 250);
+  box-shadow: 0px 0px 6px 3px gray;
+}
+@media ( min-width : 768px) {
+	.subheader {
+	margin-top: 4px;
+  color: black;
+  padding-top: 8px;
+  padding-left: 250px;
+  height: 40px;
+  background-color: rgb(250, 250, 250);
+  box-shadow: 0px 0px 6px 3px gray;
+}
+}
+
+@media ( min-width : 992px) {
+	.subheader {
+	padding-left: 250px;
+	margin-top: 4px;
+  color: black;
+  padding-top: 8px;
+  padding-left: 250px;
+  height: 40px;
+  background-color: rgb(250, 250, 250);
+  box-shadow: 0px 0px 6px 3px gray;
+}
+}
+
+@media ( min-width : 1200px) {
+	.subheader {
+	padding-left: 250px;
+	margin-top: 4px;
+  color: black;
+  padding-top: 8px;
+  padding-left: 250px;
+  height: 40px;
+  background-color: rgb(250, 250, 250);
+  box-shadow: 0px 0px 6px 3px gray;
+}
+}
+
+
+
+#mymodels .selectedModel ,#myVapps .selectedVapp ,#myDocs .selectedFolder,#myDocs .selectedDoc{
+	color: white;
+	background-color: rgb(62, 85, 124) !important;
+}
+
+#mymodels div.vdvc-mdl, #myVapps div.vdvc-vapp ,#myDocs div.vdvc-fldr,#myDocs div.vdvc-doc{
+	background-color: white;
+}
+
+#mymodels div.vdvc-mdl:hover .mdl-ft {
+	color: white;
+	background-color: rgb(66, 133, 244) !important;
+	display: block;
+}
+
+.selectedModel .mdl-ft,.selectedVapp  .vapp-ft,.selectedFolder .card-ft,.selectedDoc .card-ft{
+	display: block;
+}
+
+#myVapps div.vdvc-vapp:hover .vapp-ft {
+	color: white;
+	background-color: rgb(66, 133, 244) !important;
+	display: block;
+}
+
+#myDocs div.vdvc-fldr:hover .card-ft ,#myDocs div.vdvc-doc:hover .card-ft{
+	color: white;
+	background-color: rgb(66, 133, 244) !important;
+	display: block;
+}
+
+.row {
+	margin-right: 0px;
+	margin-left: 0px;
+}
+</style>
+<script type="text/javascript"
+	src="resources/js/libs/jquery/jquery-1.10.2.js"></script>
+<script type="text/javascript"
+	src="resources/js/libs/bootstrap/bootstrap.min.js"></script>
+	
+<script type="text/javascript" src="resources/js/libs/underscore.js?20151009"></script>
+<link rel="stylesheet"
+	href="resources/js/libs/jquery/pepper-grinder/jquery-ui.min.css"></link>
+<script type="text/javascript"
+	src="resources/js/libs/jquery/jquery-1.10.2.js"></script>
+<script src="resources/js/libs/jquery/jquery-ui-1.11.0.min.js"></script>
+
+
+<script type="text/javascript"
+	src="resources/js/libs/chartinglibs/d3.min.js"></script>
+	
+<script type="text/javascript"
+	src="resources/js/libs/jquery/jquery.ui.position.js?20151009"></script>
+<script type="text/javascript"
+	src="resources/js/libs/jquery/jquery.contextMenu.js?20151009"></script>
+
+<script type="text/javascript"
+	src="resources/js/libs/jquery/jquery.fileupload.js?20151009"></script>
+<script type="text/javascript"
+	src="resources/js/libs/jquery/jquery.dialogextend.js?20151009"></script>
+<script type="text/javascript"
+	src="resources/js/libs/jquery/jquery.jstree.min.js?20151009"></script>
+
+<script type="text/javascript" src="resources/js/excelGrid.js?20151009"></script>
+<script type="text/javascript" src="resources/js/Utils.js?20151009"></script>
+
+<script type="text/javascript" src="resources/js/vdvcDocManager.js?20151009"></script>
+<script type="text/javascript" src="resources/js/vdvcSharedDocMgr.js?20151009"></script>
+<script type="text/javascript" src="resources/js/AnnotationManager.js?20151009"></script>
+
+<script type="text/javascript"
+	src="resources/js/vappControls/Runtime/vdvcTagManager.js?20151009"></script>
+<script type="text/javascript"
+	src="resources/js/modelGraphs.js?20151009"></script>
+<script type="text/javascript"
+	src="resources/js/ImportWizard.js?20151009"></script>
+<script type="text/javascript"
+	src="resources/js/finDtaImpWizard.js?20151009"></script>
+<script type="text/javascript"
+	src="resources/js/finEdgarDataImpWizard.js?20151009"></script>
+<script type="text/javascript"
+	src="resources/js/finEdgarDataImpWizard2.js?20151009"></script>
+<script type="text/javascript"
+	src="resources/js/finBEADataImpWizard.js?20151009"></script>
+<script type="text/javascript"
+	src="resources/js/finBLSDataImpWizard.js?20151009"></script>
+<script type="text/javascript"
+	src="resources/js/dbDataImpWizard.js?20151009"></script>
+<script type="text/javascript"
+	src="resources/js/newDashboard.js?20151009"></script>
+	
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="navbar-header">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</a>
+				<a class="navbar-brand" href="#">Vidi Vici Technologies</a>
+			</div>
+
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul id="active" class="nav navbar-nav side-nav">
+					<li class="selected" role="vdvcModels"><a href="#models"><i
+							class="fa fa-bullseye"></i> <span>Models</span></a></li>
+					<li role="vdvcUserVapps"><a href="#vapps"><i class="fa fa-tasks"></i><span> Apps</span></a></li>
+					<li role="vdvcDocs"><a href="#docs"><i class="fa fa-file-text"></i> <span>Notes</span></a></li>
+					<li role="vdvcSharedDocs"><a href="#docs"><i class="fa fa-users"></i> <span>Shared Notes</span></a></li>
+					<li>
+						<a href="#"><i class="fa fa-upload"></i><span>Upload</span></a>
+						<input type="file" class="file-upload" value="ImgUpload" id="img_upload_btn"  style="width:100%;float: left;height: 100%;"/>
+					</li>
+					<li>
+						<a href="home.jsf" onclick="window.open(this.href, 'Dashboard(v1)');return false"><span>Dashboard(v1)</span></a>
+					</li>
+					<li>
+						<a href="LandingPage.html" onclick="window.open(this.href, 'Dashboard(v3)');return false"><span>Dashboard(v3)</span></a>
+					</li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right navbar-user">
+					<li class="dropdown user-dropdown"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown"><i
+							class="fa fa-user"></i><span id="loginUser"></span><b
+							class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="logout.jsf"><i class="fa fa-power-off"></i>
+									Log Out</a></li>
+						</ul></li>
+					<li class="divider-vertical"></li>
+					<li>
+						<form class="navbar-search">
+							<input type="text" placeholder="Search" class="form-control">
+						</form>
+					</li>
+				</ul>
+
+			</div>
+			<div class="subheader">
+			  <div class="container-fluid">
+			  	<div class="row vdvc-context" vdvc-context ="model">
+			  		<div class="col-xs-6 col-sm-4 context-title">Models</div>
+			  		<div class="col-xs-6 col-sm-8 context-menu"  style="float:right;display: none;">
+			  			<button class="btn btn-primary btn-sm" data-btn-role="importModel" style="float:right;margin-right: 5px;">
+				  			<span class="ui-button-text">
+								Import Model <input class="file-upload" style="width:100px;float: left;height: 100%;" type="file" value="Import">
+							</span>
+			  			</button>
+			  			<button class="btn btn-primary btn-sm" data-btn-role="addModel" style="float:right;margin-right: 5px;">Add Model</button>
+			  			<button class="btn btn-primary btn-sm" data-btn-role="refresh_model" style="float:right;margin-right: 5px;">Refresh</button>
+			  		</div>
+			  	</div>
+			  </div>
+            </div>
+		</nav>
+		<!-- <aside style="width: 300px;
+  height: 100%;
+  background-color: red;
+  position: absolute;
+  left: 1140px;
+  top: 0px;
+  padding-top: 60px;
+  z-index: 1;">hello</aside> -->
+		<div id="page-wrapper">
+
+			
+
+		</div>
+
+	</div>
+	<!-- /#wrapper -->
+	<script type="text/javascript">
+  function windowController(){
+		var wnd=null;
+		var loadedWindows = [];
+		
+		this.openWindow=function(wndUrl, wndName){
+			var wndObj= this.findWindow(wndName);
+			if(wndObj !== null && wndObj.name === "vdvcBuilder"){
+				wndObj.focus();
+				return wndObj;
+			}else if (wndObj !== null && wndObj.name.search("VAppGen") != -1){
+				wndObj.focus();
+				return wndObj;
+			}else {
+				wnd=window.open(wndUrl,wndName);
+				wnd.focus();
+				loadedWindows.push(wnd);
+				return wnd;
+			}
+		};
+		
+		this.closeWindows=function(){
+			for(var i=0;i<loadedWindows.length;i++){
+				if(loadedWindows[i].closed == false){
+					loadedWindows[i].close();
+				}
+			}
+			loadedWindows=[];
+		};
+		this.findWindow=function(wndName){
+			for (var i=0; i< loadedWindows.length; i++){
+				if (loadedWindows[i].name == wndName){
+					return loadedWindows[i];
+				}
+			}
+			return null;
+		};
+		return this;
+	}
+  
+  var _windowController = new windowController();
+  
+  
+  
+  </script>
+</body>
+</html>

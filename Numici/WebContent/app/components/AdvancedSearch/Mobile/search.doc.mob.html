@@ -1,0 +1,7 @@
+<div class='row full mobile-doc-viewer'  id='vdvc_doc_viewer' data-ng-init="docContext='FromSearch';annotationContext='document'">
+	<mobile-doc-viewer-navbar></mobile-doc-viewer-navbar>
+	<div class="col-xs-12" data-ng-show='showDoc' style="height: 100%;">
+		<mobile-vdvc-note-viewer data-ng-show='!showPdf'></mobile-vdvc-note-viewer>
+	</div>
+	<mobile-vdvc-pdf-viewer data-ng-show='showPdf' class="full" style= "display: block;"></mobile-vdvc-pdf-viewer>
+</div>

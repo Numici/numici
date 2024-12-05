@@ -1,0 +1,173 @@
+<form data-ng-submit="admc.ok()">
+	<div class="modal-header" style="padding: 10px 15px;">
+		<h4 class="modal-title">
+			Publish Annotation Digest
+			<i class="fa fa-close" style="float:right;color: #006699;" data-ng-click="admc.cancel()"></i>
+		</h4>
+	</div>
+	<div class="modal-body share-doc-modal-body mail-modal-body" style="height: 465px;overflow: auto;padding: 0px 5px;">
+		<div class="form-group col-xs-12" style="margin: 0px;">
+			<label class="col-xs-1 cs-lbl" for="from" style="padding: 0px;font-weight: normal;line-height: 34px;">FROM</label>
+			<div id="from" 
+				class="col-xs-11 vdvc-ms-wrap" 
+				data-uib-tooltip="{{admc.getFromMailId()}}" 
+				data-tooltip-append-to-body="true" 
+				style="padding-right: 0px;">
+				<div class="col-xs-12" 
+					style="padding: 0px 5px;height: 34px;line-height: 34px;border: 1px solid #ccc;">
+					{{admc.getFromMailId()}}
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-xs-12" style="margin: 0px;">
+			<label class="col-xs-1 cs-lbl" for="to" style="padding: 0px;font-weight: normal;line-height: 34px;">TO</label>
+			<div id="to" class="col-xs-11 vdvc-ms-wrap" style="padding-right: 0px;">
+				<data-ui-select multiple 
+					data-ng-if="admc.user_ShareObjAcrossOrg=='Yes'"
+				   	data-ng-model="admc.userPerms.users" 
+				   	data-tagging="admc.tagTransform" 
+				   	sortable="true" 
+				   	autofocus="true">
+					<data-ui-select-match placeholder="Recipients...">{{admc.getSelectedUserName($item)}}</data-ui-select-match>
+				    <data-ui-select-choices repeat="user.loginId as user in admc.Users | startsWithFilter:$select.search:['firstName','lastName','loginId']">
+				      <div data-ng-if="user.firstName || user.lastName">
+				      	<span data-ng-if="user.firstName && user.firstName.length > 0"  data-ng-bind-html="user.firstName | startsWithHighlighter: $select.search">
+				      	</span>
+				      	<span>&nbsp;</span>
+				      	<span data-ng-if="user.lastName && user.lastName.length > 0"  data-ng-bind-html="user.lastName | startsWithHighlighter: $select.search">
+				      	</span>
+				      </div>
+				      <small data-ng-bind-html="user.loginId  | startsWithHighlighter: $select.search"></small>
+				    </data-ui-select-choices>
+				</data-ui-select>
+				
+				<data-ui-select multiple 
+					data-ng-if="admc.user_ShareObjAcrossOrg=='No'"
+				   	data-ng-model="admc.userPerms.users" 
+				   	data-ng-disabled="false"
+				   	autofocus="true">
+					<data-ui-select-match placeholder="Recipients...">{{admc.getSelectedUserName($item)}}</data-ui-select-match>
+				    <data-ui-select-choices repeat="user.loginId as user in admc.Users | startsWithFilter:$select.search:['firstName','lastName','loginId']">
+				      <div data-ng-if="user.firstName || user.lastName">
+				      	<span data-ng-if="user.firstName && user.firstName.length > 0"  data-ng-bind-html="user.firstName | startsWithHighlighter: $select.search">
+				      	</span>
+				      	<span>&nbsp;</span>
+				      	<span data-ng-if="user.lastName && user.lastName.length > 0"  data-ng-bind-html="user.lastName | startsWithHighlighter: $select.search">
+				      	</span>
+				      </div>
+				      <small data-ng-bind-html="user.loginId  | startsWithHighlighter: $select.search"></small>
+				    </data-ui-select-choices>
+				</data-ui-select>
+			</div>
+		</div>
+		<div class="form-group col-xs-12" style="margin: 0px;">
+			<label class="col-xs-1 cs-lbl" for="cc" style="padding: 0px;font-weight: normal;line-height: 34px;">CC</label>
+			<div id="cc" class="col-xs-11 vdvc-ms-wrap" style="padding-right: 0px;">
+				<data-ui-select multiple 
+					data-ng-if="admc.user_ShareObjAcrossOrg=='Yes'"
+				   	data-ng-model="admc.ccUserPerms.users" 
+				   	data-tagging="admc.tagTransform" 
+				   	sortable="true">
+					<data-ui-select-match placeholder="Recipients...">{{admc.getSelectedUserName($item)}}</data-ui-select-match>
+				    <data-ui-select-choices repeat="user.loginId as user in admc.Users | startsWithFilter:$select.search:['firstName','lastName','loginId']">
+				      <div data-ng-if="user.firstName || user.lastName">
+				      	<span data-ng-if="user.firstName && user.firstName.length > 0"  data-ng-bind-html="user.firstName | startsWithHighlighter: $select.search">
+				      	</span>
+				      	<span>&nbsp;</span>
+				      	<span data-ng-if="user.lastName && user.lastName.length > 0"  data-ng-bind-html="user.lastName | startsWithHighlighter: $select.search">
+				      	</span>
+				      </div>
+				      <small data-ng-bind-html="user.loginId  | startsWithHighlighter: $select.search"></small>
+				    </data-ui-select-choices>
+				</data-ui-select>
+				<data-ui-select multiple 
+					data-ng-if="admc.user_ShareObjAcrossOrg=='No'"
+				   	data-ng-model="admc.ccUserPerms.users" 
+				   	data-ng-disabled="false">
+					<data-ui-select-match placeholder="Recipients...">{{admc.getSelectedUserName($item)}}</data-ui-select-match>
+				    <data-ui-select-choices repeat="user.loginId as user in admc.Users | startsWithFilter:$select.search:['firstName','lastName','loginId']">
+				      <div data-ng-if="user.firstName || user.lastName">
+				      	<span data-ng-if="user.firstName && user.firstName.length > 0"  data-ng-bind-html="user.firstName | startsWithHighlighter: $select.search">
+				      	</span>
+				      	<span>&nbsp;</span>
+				      	<span data-ng-if="user.lastName && user.lastName.length > 0"  data-ng-bind-html="user.lastName | startsWithHighlighter: $select.search">
+				      	</span>
+				      </div>
+				      <small data-ng-bind-html="user.loginId  | startsWithHighlighter: $select.search"></small>
+				    </data-ui-select-choices>
+				</data-ui-select>
+			</div>
+		</div>
+		<div class="form-group col-xs-12" style="margin: 0px;">
+			<label class="col-xs-1 cs-lbl" for="bcc" style="padding: 0px;font-weight: normal;line-height: 34px;">BCC</label>
+			<div id="bcc" class="col-xs-11 vdvc-ms-wrap" style="padding-right: 0px;">
+				<data-ui-select multiple 
+					data-ng-if="admc.user_ShareObjAcrossOrg=='Yes'"
+				   	data-ng-model="admc.bccUserPerms.users" 
+				   	data-tagging="admc.tagTransform" 
+				   	sortable="true">
+					<data-ui-select-match placeholder="Recipients...">{{admc.getSelectedUserName($item)}}</data-ui-select-match>
+				    <data-ui-select-choices repeat="user.loginId as user in admc.Users | startsWithFilter:$select.search:['firstName','lastName','loginId']">
+				      <div data-ng-if="user.firstName || user.lastName">
+				      	<span data-ng-if="user.firstName && user.firstName.length > 0"  data-ng-bind-html="user.firstName | startsWithHighlighter: $select.search">
+				      	</span>
+				      	<span>&nbsp;</span>
+				      	<span data-ng-if="user.lastName && user.lastName.length > 0"  data-ng-bind-html="user.lastName | startsWithHighlighter: $select.search">
+				      	</span>
+				      </div>
+				      <small data-ng-bind-html="user.loginId  | startsWithHighlighter: $select.search"></small>
+				    </data-ui-select-choices>
+				</data-ui-select>
+				<data-ui-select multiple 
+					data-ng-if="admc.user_ShareObjAcrossOrg=='No'"
+				   	data-ng-model="admc.bccUserPerms.users" 
+				   	data-ng-disabled="false">
+					<data-ui-select-match placeholder="Recipients...">{{admc.getSelectedUserName($item)}}</data-ui-select-match>
+				    <data-ui-select-choices repeat="user.loginId as user in admc.Users |  startsWithFilter:$select.search:['firstName','lastName','loginId']">
+				      <div data-ng-if="user.firstName || user.lastName">
+				      	<span data-ng-if="user.firstName && user.firstName.length > 0"  data-ng-bind-html="user.firstName | startsWithHighlighter: $select.search">
+				      	</span>
+				      	<span>&nbsp;</span>
+				      	<span data-ng-if="user.lastName && user.lastName.length > 0"  data-ng-bind-html="user.lastName | startsWithHighlighter: $select.search">
+				      	</span>
+				      </div>
+				     <small data-ng-bind-html="user.loginId  | startsWithHighlighter: $select.search"></small>
+				    </data-ui-select-choices>
+				</data-ui-select>
+			</div>
+		</div>
+		<div class="form-group col-xs-12" style="margin: 0px;">
+			<label class="col-xs-1 cs-lbl" for="subject" style="padding: 0px;font-weight: normal;line-height: 34px;">SUBJECT</label>
+			<div id="subject" class="col-xs-11" style="padding-right: 0px;">
+				<input type="text" 
+					   id="subject" 
+					   class="form-control vdvc-input-txt" 
+					   data-ng-model="admc.subject" 
+					   required 
+					   style="height: 34px;">
+			</div>
+		</div>
+		<div class="form-group col-xs-12" style="height: calc(100% - 198px);margin: 0px;">
+			<textarea id="digestMail"
+					  style="display: none; width: 0px; overflow: auto;position:absolute;top:-500px;"
+					  data-ng-model="admc.mailContent">
+			</textarea>
+		</div>
+	</div>
+	<div class="modal-footer" style="padding: 10px 15px;">
+		<div class="col-xs-12" style="padding: 0px;">
+			<div class="col-xs-6" style="float: right;padding-right: 0px;">
+				<button class="btn vdvc-form-btn vdvc-form-btn-muted" 
+				        type="button" 
+				        data-ng-click="admc.cancel()" >CANCEL</button>
+				<button class="btn vdvc-form-btn" 
+					    type="button" 
+					    data-ng-if="admc.showSaveAsDraft"
+				        data-ng-click="admc.saveAsDraft()" >SAVE as DRAFT</button>
+				<button class="btn vdvc-form-btn" 
+					    type="submit" 
+					    data-ng-disabled="admc.userPerms.users.length == 0" >SEND</button>
+			</div>
+		</div>
+	</div>
+</form>

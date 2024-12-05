@@ -1,0 +1,261 @@
+
+<head>
+<link href="resources/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+<link href="resources/css/bootstrap-theme.min.css" rel="stylesheet" media="screen"/>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link href="resources/css/diff.css" type="text/css" rel="stylesheet"/>
+
+<style type="text/css">
+	    .highlight {
+            background-color:  rgba(153, 153, 153, 0.41);;
+        }
+
+        .note {
+            background-color: rgba(153, 153, 153, 0.41);;
+        }
+
+	 .highlight:hover,.note:hover {
+            background-color:  yellow;
+        }
+
+       .text-menu {
+	    	position: absolute;
+	   		max-width: 400px;
+	   		display: none;
+       }
+    .vdvc-annotator-editor , .vdvc-annotator-view{
+    	display: none;
+    	min-width: 400px;
+    	max-width: 400px;
+    	min-height: 200px;
+    	position: absolute;
+    	border: solid 1px #999999;
+    	box-shadow: 0px 0px 2px 2px #999999;
+    	background-color: rgb(245, 245, 245);
+    	border-radius: 25px;
+    	padding: 5px;
+    }   
+   .vdvc-annotator-editor .footer {
+    	position: absolute;
+    	top: 100%;
+    	background-color: #F5F5F5;
+   		min-width: 400px;
+        left: -1px;
+        border: solid 1px #999999;
+    	box-shadow: 0px 2px 2px 2px #999999;
+   		 padding: 3px;
+    }
+    
+    .vdvc-annotator-editor .footer .btn {
+    	float : right;
+    }
+    
+   
+     .vdvc-annotator-editor ul ,.vdvc-annotator-view ul {
+    	 list-style-type: none;
+    	 padding: 0px;
+    }
+    .vdvc-annotator-editor li ,.vdvc-annotator-view li {
+    	padding : 10px;
+    	border-bottom: solid 1px #999999;
+    	margin-bottom: 4px;
+    }
+    
+    .vdvc-annotator-editor textarea {
+    	background-color: #F5F5F5;
+	    resize: none;
+	    border: none;
+	    overflow: auto;
+	    outline: none;
+	    -webkit-box-shadow: none;
+	    -moz-box-shadow: none;
+	    box-shadow: none;
+    }
+    
+    .vdvc-annotator-editor textarea:focus { 
+    	background-color: white;
+	}
+	
+	.vdvc-annotator-view:after {
+		content: "";
+	    position: absolute;
+	    width: 0;
+	    height: 0;
+	    margin-left: -0.5em;
+	    bottom: -2em;
+	    left: 80%;
+	    box-sizing: border-box;
+	    border: 1em solid whitesmoke;
+	    border-color: transparent transparent #F5F5F5 #F5F5F5;
+	    transform-origin: 0 0;
+	    transform: rotate(-45deg);
+	    box-shadow: -3px 3px 3px 0 rgba(0, 0, 0, 0.4);
+	}
+</style>
+<script src="resources/js/libs/jquery/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="resources/js/libs/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="resources/js/rangy/rangy-core.js?20150927"></script>
+<script type="text/javascript" src="resources/js/rangy/rangy-classapplier.js?20150927"></script>
+<script type="text/javascript" src="resources/js/rangy/rangy-highlighter.js?20150927"></script>
+<script type="text/javascript" src="resources/js/Utils.js?20150927"></script>
+<script src="resources/js/customDiff.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+(function(window) {
+	//window.document.write(window["data"]);
+	var data = window.opener["secCompareData"]
+	window.document.write(data);
+})(window);
+
+
+
+var serializedHighlights = decodeURIComponent(window.location.search.slice(window.location.search.indexOf("=") + 1));
+var highlighter;
+var Comments = {};
+var nodes = [];
+var selections = {};
+var initialDoc;
+var nodeId;
+window.onload = function() {
+    rangy.init();
+
+    highlighter = rangy.createHighlighter();
+
+    highlighter.addClassApplier(rangy.createClassApplier("highlight", {
+        ignoreWhiteSpace: true,
+        tagNames: ["span", "a"]
+    }));
+
+    highlighter.addClassApplier(rangy.createClassApplier("note", {
+        ignoreWhiteSpace: true,
+        onElementCreate: function(el) {
+            nodes.push(el);
+        },
+        elementTagName: "span",
+        elementProperties: {
+            onclick: function() {
+            	addNote(this);
+            }
+        }
+    }));
+
+
+    if (serializedHighlights) {
+        highlighter.deserialize(serializedHighlights);
+    }
+    
+    $(document).off("click",'.note',function(event){
+    	event.stopPropagation();
+    	var lftpos = event.pageX-($('.text-menu').width());
+    	if (lftpos < 0) {
+    		lftpos = lftpos+$('.text-menu').width();
+    	}
+    	$('.text-menu').css('left', lftpos+'px');
+        $('.text-menu').css('top', event.pageY-(40)+'px');
+    	$('.text-menu').show();
+    });
+};
+
+function GetAllCreatedElements(selection) {
+	
+    var nodes = selection.getRangeAt(0).getNodes(false, function (el) {
+        return el.parentNode && el.parentNode.className == "highlight";
+    });
+
+    var spans = [];
+
+    for (var i = 0; i < nodes.length; i++) {
+        spans.push(nodes[i].parentNode);
+    }
+    return spans;
+}
+
+
+function addNote(element) {
+	 var highlight = highlighter.getHighlightForElement(element);
+	 $('.vdvc-annotator-editor').hide();
+	 $('.text-menu').show();
+     return false;
+}
+
+function highlightSelectedText() {
+	var slcted = serializeSelection();
+	highlighter.highlightSelection("highlight");
+	$('.text-menu').hide();
+	
+	if (slcted && slcted.trim() != "") {
+		 if (!selections[slcted]) {
+			 selections[slcted] = {};
+		 }
+		 selections[slcted]["type"] = "highlight";
+	}  
+}
+
+function serializeSelection() {
+   return rangy.serializeSelection();
+}
+
+function wrapSelectedNodes () {
+	if (nodes && nodes.length >0 ) {
+		Util.sync_ajaxGet("uniqueid/get",function(result){
+			if(result.Status) {
+		 		 // var span = $('<span class="wrapper">');
+		 		//  $(span).attr("data-id",result.UniqueId);
+		 		nodeId = result.UniqueId;
+		 		  $.each(nodes,function(i,el){
+		 			//$(el).wrap(span);
+		 			 $(el).attr("data-id",result.UniqueId);
+		 		  });
+		 	  }
+	 	}); 
+	}
+}
+
+function commentSelectedText () {
+	 highlighter.highlightSelection("note");
+}
+
+function noteSelectedText() {
+	nodes = [];
+	commentSelectedText();
+	wrapSelectedNodes();
+	
+	
+	$('.text-menu').hide();
+	
+	
+	var lftpos = event.pageX-($('.vdvc-annotator-editor').width());
+	if (lftpos < 0) {
+		lftpos = lftpos+400;
+	}
+	$('.vdvc-annotator-editor').css('left', lftpos+'px');
+	$('.vdvc-annotator-editor').css('top', event.pageY-($('.vdvc-annotator-editor').height()+50)+'px');
+	$('.vdvc-annotator-editor').show();
+   // var selection = rangy.getSelection();
+    //var spans = GetAllCreatedElements(selection);
+   
+}
+
+function removeHighlightFromSelectedText() {
+    highlighter.unhighlightSelection();
+}
+
+function highlightScopedSelectedText() {
+    highlighter.highlightSelection("highlight", { containerElementId: "summary" });
+}
+
+function noteScopedSelectedText() {
+    highlighter.highlightSelection("note", { containerElementId: "summary" });
+}
+
+function reloadPage(button) {
+    button.form.elements["serializedHighlights"].value = highlighter.serialize();
+    button.form.submit();
+}
+
+
+
+
+</script>
+
+</head>

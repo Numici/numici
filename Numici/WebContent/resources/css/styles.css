@@ -1,0 +1,57 @@
+.ui-datatable-odd {
+	background-color: lightgray !important;
+}
+
+body {
+  background-color: #D3DEE5 !important; padding: 0; margin: 0;
+}
+
+.header {
+   background-color: #093855; color: #fff !important;
+   font-size: 160%;
+  /* font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+   font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
+   height: 50px;
+}
+
+.userinfo {
+   background-color: #093855; color: #fff;
+  font-family: Tahoma; font-size: 80%;
+}
+
+.topMenu {
+  background-color: #093855; border-bottom: 20px solid LightSlateGray; color: #fff;
+  font-family: Tahoma; font-size: 110%; font-style: italic; padding: 10px;
+}
+
+.sideMenu {
+  font-family: Tahoma; font-size: 90%; padding: 10px;
+}
+
+.sideMenu:hover {
+	color: #000000;
+}
+
+.menuBar {
+	background: #093855 !important;
+}
+
+.menuBarItem {
+	color: #FFFFFF !important;
+}
+
+.menuBarItem:hover {
+	color: #000000 ;
+}
+
+.contentBody {
+  text-align:center; height: 400px; width: 400px; vertical-align:middle;
+}
+
+.footer {
+  font-family: Tahoma; font-size: 90%; text-align:center;
+}
+
+.sectionTitle {
+  font-family: Verdana; font-size: 110%; color:coral; clear:both;
+}

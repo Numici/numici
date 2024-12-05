@@ -1,0 +1,38 @@
+<form data-ng-submit="onvc.ok()">
+	<div class="modal-header" style="padding: 10px 30px;">
+		<h4 class="modal-title">
+			{{onvc.pageName}}
+		</h4>
+	</div>
+	<div class="modal-body share-doc-modal-body"
+		style="height: 446px; padding: 0px 15px;">
+		<div class="form-group col-xs-12" style="height: calc(100% - 6px);">
+			<textarea id="digestMail"
+				style="display: none; width: 0px; overflow: auto; position: absolute; top: -500px;"
+				data-ng-model="onvc.pageContent" data-focus-on="onvc.focusContent">
+			</textarea>
+		</div>
+	</div>
+	<div class="col-xs-12 vdvc-ldr-spin-wrap" data-ng-show="onvc.showLoader" data-ng-class="{'full':onvc.showLoader}">
+    	<div class="vdvc-loader-spin vdvc-v-align"></div>
+    </div>
+	<div class="modal-footer">
+		<div class="col-xs-6" style="padding-left: 0px;text-align: left;">
+			<button type="button" class="btn vdvc-form-btn" data-ng-click="onvc.appendToPage()">
+        		APPEND TO PAGE
+	        </button>
+	        <button type="button" 
+	        	class="btn vdvc-form-btn" 
+	        	data-ng-click="onvc.overridePage()" 
+	        	data-ng-disabled="onvc.isServiceCallInProgress">
+	        	OVERWRITE PAGE
+	        </button>
+		</div>
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" 
+			type="button" 
+			data-ng-click="onvc.cancel()" 
+			data-ng-disabled="onvc.noteName.length == 0 || onvc.isServiceCallInProgress">
+			CLOSE
+		</button>
+	</div>
+</form>

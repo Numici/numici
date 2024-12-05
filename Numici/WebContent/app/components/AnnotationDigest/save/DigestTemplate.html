@@ -1,0 +1,85 @@
+<div style="padding: 0px 10px;margin: 10px 0px;border: 1px solid #eee;" 
+	 data-ng-repeat="digest in adv.digestData track by $index">
+	<div data-ng-attr-data-obj-id="digest.documentId" 
+		 data-ng-attr-data-annot-id="digest.annotationId"></div>
+	<div>
+		<h4>
+			<a data-ng-href="{{digest.link}}" 
+				target="_blank" 
+				title="{{digest.displayName}}"
+				role="button">
+				{{digest.displayName}}
+		    </a>
+		</h4>
+	</div>
+	<div class="col-xs-12 digest-annotated-meta-info">
+		<div class="row meta-info-description" 
+			data-ng-if="digest.description" 
+			title="{{digest.description}}">
+			{{digest.description}}
+		</div>
+		<div class="row meta-info-publisher" data-ng-if="digest.website">
+			<span class="meta-info-publisher-name">
+				<span class="name" data-ng-if="!digest.url">
+					{{digest.website}}
+				</span>
+				<a data-ng-if="digest.url" 
+					class="name" 
+					data-ng-href="{{digest.url}}" 
+					target="_blank" 
+					title="{{digest.url}}">
+					{{digest.website}}
+			    </a>
+			</span>
+		</div>
+		<div class="row meta-info-image" 
+			data-ng-if="digest.imageUrl && digest.imageUrl.length > 0">
+			<img class="image" 
+				data-ng-src="{{digest.imageUrl}}" 
+				style="max-width: 350px;max-height: 250px;">
+		</div>
+	</div>
+	<div data-ng-repeat="annotation in digest.annotations track by $index" 
+		style="padding: 5px;margin: 10px 0px;"
+		contenteditable="false"
+		tabindex="-1"
+		class="cke_widget_wrapper cke_widget_placeholder note">
+		<div>
+			<span data-ng-bind-html="annotation.annotatedText | to_trusted"></span>
+			<span title="{{adv.annotationMetaInfoForDL(annotation)}}" 
+				style="padding: 3px;border-radius: 50%;background: #069;color: #fff;width: 20px;height: 20px;font-size: 10px;line-height: 20px;text-align: center;font-weight: 700;">
+				{{adv.getUserlabel(annotation.annotationCreatedBy) | truncate: 2 }}
+			</span>
+			<a data-ng-href="{{annotation.link}}" 
+				target="_blank" 
+				title="open annotation in context" 
+				role="button" 
+				style="margin-left: 10px;">
+				<img data-ng-src="{{adv.openInContextIconUrl}}" style="max-width: 12px;max-height: 12px;">
+			</a>
+		</div>
+		<div><span style="color: #666;font-size: 11px;">Created On: {{annotation.annotationCreatedTime | date:'medium'}}</span></div>
+		<div><span style="color: #666;font-size: 11px;">Updated On: {{annotation.annotationUpdatedTime | date:'medium'}}</span></div>
+		<div style="padding-left: 10px;">
+			<div data-ng-if="conv.comment && conv.comment.length > 0" data-ng-repeat="conv in annotation.conversation track by $index"
+				 style="cursor: pointer;">
+				<div style="margin: 10px 0px;">
+					<div class="row">
+						<span title="{{adv.conversationMetaInfoForDL(conv)}}" 
+							style="padding: 3px;border-radius: 50%;background: #069;color: #fff;width: 20px;height: 20px;font-size: 10px;line-height: 20px;text-align: center;font-weight: 700;">
+							{{adv.getUserlabel(conv.commentedBy) | truncate: 2 }}
+						</span>
+						<span title="{{conv.comment}}" style="margin-left: 10px;">{{conv.comment}}</span>
+					</div>
+					<div class="row" style="color: #666;font-size: 12px;">
+						<div>{{conv.commentedBy}}</div>
+						<div>Created On: {{conv.createdTime | date:'medium'}}</div>
+						<div>Updated On: {{conv.updatedTime | date:'medium'}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	<div data-ng-attr-data-obj-id="digest.documentId" 
+		 data-ng-attr-data-annot-id="digest.annotationId"></div>
+</div>

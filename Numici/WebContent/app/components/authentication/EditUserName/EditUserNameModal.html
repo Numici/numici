@@ -1,0 +1,41 @@
+<form data-ng-submit="eunc.ok()">
+	<div class="modal-header">
+		<h3 class="modal-title">{{eunc.editUserNameHeader}}</h3>
+	</div>
+	<div class="modal-body user-register-mb">
+	<div class="col-xs-12 form-group message error" data-ng-show="eunc.showErrorMessage">{{eunc.errorMessage}}</div>
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-12 col-sm-4" for="firstName" style="height:30px;line-height: 35px;">First Name</label>
+			<div class="col-xs-12 col-sm-8 input-group">
+				<input class="vdvc-input-txt" 
+					data-ng-class="{'error': eunc.firstNameError}" 
+					id="firstName" 
+					type="text" 
+					data-ng-blur="eunc.validateFirstName()" 
+					data-ng-model="eunc.firstName" 
+					autocomplete="off" 
+					style="height: 34px;">
+			</div>
+			<div class="row message error" data-ng-show="eunc.firstNameError">{{eunc.firstNameErrorMessage}}</div>
+		</div>
+		
+		<div class="col-xs-12 form-group">
+			<label class="col-xs-12 col-sm-4" for="lastName" style="height:30px;line-height: 35px;">Last Name</label>
+			<div class="col-xs-12 col-sm-8 input-group">
+				<input class="vdvc-input-txt" 
+					data-ng-class="{'error': eunc.lastNameError}" 
+					id="lastName" 
+					type="text" 
+					data-ng-model="eunc.lastName" 
+					data-ng-blur="eunc.validateLastName()" 
+				   	autocomplete="off" 
+					style="height: 34px;">
+			</div>
+			<div class="row message error" data-ng-show="eunc.lastNameError">{{eunc.lastNameErrorMessage}}</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="eunc.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit" data-ng-disabled='eunc.enableUpdate()'>UPDATE</button>
+	</div>
+</form>

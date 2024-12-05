@@ -1,0 +1,59 @@
+<div class="full">
+	<div class="full" style="padding: 70px 15px 0px;height: calc(100% - 10px) !important;">
+		<div class="full" style="background: #fff;">
+			<div class="row full">
+				<div class="full" 
+					 data-ng-if="dlhc.loader"
+					 style="position: absolute;width: 100%;z-index: 2;background: #777777a1;">
+					 <div style="position: relative;height: 45px;line-height: 45px;text-align: center;color: #fff;background: #069;">
+					 	Loading ...
+					 </div>
+				</div>
+				<div class="col-xs-12" style="line-height: 50px; height: 50px;">
+					<div class="col-xs-8" style="font-size: 20px; color: #aaa;float: left;margin: 0px;">
+						<div style="width: 100%; height: 50px; line-height: 50px; float: left; margin-bottom: 30px;" contenteditable="false">
+							<a data-ng-href="{{dlhc.numiciLink}}" target="_blank" style="float: left; text-decoration: none !important;">
+								<img data-ng-src="{{dlhc.numiciImage}}"
+								     style="width: 30px; max-height: 30px; margin: 0px !important;">
+							</a>
+							<a data-ng-href="{{dlhc.numiciLink}}" target="_blank" role="button"
+								style="color: #069; font-size: 16px; font-weight: 500; margin-left: 6px; text-decoration: none !important;">
+								{{dlhc.numiciHeaderText}}</a>
+						</div>
+					</div>
+					<div class="col-xs-4" style="text-align: right;float: left;margin: 0px;z-index: 1;">
+						<button type="button" 
+							    class="btn " 
+							    data-ng-click="dlhc.updateDigest()"  
+								data-ng-if="dlhc.hasDigestUpdates"
+								data-tooltip-append-to-body="true" 
+								data-tooltip-placement="bottom"
+							    data-uib-tooltip="{{dlhc.digestUpdateTitle}}" 
+								style="padding: 3px; background: none;">
+								<i class="fa fa-refresh" aria-hidden="true" style="color: red;font-size: 23px;"></i>
+						</button>
+						<button type="button" class="btn vdvc-nav-btn vdvc-doc-main-btn" 
+							id="close-digest-view" 
+							data-ng-click="dlhc.closeDigestView()"
+							data-tooltip-append-to-body="true" data-tooltip-placement="bottom"
+							data-uib-tooltip="Close Digest View" aria-hidden="true"
+							data-ng-show="dlhc.showCloseDigestBtn()">
+							<span class="fa fa-close fa-fw" aria-hidden="true"></span>
+						</button>
+					</div> 
+				</div>
+				<div class="col-xs-12 digest-content-wrap">
+					<div id="digest-content" class="row full digest-content">
+						<div class="vdst full" style="background: #fff;padding: 8px 0px;"></div>
+					</div>
+				</div>
+				<button data-ng-click="dlhc.topFunction()" class="vdvc-scroll-top"
+					data-tooltip-append-to-body="true" 
+					data-tooltip-placement="top"
+					data-uib-tooltip="Go to top of the Digest">
+					<i class="fa fa-chevron-up" aria-hidden="true"></i>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

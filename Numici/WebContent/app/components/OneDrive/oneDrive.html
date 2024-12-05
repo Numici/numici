@@ -1,0 +1,96 @@
+<form data-ng-submit="odc.ok()">
+	<div class="modal-header" style="height: 50px;padding: 10px 0px;">
+		<div class="col-xs-12">
+			<ul class="nav navbar-nav ellipsis" style="font-size: 20px; color: rgba(51, 51, 51, 0.74);float: left;line-height: 30px;width:100%;max-width:100%;height:35px;margin: 0px;">
+			 					 		
+		 		<li data-tooltip-append-to-body='true' 
+		 			data-uib-tooltip="OneDrive" 
+		 			data-tooltip-placement="bottom"
+		 			class="vdvc-breadcrumbs  ellipsis full">
+		 		  	<span data-ng-click="odc.openOneDrive()">
+				         OneDrive
+			       	</span>
+		 		</li>
+		 		
+		 		<li data-tooltip-append-to-body='true' 
+		 			data-uib-tooltip="{{odc.currntFolder.name}}" 
+		 			data-tooltip-placement="bottom"
+		 			class="vdvc-breadcrumbs  ellipsis full"
+		 			data-ng-repeat="fldr in odc.fldrHierarchy">
+		 		  	<span data-ng-click="odc.openDriveFolder(fldr)">
+			         	<i class="fa fa-folder-o" ></i> {{fldr.name}}
+			       	</span>
+		 		</li>
+		 	</ul> 
+				
+		</div>
+	</div>
+	<div class="modal-body" style="height: 400px;overflow: auto;background: #eee;">
+		<div class="row">
+			<div class="col-sm-3 col-xs-12" data-ng-repeat="fldr in odc.folders"  data-ng-click="odc.openDriveFolder(fldr)" style="padding: 5px;">
+				<div class="col-xs-12 drive-fldr">
+					<div class="row" style=" font-size: 14px;color:#000000;margin-top: 30px;">
+						<div class="row"  style="text-align: center;position: relative;">
+							<img alt="" data-ng-src="assets/icons/folder.png" />
+							<span style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);">
+								{{::fldr.childCount}}
+							</span>
+						</div>
+						<div class="row ellipsis"  style="text-align: center;" data-tooltip-append-to-body='true' data-uib-tooltip ="{{::fldr.name}}">
+							{{::fldr.name}}
+						</div>
+						<div class="row sub-head ellipsis"  style="text-align: center;color:#069;" data-tooltip-append-to-body='true' data-uib-tooltip ="{{::fldr.createdDateTime | date:'medium'}}" >
+							Published On
+							<div class="row sub-head ellipsis" style="text-align: center;color:#069;">{{::fldr.createdDateTime | date:'medium'}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-3 col-xs-12" data-ng-repeat="doc in odc.documents" style="padding: 5px;">
+				<div class="col-xs-12 drive-docs" data-ng-class="{'disabled' : !doc.isIndexable}">
+					<span data-ng-if="doc.indexed"
+						  data-tooltip-append-to-body='true'
+						  data-uib-tooltip ="indexed" 
+						  class="fa-stack"
+						  style="position: absolute;left: 5px;top: 5px;">
+					  <i class="fa fa-fw fa-list-alt fa-stack-1x" style="font-size: 1.5em;color: #bbb;"></i>
+					  <i class="fa fa-fw fa-search fa-flip-horizontal fa-stack-1x" style="font-size: 0.75em;color: #777;"></i>
+					</span>
+					<div class="row" >
+						<div class="checkbox checkbox-circle drive-checkbox" 
+							 data-ng-class="{'checkbox-primary' : doc.selected}"
+							 data-ng-show="odc.showGridCheckbox()">
+					       <input data-ng-model="doc.selected"
+					              type="checkbox" 
+					              data-ng-change="odc.checkFolderOrFile(doc)"
+					              data-ng-disabled='::!doc.isIndexable'>
+					       <label></label>
+					    </div>
+				    </div>
+					<div class="row" style=" font-size: 14px;color:#000000;margin-top: 25px;">
+						<div class="row"  style="text-align: center;position: relative;font-size: 2.5em;color: #aaa;">
+							<i data-ng-class="::doc.icon"></i>
+						</div>
+				
+						<div class="row vdvc-od-doc-name ellipsis" style="text-align: center;" data-tooltip-append-to-body='true' data-uib-tooltip ="{{::doc.name}}">
+							{{doc.name}}
+						</div>
+						<div class="row sub-head ellipsis"  style="text-align: center;color:#069;" data-tooltip-append-to-body='true' data-uib-tooltip ="{{::doc.createdDateTime | date:'medium'}}" >
+							Published On
+						    <div class="row sub-head ellipsis" style="text-align: center;color:#069;">{{::doc.createdDateTime | date:'medium'}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="odc.cancel()">CLOSE</button>
+		<button class="btn vdvc-form-btn" type="submit" data-ng-disabled='odc.checkedItems.length == 0'>INDEX</button>
+		<button class="btn vdvc-form-btn" type="button" data-ng-disabled='odc.isIndexedDocs()' data-ng-click="odc.dropFromIndex()">DELETE FROM INDEX</button>
+	</div>
+</form>

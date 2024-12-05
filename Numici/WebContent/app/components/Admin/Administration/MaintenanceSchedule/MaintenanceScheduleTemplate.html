@@ -1,0 +1,110 @@
+<div class="row full">
+	<div class="col-xs-12">
+		<div class="col-xs-6" style="padding-left:0px;">
+			<input type="text" 
+        	   class="form-control vdvc-input-txt" 
+        	   id="org_search"
+			   data-ng-model="msc.searchString" 
+			   placeholder='Search' 
+			   style="margin-top: 5px;">
+		</div>
+		<div class="col-xs-6" style="padding-left:0px;text-align: center;">
+			<button type="button" 
+	      		class="btn vdvc-nav-btn" 
+	      		data-ng-click="msc.createMaintenanceSchedule()" 
+	      		style="float:right;margin-top: 5px;margin-left: 5px;height: 35px;" 
+	      		data-ng-disabled="msc.disableCreateNewSchedule()">
+	        	Create New Schedule
+	      	</button>
+	    </div>
+	</div>
+	<div class="col-xs-12" style="margin-top: 5px;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;height: calc(100% - 55px);overflow-y: auto;">
+		<table class="table maintenance-schedules-table" style="width: 100%;margin-bottom: 0px;">
+			<thead>
+				<tr style="height: 40px;">
+					<th data-ng-repeat="msHeader in msc.maintenanceScheduleHeaders | orderBy : 'order'">{{msHeader.label}}</th>
+					<th style="width: 160px;">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-if="msc.searchStringFilter(maintenanceSchedule)" 
+					data-ng-repeat="maintenanceSchedule in msc.maintenanceSchedulesList" 
+					data-ng-class="{'active-schedule': maintenanceSchedule.status=='Started'}">
+					<td class="ellipsis" 
+						data-ng-repeat="msHeader in msc.maintenanceScheduleHeaders | orderBy : 'order'" 
+						style="line-height: 33px;">
+						<span data-ng-if="msHeader.type != 'date'" 
+							data-tooltip-append-to-body="true"
+  		    				data-tooltip-placement="auto"
+  		    				data-uib-tooltip="{{maintenanceSchedule[msHeader.key]}}" >
+  		    				{{maintenanceSchedule[msHeader.key]}}
+  		    			</span>
+  		    			<span data-ng-if="msHeader.type != 'date' && (msHeader.key == 'firstReminder' || msHeader.key == 'duration')">
+  		    				Mins
+  		    			</span>
+  		    			<span data-ng-if="msHeader.type != 'date' && msHeader.key == 'followupReminderType'">
+  		    				/{{msc.getFollowupReminders(maintenanceSchedule)}}
+  		    			</span>
+  		    			<span data-ng-if="msHeader.type == 'date'" 
+  		    				data-tooltip-append-to-body="true"
+  		    				data-tooltip-placement="auto"
+  		    				data-uib-tooltip="{{maintenanceSchedule[msHeader.key] | date:'medium'}}" >
+  		    				{{maintenanceSchedule[msHeader.key] | date:'medium'}}
+  		    			</span>
+					</td>
+					<td style="line-height: 33px;">
+						<button type="button" 
+							class="btn vdvc-form-btn" 
+ 							data-ng-click="msc.viewMaintenanceSchedule(maintenanceSchedule)"
+					 		data-tooltip-append-to-body="true"
+  		    				data-tooltip-placement="auto"
+  		    				data-uib-tooltip="View">
+					 		<i class="fa fa-eye fa-fw"></i>
+					 	</button>
+					 	<button type="button" class="btn vdvc-form-btn" 
+					 		data-ng-show="maintenanceSchedule.status != 'Completed' && maintenanceSchedule.status != 'Cancelled'" 
+ 							data-ng-click="msc.editMaintenanceSchedule(maintenanceSchedule)"
+					 		data-tooltip-append-to-body="true"
+    		    			data-tooltip-placement="auto"
+    		    			data-uib-tooltip="Edit">
+					 		<i class="fa fa-pencil fa-fw"></i>
+					 	</button>
+					 	<button type="button" class="btn vdvc-form-btn" 
+ 							data-ng-show="maintenanceSchedule.status != 'Completed' && maintenanceSchedule.status != 'Cancelled'" 
+ 							data-ng-click="msc.initiateMaintenanceSchedule(maintenanceSchedule)"
+					 		data-tooltip-append-to-body="true"
+    		    			data-tooltip-placement="auto"
+    		    			data-uib-tooltip="{{maintenanceSchedule.status == 'Started' ? 'Schedule Initiated Already' : 'Initiate'}}" 
+    		    			data-ng-disabled="{{msc.disableInitiate(maintenanceSchedule)}}">
+					 		<i class="fa fa-hourglass-start fa-fw"></i>
+					 	</button>
+					 	<button type="button" class="btn vdvc-form-btn" 
+					 		data-ng-show="maintenanceSchedule.status != 'Completed' && maintenanceSchedule.status != 'Cancelled'" 
+ 							data-ng-click="msc.cancelMaintenanceSchedule(maintenanceSchedule)"
+					 		data-tooltip-append-to-body="true"
+    		    			data-tooltip-placement="auto"
+    		    			data-uib-tooltip="Cancel">
+					 		<i class="fa fa-times fa-fw"></i>
+					 	</button>
+					 	<button type="button" class="btn vdvc-form-btn" 
+					 		data-ng-show="maintenanceSchedule.status == 'Started'" 
+ 							data-ng-click="msc.completeMaintenanceSchedule(maintenanceSchedule)"
+					 		data-tooltip-append-to-body="true"
+    		    			data-tooltip-placement="auto"
+    		    			data-uib-tooltip="Complete">
+					 		<i class="fa fa-check fa-fw"></i>
+					 	</button>
+					 	<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted vdvc-slack-ts-delete-btn" 
+							data-ng-show="maintenanceSchedule.status != 'Started'"
+							data-ng-click="msc.deleteMaintenanceSchedule(maintenanceSchedule)"
+				 			data-tooltip-append-to-body="true"
+  		    				data-tooltip-placement="auto"
+  		    				data-uib-tooltip="Delete">
+					 		<i class="fa fa-trash fa-fw"></i>
+					 	</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

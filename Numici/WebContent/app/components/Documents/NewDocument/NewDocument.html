@@ -1,0 +1,33 @@
+<form data-ng-submit="vm.ok()">
+	<div class="modal-header" style="padding: 10px 15px;">
+		<h3 class="modal-title">{{vm.headerLable}}</h3>
+	</div>
+	<div class="modal-body" style="min-height: 120px;">
+		<div class="row" style="margin-bottom: 10px;">
+			<label class="col-xs-12 col-sm-3" style="height: 35px;line-height: 35px;">Name : </label>
+		    <div class="col-xs-12 col-sm-9">
+		        <input type="text" 
+		        	   class="form-control vdvc-input-txt" 
+		        	   data-ng-model='vm.noteName' 
+					   placeholder='{{vm.headerLable}}' autocomplete="off" autofocus>
+		    </div>
+		</div>
+		<div class="row" data-ng-if="vm.tsSectionsList.length > 0">
+			<label for="ts-section" class="col-xs-12 col-sm-3" style="height: 35px;line-height: 35px;">Section : </label>
+			<div class="col-xs-12 col-sm-9"> 
+				<data-ui-select id="ts-section" 
+					data-ng-model="vm.selectedTSSection" 
+					data-search-enabled="false">
+					<data-ui-select-match>{{$select.selected.name}}</data-ui-select-match>
+			    	<data-ui-select-choices data-repeat="tsSection in vm.tsSectionsList">
+						<div data-ng-bind-html="tsSection.name | highlight: $select.search"></div>
+					</data-ui-select-choices>
+			    </data-ui-select>
+		    </div>
+		</div>
+	</div>
+	<div class="modal-footer" style="padding: 10px 15px;">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit" data-ng-disabled="vm.formSubmitted">{{vm.btnLable}}</button>
+	</div>
+</form>

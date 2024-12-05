@@ -1,0 +1,24 @@
+<div class="comment-tool btn-group" data-ng-attr-id="{{ 'comment-tool-'+ EmailDocViewer.document.id }}">
+	<button class='btn TxtHilt'  
+		  data-ng-click="EmailDocViewer.initComment('highlight')">
+		<div class="fa fa-paint-brush"></div>
+	    <div style="font-size: 12px;">{{EmailDocViewer.getToolTip('TxtHilt')}}</div>
+	</button> 
+	<button class='btn TxtCmt'  
+		  data-ng-click="EmailDocViewer.initComment('comment')">
+		<div class="fa fa-comment-o"></div>
+		<div style="font-size: 12px;">{{EmailDocViewer.getToolTip('TxtCmt')}}</div>
+	</button>
+	<button class='btn CmtShare' 
+		data-ng-show="EmailDocViewer.document.isSharable && !EmailDocViewer.isGlobalDoc && EmailDocViewer.isTSContext()"  
+		data-ng-click="EmailDocViewer.shareComment()">
+		<div class="fa fa-share-alt"></div>
+		<div style="font-size: 12px;">{{EmailDocViewer.getToolTip('ShareHighlight')}}</div>
+	</button>
+	<!-- <button class='btn DpLnkTo' 
+		  data-ng-click="EmailDocViewer.createLink()" 
+		  data-ng-disabled="!EmailDocViewer.document.isSharable && !EmailDocViewer.isGlobalDoc">
+		<div class="fa fa-bookmark-o"></div>
+		<div style="font-size: 12px;">{{EmailDocViewer.getToolTip('DpLnkTo')}}</div>
+	</button> -->
+</div>

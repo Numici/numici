@@ -1,0 +1,37 @@
+<form name="userCompleteVerification">
+	<div class="modal-header">
+		<h3 class="modal-title">Complete Verification</h3>
+	</div>
+	<div class="modal-body complete-verification-mb">
+		<div class="col-xs-12 form-group message error" data-ng-show="vomc.showErrorMessage">{{vomc.errorMessage}}</div>
+		<div class="col-xs-12 form-group message success" data-ng-show="vomc.showSuccessMessage">{{vomc.successMessage}}</div>
+		<div class="col-xs-12 form-group message" data-ng-show="vomc.showResponseMessage">{{vomc.responseMessage}}</div>
+		<div class="col-xs-12 form-group" style="width: calc(100% - 30px);padding: 15px 0px;margin-left: 15px;border-top: 1px solid #CCC;border-bottom: 1px solid #CCC;">
+			<label class="col-xs-12 col-sm-6" for="first_name">
+				Verification Code
+				<i class="fa fa-asterisk text-danger"></i>
+			</label>
+			<div class="col-xs-12 col-sm-6" style="padding: 0px;">
+				<input class="vdvc-input-txt otp" 
+					data-ng-class="{'error': vomc.otpError}" 
+				   	id="otp" 
+				   	type="text" 
+				   	data-ng-model="vomc.otp">
+				   	<div class="col-xs-12 col-sm-12 resend-otp-note">
+						Click <a data-ng-click="vomc.sendOTP()" 
+							data-ng-disabled="vomc.disableOTP()" 
+							data-uib-tooltip="Regenerate Verfication Code">
+							here
+						</a> to regenerate code
+					</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="modal-footer complete-verification-footer">
+		<div class="col-xs-12 verify-btn-group"> 
+			<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vomc.cancel()">CANCEL</button>
+			<button class="btn vdvc-form-btn verify-btn" type="button" data-ng-click="vomc.ok()" data-ng-disabled="vomc.disableVerify()">VERIFY</button>
+		</div>
+	</div>
+</form>

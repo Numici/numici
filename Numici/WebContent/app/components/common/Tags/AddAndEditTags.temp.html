@@ -1,0 +1,94 @@
+<div class="row">
+	<div class="col-xs-12" style="padding: 0px;margin-bottom: 10px;">
+		<data-ui-select multiple 
+			class="vdvc-add-doc-tag-ui-select" 
+			data-ng-model="selectedTags.tags" 
+			data-tagging-label="(New Tag)" 
+			data-ng-disabled="disabled" 
+			data-tagging="tagTransform" 
+			data-on-remove="onRemoveTag($item)" 
+			data-on-select="onSelectDocumentTag($item)" >
+			<data-ui-select-match>
+				<div class="selected-tag-name" 
+					data-ng-click="editTag($item,$event)" 
+					style="margin-right: 15px;color: #333;">
+					{{showTagName($item)}}
+				</div>
+			</data-ui-select-match>
+		    <data-ui-select-choices data-repeat="tag in Alltags | filter:$select.search "
+				data-refresh="refreshTagInfo($select.search)" 
+				data-refresh-delay="500"
+				data-ui-disable-choice="tagFilterSelected(tag,selectedTags.tags)">
+		      	<div data-ng-if="tag.isTag" 
+		      		data-ng-bind-html="(tag.TagName | highlight: $select.search) +' (new)'">
+		      	</div>
+				<div data-ng-if="!tag.isTag" 
+					data-ng-bind-html="showTagName(tag) | highlight: $select.search">
+				</div>
+		    </data-ui-select-choices>
+		</data-ui-select>
+	</div>
+	<div data-ng-show="isTagEdited" class="col-xs-12" style="padding-right: 0px;margin-bottom: 10px;">
+		<div class="row" style="padding: 10px;border: 1px solid #069;">
+			<div class="col-xs-5" style="padding-left: 0px;">
+				<label class="col-xs-12" style="padding: 0px;">
+					Tag Name
+				</label>
+			    <div class="col-xs-12 ellipsis" 
+			    	data-tooltip-append-to-body='true' 
+			    	data-uib-tooltip ="{{editedTag.TagName}}" 
+			    	style="padding: 0px 5px;background: #ccc;height: 33.34px;line-height: 33.34px;">
+			        {{editedTag.TagName}}
+			    </div>
+			</div>
+			<div class="col-xs-7" style="padding: 0px;">
+				<label class="col-xs-12" style="padding: 0px;">
+					Tag Value
+				</label>
+			    <div class="col-xs-12" style="padding: 0px;">
+			        <div class="col-xs-12" style="padding: 0px;margin-bottom: 5px;">
+					    <!-- <input type="text" 
+					    	class="form-control vdvc-input-txt" 
+					    	id="editedTagValue" 
+					    	data-ng-model="editedTag.Value" 
+					    	style="height: 22px;line-height: 22px;padding: 0px 5px;"> -->
+					    <data-ui-select multiple limit="1"
+					    	class="vdvc-edit-doc-tag-val-ui-select" 
+							data-ng-model="editedTagValues.tagValues" 
+							data-tagging-label="(New Tag)" 
+							data-search-enabled="searchInEditTag.enable" 
+							data-tagging="tagValueTransform" 
+							data-on-remove="onRemoveTagValue()" 
+							data-on-select="onSelectDocumentTagValue()">
+							<data-ui-select-match>{{$item.Value}}</data-ui-select-match>
+						    <data-ui-select-choices data-repeat="tag in allTagValues | filter:$select.search"
+								data-refresh="refreshTagVlauesInfo(editedTag.TagName,$select.search)" 
+								data-refresh-delay="500" 
+								data-ui-disable-choice="tagValuesFilterSelected()">
+						      	<div data-ng-if="tag.isTag" 
+						      		data-ng-bind-html="(tag.Value | highlight: $select.search) +' (new)'">
+						      	</div>
+								<div data-ng-if="!tag.isTag" 
+									data-ng-bind-html="tag.Value | highlight: $select.search">
+								</div>
+						    </data-ui-select-choices>
+						</data-ui-select>
+					</div>
+				    <div class="col-xs-12" style="padding: 0px;text-align: right;">
+						<button type="button" class="btn btn-xs vdvc-form-btn vdvc-form-btn-muted" data-ng-click="cancelEditTag($event,'Doc')">
+				          	<i class="fa fa-times" aria-hidden="true"></i>
+				        </button>
+				        <button type="button" class="btn btn-xs vdvc-form-btn" data-ng-click="saveEditedTag($event,'Doc')" data-ng-disabled="disableSaveEditTag('Doc')">
+				          	<i class="fa fa-check" aria-hidden="true"></i>
+				        </button>
+					</div>
+			    </div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12" style="padding: 0px;text-align: right;">
+		<button class='btn vdvc-form-btn vdvc-form-btn-muted'
+			data-ng-click='cancelAddTagToggle($event)'>CANCEL</button>
+		<button class='btn vdvc-form-btn' data-ng-click='saveTag($event)' data-ng-disabled="isTagEdited">SAVE</button>
+	</div>
+</div>

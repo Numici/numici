@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VdVc Notes</title>
+<link href="resources/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+
+<link
+	href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"
+	rel="stylesheet">
+	
+<link rel="stylesheet" href="resources/js/libs/jquery/pepper-grinder/jquery-ui.min.css"></link>
+<link rel="stylesheet" href="resources/css/custom.css?20150817"></link>
+<link rel="stylesheet" type="text/css" href="resources/css/local.css" />
+<link rel="stylesheet" type="text/css" href="resources/css/jquery.contextMenu.css" />
+<style type="text/css">
+
+.table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {
+     background-color: #f9f9f9;
+     border-bottom: solid 1px #ECEFF1;
+     border-top: solid 1px #ECEFF1;
+}
+
+.cke {
+	border: none !important;
+}
+ .vdvc-doc-left,.vdvc-doc-content,.vdvc-doc-right{
+ 	height: 100%;
+ }
+
+
+ .page {
+ 	page-break-before: always;
+    margin-top: 30px;
+    border-top-color: #006699;
+    border-top-style: solid;
+    border-top-width: 24px;
+ }
+ 
+  .highlight {
+            background-color:  rgba(153, 153, 153, 0.41);;
+        }
+
+        .note {
+            background-color: rgba(153, 153, 153, 0.41);;
+        }
+
+	 .highlight:hover,.note:hover {
+            background-color:  yellow;
+        }
+
+       .text-menu {
+	    	position: absolute;
+	   		max-width: 400px;
+	   		display: none;
+       }
+    .vdvc-annotator-editor , .vdvc-annotator-view{
+    	display: none;
+    	min-width: 400px;
+    	max-width: 400px;
+    	min-height: 200px;
+    	position: absolute;
+    	border: solid 1px #999999;
+    	box-shadow: 0px 0px 2px 2px #999999;
+    	background-color: rgb(245, 245, 245);
+    	border-radius: 25px;
+    	padding: 5px;
+    }   
+   .vdvc-annotator-editor .footer {
+    	position: absolute;
+    	top: 100%;
+    	background-color: #F5F5F5;
+   		min-width: 400px;
+        left: -1px;
+        border: solid 1px #999999;
+    	box-shadow: 0px 2px 2px 2px #999999;
+   		 padding: 3px;
+    }
+    
+    .vdvc-annotator-editor .footer .btn {
+    	float : right;
+    }
+    
+   
+     .vdvc-annotator-editor ul ,.vdvc-annotator-view ul {
+    	 list-style-type: none;
+    	 padding: 0px;
+    }
+    .vdvc-annotator-editor li ,.vdvc-annotator-view li {
+    	padding : 10px;
+    	border-bottom: solid 1px #999999;
+    	margin-bottom: 4px;
+    }
+    
+    .vdvc-annotator-editor textarea {
+    	background-color: #F5F5F5;
+	    resize: none;
+	    border: none;
+	    overflow: auto;
+	    outline: none;
+	    -webkit-box-shadow: none;
+	    -moz-box-shadow: none;
+	    box-shadow: none;
+    }
+    
+    
+    
+    .vdvc-annotator-editor textarea:focus { 
+    	background-color: white;
+	}
+	
+	.vdvc-annotator-view:after {
+		content: "";
+	    position: absolute;
+	    width: 0;
+	    height: 0;
+	    margin-left: -0.5em;
+	    bottom: -2em;
+	    left: 80%;
+	    box-sizing: border-box;
+	    border: 1em solid whitesmoke;
+	    border-color: transparent transparent #F5F5F5 #F5F5F5;
+	    transform-origin: 0 0;
+	    transform: rotate(-45deg);
+	    box-shadow: -3px 3px 3px 0 rgba(0, 0, 0, 0.4);
+	}
+	
+	.vdvc-note {
+		max-height: 150px;
+    	overflow: auto;
+	}
+	
+	.vdvc-notes-comments-wrap {
+		max-height: 400px;
+		overflow: auto;	
+		min-height: 300px;						
+									
+	}
+	.vdvc-notes-comments {
+		margin-top: 30px;
+		border-radius : 5px;
+		box-shadow : 0px 0px 5px 2px gray;
+	}
+	
+	
+	.vdvc-notes-comments:after {
+		content: '';
+	    display: block;
+	    position: absolute;
+	    right: 100%;
+	    top: 50%;
+	    margin-top: -10px;
+	    width: 0;
+	    height: 0;
+	    border-top: 15px solid transparent;
+	    border-right: 15px solid #006699;
+	    border-bottom: 15px solid transparent;
+	    border-left: 15px solid transparent;
+}
+	
+	.vdvc-comments-header {
+		background-color: #006699;
+    	height: 40px;
+    	margin-bottom: 10px;
+    	padding : 5px;
+    	white-space: nowrap;
+  		overflow: hidden;
+ 		text-overflow: ellipsis;
+ 		color: white;
+	}
+	.vdvc-comment-footer {
+		background-color: #006699;
+		margin-top: 10px;
+    	padding: 5px;
+	}
+</style>
+
+<script type="text/javascript" src="resources/js/libs/jquery/jquery-1.10.2.js"></script>
+
+<script type="text/javascript" src="resources/js/libs/bootstrap/bootstrap.min.js"></script>
+
+<script src="resources/js/libs/jquery/jquery-ui-1.11.0.min.js"></script>
+
+<script type="text/javascript" src="resources/js/libs/chartinglibs/d3.min.js"></script>
+	
+<script type="text/javascript" src="resources/js/libs/jquery/jquery.contextMenu.js?20150817"></script>
+
+<script type="text/javascript" src="resources/js/rangy/rangy-core.js?20151008"></script>
+
+<script type="text/javascript" src="resources/js/rangy/rangy-classapplier.js?20151008"></script>
+
+<script type="text/javascript" src="resources/js/rangy/rangy-textrange.js?20151008"></script>
+
+<script type="text/javascript" src="resources/js/rangy/rangy-highlighter.js?20151008"></script>
+
+<script type="text/javascript" src="resources/js/Utils.js?20150817"></script>
+
+<script src="//cdn.ckeditor.com/4.4.8/full/ckeditor.js"></script>
+
+<script type="text/javascript" src="resources/js/vdvcDocManager.js?20150817"></script>
+
+<script type="text/javascript" src="resources/js/AnnotationManager.js?20151008"></script>
+
+</head>
+<body>
+
+	<div id="wrapper" style="padding-left: 0px;overflow: hidden;">
+
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-ex1-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Vidi Vici Technologies</a>
+			</div>
+
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+
+				<ul class="nav navbar-nav navbar-right navbar-user">
+					<li class="dropdown user-dropdown"><a href="#"
+						class="dropdown-toggle" data-toggle="dropdown"><i
+							class="fa fa-user"></i><span id="loginUser"></span><b
+							class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="logout.jsf"><i class="fa fa-power-off"></i>
+									Log Out</a></li>
+						</ul></li>
+					<li class="divider-vertical"></li>
+					<li>
+						<form class="navbar-search">
+							<input type="text" placeholder="Search" class="form-control">
+						</form>
+					</li>
+				</ul>
+
+			</div>
+		</nav>
+		<!-- <aside style="width: 300px;
+  height: 100%;
+  background-color: red;
+  position: absolute;
+  left: 1140px;
+  top: 0px;
+  padding-top: 60px;
+  z-index: 1;">hello</aside> -->
+		<div class="container-fluid" >
+
+			<div class="row" >
+			<div class="col-xs-1 col-sm-1 vdvc-doc-left"></div>
+			<div class="col-xs-10 col-sm-8 vdvc-doc-content" style="display: none;">
+				<form >
+				 	<textarea  id="editor1" style="height:100%; overflow:auto;" ></textarea>
+				</form>
+			</div>
+				<div class="col-xs-1 col-sm-3 vdvc-doc-right"></div>
+			</div>
+		</div>
+
+	</div>
+	<!-- /#wrapper -->
+	<script type="text/javascript">
+  function windowController(){
+		var wnd=null;
+		var loadedWindows = [];
+		
+		this.openWindow=function(wndUrl, wndName){
+			var wndObj= this.findWindow(wndName);
+			if(wndObj !== null && wndObj.name === "vdvcBuilder"){
+				wndObj.focus();
+			}else if (wndObj !== null && wndObj.name.search("VAppGen") != -1){
+				wndObj.focus();
+			}else {
+				wnd=window.open(wndUrl,wndName);
+				wnd.focus();
+				loadedWindows.push(wnd);
+			}
+			return wndObj;
+		};
+		
+		this.closeWindows=function(){
+			for(var i=0;i<loadedWindows.length;i++){
+				if(loadedWindows[i].closed == false){
+					loadedWindows[i].close();
+				}
+			}
+			loadedWindows=[];
+		};
+		this.findWindow=function(wndName){
+			for (var i=0; i< loadedWindows.length; i++){
+				if (loadedWindows[i].name == wndName){
+					return loadedWindows[i];
+				}
+			}
+			return null;
+		};
+		return this;
+	}
+  
+  var _windowController = new windowController();
+  
+  
+  $(function() {
+	  
+	  var markup = '<div class="text-menu"><div class="btn-group" role="group" >\
+			<span class="fa fa-upload btn btn-primary btn-lg"></span>\
+			</div></div>';
+		
+		$('body').append(markup);
+	  
+	  var doc = window.opener.vdvcDoc;
+	  if (Util.userinfo) {
+			$("#loginUser").html(Util.userinfo["UserName"]);
+		}
+	  
+	  
+	  
+	  var vdvcdocId = Util.getURLParameter("doc");
+	  var vdvcFileId = Util.getURLParameter("fileId");
+	  var isSec = (doc && doc.secDocuments ) ? true : null;
+	  var base = (doc && doc.secDocuments ) ? doc.basePath : null;
+	  
+	  if (typeof vdvcdocId == "string" && vdvcdocId.trim() != "" ) {
+		 /*  var mrkup = '<div class="row" id="hi"><div class="col-xs-1 col-sm-2 vdvc-doc-left"></div>\
+						<div class="col-xs-10 col-sm-8 vdvc-doc-content">\
+						 	<form >\
+						 		<textarea  id="editor1" style="height:100%; overflow:auto;min-height: 550px;"></textarea>\
+							</form>\
+						</div>\
+						<div class="col-xs-1 col-sm-2 vdvc-doc-right"></div>\
+					</div>'; */
+					
+	//	$(".vdvc-doc-content").append(mrkup);
+		
+		$(".vdvc-doc-content").show();
+		
+		  Util.sync_ajaxGet("notes/get/"+vdvcdocId,function(result){
+			  if (result.Status) {
+				  window["vdvcDoc"] = new vdvcDocManager.notesMgr.vdvcNotes(result.Notes);
+				  window["vdvcDoc"].CreateNotes("editor1",false);
+			  }
+		  },false,true);
+	  }
+	  if(typeof vdvcFileId == "string" && vdvcFileId.trim() != "" && isSec) {
+		 /*  if (isSec) {
+				$("head").append('<base href="'+base+'/" />')
+				if(doc && doc.secDocuments ) {
+					$.each(doc.secDocuments,function(i,v){
+						var url = Util.baseUrl+"notes/upload/view/"+v.fileId;
+						var frame = '<iframe src="'+url+'"></iframe>';
+						$(".container-fluid").prepend(frame);
+					} );
+				}
+				
+			} */
+		// $(".container-fluid").empty();
+			
+			var secContent = "";
+			
+			/* var document1 = $('<document>');
+			var html = $('<html>');
+			var head = $('<head>');
+			var body = $('<body>');
+			document1.append(html);
+			html.append(head);
+			html.append(body); */
+			$(".vdvc-doc-content").show();
+		  $.each(doc.secDocuments,function(i,v){
+			  Util.ajaxGet_download("notes/upload/view/"+v.fileId,function(result){
+				  //var div = $('<div class="page">');
+				  if(i==0){
+					 secContent +='<base href="'+base+'/" />';
+					// $("head").append('<base href="'+base+'/" />');
+					//head.append('<base href="'+base+'/" />');
+					// div = $('<div >');
+					
+				  }
+				 // body.append(div);
+				 // $(".container-fluid").append(div);
+				  //div.append(result);
+				  secContent += result;
+			  });
+			});
+		   window["vdvcDoc"] = new vdvcDocManager.notesMgr.vdvcNotes({"content" : secContent});
+		   window["vdvcDoc"].CreateNotes("editor1",true);
+	  }
+	  
+	  
+	  $('table').off("mouseenter").on("mouseenter",function(event){
+		  var c = $(this);
+		  $('table').css("border","none");
+		  c.css("border","solid 2px blue");
+		  $(".text-menu").show();
+		  $( ".text-menu" ).position({
+			    my: "left+3 bottom-3",
+			    of: c,
+			    collision: "fit"
+		  });
+		  
+		  $('.text-menu .fa-upload').off("click").on("click",function(){
+			 
+			  exportTable(c);
+		  });
+	  });
+	  
+	  $(document).off("mouseenter",'.note').on("mouseenter",'.note',function(event){
+		  var c = $(this);
+		  alert("enter");
+	  });
+	  
+	  function  exportTable(table) {
+		  $('<div>').dialog({
+			  width : 600,
+			  height : 400,
+			  title : "Export Table",
+			  create : function() {
+				  var c = $(this);
+				  var markup = '<table style="width:100%;"><tbody><tr>\
+				  <td style="padding:5px;">Block Name</td>\
+				  <td style="padding:5px;"><input type="text" name="blkName" style="width:100%;"></td>\
+				  <tr><td style="padding:5px;">Model</td>\
+				  <td style="padding:5px;"><select class="vdvcmodels" style="width:100%;"></select></td></tr></tbody></table>';
+				  c.append(markup);
+				  Util.ajaxGet("model/list/all",function(result){
+					  if (result.Status) {
+						  if ($.isArray(result.Models)) {
+							  c.find("select.vdvcmodels").data("Models",result.Models);
+							  $.each(result.Models,function(i,mdl){
+								  c.find("select.vdvcmodels").append('<option value="'+mdl.id+'">'+mdl.name+'</option>');
+							  });
+						  }
+					  }
+				  },false,true);
+			  },
+			  close : function() {
+				  $(this).dialog("destroy");
+			  },
+			  buttons : {
+				  "Import" : function() {
+					  var c = $(this);
+					 
+					  c.find('input[name="blkName"]').css("border","none");
+					  var blkName = c.find('input[name="blkName"]').val();
+					  var mdlId = c.find("select.vdvcmodels").val();
+					  var content = table.html();
+					  var postdata  = {
+							  "modelId":mdlId,
+							  "blockName":blkName,
+							  "tableInfo" : content
+					  }; 
+					 
+
+					  if (typeof blkName != "undefined" && blkName.trim() == "") {
+						  Util.showMessage("Please Enter the Block Name");
+						  c.find('input[name="blkName"]').css("border","solid 1px red");
+						  return false;
+					  } else {
+						  var models = c.find("select.vdvcmodels").data("Models");
+						  if ($.isArray(models)) {
+							  var model,isBlockExists;
+							  $.each(models,function(i,mdl){
+								  if (mdlId == mdl.id ) {
+									  model = mdl;
+									  return false;
+								  }
+							  });
+							  if (model && model.currentDefinition && $.isArray(model.currentDefinition.Blocks)) {
+								  $.each(model.currentDefinition.Blocks, function(i,blk){
+									  if (blk.name == blkName) {
+										  isBlockExists = true;
+										  return false;
+									  }
+								  });
+							  } 
+							  
+							  if (isBlockExists) {
+								  Util.showMessage("Block Name is Alredy Exists in the Selected Model");
+								  return false;
+							  }
+						  }
+						  Util.ajaxPost("importhtml/table",postdata,function(result){
+							  
+							  if (result.Status) {
+								  Util.showMessage("Successfully imported the Table into the Model");
+							  } else {
+								  Util.showMessage(result.Message);
+							  }
+						  },false,true);
+					  }
+					  $(this).dialog("close");
+				  },
+				  "Cancel" : function() {
+					  $(this).dialog("close");
+				  }
+			  }
+		  });
+	  };
+  });
+ 	
+  
+  
+  </script>
+</body>
+</html>

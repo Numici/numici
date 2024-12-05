@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+ 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+
+    <title>vAppGen Main Page</title>     
+	<link href="resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="resources/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
+	<link href="resources/css/vappgen.css" rel="stylesheet">
+	<link href="resources/css/custom1.css" rel="stylesheet">
+	<link rel="stylesheet" href="resources/css/jstree/themes/default/style.min.css" />
+	 
+	<script type="text/javascript" src="resources/js/libs/jquery/jquery-1.9.1.js"></script>	
+	<script type="text/javascript" src="resources/js/libs/jquery/jstree.js"></script>
+	
+	<!-- commented due to errors reslove it later TODO  
+	<link href="resources/css/themes/ui/jquery-ui.css" rel="stylesheet">
+	<script type="text/javascript" src="resources/js/jquery-ui.js"></script>
+	-->
+	
+	<link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+  	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script> 
+  	
+  	<!--
+  	<link href="resources/css/themes/ui/jquery-ui.css" rel="stylesheet">
+	<script src="resources/js/jquery-ui.js"></script>
+	-->
+	<script type="text/javascript" src="resources/js/libs/bootstrap/bootstrap.min.js"></script>
+	<script type="text/javascript" src="resources/js/libs/underscore.js"></script>
+	
+	<script type="text/javascript" src="resources/js/Utils.js"></script>   
+	<script type="text/javascript" src="resources/js/excelGrid.js"></script>
+	<script type="text/javascript" src="resources/js/vappControls/Runtime/Control.js"></script>
+	<script type="text/javascript" src="resources/js/vappControls/Runtime/VidiViciControl.js"></script>
+	<script type="text/javascript" src="resources/js/vappControls/Runtime/LayoutControl.js"></script>
+	<script type="text/javascript" src="resources/js/vappControls/Runtime/MenubarControl.js"></script>
+	<script type="text/javascript" src="resources/js/vappDesigner/customDesigner.js"></script>
+	<script type="text/javascript" src="resources/js/vappDesigner/LayoutDesigner.js"></script>
+	<script type="text/javascript" src="resources/js/vappDesigner/MenubarDesigner.js"></script>
+	<script type="text/javascript" src="resources/js/VAppgenModel.js"></script>	
+    <script type="text/javascript" src="resources/js/VAppgenControls.js"></script> 
+    
+    
+    
+</head>
+
+<script>
+	var canvasWidth = 1044;
+	var canvasHeight = 600;
+	var panelImgSize = 50;
+	var screens = new Array();
+
+	var vappgenModel;
+	var modelId, vappId;		
+	var modelBlocks;
+	var editVAppMode = false;
+	var editVApp;
+	var modelInfo;
+	var customCtrlDialog = null;
+	var vappgenActions;
+	
+	function getURLParameter(name) {
+		 name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		        results = regex.exec(location.search);
+		    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+	
+	function customCtrlPopUp(title, onOpen,save,cancel){
+		var dialogMarkup = '<div class="customControl"></div>';
+		var dlgButtons = {};
+		var dlg;
+		
+		dlg = $(dialogMarkup).dialog({
+			      modal: true,
+			      width: window.innerWidth-100,
+			      height:window.innerHeight-100,
+			      title: title,
+			      resizable: false,
+			      open: function(){
+			    	 if(typeof onOpen === "function"){
+			    		 onOpen();
+			    	 }
+			    },
+			      close:function(){
+			    	  $( this ).dialog( "destroy" );
+			      },
+			      buttons: dlgButtons
+		    });
+			
+		customCtrlDialog  = dlg;
+		
+		addButton($(dlg), dlgButtons, "Save", save);
+		addButton($(dlg), dlgButtons, "Cancel", cancel);
+			
+		$(dlg).dialog({buttons:dlgButtons});
+	
+		function addButton(dlg, map, key, fn) {
+			if ("function" == typeof fn) {
+				map[key] = function(arg1, arg2) {
+				     fn();
+				//     $(dlg).dialog("close");
+				};
+			}
+		}
+	};
+	
+	// Function to get the blocks and dimensions for Model.
+	function initVAppgenNewModel (cb)
+	{
+		Util.ajaxGet ("model/blockdimensions/"+modelId, function(result){
+				if (!result.Status) {
+					showMessage (result.Message);				
+				} else {
+					if (typeof cb === "function") {
+						cb(result.Blocks);
+					}
+				}
+			});
+		
+		Util.ajaxGet ("model/"+modelId, function(result){
+			if (!result.Status) {
+				showMessage (result.Message);				
+			} else {
+				modelInfo=result.Model;
+			}
+		});
+		
+		Util.ajaxGet ("vappgen/actions", function(result){
+			if (!result.Status) {
+				showMessage (result.Message);				
+			} else {
+				vappgenActions=result.Data;
+			}
+		});
+	};
+	 
+	
+	// Function to get the blocks and dimensions for Model.
+	function initVAppgenEditModel (cb)
+	{
+		Util.ajaxGet ("vapp/"+vappId, function(result){
+				if (!result.Status) {
+					showMessage (result.Message);				
+				} else {
+					if (typeof cb === "function") {
+						cb(result.Vapp);
+					}
+				}
+			});
+	};
+	
+	$(window).load(function() {
+		modelId = getURLParameter("model_id");
+		vappId = getURLParameter("vapp_id");
+				
+		var usrInfo = Util.getUserInfo();
+		var vappName = "";
+			
+		// Check for VApp id. Edit the exising VAPP.
+		if (typeof vappId !== "undefined" && vappId.trim() !== "") {
+			editVAppMode = true;			
+		};
+		
+		initVAppgenNewModel (function (blocks){				
+			// Assign block to a global variable
+			modelBlocks = blocks;
+					
+			if (!editVAppMode) {
+				// draw canvas area on screen
+				vappgenModel = new VAppgenModel();
+				
+				var scrnIndex = vappgenModel.createScreen (modelId, usrInfo, vappName);
+				vappgenModel.activateScreen(scrnIndex);
+									
+				vappgenModel.createDrawArea ('container', canvasWidth, canvasHeight);			
+				VAppgenControls.listControls (drawControls);	
+			}
+		});
+		
+		if (editVAppMode) {
+			initVAppgenEditModel (function (vapp){
+				
+				editVApp = vapp;
+				$(".vapp-name").val(vapp.appName);
+			
+				$(".vapp-name").attr('readonly','readonly');
+				vappgenModel = new VAppgenModel();
+				console.log ("Opening vApp in edit mode ....!!");
+				console.log (JSON.stringify(vapp));
+				
+				vappgenModel.createEditScreens (vapp);
+				vappgenModel.activateScreen(0); // Add support for mulptile screens
+				
+				vappgenModel.createDrawArea ('container', canvasWidth, canvasHeight);
+				
+				VAppgenControls.listControls (drawControls);
+			});
+		}	
+		
+		//Handle button callbacks
+		 $(".btn").click(function(){
+		       	var name = $(this).attr("name");
+		    	$(this).prop( "disabled", true );
+		    	switch (name){
+		    	case "Save":		    	
+		    		var vAppName = $(".vapp-name").val();
+		    		if (vAppName == "") {
+		    			showMessage("Enter VApp Name");
+		    			break;
+		    		}
+		    		var json = vappgenModel.createJSONObject(vAppName);
+		    		var code = vappgenModel.validateJSONObject(json);
+		    		if (!code.status){
+		    			showMessage(code.msg);
+		    			break;
+		    		}
+		    		var string = JSON.stringify (json);
+		    		console.log(string);
+		    		
+		    		saveScreenConfirmCB(json);
+		    		
+		    		break;
+		    	case "Clear":		    			
+		    		promptDialog ("Do you want to clear the screen ?", 
+ 						clearScreenConfirmCB, noActionCB, null);
+		    		break;
+		    	case "Delete":
+		    		var ctrl = vappgenModel.getSelectedControl();
+		    		if (ctrl) {
+		    			promptDialog ("Do you want to delete the control ?", 
+		    					function(){deleteControlConfirmCB(ctrl);}, noActionCB, null);
+		    		} else {
+		    			showMessage ("Please select a control to delete from vApp", null)
+		    		}		    		
+		    		break;
+		    	case "Properties":
+		    		var ctrl = vappgenModel.getSelectedControl();
+		    		if (ctrl) {
+		    			var attrs = vappgenModel.getControlAttributes(ctrl.attrs.id);
+		    			getControlPropertiesFromUser(ctrl, attrs);
+		    		} else {
+		    			showMessage ("Please select a control to set the properties", null)
+		    		}
+		    		break;
+		    	case "Close":
+		    		var state = vappgenModel.getVAppgenState();
+		    	 	if (state != VAppgenState.ReadyToSave && state != VAppgenState.Saved) {
+		    			var msg = "vApp has unsaved data and it will deleted permenantly on closing this screen.  Do you want still to close it ?";
+		    			promptDialog (msg, closeActionCB, noActionCB, null);	    			
+		    		}else {
+		    			closeActionCB();
+		    		}		    				    		
+		    		break;		    		
+	    	} 
+	       	$(this).prop( "disabled", false); 		    	      
+	    });
+	});
+	
+	function allowDrop(ev) {
+		ev.preventDefault();
+	}
+
+	function dragend (ev) {
+	//	console.log ("Dragend function called ...!!");
+	//    ev.target.style.cursor = 'default';		
+	}
+	
+	function drag(ev) {
+	 	ev.dataTransfer.setData("Text", ev.target.src);
+		ev.dataTransfer.setData("Control", ev.target.parentElement.parentElement.getAttribute("ctrl-name"));
+	//	ev.target.style.cursor = 'move';
+	}
+	
+   	function drop(ev) {		 	
+	    var imgDefaultWidth = 250;
+	    var imgDefaultHeight = 200;
+	     
+	    ev.preventDefault();	
+	    
+	   	var src = ev.dataTransfer.getData("Text");
+		var ctrl_name = ev.dataTransfer.getData("Control");
+		var attr = VAppgenControls.getMatchingControlAttrs (ctrl_name);
+		
+		/* Create the new image */
+		var imageObj = new Image();
+		imageObj.src = src;
+		
+		//console.log ("Drop x: "+ ev.layerX + " y: "+ev.layerY);
+		
+		var topLeftX = ev.layerX;
+		var topLeftY = ev.layerY;
+		
+		/* Create image object  to drop into canvas */
+		var image = new Object ();
+		
+		image.obj = imageObj;
+		image.width = imgDefaultWidth;
+		image.height = imgDefaultHeight;
+		image.topLeftX = topLeftX;
+		image.topLeftY = topLeftY;
+		image.src = src;
+		image.sys = attr;
+		var closure = this;
+
+		imageObj.onload = function(){
+			console.log ("Image object got loaded");
+			closure.vappgenModel.dropControl (image);			 
+		}	
+	}	
+	  
+	function drawControls (ctrls){
+		
+		var markup="<ul class="+'list-group'+">";
+		
+		for ( var i = 0; i < ctrls.length; i++ ) {
+			console.log(ctrls[i].name);
+		//	markup +="<li class=list-group-item"+" ctrl-name='"+ctrls[i].name+"'>"+ctrls[i].caption+" <span class="+'badge'+"> <img src="+ctrls[i].imageUrl+" height="+panelImgSize+" width="+panelImgSize +" draggable='"+true+"'" + " ondragstart="+"drag(event)"+">"+"</span>"+"</li>";
+			markup +="<li class=list-group-item"+" ctrl-name='"+ctrls[i].name+"'>"+" <span> <img src="+ctrls[i].imageUrl+" height="+panelImgSize+" width="+panelImgSize +" draggable='"+true+"'" + " ondragstart="+"drag(event)"+ " ondragend="+"dragend(event)"+" style="+"cursor:move"+">"+"</span>"+"</li>";
+		}
+		markup +="</ul>";
+		 
+		$("#collapseOne").empty();
+		$("#collapseOne").append(markup);
+		
+		if (editVAppMode){
+			vappgenModel.renderVApp (editVApp);
+		}
+	}
+	
+	function promptUserForProperties (message, title, Yes, Cancel, Custom){
+		var dialogMarkup = '<div></div>';
+		var dlgButtons = {};
+		var title = "Control properties";
+		
+		var dlg = $(dialogMarkup).dialog({
+		      modal: true,
+		      width: 500,
+		      height:450,
+		      resizable: false,
+		      title: title,
+		      open: function(){
+		    	  $(this).empty();
+		    	  $(this).append(message);
+
+		      },
+		      close:function(){
+		    	  $( this ).dialog( "destroy" );
+		      },
+		      buttons: dlgButtons
+		    });
+		
+		if (Custom)
+			addButton($(dlg), dlgButtons, "Launch", Custom);
+		addButton($(dlg), dlgButtons, "Save", Yes);
+		addButton($(dlg), dlgButtons, "Cancel", Cancel);
+				
+		$(dlg).dialog({buttons:dlgButtons});
+		
+		function addButton(dlg, map, key, fn) {
+			if ("function" == typeof fn) {
+				map[key] = function(arg1, arg2) {
+					var status = fn(arg1, arg2);
+					if (status)
+						$(dlg).dialog("close");
+				};
+			}
+		}
+	};
+	
+	function readControlProperties () {
+		var properties = $(".properties");
+		var controlProps={};
+		
+		if (properties.length == 0)
+			return;
+		
+		if (properties.length > 0) {
+		 	$.each(properties,function(i,v){
+		 	 	if ($(v).attr("datatype") == "boolean") {
+		 			controlProps[$(v).attr("dataattr")] = $(v).prop('checked');		 			
+		 		} else {
+					controlProps[$(v).attr("dataattr")] = $(v).val();
+		 		}
+			});
+		}	
+		
+		return controlProps;
+	};
+	
+	function yesLaunchActionCB (custom, ctrl) {
+		console.log ("Yes button was selected by user in Launch deisgner");	
+		saveCustomCtrlProps (custom, ctrl);
+		$(customCtrlDialog).dialog("close");
+		customCtrlDialog = null;
+		
+	};
+	
+	function noLaunchActionCB () {
+		console.log ("No button was selected by user in Launch deisgner");	
+	 	$(customCtrlDialog).dialog("close");
+	 	customCtrlDialog = null;
+	};	
+	
+	function saveCustomCtrlProps (custom, ctrl) {
+		console.log ("Saving custom control properties ....!!");	
+		var designerData=custom.getJson();
+		vappgenModel.setCustomDesignerData(ctrl, designerData);	
+	 	$(customCtrlDialog).dialog("close");
+		customCtrlDialog = null;
+	};
+	
+	function launchCustomDesigner(ctrl) {
+		console.log ("Launch custom designer invoked ...!!");
+		var custom = vappgenModel.getCustomDesigner (ctrl);
+		custom.setModel(modelInfo);
+		custom.setBlockDefinitions(modelBlocks);
+	    custom.setSelector(".customControl");
+	    var data = vappgenModel.getCustomDesignerData(ctrl);
+	    var controlProps = readControlProperties();
+	    custom.setDesignerData(data);
+	    custom.setAttributes(controlProps);	
+	    custom.setActions(vappgenActions);
+		
+		customCtrlPopUp(
+			controlProps.title,
+			function(){
+				custom.showDesigner();
+			},function(){
+				saveCustomCtrlProps (custom, ctrl);				
+			},function(){
+				promptDialog ("Do you want to save the changes ?", 
+	    				  function(){yesLaunchActionCB(custom, ctrl);} , noLaunchActionCB, null);
+			}
+		);
+	};
+	
+	function saveCustomProps(ctrl) {
+		console.log ("Custom data save button clicked");		
+	};
+	
+	function saveControlProps (ctrl) {
+		
+		console.log ("User tapped on save properties button");
+		var controlProps = readControlProperties();
+		console.log(controlProps);
+	 
+		var valid = vappgenModel.validateControlAttributes (ctrl.attrs.id, controlProps);
+		if (!valid.status) {
+			showMessage(valid.msg);
+			return false;
+		}
+		vappgenModel.updateControlAttributes (ctrl.attrs.id, controlProps);
+		return true;
+	};
+	
+	function cancelControlProps () {
+		console.log ("User tapped on cancel properties button");
+		return true;
+	};
+	
+	function getControlPropertiesFromUser (ctrl, props) {
+		var title = "Control Properties: "+ ctrl.attrs.id;
+	 
+		var markup = '<table border="1" style="width:100%"> <tr>\
+			  <th>Attribute Name</th>\
+			  <th>Attribute Value</th>\
+			  </tr>';
+		
+		for (var i=0; props.attributes && i<props.attributes.length; i++) {
+			var p = props.attributes[i];
+			var curValue = vappgenModel.getControlAttributeValue (ctrl.attrs.id, p.name);
+			var attrName = (p.caption ? p.caption : p.name);					
+			var defaultValue = p.defaultValue;		
+			var val;
+			 
+			// Handle the default values.
+			if (defaultValue && (curValue == null || typeof curValue === "undefined")) {
+				val = defaultValue;
+			} else {
+				val = curValue;
+			}
+			 
+			markup += '<tr> <td>';
+			markup += attrName;				
+			markup += '</td>'; 
+			markup += '<td>';
+			if (val === null && p.values != null && p.values.length > 0) {
+				var txt = '<select class="properties" dataAttr="'+p.name+'">';
+				for (var j=0; j<p.values.length; j++){
+					txt += '<option value='+p.values[j]+'>'+p.values[j]+'</option>';
+				}
+				txt += '</select>';
+				markup += txt;
+			} else if (p.type == "DimensionMeasure") {
+				// Adding dimensions and measure of each block				
+			 	var txt = '<select class="properties" dataAttr="'+p.name+'">';
+			 	var none = "NONE";
+				txt += '<option value='+none+'>'+none+'</option>';
+				for (var j=0; j<modelBlocks.length; j++){
+					var blk = modelBlocks[j];
+					for (var k=0; blk.dimensions && k<blk.dimensions.length; k++){
+						var opt = blk.name+"."+blk.dimensions[k].name;	
+						if (opt == val)
+							txt += '<option selected="selected" value='+opt+'>'+opt+'</option>';
+						else
+							txt += '<option value='+opt+'>'+opt+'</option>';
+					}
+					for (var l=0; blk.measure && l<blk.measure.length; l++){
+						var opt = blk.name+"."+blk.measure[l].name;		
+						if (opt == val)
+							txt += '<option selected="selected" value='+opt+'>'+opt+'</option>';
+						else
+							txt += '<option value='+opt+'>'+opt+'</option>';
+					}					
+				}				
+				txt += '</select>';
+				markup += txt;
+			} else if(p.type == "boolean") {
+			 	if (val == true || val == "true")
+					markup += '<input type="checkbox" class="properties" dataAttr="'+p.name +'" checked dataType="'+p.type+'">';
+				else
+		 			markup += '<input type="checkbox" class="properties" dataAttr="'+p.name +'" dataType="'+p.type+'">';
+			} else if (p.type == "StaticValues"){
+				var txt = '<select class="properties" dataAttr="'+p.name+'">';
+				for (var k=0; k<p.possibleValues.length; k++){
+					var opt = p.possibleValues[k];
+					if (opt == val)
+						txt += '<option selected="selected" value='+opt+'>'+opt+'</option>';
+					else
+						txt += '<option value='+opt+'>'+opt+'</option>';					
+				}
+				txt += '</select>';
+				markup += txt;
+			} else if (p.type == "Dimension") {
+				var txt = '<select class="properties" dataAttr="'+p.name+'">';
+				
+				for (var l=0; l<modelBlocks.length; l++){
+					var blk = modelBlocks[l];
+					for (var m=0; blk.dimensions && m<blk.dimensions.length; m++){
+						var opt = blk.name+"."+blk.dimensions[m].name;	
+						if (opt == val)
+							txt += '<option selected="selected" value='+opt+'>'+opt+'</option>';
+						else
+							txt += '<option value='+opt+'>'+opt+'</option>';
+					}
+				}				
+				txt += '</select>';
+				markup += txt;			
+			} else if (p.type == "Action") {
+				var txt = '<select class="properties" dataAttr="'+p.name+'">';
+				
+				for (var m=0; m<vappgenActions.length; m++){
+					var opt = vappgenActions[m];
+					var caption = opt.caption;
+					var code = opt.code;
+					
+					if (code == val)
+						txt += '<option selected="selected" value='+code+'>'+caption+'</option>';
+					else
+						txt += '<option value='+code+'>'+caption+'</option>';						
+				}	
+				
+				txt += '</select>';
+				markup += txt;
+			} else {
+				if(!p.editable){
+					markup += '<input type="text" class="properties" dataAttr="'+p.name+'" style="width:100%" name="inp_value"   value="'+(val == undefined?"":val)+'" disabled>';
+				}else{
+					markup += '<input type="text" class="properties" dataAttr="'+p.name+'" style="width:100%" name="inp_value"   value="'+(val == undefined?"":val)+'">';
+				}			
+			}
+			markup += '</td> </tr>';				
+		}
+		
+		markup += '</table>';
+		
+		if (props.customDesigner) {
+			promptUserForProperties (markup, title, function(){return(saveControlProps(ctrl))}, cancelControlProps, 
+												function(){return(launchCustomDesigner(ctrl))});
+		} else {
+			promptUserForProperties (markup, title, function(){return(saveControlProps(ctrl))}, cancelControlProps, null);
+		}
+
+	}
+	
+	function deleteControlConfirmCB (ctrl) {
+		console.log ("User confirmed to deletet the control");
+	
+		vappgenModel.deleteControl (ctrl);		
+	}
+	
+	function clearScreenConfirmCB () {
+		console.log ("User confirmed to clear the screen");
+		vappgenModel.clearDrawArea();
+	}
+	
+	function saveScreenConfirmCB (json) {
+		console.log ("User confirmed to save the screen");
+		
+	 
+		Util.ajaxPost ("vapp/save/"+modelId, json, 
+			function(result){
+		 	if (!result.Status) {
+					showMessage (result.Message);				
+				} else {
+					vappgenModel.updateVAppgenState(VAppgenState.Saved);			
+					showMessage("vApp saved successfully");				
+					console.log ("JSON saved successfully into DB");
+					if (!editVAppMode)
+						vappgenModel.setVAppID (result.Vapp.id);
+				}
+			},false,true);
+	}
+	
+	function closeActionCB () {
+		window.close();
+	};
+	
+	function noActionCB () {
+		console.log ("No button was selected by user");		 
+	};	  
+	
+	
+ 				
+</script>
+
+</head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">vAppGen</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" role="form">
+          	<button type="button" id="properties" name="Properties"class="btn btn-primary">Properties</button>
+            <button type="button" id="delete" name="Delete"class="btn btn-primary">Delete</button>
+            <button type="button" id="clear" name="Clear" class="btn btn-primary">Clear</button>
+		    <button type="button" id="save" name="Save"class="btn btn-primary">Save</button>
+			<button type="button" id="close" name="Close" class="btn btn-primary">Close</button>
+		  </form>
+         </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+			
+			<div class="controls-panel">
+				<div id="accordion" class="panel-group">
+        			<div class="panel panel-default">
+		            	<div class="panel-heading">
+		                	<h4 class="panel-title">
+		                    	<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Controls</a>
+		                	</h4>
+		            	</div>
+
+        	   			<div id="collapseOne" class="panel-collapse collapse in">
+	                		<div class="panel-body">
+    	                		
+        	        		</div>
+            			</div>
+		        	</div>			        
+		        </div>
+		    </div>		 	 
+		 </div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<!--  
+			  <h1 class="page-header">View Area</h1>
+			  -->
+			  	<div class="input-group">
+ 					 <span class="input-group-addon">vAppName</span>
+ 					 <input type="text" class="vapp-name" placeholder="Enter vApp name">
+				</div>
+				 <!--
+					<canvas id="draw-area" style="background-color:#FAEBD7;width:1000px;height=1200px" ondrop="drop(event)" ondragover="allowDrop(event)" ></canvas>
+					 <div id="container" class="canvas-container"style="background-color:#FAEBD7;" ondrop="drop(event)" ondragover="allowDrop(event)"> </div>
+				  -->		  
+				  
+		  
+				  <div id="container" class="canvas-container" ondrop="drop(event)" ondragover="allowDrop(event)"> </div>
+				
+				 
+			</div>
+		</div>
+    </div>
+    
+  </body>
+</html>

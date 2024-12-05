@@ -1,0 +1,79 @@
+<form data-ng-submit="aaic.ok()">
+	<div class="modal-header" style="padding-right: 15px;">
+		<h3 class="modal-title">
+			Action Items
+		</h3>
+	</div>
+	<div class="modal-body share-doc-modal-body">
+		<div class="col-xs-12">
+			<div class="form-group row input-wrap" style="margin: 10px 0px;padding: 0px;color: #069;">
+				<span>Note : Conversation will automatically saved</span>
+			</div>
+			<div class="form-group row input-wrap" style="margin: 10px 0px;padding: 0px;">
+				<label for="briefDescription" style="font-weight: normal;">BRIEF DESCRIPTION</label>
+				<div id="briefDescription" style="position: relative;">
+					 <input type="text" 
+					 		class="vdvc-input-txt" 
+					 		data-ng-model="aaic.actionItem.bDescription" 
+		             		style="height: 34px;" />
+				</div>    
+			</div>
+			<div class="form-group row input-wrap" style="margin: 10px 0px;padding: 0px;">
+				<label for="longDescription" style="font-weight: normal;">LONG DESCRIPTION</label>
+				<div id="longDescription" style="position: relative;">
+					 <textarea data-msd-elastic 
+					 	class="vdvc-txtA" 
+						rows="2" 
+					 	data-ng-model="aaic.actionItem.lDescription" 
+					 	style="overflow: hidden;overflow-wrap: break-word;resize: none;min-height: 65px;max-height: 150px;overflow-y: auto;">
+					 </textarea>
+				</div>    
+			</div>
+			<div class="form-group row input-wrap" style="margin: 10px 0px;padding: 0px;">
+				<label for="assignedTo" style="font-weight: normal;">ASSIGNED TO</label>
+				<div id="assignedTo" style="position: relative;">
+					{{::aaic.ActionItemsInfo.assignedTo}}
+					<!--  <data-ui-select multiple limit="1"
+							   data-ng-model="aaic.actionItem.users"
+							   data-tagging="aaic.tagTransform"  
+							   sortable="true" 
+							   autofocus="true" 
+							   data-on-select="aaic.clearSelection($select)">
+						
+					    <data-ui-select-match placeholder="Select Users...">{{aaic.getSelectedUserName($item)}}</data-ui-select-match>
+					    
+					    <data-ui-select-choices repeat="user.loginId as user in aaic.mensionUsers | filter:{loginId:$select.search}">
+					      <div data-ng-if="user.firstName && user.firstName.length > 0" data-ng-bind-html="user.firstName+' '+ user.lastName | highlight: $select.search"></div>
+					      <small>
+					        {{user.loginId}}
+					      </small>
+					    </data-ui-select-choices>
+					</data-ui-select> -->
+				</div>    
+			</div>
+			<div class="form-group row input-wrap" style="margin: 10px 0px;padding: 0px;">
+				<label for="dueDate" style="font-weight: normal;">DUE DATE</label>
+				<div id="dueDate" style="position: relative;">
+					 <input type="text" 
+					 		class="vdvc-input-txt"  
+					 		data-uib-datepicker-popup
+					 		data-is-open="aaic.dueDate.opened" 
+		             		data-datepicker-options="aaic.dueDateOptions" 
+		             		data-date-disabled="disabled(date, mode)" 
+		             		data-show-button-bar='false' 
+		             		data-ng-model='aaic.actionItem.dueDate' 
+		             		data-ng-click="aaic.dueDateOpen($event)" 
+		             		style="height: 34px;" />
+		             <i class="fa fa-calendar" style='position: absolute;right: 10px;top: 50%;color: #999;font-size: 20px;    transform: translateY(-50%);' data-ng-click="aaic.dueDateOpen($event)"></i>
+				</div>    
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="col-xs-12" style="padding: 0px;">
+			<button class="btn vdvc-form-btn" type="submit" data-ng-disabled="aaic.disableAssign()" style="float: right;margin-left: 5px;">ASSIGN</button>
+			<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="aaic.cancel()" style="float: right;margin-left: 5px;">CANCEL</button>
+		</div>
+	</div>
+
+</form>

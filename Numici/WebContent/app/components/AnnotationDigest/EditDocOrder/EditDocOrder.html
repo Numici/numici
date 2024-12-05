@@ -1,0 +1,268 @@
+<div class="modal-header" style="padding: 10px 15px;">
+	<h3 class="modal-title">
+		{{edoc.title}}
+	</h3>
+</div>
+<div class="modal-body" style="padding: 0px 15px;max-height: 400px;overflow-y: auto;">
+	<div class="col-xs-12" data-ng-if="edoc.groupBy == 'section'" style="padding: 0px;">
+		<div data-ng-class="{'col-xs-6' : edoc.showSelectedTSSectionObjects(), 'col-xs-12': !edoc.showSelectedTSSectionObjects()}" style="padding: 0px 5px;" data-ng-show="edoc.showSections()">
+			<div class="col-xs-12" style="min-height: 400px;max-height: 400px;overflow-x: hidden;overflow-y: auto;padding: 0px;background-color: rgb(238, 238, 238);border: 2px solid #ccc;">
+				<div class="col-xs-12"
+					data-ui-sortable="edoc.sectionSortableOptions" 
+					data-ng-model="edoc.secorder">
+					<div class="col-xs-12 ts-section-card-wrap" 
+		       			data-ng-repeat="TsSection in edoc.secorder track by $index"
+		       			data-ng-class="{'current_ts_doc': TsSection.id == edoc.selectedTaskSpaceSection.id}" 
+		       			style="background-color: #ccc;margin: 5px 0px;padding: 0px 5px;">
+						<div class="col-xs-12 ts-section-card section-sort-obj" 
+						 	data-jqyoui-draggable="{index: {{$index}}, 
+						 						 placeholder: 'keep',
+						 						 insertInline:false}" 
+						 	data-ng-model="edoc.taskSpace.sections" 
+						 	style="padding: 0px;">
+							<div class="col-xs-12 ellipsis" data-ng-click="edoc.selectTaskSpaceSection(TsSection)" style="padding: 0px;">
+								<div class="col-xs-12 ts-crd-content ts-section-card-content" 
+									style="padding: 0px;">
+									<div class="row" style="height: 25px;line-height: 25px;">
+										<div class="col-xs-12 ts-section-title" 
+										     data-uib-tooltip="{{TsSection.name}}" 
+										     data-tooltip-append-to-body="true" 
+										     style="width: 100%;padding: 0px;">
+											<span class="ts-card-icon ts-section-card-icon" style="color: black;">
+						  						<i class="fa fa-list" aria-hidden="true"></i>
+						  					</span>
+						  					<span>
+						  					  	{{TsSection.name}}
+						  					</span>
+										</div>
+									</div>
+									<div class="row vdvc-text-sub" style="height: 25px;line-height: 25px;">
+										<div class="row" 
+											data-tooltip-placement="auto top"
+											data-tooltip-append-to-body='true' 
+											data-uib-tooltip ="{{edoc.getTSSectionDocCount(TsSection)}}"
+											data-ng-click="$event.stopPropagation();TsSection.collabOpen = !TsSection.collabOpen"
+											style="padding: 0px;cursor: pointer;height: 30px;line-height: 30px;">
+											<span class="ellipsis"
+												style="height: 30px;line-height: 30px;display: inline-block;">
+											  	{{edoc.getTSSectionDocCount(TsSection)}}
+										   	</span>
+										</div>
+									</div>
+									
+								</div>	
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="vrt-ts-obj-wrap" 
+						data-ui-sortable="edoc.nonSectionedDocSortableOptions" 
+						data-ng-model="edoc.nonSectionedDocs"
+						style="width: 100%;">
+						<div class="vrt-ts-obj" 
+							data-ng-repeat="TsObj in edoc.nonSectionedDocs track by $index" 
+							style="padding: 0px;margin: auto;width: 100%;">
+							<div class="col-xs-12 ts-card-wrap">
+				    			<div class="row ts-card non-sectioned-doc-sort-obj" 
+					  				 data-jqyoui-draggable="{index: {{$index}}, 
+					  				 						 placeholder: 'keep',
+					  				 						 insertInline:false}" 
+					  				 data-ng-model="edoc.nonSectionedDocs" 
+					  				 style="height: 55px;">
+						  			<div class="row full ellipsis" data-ng-click="edoc.onObjectClick(TsObj)">
+						 				<div class="row full ts-crd-content">
+											<div class="row" style="height: 25px;line-height: 25px;">
+												<div class="col-xs-12 doc-title" 
+												     data-uib-tooltip="{{TsObj.name}}" 
+												     data-tooltip-append-to-body="true"
+												     style="width: 100%;float: left;">
+													<span class="ts-card-icon">
+														<span class="ts-doc-icon">
+															<i data-ng-class="edoc.getDocIcon(TsObj)" class="fa"></i>
+														</span>
+														<span class="ts-shrd-doc-icon" data-ng-show="TsObj.isShared">
+															<i class="fa fa-user"></i>
+														</span>
+						  							</span>
+								  					<span>
+								  					  {{TsObj.name}}
+								  					</span>
+												</div>
+											</div>
+											<div class="row vdvc-text-sub" style="height: 25px;line-height: 25px;padding-right: 0px;padding-left: 15px">
+												<div style="float: left;width: calc(100% - 30px)">
+													{{edoc.getAnnotCount(TsObj)}}
+												</div>
+												<span data-ng-class="edoc.getExtDocIcon(TsObj)"></span>
+											</div>
+											<div class="row">
+												<div class="col-xs-12" style="color:#006699;" data-uib-tooltip="{{TsObj.createdBy}}" data-tooltip-append-to-body="true">
+													{{TsObj.createdBy}}
+												</div>
+											</div>
+											<div class="row vdvc-text-sub">
+												<div data-set-doc-type data-type="{{TsObj.docType}}" class="col-xs-12"></div>
+												<div class="col-xs-12" data-uib-tooltip="{{TsObj.datePublished | date:'medium'}}" data-tooltip-append-to-body="true">
+													Date Published: {{TsObj.datePublished | date:'medium'}}
+												</div>
+											</div>
+											<!-- <div class="row">
+												<div class="col-xs-12" data-uib-tooltip="{{TsObj.companyName}}" data-tooltip-append-to-body="true">
+													{{TsObj.companyName}}
+												</div>
+											</div> -->
+						   				</div>	
+									</div>
+						  		</div>
+						  	</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-6" data-ng-show="edoc.showSelectedTSSectionObjects()" style="padding: 0px 5px;">
+			<div class="col-xs-12" 
+				style="min-height: 400px;max-height: 400px;overflow-x: none;overflow-y: auto;background-color: rgb(238, 238, 238);border: 2px solid #ccc;">
+				<div class="vrt-ts-obj-wrap" 
+					data-ui-sortable="edoc.sectionedDocSortableOptions" 
+					data-ng-model="edoc.selectedTaskSpaceSection.documents" 
+					style="width: 100%;">
+					<div class="vrt-ts-obj" 
+						data-ng-repeat="TsObj in edoc.selectedTaskSpaceSection.documents track by $index" 
+						style="padding: 0px;margin: auto;width: 100%;">
+						<div class="col-xs-12 ts-card-wrap">
+			    			<div class="row ts-card sectioned-doc-sort-obj" 
+				  				 data-jqyoui-draggable="{index: {{$index}}, 
+				  				 						 placeholder: 'keep',
+				  				 						 insertInline:false}" 
+				  				 data-ng-model="edoc.selectedTaskSpaceSection.documents" 
+				  				 style="height: 55px;">
+					  			<div class="row full ellipsis" data-ng-click="edoc.onObjectClick(TsObj)">
+					 				<div class="row full ts-crd-content">
+										<div class="row" style="height: 25px;line-height: 25px;">
+											<div class="col-xs-12 doc-title" 
+											     data-uib-tooltip="{{TsObj.name}}" 
+											     data-tooltip-append-to-body="true"
+											     style="width: 100%;float: left;">
+												<span class="ts-card-icon">
+													<span class="ts-doc-icon">
+														<i data-ng-class="edoc.getDocIcon(TsObj)" class="fa"></i>
+													</span>
+													<span class="ts-shrd-doc-icon" data-ng-show="TsObj.isShared">
+														<i class="fa fa-user"></i>
+													</span>
+					  							</span>
+							  					<span>
+							  					  {{TsObj.name}}
+							  					</span>
+											</div>
+										</div>
+										<div class="row vdvc-text-sub" style="height: 25px;line-height: 25px;padding-right: 0px;padding-left: 15px">
+											<div style="float: left;width: calc(100% - 30px)">
+												{{edoc.getAnnotCount(TsObj)}}
+											</div>
+											<span data-ng-class="edoc.getExtDocIcon(TsObj)"></span>
+										</div>
+										<div class="row">
+											<div class="col-xs-12" style="color:#006699;" data-uib-tooltip="{{TsObj.createdBy}}" data-tooltip-append-to-body="true">
+												{{TsObj.createdBy}}
+											</div>
+										</div>
+										<div class="row vdvc-text-sub">
+											<div data-set-doc-type data-type="{{TsObj.docType}}" class="col-xs-12"></div>
+											<div class="col-xs-12" data-uib-tooltip="{{TsObj.datePublished | date:'medium'}}" data-tooltip-append-to-body="true">
+												Date Published: {{TsObj.datePublished | date:'medium'}}
+											</div>
+										</div>
+										<!-- <div class="row">
+											<div class="col-xs-12" data-uib-tooltip="{{TsObj.companyName}}" data-tooltip-append-to-body="true">
+												{{TsObj.companyName}}
+											</div>
+										</div> -->
+					   				</div>	
+								</div>
+					  		</div>
+					  	</div>
+				  	</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12" data-ng-if="edoc.groupBy != 'section'" style="padding: 0px 5px;">
+		<div class="col-xs-12" 
+			style="min-height: 400px;max-height: 400px;overflow-x: none;overflow-y: auto;background-color: rgb(238, 238, 238);border: 2px solid #ccc;">
+			<div class="vrt-ts-obj-wrap" 
+				data-ui-sortable="edoc.docSortableOptions" 
+				data-ng-model="edoc.docorder" 
+				style="width: 100%;">
+				<div class="vrt-ts-obj" 
+					data-ng-repeat="TsObj in edoc.docorder track by $index" 
+					style="padding: 0px;margin: auto;width: 100%;">
+					<div class="col-xs-12 ts-card-wrap">
+		    			<div class="row ts-card doc-sort-obj" 
+			  				 data-jqyoui-draggable="{index: {{$index}}, 
+			  				 						 placeholder: 'keep',
+			  				 						 insertInline:false}" 
+			  				 data-ng-model="edoc.docorder"
+			  				 style="height: 55px;">
+				  			<div class="row full ellipsis" data-ng-click="edoc.onObjectClick(TsObj)">
+				 				<div class="row full ts-crd-content">
+									<div class="row" style="height: 25px;line-height: 25px;">
+										<div class="col-xs-12 doc-title" 
+										     data-uib-tooltip="{{TsObj.name}}" 
+										     data-tooltip-append-to-body="true"
+										     style="width: 100%;float: left;">
+											<span class="ts-card-icon">
+												<span class="ts-doc-icon">
+													<i data-ng-class="edoc.getDocIcon(TsObj)" class="fa"></i>
+												</span>
+												<span class="ts-shrd-doc-icon" data-ng-show="TsObj.isShared">
+													<i class="fa fa-user"></i>
+												</span>
+				  							</span>
+						  					<span>
+						  					  {{TsObj.name}}
+						  					</span>
+										</div>
+									</div>
+									<div class="row vdvc-text-sub" style="height: 25px;line-height: 25px;padding-right: 0px;padding-left: 15px">
+										<div style="float: left;width: calc(100% - 30px)">
+											{{edoc.getAnnotCount(TsObj)}}
+										</div>
+										<span data-ng-class="edoc.getExtDocIcon(TsObj)"></span>
+									</div>
+									<div class="row">
+										<div class="col-xs-12" style="color:#006699;" data-uib-tooltip="{{TsObj.createdBy}}" data-tooltip-append-to-body="true">
+											{{TsObj.createdBy}}
+										</div>
+									</div>
+									<div class="row vdvc-text-sub">
+										<div data-set-doc-type data-type="{{TsObj.docType}}" class="col-xs-12"></div>
+										<div class="col-xs-12" data-uib-tooltip="{{TsObj.datePublished | date:'medium'}}" data-tooltip-append-to-body="true">
+											Date Published: {{TsObj.datePublished | date:'medium'}}
+										</div>
+									</div>
+									<!-- <div class="row">
+										<div class="col-xs-12" data-uib-tooltip="{{TsObj.companyName}}" data-tooltip-append-to-body="true">
+											{{TsObj.companyName}}
+										</div>
+									</div> -->
+				   				</div>	
+							</div>
+				  		</div>
+				  	</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer" style="padding: 10px 15px;">
+	<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted" data-ng-click="edoc.cancel()">CANCEL</button>
+	<button type="button" 
+		class="btn vdvc-form-btn" 
+		data-ng-click="edoc.saveOrder()" 
+		data-ng-disabled="false">
+		SAVE ORDER
+	</button>
+</div>

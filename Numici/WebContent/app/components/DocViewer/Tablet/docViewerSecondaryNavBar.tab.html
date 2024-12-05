@@ -1,0 +1,207 @@
+<div class='row vdvc-nav-bar'>
+	<div class="col-xs-12">
+		<div class='navbar-left' style="padding: 0px;color: #777;">
+			<div data-ng-if="userWithLock"
+				 style='width: 30px;height: 30px;background: #006699;'
+				 data-tooltip-append-to-body='true'
+				 data-tooltip-placement='auto top'
+				 data-uib-tooltip="{{userWithLock.userId}}">
+				<div style="height: 25px;
+  					text-align: center;
+				    line-height: 25px;
+				    overflow: hidden;
+				    color: #fff;
+				    font-size: 12px;
+				    font-weight: bold;">
+					{{getUserlabel(userWithLock.userId) | truncate: 2}}
+				</div>
+				<div style="border-top: 2px solid #fff;"></div>
+			</div>
+		</div>
+		<div class='navbar-right'>
+			<div data-ng-show="!doc.deleted" 
+				style="float:right;">
+				<button class="btn cs-btn-icon open-doc-in-taskspace-btn cs-bb" 
+			  	  data-ng-if="showOpenInTaskspaceBtn()" 
+			  	  data-ng-click='openDocumentInTaskspace()' 
+			  	  data-uib-tooltip="Open document in taskspace" 
+			  	  data-tooltip-placement="bottom">
+			  	  <i class="fa fa-long-arrow-up fa-fw"></i>
+				</button>
+				<button class="btn cs-btn-icon cs-bb" 
+					data-ng-if="isAddToTSEnable && !userinfo.isGuestUser" 
+					data-ng-click="(doc.global || doc.perms.share) && addToTaskSpace()"  
+					data-ng-class="{'disabled': !doc.global && !doc.perms.share}" 
+					data-uib-tooltip="Add To Taskspace" 
+					data-tooltip-append-to-body="true" 
+					data-tooltip-placement="bottom">
+					<i class="fa fa-list-ol" aria-hidden="true"></i>
+					<i class="fa fa-plus fa-fw" 
+						style="position: absolute;top: 0;font-size: 12px;margin-left: -5px;">
+					</i>
+				</button> 
+				<button type="button" 
+					class="btn cs-btn-icon cs-bb"
+				 	data-ng-show="DownloadBtn.show"  
+					data-ng-click='downLoad()' 
+					data-uib-tooltip="Download" 
+					data-tooltip-append-to-body="true" 
+					data-tooltip-placement="bottom" 
+					data-ng-disabled="!DownloadBtn.isEnabled">
+					<i class="fa fa-download fa-fw"></i>
+				</button>
+				<button type="button" 
+					class="btn cs-btn-icon cs-bb" 
+					data-ng-disabled="!isComparedSec" 
+					data-ng-if="isComparedSec" 
+					data-uib-tooltip="Open Compared SEC"
+					data-tooltip-placement="bottom" 
+					data-ng-click="openSECCompareFile()">
+					<i class="fa fa-custom-delta fa-fw"></i>
+				</button>
+				<button type="button" 
+				 	class="btn cs-btn-icon cs-bb"
+				 	data-ng-show="!doc.global && !showPdf && doc.editable && doc.perms.edit && showEditButton"
+				 	data-ng-click="editVDVCNote()"
+				 	data-uib-tooltip="Edit"
+				 	data-tooltip-placement="bottom" 
+				 	data-ng-style ="!readOnly && {'background-color':'#069','color':'#fff'}">
+				 	<i class="fa fa-pencil-square-o fa-fw"></i>
+				</button>
+				<button type="button" 
+					class="btn cs-btn-icon cs-bb" 
+					data-ng-class="{'vdvc-menu-disabled':!AdvanceToolBarBtn.isEnabled}" 
+					data-ng-show="AdvanceToolBarBtn.show && !doc.global && !showPdf && doc.editable && doc.perms.edit && !readOnly"
+					data-ng-click="AdvanceToolBarBtn.isEnabled && toggleToolBar()" 
+					data-uib-tooltip="{{toggleToolBarTitle}}" 
+					data-tooltip-placement="bottom">
+					<i class="fa fa-cog fa-fw"></i>
+				</button>
+				<button type="button" class="btn cs-btn-icon cs-bb" 
+			  	  	data-ng-if="isGlobalDoc" 
+			  	  	data-ng-click='SaveToDownloadFolder()' 
+			  	  	data-uib-tooltip="Save to mynumici" 
+			  	  	data-tooltip-placement="bottom">
+			  	  <i class="fa fa-floppy-o fa-fw"></i>
+				</button>
+				<button type="button" class="btn cs-btn-icon cs-bb" 
+				  	data-ng-click='toggleComments()' 
+				  	data-uib-tooltip="Show comments" 
+				  	data-tooltip-placement="bottom" 
+				  	data-ng-show="!isExtensionWebClipDoc()" 
+				  	data-ng-style="showComments && {'background-color':'#069','color':'#fff'}">
+				  	<i class="fa fa-comment-o fa-fw"></i>
+				</button>
+				<button type="button" class="btn cs-btn-icon cs-bb cls" 
+				  	data-ng-click="isCompressOrCloseDoc(doc) ? compressDoc() : closeDocument()" 
+				  	data-uib-tooltip="{{isCompressOrCloseDoc(doc) ? 'Compress' : 'Close'}}" 
+				  	data-tooltip-placement="bottom">
+				  	<i class="fa fa-fw" 
+				  		data-ng-class="isCompressOrCloseDoc(doc) ? 'fa-compress' : 'fa-times'">
+				  	</i>
+				</button>
+				<button type="button" class="btn cs-btn-icon cs-bb exp" 
+				  	data-ng-show="showExpButton" 
+				  	data-ng-click="expandDoc()" 
+				  	data-uib-tooltip="Expand" 
+				  	data-tooltip-placement="bottom">
+				  	<i class="fa fa-expand"></i>
+				</button>
+			</div>
+			<div data-uib-dropdown
+				data-ng-show="!doc.deleted && !doc.perms.readonly && (!isWebResourceDoc() || !isExtensionWebClipDoc())"
+				data-is-open="status.isopen"
+				style="float:right;">
+		        <button type="button" 
+	        		class="btn cs-btn-icon cs-bb" 
+	        		data-uib-dropdown-toggle 
+	        		data-ng-click="!doc.perms.readonly && toggleAddTag($event)"
+	        		data-ng-disabled="doc.perms.readonly" 
+	        		data-uib-tooltip="Tag" 
+					data-tooltip-append-to-body="true" 
+					data-tooltip-placement="bottom">
+		        	<i class="fa fa-tag fa-flip-horizontal fa-fw"></i>
+		      	</button>
+				<ul class="dropdown-menu vdvc-ts-cust-dd-menu" data-uib-dropdown-menu role="menu" style="top:25px;">
+		        	<li class="vdvc-drop-down-item" role="menuitem">
+			        	<div class="vdvc-drop-down-item">
+							<div data-ng-include-replace data-ng-include="'app/components/common/Tags/AddAndEditTags.temp.html'"></div>
+							<!-- <div class="col-xs-12" style="margin-bottom: 10px;">
+								<data-ui-select multiple 
+									data-ng-model="selectedTags.tags" 
+									data-tagging-label="(New Tag)" 
+									data-ng-disabled="disabled" 
+									data-tagging="tagTransform" 
+									data-on-remove="onRemoveTag($item)" 
+									data-on-select="onSelectDocumentTag($item)"  >
+									<data-ui-select-match >{{showTagName($item)}}</data-ui-select-match>
+								    <data-ui-select-choices data-repeat="tag in Alltags | filter:$select.search "
+								    						data-refresh="refreshTagInfo($select.search)" 
+								    						data-refresh-delay="500"
+								    						data-ui-disable-choice="tagFilterSelected(tag,selectedTags.tags)">
+								      <div data-ng-if="tag.isTag" data-ng-bind-html="(tag.TagName | highlight: $select.search) +' (new)'"></div>
+		     			   			  <div data-ng-if="!tag.isTag" data-ng-bind-html="showTagName(tag) | highlight: $select.search"></div>
+								    </data-ui-select-choices>
+								</data-ui-select>
+							</div>
+							<div class="col-xs-12 " style="text-align: right;">
+								<button class='btn vdvc-form-btn vdvc-form-btn-muted'
+									data-ng-click='cancelAddTagToggle($event)'>CANCEL</button>
+								<button class='btn vdvc-form-btn' data-ng-click='saveTag($event)'>SAVE</button>
+							</div> -->
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="vdvc-ts-tags-wrap" style="float:right;padding: 0px 10px 0px 10px;line-height: 30px;">
+				<div class="vdvc-tag" 
+					data-ng-repeat="tag in tags | limitTo:tagLimit"> 
+					<span class="tag-cls"  data-ng-show="!doc.perms.readonly"> 
+						<i class="fa fa-times-circle" data-ng-click='unTag(tag)'></i>
+					</span> 
+					<span data-uib-popover="{{showTagName(tag)}}" 
+						data-popover-placement="auto"
+						data-popover-trigger="'outsideClick'" 
+						data-popover-append-to-body="true" 
+						class="ellipsis" 
+						style="display: block;">
+						{{showTagName(tag)}}
+					</span>
+				</div> 
+				<div class="dropdown" 
+					data-uib-dropdown
+					data-auto-close="outsideClick"
+					data-ng-show="tags.length > tagLimit"
+					style="float:right;margin-right: 10px;margin-left: -8px;">
+		        	<span data-uib-dropdown-toggle 
+		        		  data-ng-disabled="disabled"
+		        		  style="vertical-align: middle;">
+						<i class="fa fa-ellipsis-h fa-fw"></i>
+					</span>
+			      	<ul class="dropdown-menu dropdown-menu-right vdvc-tag-list-drop-down" data-uib-dropdown-menu role="menu" style="top: 25px;">
+				        <li class="vdvc-drop-down-item" 
+				        	role="menuitem">
+				        	<span class="vdvc-tag"
+				        		data-ng-repeat='tag in tags | after:tagLimit'  
+								style="margin-top: 4px;">
+								<span style='width: 100%;display: inline-block;'>
+									<span class="tag-cls" data-ng-show="!doc.perms.readonly">
+										<i class="fa fa-times-circle"  role="button" tabindex="0" data-ng-click='unTag(tag)'></i>
+									</span>
+									<span data-uib-popover="{{showTagName(tag)}}" 
+										data-popover-placement="auto"
+										data-popover-trigger="'outsideClick'" 
+										data-popover-append-to-body="true" 
+										class="ellipsis" 
+										style="display: block;">
+										{{showTagName(tag)}}
+									</span>
+								</span>
+							</span>
+				        </li>
+				    </ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

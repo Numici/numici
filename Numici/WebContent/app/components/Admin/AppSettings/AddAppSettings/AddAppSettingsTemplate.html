@@ -1,0 +1,97 @@
+<form data-ng-submit="aaps.ok()">
+	<div class="modal-header" style="padding: 15px;">
+		<h3 class="modal-title">Add App Settings</h3>
+	</div>
+	<div class="modal-body add-app-settings-modal-body">
+		<div class="row full">
+			<div class="col-xs-12" style="height: 85px;padding: 0px;">
+				<div class="col-xs-6" style="padding-left:0px;">
+					<div class="col-xs-12" style="padding:0px;margin-bottom: 5px;">
+						<label class="col-xs-4" for="select-organization" style="line-height: 33px;padding:0px;">Select Organization</label> 
+						<div class="col-xs-8" style="padding-right:0px;">
+							<data-ui-select id="select-organization" 
+								data-ng-model="aaps.selectedOrganization" 
+								data-search-enabled="false" 
+								data-ng-disabled="aaps.addSettingsFor == 'User'">
+								<data-ui-select-match>{{$select.selected.name}}</data-ui-select-match>
+						    	<data-ui-select-choices data-repeat="organization in aaps.organizationsList">
+								       <div data-ng-bind-html="organization.name | highlight: $select.search"></div>
+								</data-ui-select-choices>
+						    </data-ui-select>
+						</div>
+					</div>
+					<div class="col-xs-12" style="padding-left:0px;margin-bottom: 5px;">
+						<label class="col-xs-4" style="line-height: 33px;padding-left:0px;">Organization Id</label>
+						<div class="col-xs-8">{{aaps.selectedOrganization.id}}</div>
+					</div>
+				</div>
+				<div class="col-xs-6" 
+					data-ng-show="aaps.addSettingsFor == 'User'"
+					style="padding-left:0px;">
+					<div class="col-xs-12" style="padding:0px;margin-bottom: 5px;">
+						<label class="col-xs-4" for="select_user" style="line-height: 33px;padding:0px;">Select User</label> 
+						<div class="col-xs-8" style="padding-right:0px;">
+							<data-ui-select id="select_user" 
+								data-ng-model="aaps.selectedOrgUser" 
+								data-search-enabled="false">
+								<data-ui-select-match>{{aaps.getSelectedUserName($select.selected)}}</data-ui-select-match>
+						    	<data-ui-select-choices data-repeat="OrgUser in aaps.orgUsersList">
+								       <div data-ng-bind-html="aaps.getSelectedUserName(OrgUser) | highlight: $select.search"></div>
+								</data-ui-select-choices>
+						    </data-ui-select>
+						</div>
+					</div>
+					<div class="col-xs-12" style="padding-left:0px;margin-bottom: 5px;">
+						<label class="col-xs-4" style="line-height: 33px;padding-left:0px;">User Id</label>
+						<div class="col-xs-8">{{aaps.selectedOrgUser.loginId}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12" style="border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;height: calc(100% - 85px);overflow-y: auto;">
+				<table class="table system-preferences-table docTable" style="width: 100%;margin-bottom: 0px;">
+					<thead >
+						<tr style="height: 40px;">
+							<th>Key</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-ng-if="aaps.hasShowPermission(key)" data-ng-repeat="(key, value) in aaps.appSettings">
+							<td style="line-height: 33px;">{{key}}</td>
+							<td style="line-height: 33px;">
+								<div data-ng-if="aaps.userSettingsTypes[key].fieldType == 'DropDown'">
+									<data-ui-select data-ng-model="aaps.appSettings[key]" data-search-enabled="false">
+										<data-ui-select-match>{{$select.selected}}</data-ui-select-match>
+								    	<data-ui-select-choices data-repeat="configType in aaps.getUserSettingsTypes(key).valuesType">
+											<div data-ng-bind-html="configType | highlight: $select.search"></div>
+										</data-ui-select-choices>
+									</data-ui-select>
+								</div>
+								<div data-ng-if="aaps.userSettingsTypes[key].fieldType == 'FreeText'">
+									<input type="text" 
+						        	   class="form-control vdvc-input-txt" 
+						        	   data-ng-class="{'error' : !aaps.validateAppSettingValue(key,aaps.appSettings[key])}" 
+						        	   data-ng-model="aaps.appSettings[key]" 
+						        	   data-ng-blur="aaps.validateAppSettingValue(key,aaps.appSettings[key])" 
+						        	   data-uib-tooltip="{{aaps.userSettingsTypes[key].tooltip}}" 
+						               data-tooltip-placement="top" 
+						               data-tooltip-trigger="'mouseenter'">
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="col-xs-8 error">
+			<span data-ng-show="aaps.showErrorMessage">{{aaps.errorMessage}}</span>
+		</div>
+		<div class="col-xs-4">
+			<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="aaps.cancel()">CANCEL</button>
+			<button class="btn vdvc-form-btn" type="submit" data-ng-disabled="aaps.disableSaveAppSettingsBtn()">SAVE</button>
+		</div>
+	</div>
+</form>
+

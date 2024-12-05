@@ -1,0 +1,23 @@
+<div class="doc-viewr col-xs-12 full" data-ng-attr-data-id="{{viewerId}}">
+	<div class='row full'>
+	
+		<div data-ng-include-replace data-ng-include="'app/components/DocViewer/Mobile/docViewerSecondaryNavBar.html'"></div>
+		<div class="row full mobile doc-container">
+			<div class="cke-wrap full col-xs-12" data-ng-show="!showComments">
+				<form>
+					<textarea data-ng-attr-id="{{ viewerId }}"
+						style="display: none; width: 0px; overflow: auto;position:absolute;top:-500px;"
+						data-ng-model="content"></textarea>
+				</form>
+			</div>
+			
+			<div data-ng-include-replace data-ng-include="'app/components/DocViewer/Mobile/docViewerComments.html'"></div>
+			<div data-ng-include-replace data-ng-include="'app/components/DocViewer/docViewerTextTools.html'"></div>
+			<div data-ng-include-replace data-ng-include="'app/components/DocViewer/docViewerLinkInfo.html'"></div>
+			<div data-ng-include-replace data-ng-include="'app/components/DocViewer/linkMetaInfo.html'"></div>
+			<!-- <div class="table-export-tool">
+				<span class='fa  fa-share-square-o' data-ng-click="exportTableToModel()"></span>
+			</div> -->
+		</div>
+	</div>
+</div>

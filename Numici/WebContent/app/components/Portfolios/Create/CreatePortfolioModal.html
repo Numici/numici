@@ -1,0 +1,191 @@
+<form data-ng-submit="vm.ok()">
+	<div class="modal-header">
+		<h3 class="modal-title">New Portfolio</h3>
+	</div>
+	<div class="modal-body portfolio-create-modal-body" style="padding-bottom: 0px;">
+		<span style="color: #bd362f;font-weight:bold;">{{vm.errMsg}}</span>
+		<div class="col-sm-12" style="height: 40px;padding: 0px;">
+			<label class="col-sm-3" style="line-height: 35px;">Portfolio Name</label>
+		    <div class="col-sm-9">
+		        <input type="text" 
+	        	   class="form-control vdvc-input-txt" 
+	        	   id="portfolioname"
+				   data-ng-model='vm.portfolioName' 
+				   autofocus>
+		    </div>
+		</div>
+		<div class="col-sm-12" style="height: 40px;padding: 0px;">
+			<label class="col-sm-3" style="line-height: 35px;">Notifications</label>
+		    <div class="col-sm-9" style="line-height: 35px;">
+		        <div class="srch-Ntf" 
+			    	data-ng-click="vm.onChangeNotify()">
+					<i class="fa fa-toggle-on active"
+				       data-ng-if="vm.isNotify">
+				    </i>
+				    <i class="fa fa-toggle-on fa-rotate-180 inactive"
+				       data-ng-if="!vm.isNotify">
+				    </i>
+				</div>
+		    </div>
+		</div>
+		<div class ="col-sm-12" data-ng-show="vm.isNotify" style="height: 40px;padding: 0px;">
+			<label class="col-sm-3" style="line-height: 35px;">Document Type</label>
+			<div class="col-sm-9 vdvc-pf-doc-section" data-on-outside-element-click="vm.DocTypeWrap.close()">
+				<div>
+				    <div class="txt-label vdvc-pf-dt-dd-toggle" 
+				    	data-ng-click="vm.DocTypeWrap.toggle()" 
+				    	style="height: 35px;">
+				    	<div class="ellipsis" 
+				    		data-uib-tooltip="{{vm.SlctdDocTypes.getSelectedDocTypes()}}" 
+							data-tooltip-append-to-body="true" 
+				    		style="float:left;width: calc(100% - 10px);padding: 0px 3px;height: 33px;">
+				    		{{vm.SlctdDocTypes.getSelectedDocTypes()}}
+				    	</div> 
+				    	<span class="fa" data-ng-class="{'fa-caret-up': !vm.DocTypeWrap.isOpen, 'fa-caret-down':vm.DocTypeWrap.isOpen}" style="position: absolute;right: 20px;top: 10px;"></span>
+				    </div>
+				    <div class='custom-drop-down-r input-wrap vdvc-pf-dd-menu' data-ng-show="vm.DocTypeWrap.isOpen">
+						<div class="row col-xs-offset-1">
+							<div class="col-xs-12" >
+								<div class ="col-xs-12 checkbox col-top-mrgn-5">
+									<input type="checkbox" 
+										data-ng-model="vm.docTypes.selectAllDocs" 
+										data-ng-change="vm.onDocTypeChange('All')">
+									<label>ALL</label>
+									<span class="vdvc-error" 
+										data-ng-hide="vm.DocTypeWrap.validateDocTypeSelection()">
+										(Please Select at least one Document Type)
+									</span>
+								</div>
+								<div class="col-xs-6" 
+									data-ng-repeat="(key,value) in vm.docTypes['Documents'] | groupBy: 'group'">
+									<div class ="row" 
+										data-ng-repeat="docType in value |  orderBy:'order'">
+										<div class ="checkbox col-top-mrgn-5" 
+											data-ng-class="{ 'col-xs-offset-1': docType.isSubType}">
+											<input type="checkbox" 
+												data-ng-model="docType.checked" 
+												data-ng-change="vm.onDocTypeChange(docType)">
+											<label>{{::docType.lable}}</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="divider-h-full col-top-bottom-mrgn-10 "></div>
+						<div class="row">
+							<div class="col-xs-12">
+								<div class ="checkbox col-top-mrgn-5 doc_dype_dd_row2_ele" 
+									data-ng-repeat="docType in vm.docTypes['ownerShip'] | orderBy:'order'">
+									<input type="checkbox" 
+										data-ng-model="docType.checked" 
+										data-ng-change="vm.onDocTypeChange(docType)">
+									<label>{{::docType.lable}}</label>	
+								</div>
+							</div>
+						</div>
+						<div class="divider-h-full col-top-bottom-mrgn-10 "></div>
+						<div class="col-xs-12">
+							<div class ="col-xs-12 checkbox col-top-mrgn-5" 
+								data-ng-repeat="docType in vm.docTypes['optional'] | orderBy:'order'" 
+								data-ng-show="docType.show">
+								<input type="checkbox" 
+									data-ng-model="docType.checked" 
+									data-ng-disabled="docType.disable">
+								<label>{{docType.lable}}</label>	
+							</div>
+						</div>
+					</div>
+			    </div>
+		    </div>
+		</div>
+		<div class="col-sm-12" style="height: 40px;padding: 0px;">
+			<label class="col-sm-3" data-ng-show="!vm.showTickersDetails" style="line-height: 35px;">Tickers</label> 
+			<div class="col-sm-9" data-ng-show="!vm.showTickersDetails">
+				<data-ui-select multiple 
+					class="vdvc-pf-ticker-dd" 
+					data-ng-model="vm.selectedTickers" 
+					data-search-enabled="false"
+					data-on-select="vm.processTickerOnSelect($item)"
+					data-on-remove="vm.removeTickerFromSelection($item)" style="padding: 3px 3px 2px;">
+					<data-ui-select-match>
+			    		<span data-ng-if="$item.ticker != null && $item.ticker != ''">{{$item.ticker}}</span>
+			    		<span data-ng-if="$item.ticker == null || $item.ticker == ''"
+			    			data-uib-tooltip="{{$item.companyName}}" 
+			    			data-tooltip-append-to-body="true">{{$item.companyName | truncate: 7: '...'}}</span>
+			    	</data-ui-select-match>
+			    
+				    <data-ui-select-choices repeat="ticker in vm.companiesList | filter:$select.search track by $index"  
+				    data-refresh="vm.refreshTickers($select.search)" data-refresh-delay="500">
+				      <div style="display: table;width: 100%;">
+				      	<div data-ng-bind-html="ticker.ticker | highlight: $select.search" style="display: table-cell;width: 20%;"></div>
+				      	<div data-ng-bind-html="ticker.companyName | highlight: $select.search" style="display: table-cell;width: 60%;white-space:pre-line;"></div>
+				      	<div data-ng-bind-html="ticker.cik | highlight: $select.search" style="display: table-cell;width: 20%;"></div>
+				      </div>
+				    </data-ui-select-choices>
+			    </data-ui-select>
+		    </div>
+		</div>
+		<div class="col-sm-12 vdvc-pf-ticker-list-div">
+			<table class="table docTable" 
+				style="width: 100%;">
+				<thead>
+					<tr style="height: 40px;">
+						<th class="ellipsis" 
+							data-ng-class="hdr.class" 
+							data-ng-repeat="hdr in vm.pfTickersListHeaders">
+							<div class="row" style="position: relative;padding-right: 20px;">
+								<span data-uib-tooltip="{{::hdr.label}}" data-tooltip-append-to-body="true">
+									{{::hdr.label}}
+								</span>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody data-ng-show="vm.selectedTickers.length>0">
+					<tr data-ng-if="!fldr.trash"
+						data-ng-repeat="ticker in vm.selectedTickers | reverse" 
+						data-ng-class="{'item-selected' : ticker.selected}">
+						<td class="ellipsis" data-ng-if="!$last" data-ng-repeat="hdr in vm.pfTickersListHeaders">
+							<span class="row">
+								<span class="ellipsis" 
+									data-uib-tooltip="{{ticker[hdr.value]}}" 
+									data-tooltip-append-to-body="true">
+									{{ticker[hdr.value]}}
+								</span>
+							</span>
+						</td>
+						<td class="ellipsis" data-ng-if="$last" data-ng-repeat="hdr in vm.pfTickersListHeaders">
+							<span class="row">
+								<span class="ellipsis" 
+									data-ng-click="vm.removeTickerFromSelection(ticker)"
+									data-uib-tooltip="Remove" 
+									data-tooltip-append-to-body="true">
+									{{hdr.value}}
+								</span>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+				<tbody data-ng-show="(vm.selectedTickers == null || vm.selectedTickers == undefined) || (vm.selectedTickers && vm.selectedTickers.length == 0)">
+					<tr>
+						<td class="ellipsis">
+							<span class="row">
+								<span class="ellipsis">
+									No data available.
+								</span>
+							</span>
+						</td>
+					</tr>
+				</tbody>	
+			</table>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<span class="" style="float: left;font-weight: bold;height: 34px;line-height: 34px;">
+			<span style="color: #069;">Number of Tickers : </span>
+			{{vm.selectedTickers.length}}
+		</span>
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit">CREATE</button>
+	</div>
+</form>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache,no-store, must-revalidate" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+<title>Dashboard</title>
+
+<!-- <link rel="stylesheet" href="resources/css/gray-theme/jquery-ui-1.10.3.custom.css"></link> -->
+<link rel="stylesheet" href="resources/css/custom.css?20151009"></link>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"></link>
+
+
+
+<link rel="stylesheet" href="resources/js/libs/jquery/pepper-grinder/jquery-ui.min.css"></link>
+<script type="text/javascript" src="resources/js/libs/jquery/jquery-1.10.2.js"></script>
+<script src="resources/js/libs/jquery/jquery-ui-1.11.0.min.js"></script>
+
+<!-- <script type="text/javascript" src="resources/js/libs/jquery/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="resources/js/libs/jquery/jquery-ui-1.10.3.custom.min.js"></script> -->
+
+<script type="text/javascript" src="resources/js/libs/chartinglibs/d3.min.js"></script>
+
+<script type="text/javascript" src="resources/js/libs/jquery/jquery.fileupload.js?20151009"></script>
+<script type="text/javascript" src="resources/js/libs/jquery/jquery.dialogextend.js?20151009"></script>
+<script type="text/javascript" src="resources/js/libs/jquery/jquery.jstree.min.js?20151009"></script>
+<script type="text/javascript" src="resources/js/excelGrid.js?20151009"></script>
+<script type="text/javascript" src="resources/js/Utils.js?20151009"></script>
+<script type="text/javascript" src="resources/js/vappControls/Runtime/vdvcTagManager.js?20151009"></script>
+<script type="text/javascript" src="resources/js/modelGraphs.js?20151009"></script>
+<script type="text/javascript" src="resources/js/ImportWizard.js?20151009"></script>
+<script type="text/javascript" src="resources/js/finDtaImpWizard.js?20151009"></script>
+<script type="text/javascript" src="resources/js/finEdgarDataImpWizard.js?20151009"></script>
+<script type="text/javascript" src="resources/js/finEdgarDataImpWizard2.js?20151009"></script>
+<script type="text/javascript" src="resources/js/finBEADataImpWizard.js?20151009"></script>
+<script type="text/javascript" src="resources/js/finBLSDataImpWizard.js?20151009"></script>
+<script type="text/javascript" src="resources/js/form13FimportWizard.js?20151009"></script>
+<script type="text/javascript" src="resources/js/dbDataImpWizard.js?20151009"></script>
+<script type="text/javascript" src="resources/js/notificationWizard.js?20151009"></script>
+<script type="text/javascript" src="resources/js/registerRssFeedWizard.js?20151009"></script>
+<script type="text/javascript" src="resources/js/downloadSecFilings.js?20151009"></script>
+<script type="text/javascript" src="resources/js/companyInformation.js?20151009"></script>
+<script type="text/javascript" src="resources/js/dashboard.js?20151009"></script>
+
+</head>
+<body style="background: white; overflow: hidden;">
+
+	<div
+		style="width: 98%; margin-left: 1%; margin-right: 1%; height: 50px;">
+		<h3>Dashboard</h3>
+	</div>
+	<div  class="dshbrdcontent" style="height: 600px !important;">
+
+		<div style="width: 96%; margin-left: 2%; margin-right: 2%; height: 500px;">
+			<span style=" margin-right: 10px;position: relative; font-size: 20px; font-weight: bold;">My Models</span>
+			<div style="height: 50px; padding: 3px;">
+				<button data-btn-role="vdvcAj" style="float: left;" class="button" >DashboardAj</button>
+				<button data-btn-role="vdvcNotes" style="float: left;" class="button" >New Dashboard</button>
+				<button data-btn-role="vdvcBuilder" style="float: left;" class="button" >New</button>
+				<button data-btn-role="file_upload" class="button" id="fileUpload" style="width:100px;float: left;cursor: pointer;">Upload<input type="file" class="file-upload" value="Upload" id="upload_btn"  style="width:100px;float: left;height: 100%;"/></button>
+				<button data-btn-role="img_upload" class="button" id="imgUpload" style="width:100px;float: left;cursor: pointer;">ImgUpload<input type="file" class="file-upload" value="ImgUpload" id="img_upload_btn"  style="width:100px;float: left;height: 100%;"/></button>
+				<button data-btn-role="refresh_model" style="float: left;" class="button">Refresh</button>
+				<button data-btn-role="vApps" style="float: right;" class="button" disabled="disabled">vApps</button>
+				<!-- <button data-btn-role="vAppgen" style="float: right;" class="button" disabled="disabled">vAppgen</button> -->
+				<button data-btn-role="GvAppgen" style="float: right;" class="button"  disabled="disabled">vAppgen</button>
+				<!-- <button data-btn-role="create_vApp" style="float: right;" disabled="disabled" class="button">Create vApp</button> -->
+				<button data-btn-role="usr_perms"  style="float: right;" disabled="disabled" class="button">Permissions</button>
+				<button data-btn-role="publish_vApp" style="float: right;" disabled="disabled" class="button">Publish</button>
+				<button data-btn-role="view_model" style="float: right;" disabled="disabled" class="button">Visualize</button>
+				<button data-btn-role="delete_model" style="float: right;" disabled="disabled" class="button">Delete</button>
+				<button data-btn-role="publishToMail" style="float: right;" disabled="disabled" class="button">PublishToMail</button>
+				<button data-btn-role="tagModel" style="float: right;" disabled="disabled" class="button">Tag</button>
+
+				<div style="float: right;">
+					<ul id="Importmenu" style="border-radius: 5px;" >
+					 <li style="padding: 5px;" class="ui-state-disabled main-menu">Import
+					        <ul>
+					          <li data-btn-role="csvImport" style="height: 20px;" class="menu-action ">
+					         	CSV<input type="file" class="file-upload" value="Import" style="position: absolute;top:0px;left: 0px;" />
+					          </li>
+					          <li data-btn-role="dbDataImport" class="menu-action">DB Data</li>
+					          <li data-btn-role="form13fImport" class="menu-action">Form 13F</li>
+					          
+					          <li>Financial Data
+					          	<ul>
+						          <li data-btn-role="quoteHistory" class="menu-action">Quote History</li>
+						          <li data-btn-role="dividendHistory" class="menu-action">Dividend History</li>
+						          <li>Edgar Data
+						          	<ul>
+							          <li data-btn-role="balanceSheetHistory" class="menu-action">Balance Sheet</li>
+							          <li data-btn-role="incomeStatementHistory" class="menu-action">Income Statement</li>
+							          <li data-btn-role="cashFlowStatementHistory" class="menu-action">Cash Flow</li>
+							          <li data-btn-role="valuationRatiosHistory" class="menu-action">Valuation Ratios</li>
+							          <li data-btn-role="profitabilityRatiosHistory" class="menu-action">Profitability Ratios</li>
+							        </ul>
+						          </li>
+						          <li>Edgar Data 2
+						          	<ul>
+							          <li data-btn-role="balanceSheetHistory2" class="menu-action">Balance Sheet</li>
+							          <li data-btn-role="incomeStatementHistory2" class="menu-action">Income Statement</li>
+							          <li data-btn-role="cashFlowStatementHistory2" class="menu-action">Cash Flow</li>
+							          <li data-btn-role="valuationRatiosHistory2" class="menu-action">Valuation Ratios</li>
+							          <li data-btn-role="profitabilityRatiosHistory2" class="menu-action">Profitability Ratios</li>
+							        </ul>
+						          </li>
+						          <li>BEA Data
+						          	<ul>
+							          <li data-btn-role="beaGDPbyIndustryHistory" class="menu-action">GDP by Industry</li>
+							        </ul>
+						          </li>
+						          <li>BLS Data
+						          	<ul>
+							          <li data-btn-role="blsConsumerPriceIndexHistory" class="menu-action">Consumer Price Index</li>
+							          <li data-btn-role="blsProductPriceIndexHistory" class="menu-action">Product Price Index</li>
+							        </ul>
+						          </li>
+						        </ul>
+					          </li>
+					        </ul>
+					 </li>
+					</ul>
+				</div>
+
+				<!-- <button data-btn-role="csvImport" style="float: right;cusror:pointer;" id="csvImport" disabled="disabled" class="button">
+					Import<input type="file" class="file-upload" value="Import" id="import_btn"  style="width:100px;float: left;height: 100%;"/>
+				</button> -->
+				<button data-btn-role="exportModel" style="float: right;"  class="button">Export Model</button>
+				<button data-btn-role="importModel" style="float: right;"  class="button">
+					Import Model <input type="file" class="file-upload" value="Import" style="width:100px;float: left;height: 100%;"/>
+				</button>
+				<button data-btn-role="registerNotification" style="float: right;"  class="button">Register Notifications</button>
+				<button data-btn-role="registerRssFeed" style="float: right;"  class="button">Register RSS Feed</button>
+				<button data-btn-role="companyInformation" style="float: right;"  class="button">Company Information</button>
+				<!-- <button data-btn-role="downloadSF" style="float: right;"  class="button">Download SEC</button> -->
+			</div>
+			<div id="mymodels" style="width: 100%; height: 430px; overflow: hidden;"></div>
+		</div>
+	</div>
+	<!-- <div id="publish_vApp" style="display: none;">
+		<table style="width: 100%;">
+			<tbody>
+				<tr style="height: 50px;">
+					<td>vApp  :</td>
+					<td><select id="vlist" width="400" style="width: 500px;"></select></td>
+				</tr>
+				<tr style="height: 50px;">
+					<td>Model :</td>
+					<td><input type="text" data-id="model_name" style="width: 500px;" disabled="disabled"/></td>
+				</tr>
+				<tr style="height: 50px;">
+					<td>User  :</td>
+					<td><select id='vAppUser' width="400" style="width: 500px"><option value='default'>Select</option></select></td>
+				</tr>
+				<tr style="height: 50px;">
+					<td>Workspace :</td>
+					<td><select type="text" data-id="workspace" style="width: 500px;"></select></td>
+				</tr>
+				<tr style="height: 50px;">
+					<td>Workspace Name :</td>
+					<td><input type="text" data-id="suggested-name" style="width: 500px;" disabled="disabled"/></td>
+				</tr>
+			</tbody>
+		</table>
+		<div style='width:100%;'>
+			<div style='width:55%;height:30px;float:left;overflow:hidden;'></div>
+			<div style='width:45%;height:30px;float:left;'  class="permSet">
+
+			</div>
+		</div>
+		<div style="width: 100%;height: 275px;overflow-y: scroll !important;overflow-x: hidden;" id="dimPermUI"></div>
+	</div> -->
+	<div id="publishToMail">
+		<!-- User :<select id="userslist"></select><br></br><br></br> -->
+		Email :<input type="email" name="email" style="width:300px;"/><br></br><br></br>
+		<input type="radio" name="writeToExcel" value="true" checked="checked"/>With Formulas<br></br><br></br>
+		<input type="radio" name="writeToExcel" value="false"/>Without Formulas
+	</div>
+	<div id="vAppGen">
+		<!-- User :<select id="userslist"></select><br></br><br></br> -->
+	</div>
+
+</body>
+</html>

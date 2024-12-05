@@ -1,0 +1,172 @@
+<div class="container-fluid full" style="overflow: hidden;">
+	<div id="nav-bar-height-div"></div>
+	<div class="col-xs-12" style="padding: 0px;overflow: auto;">
+		<div data-set-content-container-height="EmailList" id="vdvc-content-wrap" class="col-xs-12" style="position: relative;min-width: 1075px;">
+			<div class="full taskContainer" style="padding: 0px;">
+				<div class="full" style="padding: 10px 0px;">
+					<div class="full vrt-ts-obj-wrap" 
+						data-ng-show="eic.UserRole != 'TSGuest'" 
+						data-ng-class="{'colap-tsobj-list': eic.toggleSideBarChecked}">
+						<div class="full" 
+							data-ng-hide="eic.toggleSideBarChecked"
+			        		style="padding: 0px;float: left;overflow: hidden;position: relative;">
+			        		<div style="height: 70px; margin-bottom: 10px; border-bottom: 1px solid #ccc; position: absolute; width: 100%;background: #fff;">
+			        			<div style="padding: 0px 10px;height:30px;margin: 3px 0px; ">
+								  <input type="text" 
+								  	style="height: 30px;"
+								    placeholder="Find Documents"
+								    class="vdvc-input-txt " 
+								    data-ng-model="eic.docSearchTxt" 
+								    autofocus>
+							    </div>
+								<div style="padding: 0px 10px;height:30px;margin: 3px 0px;">
+									<div class="full">
+										<div class="dropdown ts-doc-list-sort" 
+											data-uib-dropdown
+										 	style="float: left;">
+									        <button type="button" 
+								        		class="btn vdvc-nav-btn dropdown-toggle create-new" 
+								        		data-uib-dropdown-toggle 
+								        		data-ng-disabled="false" 
+								        		data-tooltip-append-to-body="true" 
+										        data-tooltip-placement="auto top" 
+										        data-uib-tooltip="{{eic.getSortedField()}}"
+								        		style="font-size: 13px;height: 25px;padding: 0px 5px;margin: 2.5px 2.5px 0px;">
+									        	<i class="fa" 
+									        		data-ng-class="eic.getSortedOrderIcon()"  
+									        		aria-hidden="true" 
+									        		style="float: left;height: 23px;line-height: 23px;font-size: 12px;">
+									        	</i><!-- data-ng-class="{'fa-sort-amount-asc' : !eic.emailDocListSortByDec , 'fa-sort-amount-asc fa-flip-vertical': eic.emailDocListSortByDec}" -->
+									        	<div class="ellipsis" style="min-width: 50px;max-width: 72px;float: left;height: 23px;line-height: 23px;margin: 0px 5px;text-align: left;">
+									        		{{eic.getSortedField()}}
+									        	</div> 
+									        	<span class="caret" 
+									        		style="float: left;height: 18px;line-height: 18px;margin: unset;margin-top: 10px;">
+									        	</span>
+									      	</button>
+									      	<ul class="vdvc-more-dd" data-uib-dropdown-menu role="menu" aria-labelledby="createNew" style="min-width: 120px;left: 2.5px;top: calc(100% - 2px);">
+										        <li class="vdvc-drop-down-item open-manage-ts" role="menuitem" data-ng-click="eic.emailDocListSortByDec = !eic.emailDocListSortByDec;eic.sortDocsBy($event,'createdOn')">
+										        	<div class="vdvc-drop-down-item">
+										        	  <span style="width: 20px;display: inline-block;">
+										        	  	<i class="fa fa-fw fa-check" data-ng-if="eic.emailDocListSortBy == 'createdOn'"></i>
+										        	  </span>
+										        	  <span>Date</span>
+										        	  <span class="fa" 
+										        	  	data-ng-if="eic.emailDocListSortBy == 'createdOn'" 
+										        	  	data-ng-class="{'fa-sort-numeric-asc' : !eic.emailDocListSortByDec , 'fa-sort-numeric-desc': eic.emailDocListSortByDec}" 
+										        	  	style="float: right;padding: 0px 1px;margin-left: 5px;margin-top: 8px;">
+										        	  </span>
+										        	</div>
+										        </li>
+										        <li class="vdvc-drop-down-item open-manage-ts" role="menuitem" data-ng-click="eic.emailDocListSortByDec = !eic.emailDocListSortByDec;eic.sortDocsBy($event,'name')">
+										        	<div class="vdvc-drop-down-item">
+										        	  <span style="width: 20px;display: inline-block;">
+										        	  	<i class="fa fa-fw fa-check" data-ng-if="eic.emailDocListSortBy == 'name'"></i>
+										        	  </span>
+										        	  <span>Subject</span>
+										        	  <span class="fa" 
+										        	  	data-ng-if="eic.emailDocListSortBy == 'name'" 
+										        	  	data-ng-class="{'fa-sort-alpha-asc' : !eic.emailDocListSortByDec , 'fa-sort-alpha-desc': eic.emailDocListSortByDec}" 
+										        	  	style="float: right;padding: 0px 1px;margin-left: 5px;margin-top: 8px;">
+										        	  </span>
+										        	</div>
+										        </li>
+									        </ul>
+									  	</div>
+									</div>
+								</div>
+							</div>
+							<div style="position: relative;height: calc(100% - 70px);position: relative;top: 70px;">
+								<div class="row full" 
+					        		style="overflow-x: hidden;overflow-y: auto;width: 270px;">
+								    <div class="vrt-ts-obj" 
+				        				style="overflow-y: hidden;width: 100%;">
+					        			<div class="col-xs-12 ts-card-wrap" 
+						        			data-ng-class="{'ts-mobile-card-wrap' : eic.deviceInfo.isMobile || eic.deviceInfo.isTablet || eic.deviceInfo.isTouch}" 
+						        			data-ng-repeat="emailDoc in eic.emailDocs | filter: eic.docSearchTxt track by $index" 
+						        			data-scroll-if-current-ts-doc="{{emailDoc.id == eic.selectedEmailDoc.id}}">
+						        			<div class="row ts-card" 
+						        				 data-ng-class="{'current_ts_doc': emailDoc.id == eic.selectedEmailDoc.id}"
+						        				 data-ng-model="eic.emailDocs">
+						        				
+						        				<div class="row full ellipsis" data-ng-click="eic.onEmailDocClick(emailDoc)">
+					        						<div class="row full ts-crd-content">
+														<div class="row" style="height: 30px;line-height: 30px;">
+															<div class="col-xs-12 email-doc-title" 
+															     data-uib-tooltip="{{emailDoc.name}}" 
+															     data-tooltip-append-to-body="true" 
+															     style="color: #006699">
+																<span>
+										      					  {{emailDoc.name}}
+										      					</span>
+															</div>
+														</div>
+														<div class="row vdvc-text-sub" style="height: 25px;line-height: 25px;padding: 0px;">
+															<div class="col-xs-12 doc-created ellipsis" 
+																data-tooltip-placement="auto top"
+																data-tooltip-append-to-body='true' 
+																data-uib-tooltip ="{{emailDoc.createdOn | date:'medium'}}">
+																{{emailDoc.createdOn | date:'medium'}}
+															</div>
+														</div>
+														<div data-ng-if="emailDoc.description.length > 0" class="row vdvc-text-sub" style="height: 25px;line-height: 25px;padding-right: 0px;padding-left: 15px">
+															<div class="ellipsis" style="float: left;width: calc(100% - 30px)">
+																{{emailDoc.description}}
+															</div>
+														</div>
+														<div class="col-xs-12 vdvc-email-attachements" 
+															data-ng-click="$event.stopPropagation()">
+															<div class="col-xs-12" 
+																data-ng-repeat="attachment in emailDoc.attachments" 
+																data-uib-tooltip="{{attachment.displayName}}" 
+																data-tooltip-append-to-body="true" 
+																data-ng-click="eic.openAttachment(attachment)" 
+																data-ng-class="{'active': attachment.id == eic.openedAttachment.id}">
+																<i class="fa fa-paperclip" aria-hidden="true"></i> {{attachment.displayName}}
+															</div>
+														</div>
+							        				</div>	
+												</div>
+						        			</div>
+						        		</div>
+						        	</div>
+								</div>
+							</div>
+			        	</div>
+			        	<div class="ts-obj-colp-txt" style="color:#069;">
+							<span class="v-txt-mid" data-collapsed-doc-list-width="Documents">
+							    <span class="ellipsis" 
+							    	style="width: 100%;float: left;padding: 0px 15px;margin: 5px 0px;">
+							    	{{eic.showSelectedEmailName()}}
+							    </span>
+							</span>
+						</div>
+						<div class="ts-obj-colp-bwrp">
+							<div class="ts-obj-colp-btn" 
+								 data-ng-click="eic.toggleEmailList()">
+								<i class="fa fa-fw" 
+									data-ng-class="{'fa-angle-double-right': eic.toggleSideBarChecked, 'fa-angle-double-left': !eic.toggleSideBarChecked}" 
+									aria-hidden="true">
+								</i>
+							</div>
+						</div>
+				    </div>
+			 		<div class="full onepane-animate-hide" 
+			      		 data-ng-controller="InboxEmailDocController as inboxEmailDoc"
+			      		 data-ng-init="inboxEmailDoc.document = eic.selectedEmailDoc" 
+			      		 data-ng-class="{'ts-obj-exp': !eic.toggleSideBarChecked, 'ts-obj-colap': eic.toggleSideBarChecked}" 
+			      		 data-ng-style="{'width' : eic.UserRole == 'TSGuest' ? '100%' : ''}" 
+			      		 style="padding: 0px;">
+			        	<div class="full row"
+			        		style="background: #fff">
+			        		<div class="col-xs-12 vdvc-ldr-spin-wrap" data-ng-show="tsobj.loader" data-ng-class="{'full':tsobj.loader}">
+				        		<div class="vdvc-loader-spin vdvc-v-align"></div>
+				        	</div>
+			        	    <div class="full row task-obj-wrap One" data-ng-mouseenter="tsobj.showVdvcNavbar()" data-ng-mouseleave="tsobj.hideVdvcNavbar()"></div>	 
+			        	</div>
+			        </div>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>

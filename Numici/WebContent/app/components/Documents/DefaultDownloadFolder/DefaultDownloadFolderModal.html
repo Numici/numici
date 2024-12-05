@@ -1,0 +1,63 @@
+<form data-ng-submit="vm.ok()">
+	<div class="modal-header">
+		<div class="row">
+			<div class="col-xs-12">
+				<h3 class="modal-title">Save a copy</h3>
+			</div>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-xs-12">
+				<label for="selctedFolderForUpload">FOLDER</label> 
+				<div class="form-group" id="selctedFolderForUpload">
+						<!-- <span class="col-xs-10 ellipsis" data-tooltip-append-to-body="true" data-uib-tooltip="{{folderpath}}">{{folderpath}}</span> -->
+						<div class="col-xs-10">
+							<ul class="nav navbar-nav ellipsis" style="font-size: 14px; color: rgba(51, 51, 51, 0.74);float: left;line-height: 30px;width:100%;max-width:100%;height:35px;">
+			 					 		
+						 		<li data-ng-if="fldr.root" 
+						 			data-ng-repeat="fldr in vm.docHierarchy " 
+						 			data-tooltip-append-to-body='true' 
+						 			data-uib-tooltip="Home" 
+						 			data-tooltip-placement="bottom"
+						 			class="vdvc-breadcrumbs  ellipsis full">
+						 		  	<span>
+								         <i class="fa fa-home"></i>
+								    </span>
+						 		</li>
+						 		
+						 		<li data-ng-if="!fldr.root && !$last"  
+						 			data-ng-repeat="fldr in vm.docHierarchy " 
+						 			data-tooltip-append-to-body='true' 
+						 			data-uib-tooltip="{{fldr.name}}" 
+						 			data-tooltip-placement="bottom"
+						 			class="vdvc-breadcrumbs  ellipsis full">
+						 		  	<span>
+							         	<i class="fa fa-folder-open-o" data-ng-show="!fldr.isDummy"></i> {{::fldr.name}}
+							        </span>
+						 		</li>
+						 		
+						 		<li data-nv-set-rm-mxwidth = "vm.docHierarchy"
+						 			data-ng-if="!fldr.root && $last"  
+						 			data-ng-repeat="fldr in vm.docHierarchy"
+						 			data-tooltip-append-to-body='true' 
+						 			data-uib-tooltip="{{::fldr.name}}"
+						 			data-tooltip-placement="bottom" 
+						 			class="vdvc-breadcrumbs  ellipsis full">
+						 		  	<span>
+							         	<i class="fa fa-folder-open-o"></i> {{::fldr.name}}
+							        </span> 
+						 		</li>
+							</ul>
+						</div>
+						<button class="btn vdvc-form-btn" type="button" data-ng-click="vm.BrowseFolders('lg')" style="float:right">CHANGE</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">CANCEL</button>
+		<button class="btn vdvc-form-btn" type="submit">SAVE</button>
+	</div>
+
+</form>

@@ -1,0 +1,67 @@
+<form data-ng-submit="box.ok()">
+	<div class="modal-header" style="height: 50px;padding: 10px 0px;">
+		<div class="col-xs-12">
+			<ul class="nav navbar-nav ellipsis" style="font-size: 20px; color: rgba(51, 51, 51, 0.74);float: left;line-height: 30px;width:100%;max-width:100%;height:35px;margin: 0px;">
+			 					 		
+		 		<li data-tooltip-append-to-body='true' 
+		 			data-uib-tooltip="OneDrive" 
+		 			data-tooltip-placement="bottom"
+		 			class="vdvc-breadcrumbs  ellipsis full"
+		 			data-ng-if="!box.isSyncFolder">
+		 		  	<span data-ng-click="box.openBoxRoot()">
+				         Box
+			       	</span>
+		 		</li>
+		 		
+		 		<li data-tooltip-append-to-body='true' 
+		 			data-uib-tooltip="{{box.currntFolder.name}}" 
+		 			data-tooltip-placement="bottom"
+		 			class="vdvc-breadcrumbs  ellipsis full"
+		 			data-ng-repeat="fldr in box.fldrHierarchy">
+		 		  	<span data-ng-click="!box.isSyncFolder && box.openBoxFolder(fldr)">
+			         	<i class="fa fa-folder-o" ></i> {{fldr.name}}
+			       	</span>
+		 		</li>
+		 	</ul> 
+				
+		</div>
+	</div>
+	<div class="modal-body" style="height: 400px;overflow: auto;background: #eee;">
+		<div class="row">
+			<div class="col-sm-3 col-xs-12" data-ng-repeat="fldr in box.folders" style="padding: 5px;">
+				<div class="col-xs-12 drive-fldr">
+					<div class="row" style="position: absolute;right: 0;z-index: 10;">
+						<div class="radio" 
+							 data-ng-class="{'radio-info' : fldr.selected}">
+					       <input data-ng-model="box.selectedBoxFolder.folder"
+					              type="radio" 
+					              data-ng-value="fldr">
+					       <label></label>
+					    </div>
+				    </div>
+					<div class="row full" style=" font-size: 14px;color:#000000;margin-top: 30px;position: absolute;left: 0;width: 100%;padding: 0px 5px;" data-ng-click="!box.isSyncFolder && box.openBoxFolder(fldr)">
+						<div class="row"  style="text-align: center;position: relative;">
+							<img alt="" data-ng-src="assets/icons/folder.png" />
+							<!-- <span style="position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);">
+								{{::fldr.size}}
+							</span> -->
+						</div>
+						<div class="row ellipsis"  style="text-align: center;" data-tooltip-append-to-body='true' data-uib-tooltip ="{{::fldr.name}}">
+							{{::fldr.name}}
+						</div>
+						<div class="row sub-head ellipsis"  style="text-align: center;color:#069;" data-tooltip-append-to-body='true' data-uib-tooltip ="{{::fldr.createdDate | date:'medium'}}" >
+							<div class="row sub-head ellipsis" style="text-align: center;color:#069;">{{::fldr.createdDate | date:'medium'}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="box.cancel()">CLOSE</button>
+		<button class="btn vdvc-form-btn" type="submit" data-ng-show='!box.isSyncFolder' data-ng-disabled='!box.selectedBoxFolder.folder.id'>SYNC</button>
+		<button class="btn vdvc-form-btn" type="button" data-ng-click="box.unsync(true)" data-ng-show='box.isSyncFolder'>UNSYNC</button>
+		<button class="btn vdvc-form-btn" type="button" data-ng-click="box.unsync(false)" data-ng-show='box.isSyncFolder'>UNSYNC AND DELETE FILES</button>
+	</div>
+</form>

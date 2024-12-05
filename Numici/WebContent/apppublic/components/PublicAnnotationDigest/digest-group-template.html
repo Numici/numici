@@ -1,0 +1,199 @@
+<div class="drc" data-ng-style="::setDigesMinMaxWidth()">
+<!-- <annotaion-digest-title data-get-title-styles = "::titleStyles()" data-task-space="taskSpace" ></annotaion-digest-title> -->
+	<div class="row" contenteditable="false">
+      	<div class="row digest-name" 
+	       	data-ng-if="digestName.length>0" 
+	       	style="color: #069;text-align: center;padding: 10px 0px;font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;">
+			<h2 data-ng-if="digestFor != 'DigestDocument' || digestUrl.length == 0">{{digestName}}</h2>
+			<h2 data-ng-if="digestFor == 'DigestDocument' && digestUrl.length > 0">
+				<a data-ng-href="{{digestUrl}}" 
+					target="_blank" 
+					role="button" 
+					style="color: #069; text-decoration: none !important;">
+					{{digestName}} 
+				</a>
+			</h2>
+		</div>
+		<div class="row digest-description" 
+			data-ng-if="description.length>0" 
+			data-ng-bind-html="description| to_trusted" 
+			style="padding: 10px 0px;color: #24292e;font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;border-bottom: 1px solid #aaa;padding-bottom: 20px;">
+			<!-- {{description}} -->
+		</div>
+		<section data-ng-if="digestFor != 'DigestDocument'">
+			<div class="row" data-ng-if="groupBy == 'section'">
+		 		<digest-table-of-contents
+					digest-data="groupDigestData" 
+					data-digest-meta-info-options="digestMetaInfoOptions" 
+					data-table-of-contents="tableOfContents"
+					data-table-of-contents-heading="{{tableOfContentsHeading}}"
+					data-table-id="digest_table_of_contents"
+					group-by="groupBy"
+					template-for="section">
+				</digest-table-of-contents>
+			</div>
+			<div class="row" data-ng-if="groupBy == 'tag' || groupBy == 'taghierarchical'">
+				<digest-table-of-contents
+					digest-data="groupDigestData" 
+					data-digest-meta-info-options="digestMetaInfoOptions" 
+					data-table-of-contents="tableOfContents"
+					data-table-of-contents-heading="{{tableOfContentsHeading}}"
+					data-table-id="digest_table_of_contents"
+					group-by="groupBy"
+					template-for="tag">
+				</digest-table-of-contents>
+			</div>
+		</section>
+		<br>
+      </div>
+  <div data-ng-repeat="gpDigest in ::groupDigestData" contenteditable="false" style="width: 100%;float: left;">
+  	<div data-ng-if="digestFor != 'DigestDocument' && groupBy == 'taghierarchical'" ng-attr-id="{{getTagAsID(gpDigest.tagName)}}">
+	    <div data-ng-style="::getTagStyles(gpDigest.tagName)" style="display: inline-block;height: 25px;line-height: 25px;margin: 5px;"> 
+			<h2 style="display: table;">
+			    <span data-ng-if="tableOfContents == 'withIndex'"
+			          style="display: table-cell;padding-right: 20px;font-size: 0.8em;word-break:keep-all;">
+			    	{{gpDigest.diIndex}}
+			    </span>
+				<span style="display: table-cell;word-break:break-word;">
+					{{::gpDigest.tagValLable}} 
+<!-- 					 <digest-link-to-table-of-contents 
+				  		data-ng-if="tableOfContents && tableOfContents != 'notInclude'"
+				  		table-id="digest_table_of_contents">
+				     </digest-link-to-table-of-contents> -->
+				</span>
+			</h2>
+			
+		</div>
+	</div>
+    <div data-ng-if="groupBy == 'tag' || groupBy == 'taghierarchical'" class="row" style="margin-left: 20px;">
+    	<div data-ng-repeat="entries in ::gpDigest.entries track by $index">
+    	 <div data-ng-if="digestFor != 'DigestDocument'" data-ng-attr-id="{{getTagAsID(entries.tagValue)}}">
+    		<div data-ng-if="groupBy == 'taghierarchical'">
+    		<div data-ng-if="::entries.tagValLable"   style="display: inline-block;padding: 0px;margin: 0px 5px;color: #069;margin-left: 15px;">
+				<h3 style="display: table;">
+				  <span data-ng-if="tableOfContents == 'withIndex'"
+				        style="display: table-cell;padding-right: 20px;font-size: 0.8em;word-break:keep-all;">
+				    {{gpDigest.diIndex}}.{{entries.diIndex}}
+				  </span>
+				  <span style="display: table-cell;word-break:break-word;">
+				  	{{::entries.tagValLable}}
+<!-- 					  <digest-link-to-table-of-contents 
+					  		data-ng-if="tableOfContents && tableOfContents != 'notInclude'"
+					  		table-id="digest_table_of_contents">
+					  </digest-link-to-table-of-contents> -->
+				  </span>
+				</h3>
+    		</div>
+    		</div>
+    		<div data-ng-if="groupBy == 'tag'">
+    		<div data-ng-if="::entries.tagValLable"  style="display: inline-block;
+					    padding: 0px;
+					    margin: 0px 5px;
+					    color: #069;">
+				<h2>
+				  <span data-ng-if="tableOfContents == 'withIndex'"
+				        style="display: table-cell;padding-right: 20px;font-size: 0.8em;word-break:keep-all;">
+				  	{{entries.diIndex}}
+				  </span>
+				  <span style="display: table-cell;word-break:break-word;">
+				  	{{::entries.tagValLable}}
+					
+<!-- 					 <digest-link-to-table-of-contents 
+				  		data-ng-if="tableOfContents && tableOfContents != 'notInclude'"
+				  		table-id="digest_table_of_contents">
+				  	</digest-link-to-table-of-contents> -->
+				  </span>
+				</h2>
+    		</div>
+    		</div>
+    		</div>
+    		<div style="padding-left: 15px;">
+    			 <annotaion-digest-template 
+			    	data-digest="entries.digest" 
+			    	template-url="{{url}}" 
+			    	title="false"
+			    	data-digest-for="digestFor"
+			    	data-digest-meta-info-options="digestMetaInfoOptions" 
+			    	data-enable-border="enableBorder" 
+			    	data-image-position="imagePosition" 
+			    	data-display-order="displayOrder"
+			    	data-display-replies="displayReplies"
+			    	data-set-diges-min-max-width= "digesMinMaxWidth()"
+					data-get-title-styles = "titleStyles()"
+					data-alternate-image-styles = "altImageStyles()"
+					data-set-rep-digest-styles = "repDigestStyles(digest)"
+					data-get-annotated-text = "annotatedText(annotation)"
+					data-format-created-date = "createdDate(dateValue)"
+					data-format-comment="convertComment(annotation,comment)"
+					data-comment-icon-url = "commentIconUrl">
+			    </annotaion-digest-template>
+    		</div>
+    		
+    	</div>
+    </div>
+                                             
+    <div data-ng-if="groupBy == 'section'" data-ng-attr-id="{{getTagAsID(gpDigest.section)}}">
+	    <div data-ng-if="digestFor != 'DigestDocument'" class="col-xs-12" style="padding: 0px;">
+	    	<div class="col-xs-12" 
+		    	data-ng-style="::getTagStyles(gpDigest.section)" 
+		        style="padding: 0px;display: inline-block;height: 25px;line-height: 25px;margin: 5px;"> 
+				<h2 style="display: table;margin: 0px;">
+				    <span data-ng-if="tableOfContents == 'withIndex'"
+				          style="display: table-cell;padding-right: 20px;font-size: 0.8em;word-break:keep-all;">
+				    	{{gpDigest.diIndex}}
+				    </span>
+					<span style="display: table-cell;word-break:break-word;">
+						{{::gpDigest.section}} 
+<!-- 						 <digest-link-to-table-of-contents 
+					  		data-ng-if="tableOfContents && tableOfContents != 'notInclude'"
+					  		table-id="digest_table_of_contents">
+					     </digest-link-to-table-of-contents> -->
+					</span>
+				</h2>
+			</div>
+			<div data-ng-if="gpDigest.description.length > 0" class="col-xs-12" style="padding: 0px;margin: 5px;">
+				<span style="display: table-cell;word-break:break-word;">
+			    	{{gpDigest.description}}
+			    </span>
+			</div>
+	    </div>
+		<div class="row" style="margin-left: 20px;">
+	    	<div style="padding-left: 15px;">
+	   			 <annotaion-digest-template 
+			    	data-digest="gpDigest.documents" 
+			    	template-url="{{url}}" 
+			    	title="false"
+			    	data-digest-for="digestFor"
+			    	data-digest-meta-info-options="digestMetaInfoOptions" 
+			    	data-enable-border="enableBorder" 
+			    	data-image-position="imagePosition" 
+			    	data-display-order="displayOrder"
+			    	data-display-replies="displayReplies"
+			    	data-set-diges-min-max-width= "digesMinMaxWidth()"
+					data-get-title-styles = "titleStyles()"
+					data-alternate-image-styles = "altImageStyles()"
+					data-set-rep-digest-styles = "repDigestStyles(digest)"
+					data-get-annotated-text = "annotatedText(annotation)"
+					data-format-created-date = "createdDate(dateValue)"
+					data-format-comment="convertComment(annotation,comment)"
+					data-comment-icon-url = "commentIconUrl" 
+					data-group-by-index = "gpDigest.diIndex">
+			    </annotaion-digest-template>
+	   		</div>
+	    </div>
+    </div>
+  </div>
+	
+	<div style="border-top: 3px solid #069; width: 100%; float: left;margin-top: -3px;"></div>
+	<div data-ng-if="numiciImage.length>0 && numiciFooterText.length>0" contenteditable="false"
+  		style="width: 100%; height: 30px; line-height: 30px; justify-content: center; display: flex; padding-top: 15px;">
+		<a data-ng-href="{{numiciLink}}" target="_blank" style="text-decoration: none !important;">
+			<img data-ng-src="{{numiciImage}}"
+			     style="width: 30px;">
+		</a>
+		<a data-ng-href="{{numiciLink}}" target="_blank" role="button"
+			style="color: #069; font-size: 20px; font-weight: 500; margin-left: 6px; text-decoration: none !important;">
+			{{numiciFooterText}}</a>
+	</div>
+	
+</div>

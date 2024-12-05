@@ -1,0 +1,76 @@
+#loading-bar .bar {
+  top: 55px;
+  height: 4px;
+}
+.vdvc-icon {
+	padding: 10px;
+	text-align: center;
+}
+.active {
+	border-bottom: solid 5px #F2D163;
+	
+}
+
+.navbar-brand {
+  
+  font-size: 25px !important;
+ 
+}
+
+@media (min-width: 768px) {
+	.navbar-header {
+	  width: 280px;
+	  padding-left: 50px;
+	}
+	.navbar-right {
+   	  margin-right: 0px;
+	}
+}
+
+.row {
+ margin: 0px;
+}
+.vdvc-mdl, .vdvc-vapp ,.vdvc-fldr,.vdvc-doc{
+	background-color: white !important;
+	height: 245px;
+  /*  box-shadow: 1px 1px 4px 0px gray;*/
+}
+
+.selected {
+	  box-shadow: 0px 0px 15px 5px rgba(128, 128, 128, 0.53);
+	  
+}
+.crd-content  {
+	height: 200px;
+	padding: 10px;
+	color:#333333;
+}
+
+.crd-content .row {
+	padding:5px 0px 5px 0px;
+}
+.selected .crd-content {
+	 background-color: #FFFFBF;
+	  
+}
+
+.vdvc-add-mdl {
+	border: dashed 2px gainsboro;
+  	padding: 95px;
+  	font-size: 20px;
+  	color: #2796CD;
+}
+
+.navbar-search {
+	padding: 10px !important;
+}
+
+.navbar{
+  background-color: #FFFFFF;
+  font-family: 'Helvetica Neue';
+  font-size: 16px;
+  font-weight: bold;
+  color: #006699;
+  box-shadow: 0px 0px 4px 2px gray;
+  border: none;
+}

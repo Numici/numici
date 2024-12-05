@@ -1,0 +1,133 @@
+<form data-ng-submit="sp.ok()">
+	<div class="modal-header">
+		<h3 class="modal-title" style="padding-left: 15px;">
+			Share Portfolio
+			<i class="fa fa-close" style="float:right;color: #006699;" data-ng-click="sp.cancel()"></i>
+		</h3>
+	</div>
+	<div class="modal-body">
+			<div class="form-group">
+				<div class="row" style="margin-bottom: 25px;">
+					<div class="col-xs-7 vdvc-ms-wrap">
+						<data-ui-select multiple 
+							data-ng-model="sp.userPerms.users" 
+							data-on-select="sp.checkIsInvalidUser($select.selected.loginId)" 
+							data-on-remove="sp.checkIsInvalidUser($select.selected.loginId)"
+							sortable="true" 
+							autofocus="true">
+					
+						    <data-ui-select-match placeholder="Select Users...">{{$item.firstName}} {{$item.lastName}}</data-ui-select-match>
+						    
+						    <data-ui-select-choices repeat="user.loginId as user in sp.Users | filter:{hasPermission:false,loginId:$select.search}">
+						      <div data-ng-if="user.firstName && user.firstName.length > 0" data-ng-bind-html="user.firstName+' '+ user.lastName | highlight: $select.search"></div>
+						      <small>
+						        {{user.loginId}}
+						      </small>
+						    </data-ui-select-choices>
+						    
+						</data-ui-select>
+					</div>
+					<div class="col-xs-3 portfolio-share-perms">
+						<data-ui-select data-ng-model="sp.userPerms.grantedPerms[0]" data-search-enabled="false"  data-on-select="sp.selectPerms($select.selected.name)">
+					
+						    <!-- <data-ui-select-match >{{$select.selected}}</data-ui-select-match>
+						    
+						    <data-ui-select-choices repeat="perm in sp.permSet">
+						      <div data-ng-bind-html="perm | highlight: $select.search"></div>
+						    </data-ui-select-choices> -->
+						    <data-ui-select-match >{{$select.selected.displayName}}</data-ui-select-match>
+						    <data-ui-select-choices repeat="perm.name as perm in sp.permSet | highlight: $select.search">
+							    <span data-ng-bind-html="perm.displayName"></span>
+							</data-ui-select-choices>
+						    
+						</data-ui-select>
+					</div>
+					<div class="col-xs-2 checkbox">
+						<input id="PropagateShare" type="checkbox" data-ng-model="sp.isPropagateShare" data-ng-disabled="!sp.disablePropagateShare">
+						<label for="PropagateShare">{{::sp.sharePropagateLable}}</label>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<table class='table table-condensed' style="margin-bottom: 0px;">
+						<tr>
+							<td class="col-xs-6" style="border-top: 0px;"><b>Manage Users</b></td>
+							<td class="col-xs-3" style="border-top: 0px;"></td>
+							<td class="col-xs-2" style="border-top: 0px;"><b>{{::sp.sharePropagateLable}}</b></td>
+							<td class="col-xs-1" style="border-top: 0px;"></td>
+						</tr>
+					</table>
+				</div>
+				<!-- <div class="col-xs-12" style="max-height:200px;overflow: auto;margin-bottom: 30px;">
+					<table class='table table-condensed'>
+						<tr data-ng-if="sp.items.length == 1" data-ng-repeat='(user,perms) in sp.sharedWithModel'>
+						  <td class="col-xs-8 cell-vm">{{user}}</td>
+						  <td class="col-xs-3 cell-vm cust-ui-select-wrp">
+						  	<data-ui-select data-ng-model="sp.sharedWithModel[user][0]"  data-ng-disabled="disabled" data-search-enabled="false" data-append-to-body="true">
+					
+							    <data-ui-select-match >{{$select.selected}}</data-ui-select-match>
+							    
+							    <data-ui-select-choices repeat="perm in sp.permSet | filter: $select.search">
+							      <div data-ng-bind-html="perm | highlight: $select.search"></div>
+							    </data-ui-select-choices>
+							    
+							</data-ui-select>
+						  </td>
+						  <td class="col-xs-1 cell-vm cell-hm ">
+							<span data-ng-click="sp.revokePermissions(user)" class="rm-perms"><i class='fa fa-times'></i></span>
+						  </td>
+					</table>
+				</div> -->
+				<div class="col-xs-12" style="max-height:200px;overflow: auto;margin-bottom: 30px;">
+					<table class='table table-condensed'>
+						<tr data-ng-if="sp.items.length == 1" data-ng-repeat='(userId,perms) in sp.sharedWithModel'>
+						  <td class="col-xs-6 cell-vm">{{userId}}</td>
+						  <td class="col-xs-3 cell-vm cust-ui-select-wrp">
+						  	<data-ui-select data-ng-show = "sp.checkUserType(userId) == 'Shared'" 
+						  			   data-ng-model="sp.sharedWithModel[userId].perms[0]"  
+						  			   data-ng-disabled="disabled" 
+						  			   search-enabled="false" 
+						  			   append-to-body="true" 
+						  			   data-on-select="sp.updatePerms(userId,$select.selected.name)">
+					
+							    <!-- <data-ui-select-match >{{$select.selected}}</data-ui-select-match>
+							    
+							    <data-ui-select-choices repeat="perm in sp.permSet | filter: $select.search">
+							      <div data-ng-bind-html="perm | highlight: $select.search"></div>
+							    </data-ui-select-choices> -->
+							    <data-ui-select-match >{{$select.selected.displayName}}</data-ui-select-match>
+							    <data-ui-select-choices repeat="perm.name as perm in sp.permSet | highlight: $select.search">
+								    <span data-ng-bind-html="perm.displayName"></span>
+								</data-ui-select-choices>
+							    
+							</data-ui-select>
+							<span style="padding-left: 10px;line-height: 2.5;" data-ng-show = "sp.checkUserType(userId) == 'Owner' || sp.checkUserType(userId) == 'LoggedInUser'">{{sp.sharedWithModel[userId].perms[0]}}</span>
+						  </td>
+						  <td class="col-xs-2 checkbox cell-vm" style="padding-left: 20px;text-align: center;">
+						  	<span data-ng-show = "sp.checkUserType(userId) != 'Owner'">
+							  	<input type="checkbox" data-ng-model="sp.sharedWithModel[userId].isSharable" data-ng-change="sp.changeSharedWithModel()" data-ng-disabled="sp.disableSharableForManaged(userId)">
+								<label></label>
+							</span>
+						  </td>
+						  <td class="col-xs-1 cell-vm cell-hm ">
+							<span data-ng-show = "sp.checkUserType(userId) == 'Shared'" data-ng-click="sp.revokePermissions(userId)" class="rm-perms"><i class='fa fa-times'></i></span>
+						  </td>
+					</table>
+				</div>
+			</div>
+	</div>
+	<div class="modal-footer">
+		<div class="col-xs-12" style="padding: 0px;">
+			<div data-ng-show = "sp.permChanged" class="col-xs-6" style="float: left; padding: 0px;line-height: 34px;color: #006699;">You have made changes to permissions.</div>
+			<div class="col-xs-6" style="float: right;padding-right: 0px;">
+				<button data-ng-show = "!sp.permChanged" 
+					class="btn vdvc-form-btn" 
+					type="submit" 
+					data-ng-disabled="sp.userPerms.users.length == 0 || sp.isFormSubmiting" 
+					style="float: right;">SHARE</button>
+				<button data-ng-show = "sp.permChanged" class="btn vdvc-form-btn" type="submit" style="float: right;">SAVE CHANGES</button>
+				<button data-ng-show = "sp.permChanged" class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="sp.cancelChangePermissions()" style="float: right;">CANCEL</button>
+			</div>
+		</div>
+	</div>
+
+</form>

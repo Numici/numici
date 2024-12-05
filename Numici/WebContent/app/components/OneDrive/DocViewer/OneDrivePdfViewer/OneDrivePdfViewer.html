@@ -1,0 +1,42 @@
+<div class="row full pdf-viewr" data-ng-attr-data-id="{{odc.documentId}}">
+	<div id="loader" data-ng-show="ODPV.isLoading">
+		<div class="pdf-progress-bar">
+			<span class='bar' data-ng-style='{width: ODPV.downloadProgress + "%"}'>Loading...</span>
+		</div>
+	</div> 
+	<div class="row full pdf-wrap">
+		<div class='row pdf-navbar'>
+			<div class="pdf-tools">
+			  <button data-ng-click="ODPV.zoomIn()" class="btn btn-xs vdvc-icon-btn"><i class="fa fa-search-plus"></i></button>
+			  <button data-ng-click="ODPV.fit()" class="btn btn-xs vdvc-icon-btn fa fa-arrows-alt"></button>
+			  <button data-ng-click="ODPV.zoomOut()" class="btn btn-xs vdvc-icon-btn"><i class="fa fa-search-minus"></i></button>
+			  
+			  <button data-ng-click="ODPV.goPrevious()" class="btn btn-xs vdvc-icon-btn"><i class="fa fa-arrow-left"></i></button>
+			  <span style="display: inline-block;margin: 0px 10px 0px 0px;">
+			  	<input type="text" min=1 data-ng-model="ODPV.pdfCurrentPage" data-ng-change="ODPV.onPDFPageChanged()" class="vdvc-input-txt" 
+				  style="padding: 0px;border: none;width: 50px;text-align: end;line-height: 35px;" >
+				  <span style="display: inline-block;width: 50px;"> / {{ODPV.pdfTotalPages}}</span>
+			  </span>
+			  <button data-ng-click="ODPV.goNext()" class="btn btn-xs vdvc-icon-btn">
+			  	<i class="fa fa-arrow-right"></i>
+			  </button>
+			</div>
+		</div>
+		<div class="row pdf-container">
+			<div data-ng-class="ODPV.showComments ? 'col-xs-9' : 'col-xs-12'" class="full">
+				<div pdf-viewer data-src="{{ODPV.pdfURL}}"
+					data-current-page="ODPV.pdfCurrentPage"
+					data-initial-scale="fit_width" 
+					data-api="ODPV.pdfViewerAPI"
+					data-render-text-layer="true"
+					data-progress-callback="ODPV.onPDFProgress(operation, state, value, total, message)"
+					data-password-callback="ODPV.onPDFPassword(reason)"
+					data-search-term="{{ODPV.pdfSearchTerm}}"
+					data-search-result-id="ODPV.pdfSearchResultID"
+					data-search-num-occurences="ODPV.pdfSearchNumOccurences"
+					id="content" class="vdvc-pdf-viewer">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

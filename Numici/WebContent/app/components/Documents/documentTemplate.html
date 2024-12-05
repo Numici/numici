@@ -1,0 +1,81 @@
+<div class="crd-view" 
+	 data-ng-class="{'item-selected' : doc.selected}"
+	 data-uib-popover-template="linkUIProperties.templateUrl"
+	 data-popover-is-open="doc.showLink"
+	 data-popover-placement="auto bottom"
+	 data-popover-trigger="linkUIProperties.trigger"
+	 data-popover-class="docLinkInfo">
+	<div class="row" >
+		<div class="checkbox checkbox-circle crd-checkbox" 
+			 data-ng-class="{'checkbox-primary' : doc.selected}"
+			 data-ng-show="showGridCheckbox()">
+	       <input data-ng-model="doc.selected" type="checkbox" data-ng-change="checkFolderOrFile(doc)">
+	       <label></label>
+	    </div>
+	</div>
+    
+    <span class="doc-link btn" 
+    	  data-ng-show="doc.isSharable" 
+          data-ng-class="{'disabled': !doc.isSharable}"
+    	  data-ng-click="doc.isSharable && getDocLink(doc)">
+		<i class="fa fa-link"></i>
+    </span>
+    
+    <span class="vdvc-private vdvc-private-doc"
+    	  data-ng-click="doc.isOwner && switchPrivate(doc)">
+		<i class="fa fa-lock" data-ng-class="{'fa-lock': doc.private,'fa-unlock': !doc.private,'owner':doc.isOwner}"></i>
+    </span>
+    <span class="vdvc-external-doc-icon" data-ng-if="getDocLogo(doc)">
+	 	<span data-ng-class="getDocLogo(doc)"></span>
+	</span>
+	<span class="file-icon-group">
+		<span class="crd-doc-icon">
+			<i data-ng-class="getFileIcon(doc)"></i>
+		</span>
+		<span class="crd-shrd-doc-icon" data-ng-show="doc.shared">
+			<i class="fa fa-user"></i>
+		</span>
+	</span>
+	<div class="row crd-content ellipsis" 
+		 data-on-long-press="onLongPress(doc)" 
+		 data-ng-click="openDocument(doc,$event)">
+		<div class="row">
+			<div class="row" style=" font-size: 14px;color:rgba(51, 51, 51, 0.9);">
+			<div class="row">
+				<div class="col-xs-12 " style="min-height: 20px;" data-uib-tooltip="{{doc.companyName}}">
+				{{doc.companyName}}
+				</div>
+			</div>
+			</div>
+			<div class="row" >
+				<div class="col-xs-12  vdvc-text-25" data-uib-tooltip="{{doc.displayName}}" data-tooltip-append-to-body="true">
+					<!-- {{getDocName(doc)}} -->
+					{{doc.displayName}}
+				</div>
+				<div class="col-xs-12 " data-uib-tooltip="{{doc.createdBy}}" data-tooltip-append-to-body="true" style="color:#006699;">
+					{{doc.createdBy}}
+				</div>
+			</div>
+			<div class="row vdvc-text-sub" >
+				<div data-set-doc-type data-type="{{doc.docType}}" class="col-xs-12 "></div>
+				<div class="col-xs-12 " data-uib-tooltip="{{::doc.datePublished | date:'medium'}}" data-tooltip-append-to-body="true">
+					Date Published: {{::doc.datePublished | date:'medium'}}
+				</div>
+			</div>
+			<div class="row vdvc-crd-tag-wrp">
+				<span data-ng-repeat='tag in doc.tags | orderBy: "TagName" | limitTo : 3' 
+					class="vdvc-card-tag" 
+					data-tooltip-append-to-body='true' 
+					data-uib-tooltip ="{{::tag.Value != null ? tag.TagName+' : '+tag.Value : tag.TagName}}" 
+					style="max-width: 27.333333%;margin-right: 10px !important;">
+					<span style='width: 100%;display: inline-block;'>
+						<span class="tag-cls">
+							<i class="fa fa-times-circle"  role="button" tabindex="0" data-ng-click='unTag(tag,doc,$event)'></i>
+						</span>
+						<span>{{::tag.Value != null ? tag.TagName+" : "+tag.Value : tag.TagName}}</span>
+					</span>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>

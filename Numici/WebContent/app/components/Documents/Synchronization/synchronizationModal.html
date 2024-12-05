@@ -1,0 +1,244 @@
+<form data-ng-submit="vm.setFolderSync()">
+	<div class="modal-header" style="padding: 15px;">
+		<h3 class="modal-title">{{ vm.syncedNoteBook.length == 0 ? 'Connect With Evernote Notebook' : 'Connected to Evernote'}}</h3>
+	</div>
+	<div class="modal-body" style="max-height: 300px;overflow: auto;background: #eee;">
+		<div class="col-xs-12" data-ng-if="vm.syncedNoteBook.length > 0" style="padding: 0px;margin: 10px 0px;" >
+			<label class="col-xs-3" style="height:40px;line-height: 40px;">Notebook :</label>
+			<div class="col-xs-9 ts-bar ts-slct">
+				<div class="col-xs-11 ellipsis" data-uib-tooltip="{{vm.syncedNoteBook[0].name}}" data-tooltip-append-to-body="true" role="button" style="padding-left: 0px;">
+					 <span>{{vm.syncedNoteBook[0].name}}</span>
+				</div>
+				<div class="col-xs-1" style="padding: 0px;text-align: right;">
+					<span class="fa fa-remove fa-fw" data-ng-click="vm.removeFolderSync()"></span>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12" data-ng-if="vm.syncedNoteBook.length == 0 && vm.noteBooksList.length > 0" style="padding: 0px;margin-bottom: 5px;">
+			<div class="col-xs-5" style="padding-left: 0px;">
+				<span class="fldrs-hdr"> 
+					NOTEBOOKS 
+					<span>({{vm.getNoteBooksListCount()}})</span>
+				</span>
+			</div>
+			<div class="col-xs-7" style="padding:0px;">
+				<div class="col-xs-2" style="width: 30px;float: right;padding: 0px;">
+					<div class="table-col-con-dd" 
+						data-uib-dropdown 
+						data-auto-close="outsideClick">
+						<button  type="button" 
+		      		   			 class="btn vdvc-nav-btn vdvc-doc-main-btn"
+		      		   			 data-uib-dropdown-toggle 
+		      		   			 data-ng-disabled="disabled" >
+					    	<i class="fa fa-ellipsis-h fa-rotate-90 fa-fw"></i>
+					    </button>
+					    <ul data-uib-dropdown-menu class="dropdown-menu-right" role="menu" aria-labelledby="single-button">
+					        <li role="menuitem" data-ng-class="{active : hdr.checked}" data-ng-repeat="hdr in vm.noteBooksListHeaders" data-ng-click="vm.selectColumn(hdr,vm.noteBooksListHeaders)">
+					        	<div class="vdvc-drop-down-item">{{hdr.label}}</div>
+					        	<div data-ng-if="!$last" class="vdvc-divider"></div>
+					        </li>
+					    </ul>
+				    </div>
+				</div>
+				<div class="col-xs-10" style="padding:0px 5px 0px 0px;width: calc(100% - 30px);float: right;">
+					<input type="text" 
+		        	   class="form-control vdvc-input-txt" 
+		        	   data-ng-model="vm.noteBookSearchString" 
+					   placeholder='Find Notebook'>
+				</div>
+			</div>
+			
+		</div>
+		<div class="row">
+			<table id="notebooks-table" class="table docTable fldrs-table" data-ng-show="vm.noteBooksList.length>0">
+				<thead >
+					<tr>
+						<th class="wraptext" 
+							data-ng-if="hdr.checked && $first" 
+							data-ng-class="hdr.class" 
+							data-ng-repeat="hdr in vm.noteBooksListHeaders" 
+							data-ng-click="vm.sortByfield(hdr)">
+							<div class="row lv-th-ele-wrap">
+								<span class="lv-obj-icon-wrap">
+									<i class="fa fa-fw fa-book"></i>
+								</span>
+								<span data-uib-tooltip="{{hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == vm.noteBooksField" 
+										data-ng-class="{'fa-caret-up' : !vm.noteBooksFieldDecending , 'fa-caret-down': vm.noteBooksFieldDecending}">
+									</i>
+								</span>
+							</div>
+						</th>
+						<th class="ellipsis" 
+							data-ng-if="hdr.checked && !$first" 
+							data-ng-class="hdr.class" 
+							data-ng-repeat="hdr in vm.noteBooksListHeaders" 
+							data-ng-click="vm.sortByfield(hdr)">
+							<div class="row lv-th-ele-wrap">
+								<span data-uib-tooltip="{{hdr.label}}" 
+									data-tooltip-append-to-body="true">
+									{{hdr.label}}
+								</span>
+								<span class="lv-sort-icon-wrap">
+									<i class="fa fa-fw" 
+										data-ng-show="hdr.value == vm.noteBooksField" 
+										data-ng-class="{'fa-caret-up' : !vm.noteBooksFieldDecending , 'fa-caret-down': vm.noteBooksFieldDecending}">
+									</i>
+								</span>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-ng-if="vm.noteBooksSearchStringFilter(noteBook)" 
+						data-ng-repeat="noteBook in vm.noteBooksList track by noteBook.guid" 
+						data-ng-dblclick="vm.selectNoteBookToSync(noteBook)" 
+						data-ng-click="!vm.supportMultiSelectNoteBooks && vm.selectNoteBookToSync(noteBook)" 
+						data-on-long-press="!vm.supportMultiSelectNoteBooks && vm.selectNoteBookToSync(noteBook)" 
+						data-ng-class="{'link-folder-selected' : noteBook.selected}" 
+						class="notebook-row">
+						<td data-ng-class="hdr.class" 
+							data-ng-if="hdr.checked && $first" 
+							data-ng-repeat="hdr in vm.noteBooksListHeaders">
+							<div class="wraptext">
+								<div data-ng-if="vm.supportMultiSelectNoteBooks" class="checkbox lv-cb-wrap" 
+									data-ng-click="$event.stopPropagation();">
+				               		<input type="checkbox" 
+				               			data-ng-model="noteBook.selected" 
+				               			data-ng-change="vm.selectNoteBookToSync(noteBook)">
+				               		<label class="lv-cb-label"></label>
+				            	</div>
+								<div class="lv-obj-icon-wrap" style="float: left;">
+									<i class="fa fa-fw fa-book"></i>
+								</div>
+								<div data-ng-switch="hdr.type" style="float: left;max-width: calc(100% - 60px);">
+									<div class="ellipsis">
+										<div data-ng-switch-when="text" 
+											data-uib-tooltip="{{noteBook[hdr.DValue]}}" 
+											data-tooltip-append-to-body="true">
+											{{noteBook[hdr.DValue]}}
+										</div>
+										<div data-ng-switch-when="Date" 
+											data-uib-tooltip="{{noteBook[hdr.DValue] | date:'medium'}}" 
+											data-tooltip-append-to-body="true">
+											{{noteBook[hdr.DValue] | date:'medium'}}
+										</div>
+									</div>
+								</div>	
+							</div>
+						</td>
+						<td class="ellipsis" 
+							data-ng-if="hdr.checked && !$first" 
+							data-ng-repeat="hdr in vm.noteBooksListHeaders">
+							<span class="row" 
+								data-ng-switch="hdr.type">
+								<span class="ellipsis">
+									<span data-ng-switch-when="text" 
+										data-uib-tooltip="{{noteBook[hdr.DValue]}}" 
+										data-tooltip-append-to-body="true">
+										{{noteBook[hdr.DValue]}}
+									</span>
+									<span data-ng-switch-when="Date" 
+										data-uib-tooltip="{{noteBook[hdr.DValue] | date:'medium'}}" 
+										data-tooltip-append-to-body="true">
+										{{noteBook[hdr.DValue] | date:'medium'}}
+									</span>
+								</span>
+							</span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="row" data-ng-if="vm.noteList.length>0">
+			<div class="col-xs-4" style="padding-left: 0px;">
+				<span class="files-hdr"> 
+					NOTES 
+					<span>({{vm.getNotesListCount()}})</span>
+				</span>
+			</div>
+			<div class="col-xs-6" style="padding-left:0px;">
+				<input type="text" 
+	        	   class="form-control vdvc-input-txt" 
+	        	   id="org_search"
+				   data-ng-model="vm.noteSearchString" 
+				   placeholder='Search'>
+			</div>
+			<div class="col-xs-2">
+				<div class="table-col-con-dd" 
+					data-uib-dropdown 
+					data-auto-close="outsideClick">
+					<button  type="button" 
+	      		   			 class="btn vdvc-nav-btn vdvc-doc-main-btn"
+	      		   			 data-uib-dropdown-toggle 
+	      		   			 data-ng-disabled="disabled" >
+				    	<i class="fa fa-ellipsis-h fa-rotate-90 fa-fw"></i>
+				    </button>
+				    <ul data-uib-dropdown-menu class="dropdown-menu-right" role="menu" aria-labelledby="single-button">
+				        <li role="menuitem" data-ng-class="{active : hdr.checked}" data-ng-repeat="hdr in vm.noteListHeaders" data-ng-click="vm.selectColumn(hdr,vm.noteListHeaders)">
+				        	<div class="vdvc-drop-down-item">{{hdr.label}}</div>
+				        	<div data-ng-if="!$last" class="vdvc-divider"></div>
+				        </li>
+				    </ul>
+			    </div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer" style="padding: 15px;">
+		<!-- <div class="col-xs-6" style="padding: 0px;text-align: left;">
+			<div class="checkbox" style="height: 20px;margin: 7px 0px;">
+				<input id="twoWaySync" type="checkbox" data-ng-model="vm.twoWaySync">
+				<label for="twoWaySync">Bidirectional Sync</label>
+			</div>
+		</div> -->
+		<div class="col-xs-12" style="padding: 0px;">
+			<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="vm.cancel()">{{ vm.syncedNoteBook.length == 0 ? 'CANCEL' : 'CLOSE'}}</button>
+			<!-- <button class="btn vdvc-form-btn" type="submit" data-ng-disabled='vm.disableSubmitBtn()'>{{ vm.syncedNoteBook.length == 0 ? 'CONNECT' : 'SAVE'}}</button> -->
+			<button class="btn vdvc-form-btn" type="submit" data-ng-disabled='vm.disableSubmitBtn()' data-ng-if="vm.syncedNoteBook.length == 0">CONNECT</button>
+		</div>
+	</div>
+</form>
+<!-- <div>
+	<div class="modal-header" >
+		<h3 class="modal-title">Sync With Evernote</h3>
+	</div>
+	<div class="modal-body">
+		<form> 
+	 		<div class="row">
+				<div class="form-group col-xs-12">
+					<label for="evernotebooks">EverNoteBooks</label>
+					<data-ui-select multiple limit="1" id="evernotebooks" data-ng-model="vm.syncedNoteBook" 
+						data-on-remove = "vm.removeFolderSync()" data-on-select = "vm.selectNoteBookToSync($item)" data-search-enabled="false">
+			
+					    <data-ui-select-match >
+					    	{{$item.name}}
+					    </data-ui-select-match>
+					    
+					    <data-ui-select-choices data-repeat="noteBook in vm.noteBooksList | filter:$select.search track by noteBook.guid">
+					      <div data-ng-bind-html="noteBook.name | highlight: $select.search"></div>
+					    </data-ui-select-choices>
+					    
+					</data-ui-select>
+				</div>
+				
+				<div class="form-group col-xs-12">
+					<div class="checkbox col-top-mrgn-5">
+							<input id="twoWaySync" type="checkbox" data-ng-model="vm.twoWaySync">
+							<label for="twoWaySync">Bidirectional Sync</label>
+					</div>
+				</div>
+			</div>
+			
+		</form>
+	</div>
+		
+	<div class="modal-footer">
+		<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted" data-ng-click="vm.cancel();">CANCEL</button>
+		<button type="button" class="btn vdvc-form-btn" data-ng-click="vm.setFolderSync()">SAVE</button>
+	</div>
+</div> -->

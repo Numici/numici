@@ -1,0 +1,9 @@
+<html>
+<head>
+</head>
+<body>
+	<%
+		response.sendRedirect("./login.jsf");
+	%>
+</body>
+</html>

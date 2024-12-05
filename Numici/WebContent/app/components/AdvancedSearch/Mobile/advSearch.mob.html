@@ -1,0 +1,128 @@
+<div class="container-fluid full vdvc-3ps-wrap">
+	<!-- <div class="row" >
+		<div class="row m-search-nav-bar" data-ng-style="{ 'right' : isSrchNavbarOpened ? '0px' : '-100px' }">
+			<div class="m-search-nav-bar-toggle" data-ng-click="toggleSrchNavbar()">
+				<span>
+					<i class="fa fa-angle-double-left" 
+						data-ng-class="{'fa-angle-double-left': !isSrchNavbarOpened,'fa-angle-double-right': isSrchNavbarOpened}" 
+						aria-hidden="true"></i>
+				</span>
+			</div>
+			<div style="float:left;">
+				<div class="m-search-nav-bar-item" 
+					data-ng-class="{active : showFiltersOnMobile}"
+					data-ng-click="OpenFiltersOnMobile()"
+					data-ng-show="ShowFiltersIconOnMobile">
+					<span>
+						<i class="fa fa-filter fa-fw" aria-hidden="true"></i>
+						Filters
+					</span>
+				</div>
+				<div class="m-search-nav-bar-item" 
+					data-ng-class="{active : showResultsOnMobile}"
+					data-ng-click="OpenResultsOnMobile()"
+					data-ng-show="ShowResultsIconOnMobile">
+					<span style="position: relative;">
+						<i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+						<i class="fa fa-search fa-fw" 
+							aria-hidden="true" 
+							style="position: absolute;bottom: 4px;margin-left: -20px;font-size: 10px;">
+						</i>
+						Results
+					</span>
+				</div>
+				<div class="m-search-nav-bar-item" 
+					data-ng-class="{active : showSnippetsOnMobile}"
+					data-ng-click="OpenSnippetsOnMobile()"
+					data-ng-show="ShowSnippetIconOnMobile">
+					<span>
+						<i class="fa fa-puzzle-piece fa-fw" aria-hidden="true"></i>
+						Snippets
+					</span>
+				</div>
+				<div class="m-search-nav-bar-item" 
+					data-ng-class="{active : showSeletcedDocOnMobile}" 
+					data-ng-click="OpenSrchDocumentOnMobile()"
+					data-ng-show="ShowDocumentIconOnMobile">
+					<span>
+						<i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+						Document
+					</span>
+				</div>
+			</div>
+		</div>
+	</div> -->
+	<span class="srch-float-btn show-filters-btn" 
+		data-ng-click="OpenFiltersOnMobile()" 
+		data-ng-show="ShowFiltersIconOnMobile">
+		<span style="position: relative;">	
+		  <i class="fa fa-filter" aria-hidden="true" style="
+		    font-size: 10px;
+		    position: absolute;
+		    left: 3px;
+		    top: -11px;">
+		  </i>
+		  <i class="fa fa-angle-double-down" aria-hidden="true" style="
+		    font-size: 23px;
+		    margin-top: 8px;">
+		  </i>
+		 </span>
+	</span>
+	<span class="srch-float-btn hide-filters-btn" 
+		data-ng-click="OpenResultsOnMobile()" 
+		data-ng-show="hideFiltersIconOnMobile">
+		<span style="position: relative;">	
+			  <i class="fa fa-filter" aria-hidden="true" style="
+			    font-size: 10px;
+			    position: absolute;
+			    left: 4px;
+			    bottom: -6px;">
+			  </i>
+			  <i class="fa fa-angle-double-up" aria-hidden="true" style="
+			    font-size: 23px;">
+			  </i>
+		</span>
+	</span>
+	<span class="srch-float-btn show-results-btn" 
+		data-ng-click="OpenResultsOnMobile()" 
+		data-ng-show="ShowResultsIconOnMobile">
+		<span style="position: relative;">
+			<i class="fa fa-file-text-o fa-fw" aria-hidden="true" style="
+			    position: absolute;
+			    margin-left: -3px;
+			    font-size: 10px;
+			    top: 0px;">
+		    </i>
+			<i class="fa fa-angle-double-right" aria-hidden="true" style="
+		    	font-size: 23px;
+		    	margin-top: 3px;
+		    	margin-left: 10px;">
+		  	</i>
+		</span>
+	</span>
+	
+	<!-- <span class="srch-float-btn show-sel-doc-btn" 
+		data-ng-click="OpenSrchDocumentOnMobile()" 
+		data-ng-show="ShowDocumentIconOnMobile">
+		<i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+	</span> -->
+	<div class="row full adv-srch-body" style="padding-top: 60px;">
+		
+		<div class="row" data-ng-include data-src="'app/components/AdvancedSearch/Mobile/searchFilters.mob.html'"></div>
+		<div class="row" data-ng-include data-src="'app/components/AdvancedSearch/Mobile/searchResults.mob.html'"></div>
+		<div class="row" data-ng-include data-src="'app/components/AdvancedSearch/Mobile/snippets.mob.html'"></div>
+		
+		<div class="row full" 
+			data-ng-show="showSeletcedDocOnMobile" 
+			data-ng-style="{top: showSnippetsOnMobile ? '215px' :'60px'}">
+			<div class="col-xs-12 srch-pane-3-wrap adv-search-doc-viewer" 
+				data-three-pane-height="showSnippetsOnMobile" 
+				style="position:relative;padding:0px;">
+				<div data-ng-class="{'isolate': isolateDoc}" 
+					class="col-xs-12 full doc-viewer-wrp srch-doc-viewer-wrp">
+					<div class="full" data-ui-view data-name="content"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

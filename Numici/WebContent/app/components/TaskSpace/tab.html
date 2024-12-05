@@ -1,0 +1,13 @@
+<li data-ng-class="[{active: active, disabled: disabled}, classes]" class="uib-tab nav-item">
+  <span data-ng-click="select($event)" class="nav-link task" >
+  	<span class="task-hdr">{{heading}}</span>
+  	<span  data-ng-controller="TaskSpaceNavController as vm">
+  		<span class="fa-stack" data-ng-click="vm.TaskSpaceAction($event,'chageLayout')">
+	      <i class="fa fa-columns task-actions"></i>
+	      <i class="fa-stack-text" style="font-size: 10px;">1</i>
+	    </span>
+	  	<span class="fa fa-share-alt task-actions"  data-ng-click="vm.TaskSpaceAction($event,'shareTS')"></span>
+	  	<span class="fa fa fa-times task-actions"  data-ng-click="vm.TaskSpaceAction($event,'close')"></span>
+  	</span>
+  </span>
+</li>

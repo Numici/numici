@@ -1,0 +1,7 @@
+.oembed-required {
+    color: #B40000 !important;
+}
+
+.cke_widget_oembed img.cke_widget_mask {
+	pointer-events: none;
+}

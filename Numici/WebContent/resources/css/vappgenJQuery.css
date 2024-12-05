@@ -1,0 +1,150 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+  border: 0;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+
+
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+   
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+  
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+
+.list-group-item {
+	text-align: center;
+}
+
+.vakata-context.jstree-contextmenu.jstree-default-contextmenu{z-index: 10000;}
+
+#vappgen-container {
+	width: 100%; 
+	height: 100%;
+	background: linen;
+	border: 1px solid black;
+	min-height: 39em;
+	box-shadow:  0px 10px 10px 0px gray;
+	position: relative;
+	background: whitesmoke url('https://s3.amazonaws.com/com.appgrinders.test/images/grid_20.png') repeat;
+}
+
+.ctrlSelected{ box-shadow: -5px 5px 3px 0px; z-index: 10;border: solid 3px rgb(66, 162, 238);}
+
+/*.ctrlSelected{ border: 2px solid black !important; }*/
+
+ .ui-selected { background: #F39814; color: white; }
+ 
+.ui-state-disabled {
+	opacity : 1 !important;
+}
+
+
+.ctrlImage {
+	z-index: 20;
+}
+
+
+ .layoutLftContainer .ui-tabs .ui-tabs-nav ,
+ .layoutLftContainer .ui-tabs .ui-tabs-panel{
+	padding: 0;
+}
+
+div[ui-role] td{
+	width : 50%;
+}
+
+
+.ui-dialog {
+	box-shadow : 5px 5px 8px 2px gray;
+}
+
+#sortable_screens { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+#sortable_screens li { margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; height: 1.5em; }
+html>body #sortable_screens li { height: 1.5em; line-height: 1.2em; }
+.ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+.ui-sortted-item {background: #BDB76B !important;
+         border: 1px solid #DDDDDD;
+         color: #333333;} 
+.ui-state-default { overflow: hidden; text-overflow: ellipsis; white-space: nowrap;}
+  
+ 

@@ -1,0 +1,89 @@
+<div class="row full" style="min-width: 900px;overflow-x: auto;">
+	<div class="col-xs-12">
+		<div class="col-xs-2" style="height: 40px;line-height: 40px;padding-left:0px;">
+			<label class="col-xs-12 ellipsis" 
+				for="total-sessions-count" 
+				style="padding-left: 0px;">
+				<span>Count : </span>
+				<span id="total-sessions-count">{{sc.sessions.length}}/{{sc.totalSessionsCount}}</span>
+			</label>
+		</div>
+		<div class="col-xs-4" style="padding-left:0px;">
+			<input type="text" 
+        	   class="form-control vdvc-input-txt" 
+        	   id="session_search" 
+			   data-ng-model="sc.searchString" 
+			   data-ng-change="sc.sessionFilterOnChange()"
+			   placeholder='Search' 
+			   style="height: 40px;">
+		</div>
+		<div class="col-xs-6" style="padding-left:0px;text-align: center;">
+			<div style="float: left;margin: 5px 0px;">
+				<label>Include : </label>
+			</div>
+			<div class="checkbox cp-checkboxe" 
+				 style="float: left;padding-left: 40px;margin: 5px 0px;">
+				<input type="checkbox" data-ng-model="sc.includeNonBlankUserIdSessions" data-ng-change="sc.sessionFilterOnChange()">
+				<label class="cs-lbl">NonBlankUserId</label>
+			</div>
+			<div class="checkbox cp-checkboxe" 
+				 style="float: left;padding-left: 40px;margin: 5px 0px;">
+				<input type="checkbox" data-ng-model="sc.includeBlankUserIdSessions" data-ng-change="sc.sessionFilterOnChange()">
+				<label class="cs-lbl">BlankUserId</label>
+			</div>
+	    </div>
+	</div>
+	<div data-in-view-container class="col-xs-12 sessions-table" style="margin-top: 5px;border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;height: calc(100% - 55px);overflow-y: auto;">
+		<div class="row" style="height: 40px;line-height: 40px;border-bottom: 2px solid #069;font-size: 16px;">
+			<div class="{{sessionsHeader.class}} header ellipsis" 
+				data-ng-repeat="sessionsHeader in sc.sessionsHeaders | orderBy : 'order'" 
+				data-ng-click="sc.sortByField($event,sessionsHeader)" 
+				style="position: relative;">
+ 			 	<span data-uib-tooltip="{{::sessionsHeader.label}}" 
+					data-tooltip-append-to-body="true">
+					{{::sessionsHeader.label}}
+				</span>
+				<span class="lv-sort-icon-wrap">
+					<i class="fa fa-fw" 
+						data-ng-show="sessionsHeader.key == sc.sessionField" 
+						data-ng-class="{'fa-caret-up' : !sc.sessionFieldDecending , 'fa-caret-down': sc.sessionFieldDecending}">
+					</i>
+				</span>
+			</div>
+		</div>
+		<div class="row session-details" 
+			data-ng-repeat="session in sc.sessions | limitTo : sc.sessionLimit : sc.sessionBegin track by session.id">
+ 			<div class="row" style="height: 42px;line-height: 40px;border-bottom: 1px solid #ccc;border-top: 1px solid #ccc;">
+ 				<div class="{{sessionsHeader.class}}" 
+ 					data-ng-repeat="sessionsHeader in sc.sessionsHeaders | orderBy : 'order'" 
+ 					data-ng-if="sessionsHeader.type != 'date'" 
+ 					data-tooltip-append-to-body="true" 
+ 					data-tooltip-placement="auto" 
+ 					data-uib-tooltip="{{session[sessionsHeader.key]}}" 
+ 					style="position: relative;">
+ 					<div class="ellipsis" 
+ 						style="float: left;" 
+ 						data-ng-style="{'width' : $first ? 'calc(100% - 18px)' : '100%'}">
+ 						{{session[sessionsHeader.key]}}
+ 					</div>
+ 				</div>
+ 				<div class="{{sessionsHeader.class}} ellipsis" 
+ 					data-ng-repeat="sessionsHeader in sc.sessionsHeaders | orderBy : 'order'" 
+ 					data-ng-if="sessionsHeader.type == 'date'" 
+ 					data-tooltip-append-to-body="true" 
+ 					data-tooltip-placement="auto" 
+ 					data-uib-tooltip="{{session[sessionsHeader.key] | date:'medium'}}" 
+ 					style="position: relative;">
+ 					{{session[sessionsHeader.key] | date:'medium'}}
+ 				</div>
+ 			</div>
+ 		</div>
+ 		<div class="row"
+		     data-ng-show="sc.sessions.length > sc.sessionLimit"
+		     data-in-view="$inview&&sc.loadMoreSessions($inview)"
+		     style="padding: 15px;text-align: center;font-weight: 700;">
+			<div>Loading</div>
+			<div class="vdvc-loader"></div>
+		</div>
+ 	</div>
+</div>

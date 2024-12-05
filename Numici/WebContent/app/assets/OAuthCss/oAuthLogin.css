@@ -1,0 +1,240 @@
+html,body {
+	height: 100%;
+}
+.fill {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    display: table;
+}
+.full {
+	height: 100% !important;
+}
+.login {
+	
+	display: table-cell;
+	vertical-align: middle;
+	color: #FFFFFF;
+}
+.login-card {
+	border-radius: 100px;
+    font-size: 16px;
+	background-color: rgba(0, 102, 153, 0.75);
+	box-shadow: 0px 0px 15px 5px rgba(234, 222, 222, 0.75);
+}
+.login input[type="text"],.login input[type="password"] {
+	height: 40px;
+}
+.login label{
+  padding-top: 8px;
+  font-size: 16px;
+  font-weight: normal;
+}
+.login .form-control{
+	border-radius: 0px;
+}
+.app-col-pad-lr-0 {
+	padding-left: 0;
+	padding-right: 0;
+}
+.app-pad-top-1{
+	padding-top: 1em;
+}
+.app-pad-1{
+	padding: 1em;
+}
+.app-pad-2{
+	padding: 2em;
+}
+.app-pad-3{
+	padding: 3em;
+}
+.dotted-w {
+ 	border-bottom: 1px dotted white;
+ 	
+}
+.oAuth-login-custom-btn {
+    color: #069!important;
+    border-radius: 5px!important;
+    padding: 2px 20px;
+    font-size: 16px;
+}
+.oAuth-login-custom-btn[name="login"] {
+   	background-color: #FFCC00;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  color:#FFFFFF;
+  text-align: center;
+}
+
+.customGoogleSignIn,.customSlackSignIn {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.customGoogleSignIn span.label,.customSlackSignIn span.label {
+    font-family: serif;
+    font-weight: 400
+}
+
+.customSlackSignIn span.icon {
+    background: url('/app/assets/icons/sign_in_with_slack.png?v1') transparent 100% 100% no-repeat;
+	background-position: center center;	
+	background-size: 190px 45px !important;
+}
+
+.customGoogleSignIn span.icon {
+    background: url('/app/assets/icons/btn_google_signin_light_normal_web.png?v1') transparent 100% 100% no-repeat;
+  	background-position: center center;
+  	background-size: 190px 44px !important;
+}
+.customSlackSignIn span.icon,
+.customGoogleSignIn span.icon {
+	width: 190px !important;
+    height: 40px !important;
+    display: inline-block;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 7px;
+}
+.customGoogleSignIn:hover,.customSlackSignIn:hover {
+    cursor: pointer
+}
+.login-card .username-group {
+    margin-bottom: 20px;
+}
+.login-card .password-group {
+    margin-bottom: 0px;
+}
+.login-card .sign-in-divider {
+    text-align: center;
+    height: 24px;
+    line-height: 24px;
+    margin: 10px 0;
+}
+.login-card .new-to-numici-label {
+    font-size: 20px;
+    text-align: right;
+}
+.login-card .register-btn {
+    background-color: #fff;
+    color: #069;
+    padding: 2px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+/* User Registration Modal Popup */
+
+.vdvc-input-txt {
+	padding-left: 10px;
+    padding-right: 10px;
+    height: 35px;
+    width: 100%;
+    border: solid 1px #CCCCCC;
+    outline: none;
+    font-size: 14px;
+    border-radius: 0px;
+    
+}
+.user-register-mb .input-group .input-group-btn button {
+    padding: 9.5px 12px;
+}
+.vdvc-form-btn:hover {
+    color: #fff!important;
+}
+.vdvc-form-btn {
+    color: #fff;
+    background: #069!important;
+    border-radius: 0;
+}
+.vdvc-form-btn-muted:hover {
+    color: #fff!important;
+    background: #069!important;
+}
+.vdvc-form-btn-muted {
+    color: #000!important;
+    background: #999!important;
+}
+.user-register-mb label {
+	height:30px;
+	line-height: 35px;
+}
+.user-register-mb label .fa-asterisk {
+	position: absolute;
+    top: 5px;
+    font-size: 8px;
+}
+.user-register-mb input.error {
+	border: 1px solid #a94442;
+}
+.user-register-mb .message {
+	text-align: center;
+}
+.user-register-mb .message.success {
+	color: #008040;
+}
+.user-register-mb .message.error {
+	color: #a94442;
+}
+.digest-settings-modal-content .message.error,
+.share-link-modal-content .message.error {
+	color: #a94442;
+}
+.user-register-mb .input-group .input-group-btn {
+	font-size: 14px;
+}
+.user-register-mb .input-group .input-group-btn button {
+	padding: 9.5px 12px;
+}
+.reg-pro-user-footer .line:before {
+	left: 48% !important;
+}
+.reg-pro-user-footer .sign-up-with-label {
+	font-size: 20px;
+    font-weight: bold;
+    text-align: right;
+    height: 36px;
+    line-height: 36px;
+    padding-right: 0px;
+}
+.reg-pro-user-footer .customGoogleSignIn {
+	margin-left: 10px;
+}
+.reg-pro-user-footer .customGoogleSignIn .icon, 
+.reg-pro-user-footer .customSlackSignIn .icon {
+	background-size: 34px;
+	width: 34px;
+	height: 34px;
+}
+.reg-pro-user-footer .line {
+    border-top: 1px solid #e5e5e5;
+}
+.reg-pro-user-footer .line:before {
+    left: 48%!important;
+}
+.line:before {
+    content: "OR";
+    width: 40px;
+    height: 40px;
+    background: #ccc;
+    border-radius: 50%;
+    top: -20px;
+    left: 43%;
+    padding-top: 10px;
+    color: #333;
+}
+.line:before, footer {
+    position: absolute;
+    text-align: center;
+}
+	/* User Registration OTP Verify Modal Popup */

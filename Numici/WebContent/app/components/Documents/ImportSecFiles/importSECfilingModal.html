@@ -1,0 +1,64 @@
+<div class="modal-header">
+	<h3 class="modal-title" style="padding-left: 15px;">Open SEC Filings
+		<span class="btn" style="float:right;color: #006699;" data-ng-click="cancel()">Close</span>
+	</h3>
+</div>
+<div class="modal-body">
+	<div class='row'>
+		<form role="form">
+			<div class="col-sm-5 input-wrap">
+				<input type="search" class="form-control vdvc-input-txt" data-ng-model='SECSeach.formType' placeholder='Filings Type' 
+				  data-uib-typeahead="form for form in getSecForms($viewValue) | filter:$viewValue">
+			</div>
+			<div class="col-sm-5 col-sm-offset-2 input-wrap">
+				<input type="text"
+					   class="form-control vdvc-input-txt" 
+					   data-ng-model='SECSeach.companyName' 
+					   data-typeahead-wait-ms='500'
+					   data-uib-typeahead="entity for entity in refreshCompanyNames($viewValue)" 
+					   placeholder='Company Name' >
+			</div>
+			<div class="col-sm-5 input-wrap">
+				<div>
+					 <input type="text" class="vdvc-input-txt"  data-uib-datepicker-popup="{{format}}"  data-is-open="StartDt.opened" 
+		             data-datepicker-options="dateOptions" data-date-disabled="disabled(date, mode)" data-show-button-bar='false' 
+		             placeholder='Start Date' data-ng-model='SECSeach.fromDateFiled' data-ng-click="startDtOpen($event)" data-cs-date-to-iso/>
+		             <i class="fa fa-calendar" style='position: absolute;left: 85%;top: 17.5px;color: #999;font-size: 20px;' data-ng-click="startDtOpen($event)"></i>
+				</div>    
+			</div>
+			<div class="col-sm-5 col-sm-offset-2 input-wrap">
+				 <div >
+				 	<input type="text" class="vdvc-input-txt" data-uib-datepicker-popup="{{format}}" data-is-open="EndDt.opened" 
+		            data-datepicker-options="dateOptions" data-date-disabled="disabled(date, mode)" data-show-button-bar='false' 
+		            placeholder='End Date' data-ng-model='SECSeach.toDateFiled' data-ng-click="endDtOpen($event)" data-cs-date-to-iso/>
+		            <i class="fa fa-calendar" style='position: absolute;left: 85%;top: 17.5px;color: #999;font-size: 20px;' data-ng-click="endDtOpen($event)"></i>
+				 </div>
+			</div>
+			<div class="col-sm-5 input-wrap">
+				<input type="text" class="form-control vdvc-input-txt" data-ng-model='SECSeach.cik' placeholder='CIK' >
+			</div>
+			<div class="col-sm-5 col-sm-offset-2 input-wrap">
+				<button class="btn vdvc-form-btn" type="button" data-ng-click="searchForSECFilings()" data-ng-disabled="isSearchDisabled()" style='width:100%;'>SEARCH</button>
+			</div>
+		</form>
+	</div>
+	
+	<div class='col-xs-12'>Search Results</div>
+	<div class='col-xs-12' style='height:180px;overflow: auto;margin-bottom: 20px;' data-when-scrolled="loadMore()">
+	
+		<table class='table' >
+			<tr data-ng-repeat = 'secFile in SECFilings | limitTo: limit' data-ng-click="setSECfile(secFile,$event)" data-ng-class="{fl_selected: secFileSelected.id == secFile.id}" >
+				<td>{{secFile.dateFiled | date:'yyyy-MM-dd'}}</td>
+				<td>{{secFile.cik}}</td>
+				<td>{{secFile.companyName}}</td>
+				<td>{{secFile.formType}}</td>
+				<td>{{secFile.fileName}}</td>
+				
+			</tr>
+		</table>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="cancel()">CANCEL</button>
+	<button class="btn vdvc-form-btn" type="button" data-ng-click="ok()">OPEN</button>
+</div>

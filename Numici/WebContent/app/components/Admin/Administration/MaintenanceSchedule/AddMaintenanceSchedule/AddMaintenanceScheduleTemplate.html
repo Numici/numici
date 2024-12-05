@@ -1,0 +1,379 @@
+<form data-ng-submit="amsc.ok()">
+	<div class="modal-header" style="padding: 15px;">
+		<h3 class="modal-title">{{amsc.isInEditMode ? "Edit": (amsc.isInViewMode ? "View" : "Create New")}} Schedule</h3>
+	</div>
+	<div class="modal-body add-maintenance-schedule-modal-body">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap" style="margin: 3px 0px;padding: 0px;">
+					<label class="col-xs-4" 
+						style="height: 35px;line-height: 35px;padding: 0px;margin: 0px;">
+						NAME
+						<i class="fa fa-asterisk text-danger" 
+							style="font-size: 8px; vertical-align: super;">
+						</i>
+					</label>
+					<div class="col-xs-8" style="position: relative;">
+						 <input type="text" 
+						 	class="vdvc-input-txt" 
+						 	data-ng-model="amsc.mSchedule.Name" 
+						 	data-ng-disabled="{{amsc.isInViewMode || amsc.isInEditMode}}">
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap" style="margin: 3px 0px;padding: 0px;">
+					<label class="col-xs-4" 
+						style="height: 35px;line-height: 35px;padding: 0px;margin: 0px;">
+						SCHEDULE START
+						<i class="fa fa-asterisk text-danger" 
+							style="font-size: 8px; vertical-align: super;">
+						</i>
+					</label>
+					<div class="col-xs-8" style="position: relative;">
+						  <div class="col-xs-8" style="padding: 0px;height: 35px;line-height: 35px;">
+						  	<input type="text" 
+							 		class="vdvc-input-txt"  
+							 		data-uib-datepicker-popup
+							 		data-is-open="amsc.StartDt.opened" 
+				             		data-datepicker-options="amsc.dateOptions" 
+				             		data-date-disabled="disabled(date, mode)" 
+				             		data-show-button-bar='false' 
+				             		data-ng-model='amsc.mSchedule.startDate' 
+				             		data-ng-click="!amsc.isInViewMode && amsc.startDtOpen($event)" 
+				             		data-ng-readonly="amsc.isInViewMode"
+				             		style="height: 34px;"/>
+				             <i class="fa fa-calendar" 
+				             	style='position: absolute;right: 10px;top: 50%;color: #999;font-size: 20px;transform: translateY(-50%);' 
+				             	data-ng-click="!amsc.isInViewMode && amsc.startDtOpen($event)"></i>
+				          </div>
+				          <div class="col-xs-4">
+				          	<div data-uib-timepicker 
+				          		data-ng-model="amsc.mSchedule.startTime" 
+				          		data-hour-step="amsc.hstep" 
+				          		data-minute-step="amsc.mstep" 
+				          		data-show-meridian="amsc.ismeridian" 
+				          		data-show-spinners="false" 
+				          		data-readonly-input="amsc.isInViewMode">
+				          	</div>
+				          </div>
+				          <div class="col-xs-12" style="padding: 0px;font-size: 10px;"><span>PST Time : </span><span>{{amsc.getPDTScheduleStartDate()}}</span></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap" style="margin: 3px 0px;padding: 0px;">
+					<label class="col-xs-4" 
+						style="height: 35px;line-height: 35px;padding: 0px;margin: 0px;">
+						MAINTENANCE DURATION
+						<i class="fa fa-asterisk text-danger" 
+							style="font-size: 8px; vertical-align: super;">
+						</i>
+					</label>
+					<div class="col-xs-8" style="position: relative;">
+						 <div class="col-xs-4" style="padding-left: 0px;">
+						 	<div class="col-xs-7" style="padding: 0px;">
+						 		<input type="number" 
+							 	class="col-xs-11 vdvc-input-txt" 
+							 	data-ng-model="amsc.mSchedule.Duration" 
+							 	data-ng-disabled="{{amsc.isInViewMode}}">
+							 </div>
+							 <div class="col-xs-5" 
+							 	style="padding-left: 5px;height: 35px;line-height: 35px;">
+							 	Mins
+							 </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap" style="margin: 3px 0px;padding: 0px;">
+					<label class="col-xs-4" 
+						style="height: 35px;line-height: 35px;padding: 0px;margin: 0px;margin: 0px;">
+						FIRST REMINDER
+						<i class="fa fa-asterisk text-danger" 
+							style="font-size: 8px; vertical-align: super;">
+						</i>
+					</label>
+					<div class="col-xs-8" style="position: relative;">
+						 <div class="col-xs-4" style="padding-left: 0px;">
+						 	<div class="col-xs-7" style="padding: 0px;">
+							 	<input type="number" 
+							 	class="vdvc-input-txt" 
+							 	data-placeholder="Days"
+							 	data-ng-model="amsc.mSchedule.FirstReminder.ReminderDays" 
+							 	data-ng-disabled="{{amsc.isInViewMode}}">
+						 	</div>
+						 	<div class="col-xs-5" style="padding: 0px 0px 0px 5px;height: 35px;line-height: 35px;">
+						 		Days
+						 	</div>
+						 </div>
+						 <div class="col-xs-4" style="padding-left: 0px;">
+						 	<div class="col-xs-7" style="padding: 0px;">
+							 	<input type="number" 
+							 	class="vdvc-input-txt" 
+							 	data-placeholder="Hours"
+							 	data-ng-model="amsc.mSchedule.FirstReminder.ReminderHours" 
+							 	data-ng-disabled="{{amsc.isInViewMode}}">
+						 	</div>
+						 	<div class="col-xs-5" style="padding: 0px 0px 0px 5px;height: 35px;line-height: 35px;">
+						 		Hours
+						 	</div>
+						 </div>
+						 <div class="col-xs-4" style="padding-left: 0px;">
+						 	<div class="col-xs-7" style="padding: 0px;">
+							 	<input type="number" 
+							 	class="vdvc-input-txt" 
+							 	data-placeholder="Mins"
+							 	data-ng-model="amsc.mSchedule.FirstReminder.ReminderMins" 
+							 	data-ng-disabled="{{amsc.isInViewMode}}">
+						 	</div>
+						 	<div class="col-xs-5" style="padding: 0px 0px 0px 5px;height: 35px;line-height: 35px;">
+						 		Mins
+						 	</div>
+						 </div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap" style="margin: 3px 0px;padding: 0px;">
+					<label class="col-xs-4" 
+						style="height: 35px;line-height: 35px;padding: 0px;margin: 0px;">
+						FOLLOW UP REMINDERS
+					</label>
+					<div class="col-xs-8" style="position: relative;">
+						 <div class="col-xs-12" style="padding: 0px;">
+							<div class="col-xs-4" style="padding-left: 0px;">
+								<div class="radio radio-info" style="margin-bottom: 0px;">
+									<input type="radio" 
+										name="FollowUpReminder" 
+									   	data-ng-model="amsc.mSchedule.FollowUpReminder"
+									   	value="none" 
+									   	data-ng-disabled="{{amsc.isInViewMode}}">
+									<label class="cs-lbl">None</label>
+								</div>
+							</div>
+							<div class="col-xs-4" style="padding-left: 0px;">
+								<div class="radio radio-info" style="margin-bottom: 0px;">
+									<input type="radio" 
+										name="FollowUpReminder" 
+									   	data-ng-model="amsc.mSchedule.FollowUpReminder"
+									   	value="interval" 
+									   	data-ng-disabled="{{amsc.isInViewMode}}">
+									<label class="cs-lbl">Interval</label>
+								</div>
+							</div>
+							<div class="col-xs-4" style="padding-left: 0px;">
+								<div class="radio radio-info" style="margin-bottom: 0px;">
+									<input type="radio" 
+										name="FollowUpReminder" 
+									   	data-ng-model="amsc.mSchedule.FollowUpReminder" 
+									   	value="list" 
+									   	data-ng-disabled="{{amsc.isInViewMode}}">
+									<label class="cs-lbl">List</label>
+									<button type="button" class="btn fa fa-fw fa-plus" 
+										data-ng-show="amsc.mSchedule.FollowUpReminder == 'list'" 
+										data-tooltip-append-to-body="true" 
+										data-tooltip-placement="bottom" 
+										data-uib-tooltip="Add New Follow Up Reminder" 
+										data-ng-click="amsc.addFollowUpReminder($event)" 
+										data-ng-disabled="{{amsc.isInViewMode}}" 
+										style="float: right;height: 20px;line-height: 20px;color: #069 !important;background: none !important;padding: 0px;">
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12" data-ng-show="amsc.mSchedule.FollowUpReminder == 'list'" style="padding-left: 30px;padding-right: 0px;margin-top: 10px;max-height: 82px;overflow-y: auto;">
+							 <div class="col-xs-12" data-ng-show="$first" data-ng-repeat="FollowUpReminder in amsc.mSchedule.FollowUpReminders | orderBy : $index" style="padding: 0px;">
+							 	<div class="col-xs-10" style="padding: 0px;">
+									 <div class="col-xs-4" style="padding-left: 0px;">
+									 	<div class="col-xs-8" style="padding: 0px;">
+										 	<input type="number" 
+										 	class="vdvc-input-txt" 
+										 	data-placeholder="Days"
+										 	data-ng-model="FollowUpReminder.ReminderDays" 
+										 	data-ng-disabled="{{amsc.isInViewMode}}">
+									 	</div>
+									 	<div class="col-xs-4" style="padding: 0px 0px 0px 5px;height: 35px;line-height: 35px;">
+									 		Days
+									 	</div>
+								     </div>
+									 <div class="col-xs-4" style="padding-left: 0px;">
+									 	<div class="col-xs-8" style="padding: 0px;">
+										 	<input type="number" 
+										 	class="vdvc-input-txt" 
+										 	data-placeholder="Hours"
+										 	data-ng-model="FollowUpReminder.ReminderHours" 
+										 	data-ng-disabled="{{amsc.isInViewMode}}">
+									 	</div>
+									 	<div class="col-xs-4" style="padding: 0px 0px 0px 5px;height: 35px;line-height: 35px;">
+									 		Hours
+									 	</div>
+									 </div>
+									 <div class="col-xs-4" style="padding-left: 0px;">
+									 	<div class="col-xs-8" style="padding: 0px;">
+										 	<input type="number" 
+										 	class="vdvc-input-txt" 
+										 	data-placeholder="Mins"
+										 	data-ng-model="FollowUpReminder.ReminderMins" 
+										 	data-ng-disabled="{{amsc.isInViewMode}}">
+									 	</div>
+									 	<div class="col-xs-4" style="padding: 0px 0px 0px 5px;height: 35px;line-height: 35px;">
+									 		Mins
+									 	</div>
+									 </div>
+								 </div>
+								 <!-- <div class="col-xs-2">
+									<button type="button" 
+										class="btn vdvc-nav-btn vdvc-doc-main-btn" 
+										data-tooltip-append-to-body="true" 
+										data-tooltip-placement="bottom" 
+										data-uib-tooltip="Add New Follow Up Reminder" 
+										data-ng-click="amsc.addFollowUpReminder($event)" 
+										data-ng-disabled="{{amsc.isInViewMode}}">
+										<span class="fa fa-fw fa-plus"></span>
+									</button>
+								</div> -->
+							 </div>
+							 <div class="col-xs-12" data-ng-show="!$first" data-ng-repeat="FollowUpReminder in amsc.mSchedule.FollowUpReminders | orderBy : $index" style="padding: 5px 0px 0px 0px;">
+								<div class="col-xs-10" style="padding: 0px;">
+									 <div class="col-xs-4" style="padding-left: 0px;">
+									 	<div class="col-xs-8" style="padding: 0px;">
+										 	<input type="number" 
+										 	class="vdvc-input-txt" 
+										 	data-placeholder="Days"
+										 	data-ng-model="FollowUpReminder.ReminderDays"
+										 	data-ng-disabled="{{amsc.isInViewMode}}">
+									 	</div>
+									 	<div class="col-xs-4" style="padding: 0px 0px 0px 5px;height: 35px;line-height: 35px;">
+									 		Days
+									 	</div>
+								     </div>
+									 <div class="col-xs-4" style="padding-left: 0px;">
+									 	<div class="col-xs-8" style="padding: 0px;">
+										 	<input type="number" 
+										 	class="vdvc-input-txt" 
+										 	data-placeholder="Hours"
+										 	data-ng-model="FollowUpReminder.ReminderHours"
+										 	data-ng-disabled="{{amsc.isInViewMode}}">
+									 	</div>
+									 	<div class="col-xs-4" style="padding: 0px 0px 0px 5px;height: 35px;line-height: 35px;">
+									 		Hours
+									 	</div>
+									 </div>
+									 <div class="col-xs-4" style="padding-left: 0px;">
+									 	<div class="col-xs-8" style="padding: 0px;">
+										 	<input type="number" 
+										 	class="vdvc-input-txt" 
+										 	data-placeholder="Mins"
+										 	data-ng-model="FollowUpReminder.ReminderMins" 
+										 	data-ng-disabled="{{amsc.isInViewMode}}">
+									 	</div>
+									 	<div class="col-xs-4" style="padding: 0px 0px 0px 5px;height: 35px;line-height: 35px;">
+									 		Mins
+									 	</div>
+									 </div>
+								 </div>
+								 <div class="col-xs-2">
+									<button type="button" 
+										class="btn vdvc-nav-btn vdvc-doc-main-btn" 
+										data-tooltip-append-to-body="true" 
+										data-tooltip-placement="bottom" 
+										data-uib-tooltip="Remove Follow Up Reminder" 
+										data-ng-click="amsc.removeFollowUpReminder($index)" 
+										data-ng-disabled="{{amsc.isInViewMode}}">
+										<span class="fa fa-fw fa-minus"></span>
+									</button>
+								 </div>
+							</div>
+						</div>
+						<div class="col-xs-12" data-ng-show="amsc.mSchedule.FollowUpReminder == 'interval'" style="padding-left: 30px;margin-top: 10px;">
+							 <div class="col-xs-10" style="padding: 0px;">
+							 	<input type="number" 
+								 	class="col-xs-11 vdvc-input-txt" 
+								 	data-ng-model="amsc.mSchedule.FollowUpReminderInterval" 
+								 	data-ng-disabled="{{amsc.isInViewMode}}">
+							 </div>
+							 <div class="col-xs-2" style="padding-left: 5px;height: 35px;line-height: 35px;">Mins</div>
+						</div> 
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap" style="margin: 3px 0px;padding: 0px;">
+					<label class="col-xs-4" 
+						style="height: 35px;line-height: 35px;padding: 0px;margin: 0px;">
+						NOTIFICATION MESSAGE
+						<i class="fa fa-asterisk text-danger" 
+							style="font-size: 8px; vertical-align: super;">
+						</i>
+					</label>
+					<div class="col-xs-8" style="position: relative;">
+						 <textarea data-msd-elastic 
+						 	class="vdvc-txtA" 
+							rows="2" 
+						 	data-ng-model="amsc.mSchedule.NotificationMessage" 
+						 	style="border: 2px solid #ddd;overflow: hidden;overflow-wrap: break-word;resize: none;min-height: 65px;max-height: 66px;overflow-y: auto;" 
+						 	data-ng-disabled="{{amsc.isInViewMode}}">
+						 </textarea>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap" style="margin: 3px 0px;padding: 0px;">
+					<label class="col-xs-4" 
+						style="height: 35px;line-height: 35px;padding: 0px;margin: 0px;">
+						SHUTDOWN MESSAGE
+						<i class="fa fa-asterisk text-danger" 
+							style="font-size: 8px; vertical-align: super;">
+						</i>
+					</label>
+					<div class="col-xs-8" style="position: relative;">
+						 <textarea data-msd-elastic 
+						 	class="vdvc-txtA" 
+							rows="2" 
+						 	data-ng-model="amsc.mSchedule.ShutdownMessage" 
+						 	style="border: 2px solid #ddd;overflow: hidden;overflow-wrap: break-word;resize: none;min-height: 65px;max-height: 66px;overflow-y: auto;" 
+						 	data-ng-disabled="{{amsc.isInViewMode}}">
+						 </textarea>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12">
+				<div class="form-group row input-wrap" style="margin: 3px 0px;padding: 0px;">
+					<label class="col-xs-4" 
+						style="height: 35px;line-height: 35px;padding: 0px;margin: 0px;">
+						USER LOGOUT DURATION
+						<i class="fa fa-asterisk text-danger" 
+							style="font-size: 8px; vertical-align: super;">
+						</i>
+					</label>
+					<div class="col-xs-8" style="position: relative;">
+						 <div class="col-xs-4" style="padding-left: 0px;">
+						 	<div class="col-xs-7" style="padding: 0px;">
+						 		<input type="number" 
+							 	class="vdvc-input-txt" 
+							 	data-ng-model="amsc.mSchedule.ShutdownDuration" 
+							 	data-ng-disabled="{{amsc.isInViewMode}}">
+							 </div>
+							 <div class="col-xs-5" 
+							 	style="padding-left: 5px;height: 35px;line-height: 35px;">
+							 	Mins
+							 </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="col-xs-8 error">
+			<span data-ng-show="amsc.showErrorMessage">{{amsc.errorMessage}}</span>
+		</div>
+		<div class="col-xs-4">
+			<button class="btn vdvc-form-btn vdvc-form-btn-muted" type="button" data-ng-click="amsc.cancel()">CANCEL</button>
+			<button data-ng-show="!amsc.isInViewMode" class="btn vdvc-form-btn" type="submit" data-ng-disabled="amsc.validateScheduleFields()">{{amsc.isInEditMode ? "UPDATE": "CREATE"}}</button>
+		</div>
+	</div>
+</form>
+

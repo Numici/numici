@@ -1,0 +1,155 @@
+<div class="container-fluid full">
+	<div style="height: 110px"></div>
+	<div class="row">
+		<div class="navbar-fixed-top second-navbar second-navbar-top" 
+			 style="transition:top 0.2s ease-in-out;">
+			<div class="col-xs-9" style="padding-left: 30px;">
+			 	<div class="col-xs-6" style="font-size: 20px;padding: 0px;">Taskspaces ({{vm.taskSpacesList.length}})</div>
+			 	<!-- <div class="col-xs-6">
+			 		<input type="text" class="ts-mg-search vdvc-input-txt" placeholder="Search for Taskspace"/>
+				</div> -->
+			</div>
+			<div class="col-xs-3" style="padding-right: 30px;text-align: right;">
+				<button data-ng-if="vm.isEnabled('SwitchCardListView')"
+		      		   type="button" 
+		      		   class="btn vdvc-nav-btn vdvc-doc-main-btn" 
+		      		   data-ng-click="vm.switchView()"
+		      		   data-tooltip-append-to-body="true"
+		      		   data-tooltip-placement="bottom"
+		      		   data-uib-tooltip="Switch to {{view == 'List' ? 'Grid view' : 'List view'}}">
+		       		<span class="fa fa-th-large fa-fw" data-ng-class="vm.view == 'List' ? 'fa-th-large' : 'fa-list-ul'"></span>
+		      	</button>
+		      	<button type="button" 
+		      		   class="btn vdvc-nav-btn vdvc-doc-main-btn newTaskSpace" 
+		      		   data-ng-if="!vm.isNewTaskSpaceHidden()"
+		      		   data-ng-click="vm.newTaskSpace()" 
+		      		   data-ng-disabled="vm.isNewTaskSpaceDisable()">
+		      		<i data-ng-if="::!vm.deviceInfo.isTouch">NEW TASKSPACE</i>
+				    <i data-ng-if="::vm.deviceInfo.isTouch" class="fa fa-plus fa-fw"></i>
+		       		
+		      	</button>
+		      	<button type="button" 
+		      		   class="btn vdvc-nav-btn vdvc-doc-main-btn newTaskSpace" 
+		      		   data-ng-click="vm.CloseManageTaskSpace()"
+		      		   style=" color: #777;">
+		      		<i class="fa fa-times fa-fw"></i>
+		      	</button>
+		      	<!-- <span class="btn btn-xs fa fa-fw" data-ng-click="vm.CloseManageTaskSpace()" style=" color: #777;font-size: 2em;line-height: 26px;" role="button" tabindex="0">×</span> -->
+			</div>		
+		</div>
+		<div data-ng-show="vm.checkedItems.length > 0"
+			 class="navbar-fixed-top second-navbar second-navbar-top" 
+			 style="transition:top 0.2s ease-in-out; background: #006699;color:#fff;">
+			<div class="col-xs-4" style="padding: 0px 30px;">
+			 	<span style="display: inline-block;vertical-align: middle;">
+			 		<span style="padding: 2px 4px;/* background: #fb8d33; */">{{vm.checkedItems.length}}</span>
+			 		<span>Selected</span>
+			 	</span>
+			 	<button type="button" class="btn vdvc-doc-btn" data-ng-click="vm.unselectAll($event)" style="margin-left: 20px;">
+			 		<i class="fa fa-close fa-fw"></i>
+			 		<!-- <span data-ng-if="::!vm.deviceInfo.isTouch">Deselect all</span> -->
+			 	</button>
+			</div>
+		
+			<div class="col-xs-8">
+				<div class="nav navbar-nav navbar-right nav-actions " style="padding-right: 30px;">
+					<div>
+				  		<button type="button" 
+				  				class="btn vdvc-doc-btn {{action.title}}" 
+				  				data-ng-repeat="(key, action) in vm.actionProps" 
+				  				data-ng-show="action.show" 
+				  				data-tooltip-append-to-body="true" 
+				  				data-tooltip-placement="bottom" 
+				  				data-uib-tooltip="{{action.title}}" 
+				  				data-ng-click="vm.executeTSAction(action.title)">
+					  		<i class='fa {{action.class}}'></i> 
+					  		<!-- <span data-ng-if="::!vm.deviceInfo.isTouch">{{action.title}}</span> -->
+					    </button>
+				   	</div>
+				</div>
+				
+			</div>		
+		</div>
+	</div>
+	
+	<div class="row full" data-ng-show="vm.view == 'Grid'">
+		<div class="row" >
+			<div data-taskspace-card 
+				 data-ng-repeat ="taskSpace in vm.taskSpacesList | orderBy : 'name'"
+				 class="col-xs-12 col-sm-3 col-md-2 animate-repeat" 
+				 style="padding: 15px;">
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="col-xs-12" data-ng-show="vm.view == 'List' && (vm.taskSpacesList.length>0)">
+		<div class="col-xs-12" style="background: #fff;">
+			<div class="row">
+				<table class="table docTable" data-ng-show="vm.taskSpacesList.length>0" style="width: 100%;">
+					<thead >
+						<tr style="height: 40px;">
+							<th class="ellipsis" data-ng-class="[hdr.class, hdr.value]" data-ng-repeat="hdr in vm.taskSpacesListHeaders" data-ng-click="vm.sortByfield(hdr)">
+								<div class="row" style="position: relative;padding-right: 20px;">
+									<span data-uib-tooltip="{{hdr.label}}" data-tooltip-append-to-body="true">{{hdr.label}}</span>
+									<span class="" style="position: absolute;right: 5px;top:0;">
+										<i class="fa fa-fw" data-ng-show="hdr.value == vm.taskspaceField" data-ng-class="{'fa-caret-up' : !vm.taskspaceFieldDecending , 'fa-caret-down': vm.taskspaceFieldDecending}"></i>
+									</span>
+								</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- <tr style="height: 40px;"></tr> -->
+						<tr data-ng-repeat="ts in vm.taskSpacesList | orderBy : vm.taskspaceField : vm.taskspaceFieldDecending " 
+							data-ng-click="vm.gotoTaskSpace(ts,$event)"
+							data-on-long-press="vm.onLongPress(ts)"
+							data-ng-class="{'item-selected' : ts.selected}">
+							<td class="wraptext" data-ng-if="$first" data-ng-repeat="hdr in vm.taskSpacesListHeaders">
+								<span data-ng-click="$event.stopPropagation();"  class="checkbox" style="margin:0px;width:30px;display: inline-block;">
+					               <input data-ng-class="{'first-tsl-checkbox' : $first}" data-ng-model="ts.selected" type="checkbox" data-ng-change="vm.selectTaskSpace(ts)">
+					               <label style="padding: 0px;"></label>
+					            </span>
+					            <span class="ellipsis"  data-uib-tooltip="{{ts[hdr.value]}}" data-tooltip-append-to-body="true">{{ts[hdr.value]}}</span>
+							</td>
+							<td class="ellipsis" data-ng-if="!$first" data-ng-repeat="hdr in vm.taskSpacesListHeaders">
+								<span data-ng-switch="hdr.type">
+									<span class="ellipsis">
+										<span data-ng-switch-when="list" data-ng-if="hdr.value != 'objects'" data-uib-tooltip="{{ts[hdr.value] | join:', '}}" data-tooltip-append-to-body="true">{{ts[hdr.value] | join:', '}}</span>
+										<span data-ng-switch-when="list" data-ng-if="hdr.value == 'objects' && ts[hdr.value]" data-uib-tooltip="{{ts[hdr.value].length}}" data-tooltip-append-to-body="true">{{ts[hdr.value].length}}</span>
+										<span data-ng-switch-when="list" data-ng-if="hdr.value == 'objects' && !ts[hdr.value]" data-uib-tooltip="0" data-tooltip-append-to-body="true">0</span>
+										<span data-ng-switch-when="text" data-uib-tooltip="{{ts[hdr.value]}}" data-tooltip-append-to-body="true">{{ts[hdr.value]}}</span>
+										<span data-ng-switch-when="Date" data-uib-tooltip="{{ts[hdr.value] | date:'medium'}}" data-tooltip-append-to-body="true">{{ts[hdr.value] | date:'medium'}}</span>
+									</span>
+								</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<div class='vdvc-file-progress' data-ng-show="showProgress">
+		<div class="progress-bar-header">
+			<div class="row">
+				<div class="col-xs-6"></div>
+				<div class="col-xs-6" style="padding-right: 0px;">
+					<span class="fa fa-close fa-fw" data-ng-click='closeProgress()' style="float:right;padding: 3px;color: #006699;"></span>
+				</div>
+			</div>
+		</div>
+		<div class="progress-bar-body">
+			<div class='row' data-ng-repeat="f in multiFiles">
+			  
+			  <div class='col-xs-12 ellipsis'>{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}</div>
+			  <div class='row' >
+			  	<span class="col-xs-3" data-ng-bind="f.progress + '%'"></span>
+			      <span class="col-xs-9" style='padding-top: 4px;padding-bottom: 4px;'>
+			          <span class='vdvc-progress-bar' style="display:block;width:{{f.progress}}%;"></span>
+			      </span> 
+			  </div>
+		  	</div>
+	  	</div>
+  	</div>   
+</div>

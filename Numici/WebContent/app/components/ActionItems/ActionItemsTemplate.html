@@ -1,0 +1,197 @@
+<div class="container-fluid full action-items-temp">
+	<div id="nav-bar-height-div" style="height: 65px"></div>
+	<div data-set-content-container-height="ActionItems" 
+		id="vdvc-content-wrap" 
+		class="col-xs-12" 
+		style="height: calc(100% - 65px); position: relative;overflow: hidden;">
+		<div class="full ts-ls-exp" 
+		    data-ng-class="{'ts-ls-colps': aic.toggleAiListSideBarChecked, 'ts-ls-exp': !aic.toggleAiListSideBarChecked}" 
+		    style="position: relative;float: left;">
+			<div class="full" style="width: calc(100% - 30px);float:left;padding: 10px 0px 0px;" data-ng-show="!aic.toggleAiListSideBarChecked">
+				<div data-ng-show="aic.checkedActionItems.length > 0"
+					class="ts-pane-view" style="width: calc(100% - 30px);">
+					<div class="row" style="padding: 0px 5px;">
+					 	<span class="sic-wrap">
+					 		<span class="sic"><b>{{aic.checkedActionItems.length}}</b></span>
+					 		<span>Selected</span>
+					 	</span>
+					 	<button type="button" 
+					 		    class="btn vdvc-doc-btn dsa-btn"
+					 		    data-ng-click="aic.unselectAllActionItems($event)"
+					 		    data-tooltip-append-to-body="true" 
+						  		data-tooltip-placement="bottom" 
+						  		data-uib-tooltip="Deselect all">
+					 		<i class="fa fa-close fa-fw"></i>
+					 	</button>
+					</div>
+					<div class="row">
+						<button type="button" 
+								class="btn vdvc-doc-btn {{key}}" 
+				  				data-ng-repeat="(key, actionItemAction) in aic.actionItemActionProps" 
+				  				data-ng-show="actionItemAction.show" 
+				  				data-tooltip-append-to-body="true" 
+				  				data-tooltip-placement="bottom" 
+				  				data-uib-tooltip="{{actionItemAction.title}}" 
+				  				data-ng-click="aic.executeActionItemAction(actionItemAction.title)">
+					  		<i class='fa {{actionItemAction.class}} fa-fw'></i> 
+					  	</button>
+					</div>		
+				</div>
+				<div style="height: 70px; margin-bottom: 10px; border-bottom: 1px solid #ccc; width: 100%;background: #fff;">
+					<div class="col-xs-12" style="height:30px;margin: 3px 0px;">
+					  <input type="text" 
+					         style="height: 30px;"
+					         placeholder="Find Action Item"
+					         class="vdvc-input-txt" 
+					         data-ng-model="aic.aiSearchTxt" 
+					         autofocus>
+					  <!-- ({{aic.getActionItemsCount(aic.currentTab.tabName)}}) -->
+				    </div>
+				    <div class="col-xs-12"> 
+					    <div class="col-xs-6" style="padding-left: 0px;"> 
+							<div class="dropdown" 
+							 	 data-uib-dropdown
+							 	 style="float: left;">
+						        <button type="button" 
+					        		class="btn vdvc-nav-btn dropdown-toggle" 
+					        		data-uib-dropdown-toggle 
+					        		data-ng-disabled="disabled"
+					        		style="font-size: 13px;height: 25px;padding: 0px 5px;">
+						        	{{aic.currentTab.label}} <span class="caret" style="margin-left: 2px;"></span>
+						      	</button>
+								<ul class="dropdown-menu-right vdvc-more-dd" 
+									data-uib-dropdown-menu role="menu" 
+									aria-labelledby="ActionItemTab">	 <!-- style="width: 160px;" -->
+									<li class="vdvc-drop-down-item" 
+							        	role="menuitem" 
+							        	data-ng-repeat="tab in aic.actionItemTabs track by $index" 
+										data-ng-click="aic.selectActionItemTab(tab)">
+										<div class="vdvc-drop-down-item">
+							        	  	{{tab.label}}
+							        	</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					    <div class="col-xs-6" style="padding: 0px;">
+					    	<div class="dropdown" 
+							 	 data-uib-dropdown
+							 	 style="float: right;">
+						        <button type="button" 
+					        		class="btn vdvc-nav-btn dropdown-toggle" 
+					        		data-uib-dropdown-toggle 
+					        		data-ng-disabled="disabled"
+					        		style="font-size: 13px;height: 25px;padding: 0px 5px;">
+						        	{{aic.getSortedFieldLabel()}} <span class="caret"></span>
+						      	</button>
+						      	<ul class="dropdown-menu-right vdvc-more-dd" 
+						      		data-uib-dropdown-menu role="menu" 
+						      		aria-labelledby="SortField">	 <!-- style="width: 160px;" -->
+							        <li class="vdvc-drop-down-item" 
+							        	role="menuitem" 
+							        	data-ng-repeat="hdr in aic.actionItemsHeaders" 
+										data-ng-click="aic.sortByfield(hdr,aic.currentTab.tabName)">
+							        	<div class="vdvc-drop-down-item">
+							        	  	{{hdr.label}}
+							        	</div>
+							        </li>
+							 	</ul>
+							</div>
+					    </div>
+				    </div>
+				</div>
+				<div style="max-height: calc(100% - 90px);overflow-y: scroll;overflow-x: hidden;">
+					<div data-ng-class="{'active': actionItem.current,'item-selected' : actionItem.selected}" 
+					 	class="ts-li"
+						data-ng-repeat="actionItem in aic.actionItems | filter:{description:aic.aiSearchTxt} track by actionItem.id" 
+					 	data-ng-click="aic.openActionItem(actionItem,$event)"
+					 	data-scroll-if="actionItem.current"
+					 	data-scroll-on-hover>
+						<div class="row" data-ng-click="$event.stopPropagation();">
+							<!-- <div class="checkbox checkbox-circle crd-checkbox" 
+								 data-ng-class="{'checkbox-primary' : actionItem.selected}"
+								 style="bottom: -3px;right: -3px;">
+						       <input data-ng-class="{'first-tsg-checkbox' : $first}" data-ng-model="actionItem.selected" type="checkbox" data-ng-change="aic.checkActionItem(actionItem)">
+						       <label></label>
+						    </div> -->
+					    </div>
+						<div style="height: 30px;">
+							<div class="task-hdr ng-binding ellipsis" 
+						  		data-tooltip-placement="auto top"
+						  		data-uib-tooltip="{{actionItem.description}}"
+						  		data-tooltip-class="ts-tab-tooltip"  
+				 				data-tooltip-append-to-body='true'
+				 				style="vertical-align: top;float: left;width: calc(100% - 65px);">
+				 					{{actionItem.description}}
+				 			</div>
+						  	<div style="float: right; width: 65px; color: #777;">
+							  	
+						  	</div>
+						</div>
+						<div class="sub-head ellipsis" 
+							data-tooltip-placement="auto top"
+							data-tooltip-append-to-body='true' 
+							data-uib-tooltip ="{{actionItem.objType}}">
+							{{actionItem.objType}}
+						</div>
+						<div class="sub-head ellipsis" 
+							data-tooltip-placement="auto top"
+							data-tooltip-append-to-body='true' 
+							data-uib-tooltip ="{{actionItem.createdBy}}" 
+							data-ng-if="aic.currentTab.tabName === 'AssignedToMe'">
+							Created By: {{actionItem.createdBy}}
+						</div>
+						<div class="sub-head ellipsis" 
+							data-tooltip-placement="auto top"
+							data-tooltip-append-to-body='true' 
+							data-uib-tooltip ="{{actionItem.assignedTo}}" 
+							data-ng-if="aic.currentTab.tabName === 'CreatedByMe'">
+							Assigned To : {{actionItem.assignedTo}}
+						</div>
+						<div class="sub-head ellipsis" 
+							data-tooltip-placement="auto top"
+							data-tooltip-append-to-body='true' 
+							data-uib-tooltip ="{{actionItem.createdDate | date:'medium'}}">
+							Created Date: {{actionItem.createdDate | date:'medium'}}
+						</div>
+						<div class="sub-head ellipsis" 
+							data-tooltip-placement="auto top"
+							data-tooltip-append-to-body='true' 
+							data-uib-tooltip ="{{actionItem.dueDate | date:'medium'}}">
+							Due Date: {{actionItem.dueDate | date:'medium'}}
+						</div>
+						<div class="sub-head ellipsis" 
+							data-tooltip-placement="auto top"
+							data-tooltip-append-to-body='true' 
+							data-uib-tooltip ="{{actionItem.status}}">
+							Status: {{actionItem.status}}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div data-ng-show="aic.toggleAiListSideBarChecked"
+		         style="border: 1px solid #ddd;background: #fff;top:10px;height: calc(100% - 20px);width: 30px;float: left;position: relative;color:#069;">
+					<span class="v-txt-mid" data-collapsed-doc-list-width>
+						<span class="ellipsis" 
+					    	style="width: 100%;float: left;padding: 0px 15px;margin: 5px 0px;">
+							<span>{{aic.currentTab.label}}</span>
+		 					<span style="margin: 0px 3px;">-</span>
+		 					<span>{{aic.currentActionItem.description}}</span>
+						</span>
+					</span>
+			</div>
+		    <div class="ts-obj-colp-bwrp" style="top:10px;height: calc(100% - 20px);">
+					<div class="ts-obj-colp-btn" data-ng-click="aic.toggleOnePaneAiList()" role="button" tabindex="0">
+						<i class="fa fa-fw" data-ng-class="{'fa-angle-double-right': aic.toggleAiListSideBarChecked, 'fa-angle-double-left': !aic.toggleAiListSideBarChecked}" aria-hidden="true" style="">
+						</i>
+					</div>
+			</div>
+			
+		</div>
+		<div class="full ts-cont-colps" 
+		     data-ng-class="{'ts-cont-colps': !aic.toggleAiListSideBarChecked, 'ts-cont-exp': aic.toggleAiListSideBarChecked}" 
+		     style="position: relative;float: left;left: 0%;">
+			<div class="full" data-ui-view data-name="content" style="max-height: calc(100% - 10px);overflow-y: auto;"></div>
+		</div>
+	</div>
+</div>

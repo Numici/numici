@@ -1,0 +1,68 @@
+<form>
+	<div class="modal-header" style="height: 50px;">
+		<h4>Evernote Integration</h4>
+	</div>
+	<div class="modal-body" style="max-height: 400px; overflow: auto;">
+		<div class="row" data-ng-if="ecc.isAuthPresent">
+			<div class="row" style="height: 40px; line-height: 40px;">
+				<div class="col-xs-3">Evernote User Name:</div>
+				<div class="col-xs-3 header ellipsis"
+					data-tooltip-placement="auto top"
+					data-tooltip-append-to-body='true'
+					data-uib-tooltip="{{ecc.evernoteUserName}}">{{ecc.evernoteUserName}}</div>
+				<div class="col-xs-3">Evernote User Email:</div>
+				<div class="col-xs-3 header ellipsis"
+					data-tooltip-placement="auto top"
+					data-tooltip-append-to-body='true'
+					data-uib-tooltip="{{ecc.evernoteUserEmail}}">{{ecc.evernoteUserEmail}}</div>
+			</div>
+			<div class="row" style="height: 40px; line-height: 40px;">
+				<div class="col-xs-3">Numici User Name:</div>
+				<div class="col-xs-3 header ellipsis"
+					data-tooltip-placement="auto top"
+					data-tooltip-append-to-body='true'
+					data-uib-tooltip="{{ecc.numiciUserName}}">{{ecc.numiciUserName}}</div>
+				<div class="col-xs-3">Numici User Id:</div>
+				<div class="col-xs-3 header ellipsis"
+					data-tooltip-placement="auto top"
+					data-tooltip-append-to-body='true'
+					data-uib-tooltip="{{::ecc.config.userId}}">{{::ecc.config.userId}}</div>
+			</div>
+		</div>
+		<div class="row" data-ng-show="ecc.isAuthInvalid">
+			<div class="row" style="margin: 10px; color: #a94442;">
+				<i class="fa fa-exclamation-circle" style="margin-right: 5px;"></i>
+				{{ecc.authIssueTxt}}
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn vdvc-form-btn vdvc-form-btn-muted" 
+			type="button"
+			data-ng-click="ecc.cancel()" 
+			data-ng-disabled="ecc.serviceCallInProgress">
+			CLOSE
+		</button>
+		<button class="btn vdvc-form-btn" 
+			data-ng-if="ecc.isAuthPresent"
+			type="button" 
+			data-ng-click="ecc.revoke()" 
+			data-ng-disabled="ecc.serviceCallInProgress">
+			REVOKE
+		</button>
+		<button class="btn vdvc-form-btn"
+			data-ng-if="ecc.isAuthPresent && ecc.isAuthInvalid" 
+			type="button"
+			data-ng-click="ecc.reAuthorize()" 
+			data-ng-disabled="ecc.serviceCallInProgress">
+			RE-AUTHORIZE
+		</button>
+		<button class="btn vdvc-form-btn" 
+			data-ng-if="!ecc.isAuthPresent"
+			type="button" 
+			data-ng-click="ecc.authorize()" 
+			data-ng-disabled="ecc.serviceCallInProgress">
+			AUTHORIZE
+		</button>
+	</div>
+</form>

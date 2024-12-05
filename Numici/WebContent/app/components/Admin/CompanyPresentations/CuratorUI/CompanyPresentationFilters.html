@@ -1,0 +1,349 @@
+<div class="row filters" style="margin-bottom: 5px;">
+	<form role="form" data-ng-submit="curatorCtrl.getResults(true)">
+		<div class="form-group col-xs-12 col-sm-3 col-md-3 col-lg-2"
+		     data-ng-click="curatorCtrl.tickerFocused($event)" 
+			 data-on-outside-element-click="curatorCtrl.tickerDeFocused($event,false)">
+			<data-ui-select data-customize-ui-select-group-lable 
+						class="search-ticker-ui-select" 
+						id="TICKERS" 
+						data-multiple 
+						data-ng-model="curatorCtrl.filters.tickers" 
+						data-on-select="curatorCtrl.tickerDeFocused($event,true)"
+						data-on-remove="curatorCtrl.onFilterChange()" 
+						data-search-enabled="false">
+				<data-ui-select-match data-placeholder="TICKER / COMPANY NAME">
+		    		<span data-ng-if="$item.ticker != null && $item.ticker != ''">
+		    			{{$item.ticker}}
+		    		</span>
+		    		<span data-ng-if="($item.ticker == null || $item.ticker == '')"
+		    			data-uib-tooltip="{{$item.companyName}}">
+		    			{{$item.companyName | truncate: 7: '...'}}
+		    		</span>
+		    	</data-ui-select-match>
+		    	<data-ui-select-choices
+		    		data-repeat="ticker in curatorCtrl.tickersList | filter:$select.search track by $index"  
+			    	data-refresh="curatorCtrl.refreshTickerInfo($select.search)" 
+			    	data-refresh-delay="500">
+			      	<div class="tickers_choices_list">
+			      		<div class="tcl_ticker" 
+			      			data-ng-bind-html="ticker.ticker | highlight: $select.search">
+			      		</div>
+			      		<div class="tcl_companyName" 
+			      			data-ng-bind-html="ticker.companyName | highlight: $select.search">
+			      		</div>
+			      		<div class="tcl_cik" 
+			      			data-ng-bind-html="ticker.cik | highlight: $select.search">
+			      		</div>
+			      	</div>
+			    </data-ui-select-choices>
+			</data-ui-select>
+		</div>
+		<div class="form-group col-xs-12 col-sm-9 col-md-9 col-lg-5" style="padding: 0px;">
+			<div class="checkbox checkbox-inline cp-checkboxe">
+				<input type="checkbox"
+					   data-ng-model="curatorCtrl.filters.typeYes"
+					   data-ng-change="curatorCtrl.onFilterChange()">
+				<label class="cs-lbl">YES</label>
+			</div>
+			<div class="checkbox checkbox-inline cp-checkboxe">
+				<input type="checkbox"
+					   data-ng-model="curatorCtrl.filters.typeMaybe"
+					   data-ng-change="curatorCtrl.onFilterChange()">
+				<label class="cs-lbl">MAYBE</label>
+			</div>
+			<div class="checkbox checkbox-inline cp-checkboxe">
+				<input type="checkbox"
+					   data-ng-model="curatorCtrl.filters.typeNo"
+					   data-ng-change="curatorCtrl.onFilterChange()">
+				<label class="cs-lbl">NO</label>
+			</div>
+			<div class="checkbox checkbox-inline cp-checkboxe mc-cb">
+				<input type="checkbox"
+					   data-ng-model="curatorCtrl.filters.markedByCurator"
+					   data-ng-change="curatorCtrl.onFilterChange()" style="margin-top: 14px;">
+				<label class="cs-lbl">MARKED BY CURATOR</label>
+			</div>
+			<div class="checkbox checkbox-inline cp-checkboxe">
+				<input type="checkbox"
+					   data-ng-model="curatorCtrl.filters.typeUnclassified"
+					   data-ng-change="curatorCtrl.onFilterChange()">
+				<label class="cs-lbl">UNCLASSIFIED</label>
+			</div>
+		</div>
+		<div class="form-group col-xs-12 col-sm-9 col-md-9 col-lg-4" style="padding: 0px;">
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="padding-left: 0px;">
+				<data-ui-select id="TIMEFRAME" 
+					data-ng-model="curatorCtrl.timeFrameDate.selected" 
+					data-ng-disabled="disabled" 
+					data-search-enabled="false" 
+					data-on-select="curatorCtrl.onSelectTimeFrame($select.selected)" 
+					data-ng-click="curatorCtrl.closeDateRange()">
+					<data-ui-select-match data-placeholder="DOC DATE">{{$select.selected.timeAgo}}</data-ui-select-match>
+				    
+				    <data-ui-select-choices data-repeat="timeframe in curatorCtrl.timeframes | filter: $select.search">
+				      {{::timeframe.label}}
+				    </data-ui-select-choices>
+				    
+				</data-ui-select>
+				<div class='custom-drop-down-r input-wrap cust_time_frame_wrap' 
+					data-ng-show="curatorCtrl.custTimeFrame" style="max-width: 650px;">
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="cs-lbl" for="dt_from">FROM</label>
+					     	<input type="text" 
+					     		class="cust_time_frame_from" 
+					     		id="dt_from" 
+					     		data-ng-keypress="return (event.keyCode!=13);" 
+					     		data-ng-model="curatorCtrl.dtObj.start" 
+					     		data-uib-datepicker-popup="yyyy-MM-dd" 
+					     		data-max-date="curatorCtrl.dtObj.end" 
+					     		value="{{curatorCtrl.dtObj.start | amDateFormat: curatorCtrl.displayFormat}}">
+					     	<span class="cust_time_frame_from_errmsg"> 
+					     		{{curatorCtrl.custStartDateErrMsg}}
+					     	</span>
+					    </div>
+					    <div class="col-xs-6">
+					    	<label class="cs-lbl" for="dt_to">TO</label>
+					    	<input type="text" 
+					    		class="cust_time_frame_to" 
+					    		id="dt_to"
+					    		data-ng-keypress="return (event.keyCode!=13);" 
+					    		data-ng-model="curatorCtrl.dtObj.end" 
+					    		data-uib-datepicker-popup="yyyy-MM-dd" 
+					    		data-max-date="curatorCtrl.dtObj.maxDate" 
+					    		data-min-date="curatorCtrl.dtObj.start" 
+					    		value="{{curatorCtrl.dtObj.end | amDateFormat: curatorCtrl.displayFormat}}" 
+					    		data-ng-required="true">
+					    	<span class="cust_time_frame_to_errmsg">{{curatorCtrl.custEndDateErrMsg}}</span>	
+					    </div>
+					</div>
+			     	<div class="row cust_time_frame_dp_wrap">
+			     		<div class="col-xs-6">
+				     		<div class="uib-datepicker" 
+				     			data-uib-datepicker data-ng-model="curatorCtrl.dtObj.start" 
+				     			data-max-date="curatorCtrl.dtObj.end">
+				     		</div>
+				     	</div>
+				     	<div class="col-xs-6">
+				     		<div class="uib-datepicker" 
+				     			data-uib-datepicker data-ng-model="curatorCtrl.dtObj.end" 
+				     			data-max-date="curatorCtrl.dtObj.maxDate" 
+				     			data-min-date="curatorCtrl.dtObj.start">
+				     		</div>
+				     	</div>
+				     	<div class="pull-right cust_time_frame_dp_tool_wrap">
+				     		<span class="btn btn-sm vdvc-form-btn vdvc-form-btn-muted" 
+				     			data-ng-click="curatorCtrl.closeDateRange()" >
+				     			CANCEL
+				     		</span>
+						    <span class="btn btn-sm vdvc-form-btn" 
+						    	data-ng-click="curatorCtrl.clearDateRange()">
+						    	CLEAR
+						    </span>
+						   	<span class="btn btn-sm vdvc-form-btn" 
+						   		data-ng-click="curatorCtrl.applyDateRange()">
+						   		APPLY
+						   	</span>
+				     	</div>
+			     	</div>
+			    </div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="padding-left: 0px;">
+				<data-ui-select id="CRAWL-TIMEFRAME" 
+					data-ng-model="curatorCtrl.crawlTimeFrameDate.selected" 
+					data-ng-disabled="disabled" 
+					data-search-enabled="false" 
+					data-on-select="curatorCtrl.onSelectCrawlTimeFrame($select.selected)">
+					<data-ui-select-match data-placeholder="CRAWLED DATE">{{$select.selected.timeAgo}}</data-ui-select-match>
+				    <data-ui-select-choices data-repeat="timeframe in curatorCtrl.crawlTimeFrames | filter: $select.search">
+				    	{{::timeframe.label}}
+				    </data-ui-select-choices>
+				</data-ui-select>
+				<div class='custom-drop-down-r input-wrap cust_time_frame_wrap' 
+					data-ng-show="curatorCtrl.custCrawlTimeFrame" style="max-width: 650px;">
+					<div class="row">
+						<div class="col-xs-6">
+							<label class="cs-lbl" for="dt_from">FROM</label>
+					     	<input type="text" 
+					     		class="cust_time_frame_from" 
+					     		id="dt_from" 
+					     		data-ng-keypress="return (event.keyCode!=13);" 
+					     		data-ng-model="curatorCtrl.crawlDtObj.start" 
+					     		data-uib-datepicker-popup="yyyy-MM-dd" 
+					     		data-max-date="curatorCtrl.crawlDtObj.end" 
+					     		value="{{curatorCtrl.crawlDtObj.start | amDateFormat: curatorCtrl.displayFormat}}">
+					     	<span class="cust_time_frame_from_errmsg"> 
+					     		{{curatorCtrl.custCrawlStartDateErrMsg}}
+					     	</span>
+					    </div>
+					    <div class="col-xs-6">
+					    	<label class="cs-lbl" for="dt_to">TO</label>
+					    	<input type="text" 
+					    		class="cust_time_frame_to" 
+					    		id="dt_to"
+					    		data-ng-keypress="return (event.keyCode!=13);" 
+					    		data-ng-model="curatorCtrl.crawlDtObj.end" 
+					    		data-uib-datepicker-popup="yyyy-MM-dd" 
+					    		data-max-date="curatorCtrl.crawlDtObj.maxDate" 
+					    		data-min-date="curatorCtrl.crawlDtObj.start" 
+					    		value="{{curatorCtrl.crawlDtObj.end | amDateFormat: curatorCtrl.displayFormat}}">
+					    	<span class="cust_time_frame_to_errmsg">{{curatorCtrl.custCrawlEndDateErrMsg}}</span>	
+					    </div>
+					</div>
+			     	<div class="row cust_time_frame_dp_wrap">
+			     		<div class="col-xs-6">
+				     		<div class="uib-datepicker" 
+				     			data-uib-datepicker data-ng-model="curatorCtrl.crawlDtObj.start" 
+				     			data-max-date="curatorCtrl.crawlDtObj.end">
+				     		</div>
+				     	</div>
+				     	<div class="col-xs-6">
+				     		<div class="uib-datepicker" 
+				     			data-uib-datepicker data-ng-model="curatorCtrl.crawlDtObj.end" 
+				     			data-max-date="curatorCtrl.crawlDtObj.maxDate" 
+				     			data-min-date="curatorCtrl.crawlDtObj.start">
+				     		</div>
+				     	</div>
+				     	<div class="pull-right cust_time_frame_dp_tool_wrap">
+				     		<span class="btn btn-sm vdvc-form-btn vdvc-form-btn-muted" 
+				     			data-ng-click="curatorCtrl.cancelCrawlDateRange()" >
+				     			CANCEL
+				     		</span>
+						    <span class="btn btn-sm vdvc-form-btn" 
+						    	data-ng-click="curatorCtrl.clearCrawlDateRange()">
+						    	CLEAR
+						    </span>
+						   	<span class="btn btn-sm vdvc-form-btn" 
+						   		data-ng-click="curatorCtrl.applyCrawlDateRange()">
+						   		APPLY
+						   	</span>
+				     	</div>
+			     	</div>
+			    </div>
+			</div>
+		</div>
+		<div class="form-group col-xs-12 col-sm-9 col-md-9 col-lg-1" style="padding: 0px;">
+					<div style="position: absolute;top: 0px;right: 0px;">
+				<button type="button" 
+					class="btn vdvc-form-btn-muted"
+					data-ng-click="curatorCtrl.reset()">
+					<i class="fa fa-undo fa-fw"></i>
+				</button>
+				<button type="submit" 
+						class="btn vdvc-form-btn" 
+						data-ng-disabled="curatorCtrl.enableGoBtn()">
+					GO
+				</button>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="row filters">
+	<form role="form">
+			<div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-3">
+					<data-ui-select data-customize-ui-select-group-lable 
+						class="search-ticker-ui-select" 
+						data-ng-model="curatorCtrl.selectedRule" 
+						data-on-select="curatorCtrl.onRuleSelect($event)"
+						data-search-enabled="false">
+				<data-ui-select-match data-placeholder="RULES">
+		    		<span>
+		    			{{$select.selected.ruleName}}
+		    		</span>
+		    	</data-ui-select-match>
+		    	<data-ui-select-choices
+		    		data-repeat="rule in curatorCtrl.esRulesList | filter:$select.search track by $index">
+			      	<div class="tickers_choices_list">
+			      		<div class="tcl_cik" 
+			      			data-ng-bind-html="rule.ruleName | highlight: $select.search">
+			      		</div>
+			      	</div>
+			    </data-ui-select-choices>
+			</data-ui-select>
+			</div>
+		
+			<div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-3" style="padding: 0px 15px 0px 0px;">
+				<div data-ng-show="curatorCtrl.selectedRule" class="input-group">
+					<div data-uib-tooltip="{{curatorCtrl.ruleQueryString}}">
+						<input type="text"
+							   class="vdvc-input-txt form-control" 
+			   				   data-ng-model="curatorCtrl.ruleQueryString" 
+			   				   style="text-overflow: ellipsis;height: 34px;"
+			   				   disabled="disabled">
+					</div>
+					<span class="input-group-btn">
+			            <button type="button" class="btn vdvc-form-btn" data-ng-click="curatorCtrl.addOrEditRule($event,curatorCtrl.selectedRule)">
+							<i class="fa fa-pencil fa-fw"></i>
+						</button>
+			        </span>
+				</div>
+			</div>
+			<div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-6" style="padding: 0px;">
+				<div style="float: right;">
+					<span style="padding-right: 15px;">
+						<span class="btn vdvc-form-btn" 
+							  data-ng-click="curatorCtrl.prev()"
+							  data-ng-disabled="curatorCtrl.filters.pageNo == 0 || curatorCtrl.rulesPageConfig.pageNo == 1">
+							<i class="fa fa-angle-double-left fa-fw"></i>
+						</span>			
+						<span style="padding: 0px 15px;font-weight: bold;">
+							{{curatorCtrl.resultCount.range}}
+						</span>
+						<span class="btn vdvc-form-btn" 
+							  data-ng-click="curatorCtrl.next()"
+							  data-ng-disabled="curatorCtrl.results.length < curatorCtrl.filters.pageSize">
+							<i class="fa fa-angle-double-right fa-fw"></i>
+						</span>
+					</span>
+					<span>
+						<span class="btn vdvc-form-btn" data-ng-click="curatorCtrl.applyRuels($event)">
+							<i class="fa fa-check"> APPLY RULES</i>
+						</span>
+						<span class="btn vdvc-form-btn" data-ng-click="curatorCtrl.addOrEditRule($event)">
+							<i class="fa fa-plus"> ADD RULE</i>
+						</span>
+						<span class="btn vdvc-form-btn" data-ng-click="curatorCtrl.unClassifyAll($event)">
+							<i class="fa"> UNCLASSIFY ALL</i>
+						</span>
+					</span>
+					<!-- <div class="dropdown" 
+					 	 data-uib-dropdown
+					 	 style="display: inline-block;">
+				        <button type="button" 
+				        		class="btn vdvc-nav-btn dropdown-toggle create-new" 
+				        		data-uib-dropdown-toggle 
+				        		data-ng-disabled="disabled"
+				        		style="font-size: 14px;height: 34px;">
+				        	RULES <span class="caret"></span>
+				      	</button>
+				      	<ul class="dropdown-menu-right vdvc-more-dd" data-uib-dropdown-menu role="menu">
+					        <li class="vdvc-divider"></li>
+					        <li class="vdvc-drop-down-item" role="menuitem" data-ng-click="curatorCtrl.orderRules($event)">
+					        	<div class="vdvc-drop-down-item">ORDER RULES</div>
+					        </li>
+					        <li class="vdvc-divider"></li>
+					        <li class="vdvc-drop-down-item" role="menuitem" data-ng-click="curatorCtrl.applyRuels($event)">
+					        	<div class="vdvc-drop-down-item">APPLY RULES</div>
+					        </li>
+				        </ul>
+				  	</div> -->
+				</div>
+				
+			</div>
+		
+	</form>
+</div>
+
+
+
+<!-- <div class="form-group col-xs-12 col-sm-4 col-md-4 col-lg-3">
+			<input type="text" class="form-control vdvc-input-txt" 
+			   data-ng-model="curatorCtrl.filters.query" 
+			   placeholder="KEYWORD" 
+			   autocomplete="off" 
+			   style="text-overflow: ellipsis;">
+		</div>
+		<button type="submit" 
+			class="btn vdvc-form-btn">
+			SEARCH
+		</button> -->

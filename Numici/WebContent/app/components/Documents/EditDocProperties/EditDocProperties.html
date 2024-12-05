@@ -1,0 +1,151 @@
+<div >
+	<div class="modal-header" >
+		<h3 class="modal-title">Properties</h3>
+	</div>
+	<div class="modal-body">
+		<div data-ng-show="!vm.properTiesForm.$visible">
+			<table class="table table-condensed table-borderless prop-table">
+				<tr>
+				 <td class="td-label">Name</td>
+				 <td>{{::vm.source[0].name}}</td>
+				</tr>
+				<tr data-ng-show="vm.showDocPropsOnEdit()">
+				 <td class="td-label">Display Name</td>
+				 <td>{{::vm.source[0].displayName}}</td>
+				</tr>
+				<tr data-ng-show="vm.showDocPropsOnEdit()">
+				 <td class="td-label">ReadOnly</td>
+				 <td>{{::(!vm.source[0].editable)}}</td>
+				</tr>
+				<tr>
+				 <td class="td-label">Private</td>
+				 <td>{{::vm.source[0].private}}</td>
+				</tr>
+				<tr>
+				 <td class="td-label">Ticker</td>
+				 <td>{{::vm.source[0].ticker}}</td>
+				</tr>
+				<tr data-ng-show="vm.showDocPropsOnEdit()">
+				 <td class="td-label">Document Type</td>
+				 <td data-set-doc-type data-type="{{vm.source[0].docType}}"></td>
+				</tr>
+				<tr data-ng-show="vm.showDocPropsOnEdit() && vm.showDocSubType()">
+				 <td class="td-label">Document Sub Type</td>
+				 <td data-set-doc-sub-type data-type="{{vm.source[0].docType}}" data-sub-type="{{vm.source[0].subType}}"></td>
+				</tr>
+			    <tr data-ng-show="vm.showDocPropsOnEdit()">
+				 <td class="td-label">Size</td>
+				 <td>{{::vm.source[0].size}}</td>
+				</tr>
+				<tr data-ng-show="vm.source[0].isLink">
+				 <td class="td-label">Link Source FolderId</td>
+				 <td>{{::vm.source[0].linkSourceFolderId}}</td>
+				</tr>
+			</table>
+		</div>
+	 	<form data-ng-show="vm.properTiesForm.$visible"> 
+	 		<table class="table table-condensed table-borderless edit-prop-table">
+	 			<tr data-ng-show="!vm.ismultiFormOpen">
+	 				<td class="td-label">NAME</td>
+				 	<td>
+				 		<input id="name" type="text" data-ng-model="vm.sourceCopy[0].name" data-ng-disabled="true" class='vdvc-input-txt'>
+				 	</td>
+				</tr>
+				<tr data-ng-show="vm.showDocPropsOnEdit()">
+	 				<td class="td-label">DISPLAY NAME</td>
+				 	<td>
+				 		<input id="dname" type="text" data-ng-model="vm.sourceCopy[0].displayName"  class='vdvc-input-txt'>
+				 	</td>
+				</tr>
+				<tr data-ng-if="vm.sourceCopy[0].isOwner && vm.showDocPropsOnEdit()">
+	 				<td class="td-label">
+	 					READ ONLY
+					</td>
+					<td>
+	 					<div class ="checkbox col-top-mrgn-5">
+							<input id="readOnly" type="checkbox" data-ng-model="vm.sourceCopy[0].editable" >
+							<label for="readOnly"></label>
+						</div>
+					</td>
+				</tr>
+				<tr data-ng-if="vm.sourceCopy[0].isOwner && !vm.ismultiFormOpen">
+	 				<td class="td-label">
+	 					PRIVATE
+					</td>
+					<td>
+				 		<div class="checkbox col-top-mrgn-5">
+							<input id="private" type="checkbox" data-ng-model="vm.sourceCopy[0].private" >
+							<label for="private"></label>
+						</div>
+				 	</td>
+				</tr>
+				<tr>
+	 				<td class="td-label">TICKERS</td>
+				 	<td>
+				 		<data-ui-select id="tick"  data-ng-model="vm.selectedTicker.tickerObj" data-reset-search-input="false" data-sortable="true">
+							<data-ui-select-match>
+								<button type="button" data-ng-show="vm.selectedTicker.tickerObj" style="background:none;border:none;cursor:pointer;padding:5px 10px;position:absolute;right:30px;top:1px;" data-ng-click="vm.clear($event)">X</button>
+					    		<span data-ng-if="$select.selected.ticker != null && $select.selected.ticker != ''">{{$select.selected.ticker}}</span>
+					    		<span data-ng-if="$select.selected.ticker == null || $select.selected.ticker == ''"
+					    			data-uib-tooltip="{{$select.selected.companyName}}">{{$select.selected.companyName | truncate: 7: '...'}}</span>
+					    	</data-ui-select-match>
+					    	<data-ui-select-choices repeat="company in vm.companiesList | filter:$select.search track by $index"  
+							 data-refresh="vm.refreshTickers($select.search)" data-refresh-delay="500" >
+						      <div data-ng-bind-html="company.companyName | highlight: $select.search"></div>
+		       					  <div>
+		       					  	<span data-ng-bind-html="company.ticker | highlight: $select.search"></span>
+		       					    <span data-ng-bind-html="company.cik | highlight: $select.search"></span>
+		       					  </div>
+						    </data-ui-select-choices>
+					    </data-ui-select>
+				 	</td>
+				</tr>
+				<tr data-ng-if="vm.isDocTypeEditable('nonVdVc')">
+	 				<td class="td-label">DOCUMENT TYPE</td>
+				 	<td>
+				 		<data-ui-select id="docTypes" 
+							data-ng-model="vm.selectedDocType.docType" 
+							data-on-select="vm.onDocTypeSelect()"
+							data-search-enabled="false">
+							<data-ui-select-match>{{$select.selected.label}}</data-ui-select-match>
+					    	<data-ui-select-choices repeat="docType in vm.docTypes | filter:$select.search track by $index" >
+						      <div data-ng-bind-html="docType.label | highlight: $select.search"></div>
+						    </data-ui-select-choices>
+					    </data-ui-select>
+				 	</td>
+				</tr>
+				<tr data-ng-if="vm.isDocTypeEditable('VdVc')">
+	 				<td class="td-label">DOCUMENT TYPE</td>
+				 	<td style="line-height: 30px;">
+				 		<div data-set-doc-type data-type="{{vm.selectedDocType.docType.type}}"></div>
+				 	</td>
+				</tr>
+				<tr data-ng-if="vm.isDocTypeEditable('nonVdVc') && vm.showDocSubType()">
+	 				<td class="td-label">DOCUMENT SUB TYPE</td>
+				 	<td>
+				 		<data-ui-select id="docSubTypes" data-ng-model="vm.selectedDocSubType.docType" data-search-enabled="false">
+							<data-ui-select-match>{{$select.selected.label}}</data-ui-select-match>
+					    	<data-ui-select-choices repeat="docSubType in vm.selectedDocSubTypes | filter:$select.search track by $index" >
+						      <div data-ng-bind-html="docSubType.label | highlight: $select.search"></div>
+						    </data-ui-select-choices>
+					    </data-ui-select>
+				 	</td>
+				</tr>
+				<tr data-ng-show="!vm.ismultiFormOpen && vm.showDocPropsOnEdit()">
+	 				<td class="td-label">Size</td>
+				 	<td>
+				 		<div>{{::vm.sourceCopy[0].size}}</div>
+				 	</td>
+				</tr>
+			</table>
+	 	</form>
+	</div>
+		
+	<div class="modal-footer">
+		<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted" data-ng-click="vm.cancel();" data-ng-show="!vm.properTiesForm.$visible">CANCEL</button>
+		<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted" data-ng-click="vm.cancel();" data-ng-show="vm.ismultiFormOpen && vm.properTiesForm.$visible">CANCEL</button>
+		<button type="button" class="btn vdvc-form-btn vdvc-form-btn-muted" data-ng-show="!vm.ismultiFormOpen && vm.properTiesForm.$visible" data-ng-click="vm.cancelEdit();">CANCEL EDIT</button>
+		<button type="button" class="btn vdvc-form-btn" data-ng-show="vm.properTiesForm.$visible" data-ng-click="vm.ok()">SAVE</button>
+		<button type="button" class="btn vdvc-form-btn" data-ng-click="vm.onEdit()" data-ng-disabled="vm.sourceCopy[0].secFile || vm.sourceCopy[0].secCompareFile" data-ng-show="!vm.properTiesForm.$visible && !vm.sourceCopy[0].isLink">EDIT</button>
+	</div>
+</div>
