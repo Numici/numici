@@ -148,7 +148,8 @@
 
 <script type="text/javascript" src="angular-libs/angular-scroll.min.js"></script>
 
-<script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script> 
+<!-- <script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script> -->
+<script src="resources/ckeditor/ckeditor.js"></script> 
 
 <script type="text/javascript" src="angular-libs/libs/angularCanvasViewer/CanvasViewer.js"></script>
 <script type="text/javascript" src="angular-libs/libs/angularCanvasViewer/FormatReader.js"></script>
